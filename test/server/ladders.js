@@ -8,7 +8,7 @@ const {Connection, User} = require('../users-utils');
 describe('Matchmaker', function () {
 	const FORMATID = 'gen7ou';
 	const addSearch = (player, rating = 1000, formatid = FORMATID) => {
-		let search = new Ladders.BattleReady(player.id, formatid, player.team, rating);
+		const search = new Ladders.BattleReady(player.id, formatid, player.battleSettings, rating);
 		Ladders(formatid).addSearch(search, player);
 		return search;
 	};
@@ -28,13 +28,13 @@ describe('Matchmaker', function () {
 		this.p1 = new User(new Connection('127.0.0.1'));
 		this.p1.forceRename('Morfent', true);
 		this.p1.connected = true;
-		this.p1.team = 'Gengar||||lick||252,252,4,,,|||||';
+		this.p1.battleSettings.team = 'Gengar||||lick||252,252,4,,,|||||';
 		Users.users.set(this.p1.id, this.p1);
 
 		this.p2 = new User(new Connection('0.0.0.0'));
 		this.p2.forceRename('Mrofnet', true);
 		this.p2.connected = true;
-		this.p2.team = 'Gengar||||lick||252,252,4,,,|||||';
+		this.p2.battleSettings.team = 'Gengar||||lick||252,252,4,,,|||||';
 		Users.users.set(this.p2.id, this.p2);
 	});
 
@@ -44,14 +44,14 @@ describe('Matchmaker', function () {
 	});
 
 	it('should add a search', function () {
-		let s1 = addSearch(this.p1);
+		const s1 = addSearch(this.p1);
 		assert.ok(Ladders.searches.has(FORMATID));
 
-		let formatSearches = Ladders.searches.get(FORMATID);
+		const formatSearches = Ladders.searches.get(FORMATID);
 		assert.ok(formatSearches instanceof Map);
 		assert.equal(formatSearches.size, 1);
 		assert.equal(s1.userid, this.p1.id);
-		assert.equal(s1.team, this.p1.team);
+		assert.equal(s1.team, this.p1.battleSettings.team);
 		assert.equal(s1.rating, 1000);
 	});
 
@@ -76,7 +76,7 @@ describe('Matchmaker', function () {
 
 	it('should periodically matchmake users when appropriate', function () {
 		addSearch(this.p1);
-		let s2 = addSearch(this.p2, 2000);
+		const s2 = addSearch(this.p2, 2000);
 		assert.equal(Ladders.searches.get(FORMATID).size, 2);
 
 		s2.rating = 1000;
@@ -137,7 +137,7 @@ describe('Matchmaker', function () {
 		});
 
 		it('should prevent battles from starting if the server is in lockdown', function () {
-			let room = Rooms.createBattle(FORMATID, {p1: this.p1, p2: this.p2, p1team: this.s1.team, p2team: this.s2.team, rated: 1000});
+			const room = Rooms.createBattle(FORMATID, {p1: this.p1, p2: this.p2, p1team: this.s1.team, p2team: this.s2.team, rated: 1000});
 			assert.equal(room, undefined);
 		});
 	});

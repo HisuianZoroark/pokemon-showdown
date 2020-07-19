@@ -77,7 +77,11 @@ export class RoomGamePlayer {
  */
 export class RoomGame {
 	readonly roomid: RoomID;
-	room: ChatRoom | GameRoom;
+	/**
+	 * The room this roomgame is in. Rooms can only have one RoomGame at a time,
+	 * which are available as `this.room.game === this`.
+	 */
+	room: Room;
 	gameid: ID;
 	title: string;
 	allowRenames: boolean;
@@ -91,7 +95,12 @@ export class RoomGame {
 	playerCount: number;
 	playerCap: number;
 	ended: boolean;
-	constructor(room: ChatRoom | GameRoom) {
+	/**
+	 * We should really resolve this collision at _some_ point, but it will have
+	 * to be later. The /timer command is written to be resilient to this.
+	 */
+	timer?: {timerRequesters?: Set<ID>, start: (force?: User) => void, stop: (force?: User) => void} | NodeJS.Timer | null;
+	constructor(room: Room) {
 		this.roomid = room.roomid;
 		this.room = room;
 		this.gameid = 'game' as ID;
@@ -144,10 +153,7 @@ export class RoomGame {
 			player.id = user.id;
 			player.name = user.name;
 			this.playerTable[player.id] = player;
-			if (!this.room.auth) {
-				this.room.auth = {};
-			}
-			this.room.auth[player.id] = Users.PLAYER_SYMBOL;
+			this.room.auth.set(user.id, Users.PLAYER_SYMBOL);
 		} else {
 			player.unlinkUser();
 		}
@@ -198,29 +204,29 @@ export class RoomGame {
 	 * extremely unlikely to keep playing after this function is
 	 * called.
 	 */
-	forfeit?(user: User) {}
+	forfeit?(user: User): void;
 
 	/**
 	 * Called when a user uses /choose [text]
 	 * If you have buttons, you are recommended to use this interface
 	 * instead of making your own commands.
 	 */
-	choose?(user: User, text: string) {}
+	choose?(user: User, text: string): void;
 
 	/**
 	 * Called when a user uses /undo [text]
 	 */
-	undo?(user: User, text: string) {}
+	undo?(user: User, text: string): void;
 
 	/**
 	 * Called when a user uses /joingame [text]
 	 */
-	joinGame?(user: User, text?: string) {}
+	joinGame?(user: User, text?: string): void;
 
 	/**
 	 * Called when a user uses /leavegame [text]
 	 */
-	leaveGame?(user: User, text?: string) {}
+	leaveGame?(user: User, text?: string): void;
 
 	// Events:
 

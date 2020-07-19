@@ -1,8 +1,9 @@
 // Other Metas plugin by Spandan
 
 //#region TrashChannel
-const TrashChannelChatSupport = require('../../trashchannel/trashchannel-chatsupport');
+import {TrashChannelChatSupport} from '../../.trashchannel-dist/trashchannel-chatsupport';
 //#endregion
+import {Utils} from '../../lib/utils';
 
 interface StoneDeltas {
 	baseStats: {[stat in StatName]: number};
@@ -41,7 +42,6 @@ function getMegaStone(stone: string, mod = 'gen8'): Item | null {
 }
 
 export const commands: ChatCommands = {
-	'!othermetas': true,
 	om: 'othermetas',
 	othermetas(target, room, user) {
 		if (!this.runBroadcast()) return;
@@ -53,7 +53,7 @@ export const commands: ChatCommands = {
 		}
 
 		if (!target || target === 'all') {
-			buffer += `- <a href="https://www.smogon.com/forums/forums/394/">Other Metagames Forum</a><br />`;
+			buffer += `- <a href="https://www.smogon.com/forums/forums/531/">Other Metagames Forum</a><br />`;
 			if (!target) return this.sendReplyBox(buffer);
 		}
 		const showMonthly = (target === 'all' || target === 'omofthemonth' || target === 'omotm' || target === 'month');
@@ -75,10 +75,9 @@ export const commands: ChatCommands = {
 	},
 	othermetashelp: [
 		`/om - Provides links to information on the Other Metagames.`,
-		`!om - Show everyone that information. Requires: + % @ # & ~`,
+		`!om - Show everyone that information. Requires: + % @ # &`,
 	],
 
-	'!mixandmega': true,
 	mnm: 'mixandmega',
 	mixandmega(target, room, user) {
 		if (!this.runBroadcast()) return;
@@ -89,14 +88,13 @@ export const commands: ChatCommands = {
 		const mod = stoneName[1];
 		if (mod && toID(mod) in Dex.dexes) dex = Dex.mod(toID(mod));
 		const stone = getMegaStone(stoneName[0], mod);
-		const template = dex.getTemplate(sep[0]);
-		TrashChannelChatSupport.mixandmegainternal(this, template, stoneName[0], mod, "");
+		const species = dex.getSpecies(sep[0]);
+		TrashChannelChatSupport.mixandmegainternal(this, species, stoneName[0], mod, "");
 	},
 	mixandmegahelp: [
 		`/mnm <pokemon> @ <mega stone>[, generation] - Shows the Mix and Mega evolved Pokemon's type and stats.`,
 	],
 
-	'!stone': true,
 	orb: 'stone',
 	megastone: 'stone',
 	stone(target) {
@@ -114,9 +112,6 @@ export const commands: ChatCommands = {
 		if (banlist.includes(stone.name)) {
 			this.errorReply(`Warning: ${stone.name} is banned from Mix and Mega.`);
 		}
-		if (stone.isUnreleased) {
-			this.errorReply(`Warning: ${stone.name} is unreleased and is not usable in current Mix and Mega.`);
-		}
 		if (targetid === 'dragonascent') {
 			this.errorReply(`Warning: Only Pokemon with access to Dragon Ascent can mega evolve with Mega Rayquaza's traits.`);
 		}
@@ -124,30 +119,30 @@ export const commands: ChatCommands = {
 		if (stone.isNonstandard === 'CAP') {
 			this.errorReply(`Warning: ${stone.name} is a fake mega stone created by the CAP Project and is restricted to the CAP ${stone.megaEvolves}.`);
 		}
-		let baseTemplate = dex.getTemplate(stone.megaEvolves);
-		let megaTemplate = dex.getTemplate(stone.megaStone);
+		let baseSpecies = dex.getSpecies(stone.megaEvolves);
+		let megaSpecies = dex.getSpecies(stone.megaStone);
 		if (dex.gen >= 8 && ['redorb', 'blueorb'].includes(stone.id)) return this.parse('/help stone');
 		if (stone.id === 'redorb') { // Orbs do not have 'Item.megaStone' or 'Item.megaEvolves' properties.
-			megaTemplate = dex.getTemplate("Groudon-Primal");
-			baseTemplate = dex.getTemplate("Groudon");
+			megaSpecies = dex.getSpecies("Groudon-Primal");
+			baseSpecies = dex.getSpecies("Groudon");
 		} else if (stone.id === 'blueorb') {
-			megaTemplate = dex.getTemplate("Kyogre-Primal");
-			baseTemplate = dex.getTemplate("Kyogre");
+			megaSpecies = dex.getSpecies("Kyogre-Primal");
+			baseSpecies = dex.getSpecies("Kyogre");
 		}
 		const deltas: StoneDeltas = {
 			baseStats: Object.create(null),
-			weighthg: megaTemplate.weighthg - baseTemplate.weighthg,
+			weighthg: megaSpecies.weighthg - baseSpecies.weighthg,
 		};
 		let statId: StatName;
-		for (statId in megaTemplate.baseStats) {
-			deltas.baseStats[statId] = megaTemplate.baseStats[statId] - baseTemplate.baseStats[statId];
+		for (statId in megaSpecies.baseStats) {
+			deltas.baseStats[statId] = megaSpecies.baseStats[statId] - baseSpecies.baseStats[statId];
 		}
-		if (megaTemplate.types.length > baseTemplate.types.length) {
-			deltas.type = megaTemplate.types[1];
-		} else if (megaTemplate.types.length < baseTemplate.types.length) {
-			deltas.type = dex.gen >= 8 ? 'mono' : megaTemplate.types[0];
-		} else if (megaTemplate.types[1] !== baseTemplate.types[1]) {
-			deltas.type = megaTemplate.types[1];
+		if (megaSpecies.types.length > baseSpecies.types.length) {
+			deltas.type = megaSpecies.types[1];
+		} else if (megaSpecies.types.length < baseSpecies.types.length) {
+			deltas.type = dex.gen >= 8 ? 'mono' : megaSpecies.types[0];
+		} else if (megaSpecies.types[1] !== baseSpecies.types[1]) {
+			deltas.type = megaSpecies.types[1];
 		}
 		const details = {
 			Gen: stone.gen,
@@ -179,7 +174,7 @@ export const commands: ChatCommands = {
 			buf += `<span class="col typecol"></span>`;
 		}
 		buf += `<span style="float:left;min-height:26px">`;
-		buf += `<span class="col abilitycol">${megaTemplate.abilities['0']}</span>`;
+		buf += `<span class="col abilitycol">${megaSpecies.abilities['0']}</span>`;
 		buf += `<span class="col abilitycol"></span>`;
 		buf += `</span>`;
 		buf += `<span style="float:left;min-height:26px">`;
@@ -201,31 +196,65 @@ export const commands: ChatCommands = {
 	},
 	stonehelp: [`/stone <mega stone>[, generation] - Shows the changes that a mega stone/orb applies to a Pokemon.`],
 
-	'!350cup': true,
 	350: '350cup',
 	'350cup'(target, room, user) {
 		if (!this.runBroadcast()) return;
-		if (!toID(target)) return this.parse('/help 350cup');
-		const template = Dex.deepClone(Dex.getTemplate(target));
-		if (!template.exists) return this.errorReply("Error: Pokemon not found.");
+		const args = target.split(',');
+		if (!toID(args[0])) return this.parse('/help 350cup');
+		let dex = Dex;
+		if (args[1] && toID(args[1]) in Dex.dexes) {
+			dex = Dex.dexes[toID(args[1])];
+		} else if (room?.battle) {
+			const format = Dex.getFormat(room.battle.format);
+			dex = Dex.mod(format.mod);
+		}
+		const species = Dex.deepClone(dex.getSpecies(args[0]));
+		if (!species.exists || species.gen > dex.gen) {
+			const monName = species.gen > dex.gen ? species.name : args[0].trim();
+			const additionalReason = species.gen > dex.gen ? ` in Generation ${dex.gen}` : ``;
+			return this.errorReply(`Error: Pok\u00e9mon '${monName}' not found${additionalReason}.`);
+		}
 		let bst = 0;
-		for (const i in template.baseStats) {
-			bst += template.baseStats[i];
+		for (const i in species.baseStats) {
+			bst += species.baseStats[i];
 		}
-		for (const i in template.baseStats) {
-			template.baseStats[i] = template.baseStats[i] * (bst <= 350 ? 2 : 1);
+		for (const i in species.baseStats) {
+			species.baseStats[i] = species.baseStats[i] * (bst <= 350 ? 2 : 1);
 		}
-		this.sendReply(`|html|${Chat.getDataPokemonHTML(template)}`);
+		this.sendReply(`|html|${Chat.getDataPokemonHTML(species, dex.gen)}`);
 	},
-	'350cuphelp': [`/350 OR /350cup <pokemon> - Shows the base stats that a Pokemon would have in 350 Cup.`],
+	'350cuphelp': [
+		`/350 OR /350cup <pokemon>[, gen] - Shows the base stats that a Pok\u00e9mon would have in 350 Cup.`,
+	],
 
-	'!tiershift': true,
 	ts: 'tiershift',
-	tiershift(target, room, user) {
+	ts1: 'tiershift',
+	ts2: 'tiershift',
+	ts3: 'tiershift',
+	ts4: 'tiershift',
+	ts5: 'tiershift',
+	ts6: 'tiershift',
+	ts7: 'tiershift',
+	ts8: 'tiershift',
+	tiershift(target, room, user, connection, cmd) {
 		if (!this.runBroadcast()) return;
-		if (!toID(target)) return this.parse('/help tiershift');
-		const template = Dex.deepClone(Dex.mod('gen7').getTemplate(target));
-		if (!template.exists) return this.errorReply("Error: Pokemon not found.");
+		const args = target.split(',');
+		if (!toID(args[0])) return this.parse('/help tiershift');
+		const targetGen = parseInt(cmd[cmd.length - 1]);
+		if (targetGen && !args[1]) args[1] = `gen${targetGen}`;
+		let dex = Dex;
+		if (args[1] && toID(args[1]) in Dex.dexes) {
+			dex = Dex.dexes[toID(args[1])];
+		} else if (room?.battle) {
+			const format = Dex.getFormat(room.battle.format);
+			dex = Dex.mod(format.mod);
+		}
+		const species = Dex.deepClone(dex.getSpecies(args[0]));
+		if (!species.exists || species.gen > dex.gen) {
+			const monName = species.gen > dex.gen ? species.name : args[0].trim();
+			const additionalReason = species.gen > dex.gen ? ` in Generation ${dex.gen}` : ``;
+			return this.errorReply(`Error: Pok\u00e9mon '${monName}' not found${additionalReason}.`);
+		}
 		const boosts: {[tier in TierShiftTiers]: number} = {
 			UU: 10,
 			RUBL: 10,
@@ -238,61 +267,111 @@ export const commands: ChatCommands = {
 			'LC Uber': 40,
 			LC: 40,
 		};
-		let tier = template.tier;
+		let tier = species.tier;
 		if (tier[0] === '(') tier = tier.slice(1, -1);
-		if (!(tier in boosts)) return this.sendReply(`|html|${Chat.getDataPokemonHTML(template)}`);
+		if (!(tier in boosts)) return this.sendReply(`|html|${Chat.getDataPokemonHTML(species, dex.gen)}`);
 		const boost = boosts[tier as TierShiftTiers];
-		for (const statName in template.baseStats) {
+		for (const statName in species.baseStats) {
 			if (statName === 'hp') continue;
-			template.baseStats[statName] = Dex.clampIntRange(template.baseStats[statName] + boost, 1, 255);
+			species.baseStats[statName] = Utils.clampIntRange(species.baseStats[statName] + boost, 1, 255);
 		}
-		this.sendReply(`|raw|${Chat.getDataPokemonHTML(template)}`);
+		this.sendReply(`|raw|${Chat.getDataPokemonHTML(species, dex.gen)}`);
 	},
-	tiershifthelp: [`/ts OR /tiershift <pokemon> - Shows the base stats that a Pokemon would have in Tier Shift.`],
+	tiershifthelp: [
+		`/ts OR /tiershift <pokemon>[, generation] - Shows the base stats that a Pok\u00e9mon would have in Tier Shift.`,
+		`Alternatively, you can use /ts[gen number] to see a Pokemon's stats in that generation.`,
+	],
 
-	'!scalemons': true,
 	scale: 'scalemons',
-	scalemons(target, room, user) {
+	scale1: 'scalemons',
+	scale2: 'scalemons',
+	scale3: 'scalemons',
+	scale4: 'scalemons',
+	scale5: 'scalemons',
+	scale6: 'scalemons',
+	scale7: 'scalemons',
+	scale8: 'scalemons',
+	scalemons(target, room, user, connection, cmd) {
 		if (!this.runBroadcast()) return;
-		if (!toID(target)) return this.parse(`/help scalemons`);
-		const template = Dex.deepClone(Dex.getTemplate(target));
-		if (!template.exists) return this.errorReply(`Error: Pokemon ${target} not found.`);
-		const stats = ['atk', 'def', 'spa', 'spd', 'spe'];
-		const pst = stats.map(stat => template.baseStats[stat]).reduce((x, y) => x + y);
-		const scale = 600 - template.baseStats['hp'];
-		for (const stat of stats) {
-			template.baseStats[stat] = Dex.clampIntRange(template.baseStats[stat] * scale / pst, 1, 255);
+		const args = target.split(',');
+		if (!args.length || !toID(args[0])) return this.parse(`/help scalemons`);
+		const targetGen = parseInt(cmd[cmd.length - 1]);
+		if (targetGen && !args[1]) args[1] = `gen${targetGen}`;
+		let isGen1 = false;
+		let dex = Dex;
+		if (args[1] && toID(args[1]) in Dex.dexes) {
+			dex = Dex.dexes[toID(args[1])];
+		} else if (room?.battle) {
+			const format = Dex.getFormat(room.battle.format);
+			dex = Dex.mod(format.mod);
 		}
-		this.sendReply(`|raw|${Chat.getDataPokemonHTML(template)}`);
+		if (dex.gen === 1) isGen1 = true;
+		const species = Dex.deepClone(dex.getSpecies(args[0]));
+		if (!species.exists || species.gen > dex.gen) {
+			const monName = species.gen > dex.gen ? species.name : args[0].trim();
+			const additionalReason = species.gen > dex.gen ? ` in Generation ${dex.gen}` : ``;
+			return this.errorReply(`Error: Pok\u00e9mon '${monName}' not found${additionalReason}.`);
+		}
+		if (isGen1 && species.gen > 1) return this.errorReply(`Error: Pok\u00e9mon ${target} not found.`);
+		const stats = !isGen1 ? ['atk', 'def', 'spa', 'spd', 'spe'] : ['atk', 'def', 'spa', 'spe'];
+		const pst = stats.map(stat => species.baseStats[stat]).reduce((x, y) => x + y);
+		const scale = (!isGen1 ? 600 : 500) - species.baseStats['hp'];
+		for (const stat of stats) {
+			species.baseStats[stat] = Utils.clampIntRange(species.baseStats[stat] * scale / pst, 1, 255);
+		}
+		this.sendReply(`|raw|${Chat.getDataPokemonHTML(species, dex.gen)}`);
 	},
-	scalemonshelp: [`/scale OR /scalemons <pokemon> - Shows the base stats that a Pokemon would have in Scalemons.`],
+	scalemonshelp: [
+		`/scale OR /scalemons <pokemon>[, gen] - Shows the base stats that a Pok\u00e9mon would have in Scalemons.`,
+		`Alternatively, you can use /scale[gen number] to see a Pokemon's scaled stats in that generation.`,
+	],
 
-	'!natureswap': true,
 	ns: 'natureswap',
-	natureswap(target, room, user) {
+	ns3: 'natureswap',
+	ns4: 'natureswap',
+	ns5: 'natureswap',
+	ns6: 'natureswap',
+	ns7: 'natureswap',
+	ns8: 'natureswap',
+	natureswap(target, room, user, connection, cmd) {
 		if (!this.runBroadcast()) return;
-		const nature = target.trim().split(' ')[0];
-		const pokemon = target.trim().split(' ')[1];
+		const args = target.split(',');
+		const nature = args[0];
+		const pokemon = args[1];
+		const targetGen = parseInt(cmd[cmd.length - 1]);
+		if (targetGen && !args[2]) args[2] = `gen${targetGen}`;
+		let dex = Dex;
+		if (args[2] && toID(args[2]) in Dex.dexes) {
+			dex = Dex.dexes[toID(args[2])];
+		} else if (room?.battle) {
+			const format = Dex.getFormat(room.battle.format);
+			dex = Dex.mod(format.mod);
+		}
 		if (!toID(nature) || !toID(pokemon)) return this.parse(`/help natureswap`);
 		const natureObj: {
 			name: string, plus?: string | undefined, minus?: string | undefined, exists?: boolean,
-		} = Dex.getNature(nature);
+		} = dex.getNature(nature);
+		if (dex.gen < 3) return this.errorReply(`Error: Natures don't exist prior to Generation 3.`);
 		if (!natureObj.exists) return this.errorReply(`Error: Nature ${nature} not found.`);
-		const template = Dex.deepClone(Dex.getTemplate(pokemon));
-		if (!template.exists) return this.errorReply(`Error: Pokemon ${pokemon} not found.`);
-		if (natureObj.minus && natureObj.plus) {
-			const swap = template.baseStats[natureObj.minus];
-			template.baseStats[natureObj.minus] = template.baseStats[natureObj.plus];
-			template.baseStats[natureObj.plus] = swap;
-			template.tier = 'NS';
+		const species = Dex.deepClone(dex.getSpecies(pokemon));
+		if (!species.exists || species.gen > dex.gen) {
+			const monName = species.gen > dex.gen ? species.name : args[0].trim();
+			const additionalReason = species.gen > dex.gen ? ` in Generation ${dex.gen}` : ``;
+			return this.errorReply(`Error: Pok\u00e9mon '${monName}' not found${additionalReason}.`);
 		}
-		this.sendReply(`|raw|${Chat.getDataPokemonHTML(template)}`);
+		if (natureObj.minus && natureObj.plus) {
+			const swap = species.baseStats[natureObj.minus];
+			species.baseStats[natureObj.minus] = species.baseStats[natureObj.plus];
+			species.baseStats[natureObj.plus] = swap;
+			species.tier = 'NS';
+		}
+		this.sendReply(`|raw|${Chat.getDataPokemonHTML(species, dex.gen)}`);
 	},
-	natureswapshelp: [
-		`/ns OR /natureswap <pokemon> - Shows the base stats that a Pokemon would have in Nature Swap. Usage: /ns <Nature> <Pokemon>.`,
+	natureswaphelp: [
+		`/ns OR /natureswap <nature>, <pokemon>[, gen] - Shows the base stats that a Pokemon would have in Nature Swap.`,
+		`Alternatively, you can use /ns[gen number] to see a Pokemon's stats in that generation.`,
 	],
 
-	'!crossevolve': true,
 	ce: 'crossevolve',
 	crossevo: 'crossevolve',
 	crossevolve(target, user, room) {
@@ -300,80 +379,75 @@ export const commands: ChatCommands = {
 		if (!target || !target.includes(',')) return this.parse(`/help crossevo`);
 
 		const pokes = target.split(',');
-		const template = Dex.getTemplate(pokes[0]);
-		const crossTemplate = Dex.getTemplate(pokes[1]);
+		const species = Dex.getSpecies(pokes[0]);
+		const crossSpecies = Dex.getSpecies(pokes[1]);
 
-		if (!template.exists) return this.errorReply(`Error: Pokemon '${pokes[0]}' not found.`);
-		if (!crossTemplate.exists) return this.errorReply(`Error: Pokemon '${pokes[1]}' not found.`);
+		if (!species.exists) return this.errorReply(`Error: Pokemon '${pokes[0]}' not found.`);
+		if (!crossSpecies.exists) return this.errorReply(`Error: Pokemon '${pokes[1]}' not found.`);
 
-		if (!template.evos.length) return this.errorReply(`Error: ${template.species} does not evolve.`);
-		if (!crossTemplate.prevo) return this.errorReply(`Error: ${crossTemplate.species} does not have a prevolution.`);
+		if (!species.evos.length) return this.errorReply(`Error: ${species.name} does not evolve.`);
+		if (!crossSpecies.prevo) return this.errorReply(`Error: ${crossSpecies.name} does not have a prevolution.`);
 
 		let setStage = 1;
 		let crossStage = 1;
-		if (template.prevo) {
+		if (species.prevo) {
 			setStage++;
-			if (Dex.getTemplate(template.prevo).prevo) {
+			if (Dex.getSpecies(species.prevo).prevo) {
 				setStage++;
 			}
 		}
-		const prevo = Dex.getTemplate(crossTemplate.prevo);
-		if (crossTemplate.prevo) {
+		const prevo = Dex.getSpecies(crossSpecies.prevo);
+		if (crossSpecies.prevo) {
 			crossStage++;
 			if (prevo.prevo) {
 				crossStage++;
 			}
 		}
 		if (setStage + 1 !== crossStage) {
-			return this.errorReply(`Error: Cross evolution must follow evolutionary stages. (${template.species} is Stage ${setStage} and can only cross evolve to Stage ${setStage + 1})`);
+			return this.errorReply(`Error: Cross evolution must follow evolutionary stages. (${species.name} is Stage ${setStage} and can only cross evolve to Stage ${setStage + 1})`);
 		}
-		const mixedTemplate = Dex.deepClone(template);
-		mixedTemplate.abilities = Dex.deepClone(crossTemplate.abilities);
-		mixedTemplate.baseStats = Dex.deepClone(mixedTemplate.baseStats);
+		const mixedSpecies = Dex.deepClone(species);
+		mixedSpecies.abilities = Dex.deepClone(crossSpecies.abilities);
+		mixedSpecies.baseStats = Dex.deepClone(mixedSpecies.baseStats);
 		let statName: StatName;
-		for (statName in template.baseStats) {
-			mixedTemplate.baseStats[statName] += crossTemplate.baseStats[statName] - prevo.baseStats[statName];
+		for (statName in species.baseStats) {
+			const statChange = crossSpecies.baseStats[statName] - prevo.baseStats[statName];
+			mixedSpecies.baseStats[statName] = Utils.clampIntRange(mixedSpecies.baseStats[statName] + statChange, 1, 255);
 		}
-		mixedTemplate.types = [template.types[0]];
-		if (template.types[1]) mixedTemplate.types.push(template.types[1]);
-		if (crossTemplate.types[0] !== prevo.types[0]) mixedTemplate.types[0] = crossTemplate.types[0];
-		if (crossTemplate.types[1] !== prevo.types[1]) {
-			mixedTemplate.types[1] = crossTemplate.types[1] || crossTemplate.types[0];
+		mixedSpecies.types = [species.types[0]];
+		if (species.types[1]) mixedSpecies.types.push(species.types[1]);
+		if (crossSpecies.types[0] !== prevo.types[0]) mixedSpecies.types[0] = crossSpecies.types[0];
+		if (crossSpecies.types[1] !== prevo.types[1]) {
+			mixedSpecies.types[1] = crossSpecies.types[1] || crossSpecies.types[0];
 		}
-		if (mixedTemplate.types[0] === mixedTemplate.types[1]) mixedTemplate.types = [mixedTemplate.types[0]];
-		mixedTemplate.weighthg += crossTemplate.weighthg - prevo.weighthg;
-		if (mixedTemplate.weighthg < 1) {
-			mixedTemplate.weighthg = 1;
+		if (mixedSpecies.types[0] === mixedSpecies.types[1]) mixedSpecies.types = [mixedSpecies.types[0]];
+		mixedSpecies.weighthg += crossSpecies.weighthg - prevo.weighthg;
+		if (mixedSpecies.weighthg < 1) {
+			mixedSpecies.weighthg = 1;
 		}
-		for (const stat in mixedTemplate.baseStats) {
-			if (mixedTemplate.baseStats[stat] < 1 || mixedTemplate.baseStats[stat] > 255) {
-				this.errorReply(`Warning: This Cross Evolution cannot happen since a stat goes below 0 or above 255.`);
-				break;
-			}
-		}
-		mixedTemplate.tier = "CE";
+		mixedSpecies.tier = "CE";
 		let weighthit = 20;
-		if (mixedTemplate.weighthg >= 2000) {
+		if (mixedSpecies.weighthg >= 2000) {
 			weighthit = 120;
-		} else if (mixedTemplate.weighthg >= 1000) {
+		} else if (mixedSpecies.weighthg >= 1000) {
 			weighthit = 100;
-		} else if (mixedTemplate.weighthg >= 500) {
+		} else if (mixedSpecies.weighthg >= 500) {
 			weighthit = 80;
-		} else if (mixedTemplate.weighthg >= 250) {
+		} else if (mixedSpecies.weighthg >= 250) {
 			weighthit = 60;
-		} else if (mixedTemplate.weighthg >= 100) {
+		} else if (mixedSpecies.weighthg >= 100) {
 			weighthit = 40;
 		}
 		const details: {[k: string]: string} = {
-			"Dex#": mixedTemplate.num,
-			Gen: mixedTemplate.gen,
-			Height: mixedTemplate.heightm + " m",
-			Weight: mixedTemplate.weighthg / 10 + " kg <em>(" + weighthit + " BP)</em>",
-			"Dex Colour": mixedTemplate.color,
+			"Dex#": mixedSpecies.num,
+			Gen: mixedSpecies.gen,
+			Height: mixedSpecies.heightm + " m",
+			Weight: mixedSpecies.weighthg / 10 + " kg <em>(" + weighthit + " BP)</em>",
+			"Dex Colour": mixedSpecies.color,
 		};
-		if (mixedTemplate.eggGroups) details["Egg Group(s)"] = mixedTemplate.eggGroups.join(", ");
+		if (mixedSpecies.eggGroups) details["Egg Group(s)"] = mixedSpecies.eggGroups.join(", ");
 		details['<font color="#686868">Does Not Evolve</font>'] = "";
-		this.sendReply(`|raw|${Chat.getDataPokemonHTML(mixedTemplate)}`);
+		this.sendReply(`|raw|${Chat.getDataPokemonHTML(mixedSpecies)}`);
 		this.sendReply('|raw|<font size="1">' + Object.keys(details).map(detail => {
 			if (details[detail] === '') return detail;
 			return '<font color="#686868">' + detail + ':</font> ' + details[detail];
@@ -381,5 +455,54 @@ export const commands: ChatCommands = {
 	},
 	crossevolvehelp: [
 		"/crossevo <base pokemon>, <evolved pokemon> - Shows the type and stats for the Cross Evolved Pokemon.",
+	],
+
+	showevo(target, user, room) {
+		if (!this.runBroadcast()) return;
+		const targetid = toID(target);
+		if (!targetid) return this.parse('/help showevo');
+		const evo = Dex.getSpecies(target);
+		if (!evo.exists) {
+			return this.errorReply(`Error: Pok\u00e9mon ${target} not found.`);
+		}
+		if (!evo.prevo) {
+			return this.errorReply(`Error: ${evo.name} is not an evolution.`);
+		}
+		// Fake Pokemon
+		if (evo.isNonstandard === 'CAP') {
+			this.errorReply(`Warning: ${evo.name} is a fake Pok\u00e9mon created by the CAP Project and is restricted to CAP.`);
+		}
+		const prevoSpecies = Dex.getSpecies(evo.prevo);
+		const deltas = Dex.deepClone(evo);
+		deltas.tier = 'CE';
+		deltas.weightkg = evo.weightkg - prevoSpecies.weightkg;
+		let i: StatName;
+		for (i in evo.baseStats) {
+			const statChange = evo.baseStats[i] - prevoSpecies.baseStats[i];
+			deltas.baseStats[i] = statChange;
+		}
+		deltas.types = [];
+		if (evo.types[0] !== prevoSpecies.types[0]) deltas.types[0] = evo.types[0];
+		if (evo.types[1] !== prevoSpecies.types[1]) {
+			deltas.types[1] = evo.types[1] || evo.types[0];
+		}
+		if (deltas.types.length) {
+			// Undefined type remover
+			deltas.types = deltas.types.filter((type: string | undefined) => type !== undefined);
+
+			if (deltas.types[0] === deltas.types[1]) deltas.types = [deltas.types[0]];
+		} else {
+			deltas.types = null;
+		}
+		const details = {
+			Gen: evo.gen,
+			Weight: (deltas.weighthg < 0 ? "" : "+") + deltas.weighthg / 10 + " kg",
+			Stage: (Dex.getSpecies(prevoSpecies.prevo).exists ? 3 : 2),
+		};
+		this.sendReply(`|raw|${Chat.getDataPokemonHTML(deltas)}`);
+		this.sendReply(`|raw|<font size="1"><font color="#686868">Gen:</font> ${details["Gen"]}&nbsp;|&ThickSpace;<font color="#686868">Weight:</font> ${details["Weight"]}&nbsp;|&ThickSpace;<font color="#686868">Stage:</font> ${details["Stage"]}</font>`);
+	},
+	showevohelp: [
+		`/showevo <Pok\u00e9mon> - Shows the changes that a Pok\u00e9mon applies in Cross Evolution`,
 	],
 };

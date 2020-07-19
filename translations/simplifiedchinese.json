@@ -18,8 +18,7 @@
 		"% <strong>Global Driver</strong> - The above, and they can also lock users and check for alts": "% <strong>全服见习管理</strong> - 同上，并可以锁定用户或查看他们的小号",
 		"@ <strong>Global Moderator</strong> - The above, and they can globally ban users": "@ <strong>全服管理员</strong> - 同上，并可以将用户从服务器封禁",
 		"* <strong>Global Bot</strong> - Like Moderator, but makes it clear that this user is a bot": "* <strong>全服机器人</strong> - 跟全服管理员一样，只不过是机器",
-		"&amp; <strong>Global Leader</strong> - The above, and they can promote to global moderator and force ties": "&amp; <strong>全服领袖</strong> - 同上，并可以提拔用户至全服管理员、强制对战平局",
-		"~ <strong>Global Administrator</strong> -  They can do anything, like change what this message says": "~ <strong>全服总管</strong> - 可以在服务器做任何事，例如修改你现在看到的这条信息",
+		"&amp; <strong>Global Administrator</strong> - They can do anything, like change what this message says and promote users globally": "&amp <strong>全服总管</strong> - 可以在服务器做任何事，例如修改你现在看到的这条信息",
 
 		"<strong>Room ranks</strong>": "<strong>房权限</strong>",
 		"+ <strong>Voice</strong> - They can use ! commands like !groups": "+ <strong>信任用户</strong> - 可以使用!广播指令，比如!groups，并可以在限制发言期间发言",
@@ -39,9 +38,9 @@
 		"DATA COMMANDS": "数据指令",
 		"DRIVER COMMANDS": "见习管理指令",
 		"MODERATOR COMMANDS": "管理员指令",
-		"LEADER COMMANDS": "领袖指令",
+		"ADMIN COMMANDS": "总管指令",
 
-		"(replace / with ! to broadcast. Broadcasting requires: + % @ # & ~)": "(把/换成!就可以广播指令。广播功能需要：+ % @ # & ~)",
+		"(replace / with ! to broadcast. Broadcasting requires: + % @ # &)": "(把/换成!就可以广播指令。广播功能需要：+ % @ # &)",
 
 		"<strong>Room punishments</strong>:": "<strong>房间处罚</strong>:",
 		"<strong>warn</strong> - Displays a popup with the rules.": "<strong>warn</strong> - 显示规则与警告",
@@ -101,6 +100,8 @@
 		"Your status contains a banned word.": "您的状态里包含禁止使用的词.",
 		"Your status has been set to: ${target}.": "您的状态已设置为: ${target}.", "You are now marked as busy.": "您现在被标记为忙碌.",
 		"You are now marked as away. Send a message or use /back to indicate you are back.": "您现在被标记为离开。发送消息或使用/back回到原来的状态.",
+		"You are already marked as back.": "您已回到原来的状态.",
+		"You are no longer marked as busy.": "您已停止标记为忙碌.",
 
 		"You must choose a name before you can talk.": "发言之前请登录用户",
 		"You are ${lockType} and can't talk in chat. ${lockExpiration}": "您被${lockType}封锁，因此不能发言。${lockExpiration}",

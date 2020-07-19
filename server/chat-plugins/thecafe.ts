@@ -45,36 +45,36 @@ function stringifyTeam(team: PokemonSet[], ingredients: string[]) {
 
 function generateTeam(generator = '') {
 	let potentialPokemon = Object.keys(Dex.data.Pokedex).filter(mon => {
-		const template = Dex.getTemplate(mon);
-		return template.baseSpecies === template.species;
+		const species = Dex.getSpecies(mon);
+		return species.baseSpecies === species.name;
 	});
 	let speciesClause = true;
 	switch (generator) {
 	case 'ou':
 		potentialPokemon = potentialPokemon.filter(mon => {
-			const template = Dex.getTemplate(mon);
-			return template.tier === 'OU';
+			const species = Dex.getSpecies(mon);
+			return species.tier === 'OU';
 		}).concat(potentialPokemon.filter(mon => {
 			// There is probably a better way to get the ratios right, oh well.
-			const template = Dex.getTemplate(mon);
-			return template.tier === 'OU' || template.tier === 'UU';
+			const species = Dex.getSpecies(mon);
+			return species.tier === 'OU' || species.tier === 'UU';
 		}));
 		break;
 	case 'ag':
 		potentialPokemon = potentialPokemon.filter(mon => {
-			const template = Dex.getTemplate(mon);
-			const unviable = template.tier === 'NFE' || template.tier === 'PU' ||
-				template.tier === '(PU)' || template.tier.startsWith("LC");
-			const illegal = template.tier === 'Unreleased' || template.tier === 'Illegal' || template.tier.startsWith("CAP");
+			const species = Dex.getSpecies(mon);
+			const unviable = species.tier === 'NFE' || species.tier === 'PU' ||
+				species.tier === '(PU)' || species.tier.startsWith("LC");
+			const illegal = species.tier === 'Unreleased' || species.tier === 'Illegal' || species.tier.startsWith("CAP");
 			return !(unviable || illegal);
 		});
 		speciesClause = false;
 		break;
 	default:
 		potentialPokemon = potentialPokemon.filter(mon => {
-			const template = Dex.getTemplate(mon);
-			const op = template.tier === 'AG' || template.tier === 'Uber' || template.tier.slice(1, -1) === 'Uber';
-			const unviable = template.tier === 'Illegal' || template.tier.includes("LC");
+			const species = Dex.getSpecies(mon);
+			const op = species.tier === 'AG' || species.tier === 'Uber' || species.tier.slice(1, -1) === 'Uber';
+			const unviable = species.tier === 'Illegal' || species.tier.includes("LC");
 			return !(op || unviable);
 		});
 		potentialPokemon.push('miltank', 'miltank', 'miltank', 'miltank'); // 5x chance for miltank for flavor purposes.
@@ -90,7 +90,7 @@ function generateTeam(generator = '') {
 		if (speciesClause) potentialPokemon.splice(randIndex, 1);
 	}
 
-	return team.map(mon => Dex.getTemplate(mon).species);
+	return team.map(mon => Dex.getSpecies(mon).name);
 }
 
 function generateDish(): [string, string[]] {
@@ -106,6 +106,7 @@ function generateDish(): [string, string[]] {
 
 export const commands: ChatCommands = {
 	foodfight(target, room, user) {
+		if (!room) return this.requiresRoom();
 		if (room.roomid !== thecafe.roomid) return this.errorReply("This command is only available in The Café.");
 
 		if (!Object.keys(dishes).length) return this.errorReply("No dishes found. Add some dishes first.");
@@ -133,6 +134,7 @@ export const commands: ChatCommands = {
 		return this.sendReplyBox(`<div class="ladder"><table style="text-align:center;"><tr><th colspan="7" style="font-size:10pt;">Your dish is: <u>${newDish}</u></th></tr><tr><th>Team</th>${team.map(mon => `<td><psicon pokemon="${mon}"/> ${mon}</td>`).join('')}</tr><tr><th>Ingredients</th>${newIngredients.map(ingredient => `<td>${ingredient}</td>`).join('')}</tr>${importStr}</table></div>`);
 	},
 	checkfoodfight(target, room, user) {
+		if (!room) return this.requiresRoom();
 		if (room.roomid !== thecafe.roomid) return this.errorReply("This command is only available in The Café.");
 
 		const targetUser = this.targetUserOrSelf(target, false);
@@ -146,6 +148,7 @@ export const commands: ChatCommands = {
 	},
 	addingredients: 'adddish',
 	adddish(target, room, user, connection, cmd) {
+		if (!room) return this.requiresRoom();
 		if (room.roomid !== thecafe.roomid) return this.errorReply("This command is only available in The Café.");
 		if (!this.can('mute', null, room)) return false;
 
@@ -180,6 +183,7 @@ export const commands: ChatCommands = {
 		this.sendReply(`${cmd.slice(3)} '${dish}: ${ingredients.join(', ')}' added successfully.`);
 	},
 	removedish(target, room, user) {
+		if (!room) return this.requiresRoom();
 		if (room.roomid !== thecafe.roomid) return this.errorReply("This command is only available in The Café.");
 		if (!this.can('mute', null, room)) return false;
 
@@ -192,17 +196,18 @@ export const commands: ChatCommands = {
 		this.sendReply(`Dish '${target}' deleted successfully.`);
 	},
 	viewdishes(target, room, user, connection) {
+		if (!room) return this.requiresRoom();
 		if (room.roomid !== thecafe.roomid) return this.errorReply("This command is only available in The Café.");
 
 		return this.parse(`/join view-foodfight`);
 	},
 	foodfighthelp: [
 		`/foodfight <generator> - Gives you a randomly generated Foodfight dish, ingredient list and team. Generator can be either 'random', 'ou', 'ag', or left blank. If left blank, uses Battle Factory to generate an importable team.`,
-		`/checkfoodfight <username> - Gives you the last team and dish generated for the entered user, or your own if left blank. Anyone can check their own info, checking other people requires: % @ # & ~`,
-		`/adddish <dish>, <ingredient>, <ingredient>, ... - Adds a dish to the database. Requires: % @ # & ~`,
-		`/addingredients <dish>, <ingredient>, <ingredient>, ... - Adds extra ingredients to a dish in the database. Requires: % @ # & ~`,
-		`/removedish <dish> - Removes a dish from the database. Requires: % @ # & ~`,
-		`/viewdishes - Shows the entire database of dishes. Requires: % @ # & ~`,
+		`/checkfoodfight <username> - Gives you the last team and dish generated for the entered user, or your own if left blank. Anyone can check their own info, checking other people requires: % @ # &`,
+		`/adddish <dish>, <ingredient>, <ingredient>, ... - Adds a dish to the database. Requires: % @ # &`,
+		`/addingredients <dish>, <ingredient>, <ingredient>, ... - Adds extra ingredients to a dish in the database. Requires: % @ # &`,
+		`/removedish <dish> - Removes a dish from the database. Requires: % @ # &`,
+		`/viewdishes - Shows the entire database of dishes. Requires: % @ # &`,
 	],
 };
 
