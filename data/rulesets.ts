@@ -62,10 +62,29 @@ export const Formats: {[k: string]: FormatData} = {
 			'Victini', 'Keldeo', 'Meloetta', 'Genesect',
 			'Diancie', 'Hoopa', 'Volcanion',
 			'Magearna', 'Marshadow', 'Zeraora',
+			'Zarude',
 		],
 		onValidateSet(set, format) {
 			if (this.gen < 7 && this.toID(set.item) === 'souldew') {
 				return [`${set.name || set.species} has Soul Dew, which is banned in ${format.name}.`];
+			}
+		},
+		onValidateTeam(team) {
+			const legends = [
+				'Mewtwo',
+				'Lugia', 'Ho-Oh',
+				'Kyogre', 'Groudon', 'Rayquaza',
+				'Dialga', 'Palkia', 'Giratina',
+				'Reshiram', 'Zekrom', 'Kyurem',
+				'Xerneas', 'Yveltal', 'Zygarde',
+				'Cosmog', 'Cosmoem', 'Solgaleo', 'Lunala', 'Necrozma',
+				'Zacian', 'Zamazenta', 'Eternatus', 'Calyrex',
+			];
+			let n = 0;
+			for (const set of team) {
+				const baseSpecies = this.dex.getSpecies(set.species).baseSpecies;
+				if (legends.includes(baseSpecies)) n++;
+				if (n > 2) return [`You can only use up to two restricted legendary Pok\u00E9mon.`];
 			}
 		},
 	},
@@ -832,6 +851,16 @@ export const Formats: {[k: string]: FormatData} = {
 			this.add('rule', 'Switch Priority Clause Mod: Faster Pokémon switch first');
 		},
 	},
+	desyncclausemod: {
+		effectType: 'Rule',
+		name: 'Desync Clause Mod',
+		desc: 'If a desync would happen, the move fails instead. This rule currently covers Psywave and Counter.',
+		onBegin() {
+			this.add('rule', 'Desync Clause Mod: Desyncs changed to move failure.');
+		},
+		// Hardcoded in gen1/moves.ts
+		// Can't be disabled (no precedent for how else to handle desyncs)
+	},
 	freezeclausemod: {
 		effectType: 'Rule',
 		name: 'Freeze Clause Mod',
@@ -872,7 +901,7 @@ export const Formats: {[k: string]: FormatData} = {
 				}
 				if (this.gen >= 7) {
 					const item = this.dex.getItem(set.item);
-					if (item.megaStone && species.name === item.megaEvolves) {
+					if (item.megaStone && species.baseSpecies === item.megaEvolves) {
 						species = this.dex.getSpecies(item.megaStone);
 						typeTable = typeTable.filter(type => species.types.includes(type));
 					}
@@ -913,19 +942,6 @@ export const Formats: {[k: string]: FormatData} = {
 				pokemon.canDynamax = false;
 			}
 			this.add('rule', 'Dynamax Clause: You cannot dynamax');
-		},
-	},
-	dynamaxubersclause: {
-		effectType: 'Rule',
-		name: 'Dynamax Ubers Clause',
-		desc: "Prevents Pok&eacute;mon on the Ubers dynamax banlist from dynamaxing",
-		onBegin() {
-			for (const pokemon of this.getAllPokemon()) {
-				if (this.ruleTable.isRestrictedSpecies(pokemon.species)) {
-					pokemon.canDynamax = false;
-				}
-			}
-			this.add('html', 'Ubers Dynamax Clause: Pokémon on the <a href="https://www.smogon.com/dex/ss/formats/uber/">Ubers Dynamax Banlist</a> cannot Dynamax.');
 		},
 	},
 	arceusevlimit: {
@@ -977,7 +993,7 @@ export const Formats: {[k: string]: FormatData} = {
 		effectType: 'ValidatorRule',
 		name: 'STABmons Move Legality',
 		desc: "Allows Pok&eacute;mon to use any move that they or a previous evolution/out-of-battle forme share a type with",
-		checkLearnset(move, species, setSources, set) {
+		checkCanLearn(move, species, setSources, set) {
 
 			function logMapElements(value, key, map) {
 				console.log(`m[${key}] = ${value}`);
@@ -1041,7 +1057,26 @@ export const Formats: {[k: string]: FormatData} = {
 				}
 				if (types.includes(move.type)) return null;
 			}
-			return this.checkLearnset(move, species, setSources, set);
+			return this.checkCanLearn(move, species, setSources, set);
+		},
+	},
+	alphabetcupmovelegality: {
+		effectType: 'ValidatorRule',
+		name: 'Alphabet Cup Move Legality',
+		desc: "Allows Pok&eacute;mon to use any move that shares the same first letter as their name or a previous evolution's name.",
+		checkCanLearn(move, species, setSources, set) {
+			const nonstandard = move.isNonstandard === 'Past' && !this.ruleTable.has('standardnatdex');
+			if (!nonstandard && !move.isZ && !move.isMax && !this.ruleTable.isRestricted(`move:${move.id}`)) {
+				const letters = [species.id[0]];
+				let prevo = species.prevo;
+				while (prevo) {
+					const prevoSpecies = this.dex.getSpecies(prevo);
+					letters.push(prevoSpecies.id[0]);
+					prevo = prevoSpecies.prevo;
+				}
+				if (letters.includes(move.id[0])) return null;
+			}
+			return this.checkCanLearn(move, species, setSources, set);
 		},
 	},
 	allowtradeback: {
@@ -1293,7 +1328,7 @@ export const Formats: {[k: string]: FormatData} = {
 		effectType: 'ValidatorRule',
 		name: 'CRABmons Move Legality',
 		desc: "Allows Pok&eacute;mon to use any move that they or a they share a type with in a Camomons environment",
-		checkLearnset(move, species, lsetData, set) {
+		checkCanLearn(move, species, lsetData, set) {
 			// Get species
 			let dex = this.dex;
 			let baseSpecies = dex.getSpecies(species.baseSpecies);
@@ -1309,13 +1344,13 @@ export const Formats: {[k: string]: FormatData} = {
 					typesetArray[nTypeItr] = DexCalculator.getMovesPokemonLearnsOfType(baseSpecies, types[nTypeItr]);
 					if( typesetArray[nTypeItr].length > 0 ) continue;
 					// Reject early if we get zero moves of that type
-					return this.checkLearnset(move, species, lsetData, set);
+					return this.checkCanLearn(move, species, lsetData, set);
 				}
 
 				// Same type case
 				if( types[0] === types[1] ) {
 					if( 1 === typesetArray[0].length ) { // Reject early if we don't learn sufficient moves from the type to fill out both slots
-						return this.checkLearnset(move, species, lsetData, set);
+						return this.checkCanLearn(move, species, lsetData, set);
 					}
 				}
 
@@ -1331,7 +1366,7 @@ export const Formats: {[k: string]: FormatData} = {
 					sMoveA = typeALset[nMvAItr];
 					// Check if we should reject for not learning move A independently
 					hypotheticalSet.moves = [sMoveA];
-					if( null !== this.checkLearnset(sMoveA, species, lsetData, hypotheticalSet) ) {
+					if( null !== this.checkCanLearn(sMoveA, species, lsetData, hypotheticalSet) ) {
 						continue;
 					}
 					// Operate interior loop on a deep clone of B that can't have a duplicate of the current move from A
@@ -1340,13 +1375,13 @@ export const Formats: {[k: string]: FormatData} = {
 						sMoveB = typeBLsetTemp[nMvBItr];
 						// Check if we should reject for not learning move A independently
 						hypotheticalSet.moves = [sMoveB];
-						if( null !== this.checkLearnset(sMoveB, species, lsetData, hypotheticalSet) ) {
+						if( null !== this.checkCanLearn(sMoveB, species, lsetData, hypotheticalSet) ) {
 							typeBLset = DexCalculator.arrayRemove(typeBLset, sMoveB); // No point checking this in further loops
 							continue;
 						}
 						// Check if we should reject for not learning moves A and B together
 						hypotheticalSet.moves = [sMoveA, sMoveB];
-						if( null !== this.checkLearnset(sMoveA, species, lsetData, hypotheticalSet) ) {
+						if( null !== this.checkCanLearn(sMoveA, species, lsetData, hypotheticalSet) ) {
 							continue;
 						}
 						// We have located a valid hypothetical moveset that could give us the specified typing
@@ -1357,7 +1392,7 @@ export const Formats: {[k: string]: FormatData} = {
 				}
 
 				if(!bFoundViableLearnPattern) {
-					return this.checkLearnset(move, species, lsetData, set);
+					return this.checkCanLearn(move, species, lsetData, set);
 				}
 			}
 
@@ -1366,7 +1401,7 @@ export const Formats: {[k: string]: FormatData} = {
 			if (!move.isZ && !restrictedMoves.includes(move.name)) {
 				if (types.includes(move.type)) return null;
 			}
-			return this.checkLearnset(move, species, lsetData, set);
+			return this.checkCanLearn(move, species, lsetData, set);
 		},
 		unbanlist: [ // Deal with this hot garbage hack from Pokemon rule that should have been fixed months ago
 			'Chansey + Charm + Seismic Toss', 'Chansey + Charm + Psywave',
