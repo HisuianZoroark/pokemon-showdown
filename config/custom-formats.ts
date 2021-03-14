@@ -1849,13 +1849,17 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'bitchandbeggar',
-		ruleset: ['Obtainable', 'Bitch And Beggar Rule', 'Species Clause', 'Nickname Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Team Preview', 'HP Percentage Mod', 'Cancel Mod', 'Dynamax Clause', 'Sleep Clause Mod', 'Endless Battle Clause'],
+		ruleset: ['Obtainable', 'Bitch And Beggar Rule', 'Species Clause', 'Nickname Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Team Preview', 'HP Percentage Mod', 'Cancel Mod', 'Overflow Stat Mod', 'Dynamax Clause', 'Sleep Clause Mod', 'Endless Battle Clause'],
 		banlist: [
-			'AG', 'Eternatus', 'Gothitelle', 'Gothorita', 'Zacian', 'Moody', 'Baton Pass', 'Electrify',
+			'Calyrex-Shadow', 'Kyogre', 'Zacian-Crowned',
 			'Beedrillite', 'Blazikenite', 'Gengarite', 'Kangaskhanite', 'Mawilite', 'Medichamite', 'Pidgeotite',
+			'Moody', 'Shadow Tag', 'Baton Pass', 'Electrify',
 		],
-		restrictionlist: [
-			'Huge Power', 'Pure Power', 'Wonder Guard', 
+		restricted: [
+			'Calyrex-Ice', 'Dialga', 'Eternatus', 'Gengar', 'Giratina', 'Groudon', 'Ho-Oh', 'Kyurem-Black', 'Kyurem-White',
+			'Lugia', 'Lunala', 'Marshadow', 'Melmetal', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia',
+			'Rayquaza', 'Regigigas', 'Reshiram', 'Urshifu-Base', 'Xerneas', 'Yveltal', 'Zacian', 'Zekrom', 'Zygarde-Complete',
+			'Arena Trap', 'Huge Power', 'Pure Power', 'Wonder Guard',
 		],
 		modValueNumberA: 300,
 		onValidateTeam(team) {
@@ -1891,9 +1895,8 @@ export const Formats: FormatList = [
 					problems.push("Bitches are limited to " + format.modValueNumberA.toString() + " BST, but " + bitchSpecies.name + " has " + bitchBST.toString() + "!");
 				}
 			}
-			let uberBitches = format.restricted || [];
-			let uberPokemon = format.cannotMega || [];
-			if (uberPokemon.includes(beggarSpecies.name) || set.ability === 'Power Construct' || uberBitches.includes(bitchSpecies.name)) return ["" + beggarSpecies.name + " is not allowed to hold " + bitchSpecies.name + "."];
+			let uberPokemon = format.restricted || [];
+			if (uberPokemon.includes(beggarSpecies.name) || set.ability === 'Power Construct') return ["" + beggarSpecies.name + " is not allowed to hold " + bitchSpecies.name + "."];
 			
 			// Load BnB mod functions
 			// @ts-ignore
@@ -1906,22 +1909,22 @@ export const Formats: FormatList = [
 			let postBeggarAbilityName = mixedSpecies.abilities[oAbilitySlot];
 			let postBeggarAbilityId = toID(postBeggarAbilityName);
 			//console.log("postBeggarAbilityId: " + postBeggarAbilityId);
-			let abilityTest = '-ability:'+postBeggarAbilityId;
-			//console.log("abilityTest: " + abilityTest);
+			let abilityBanTest = '-ability:'+postBeggarAbilityId;
+			//console.log("abilityBanTest: " + abilityBanTest);
+			let abilityRestrictedTest = '*ability:'+postBeggarAbilityId;
 			ruleTable.forEach((v, rule) => {
 				//console.log("BnB rule: " + rule);
-				if( rule === abilityTest ) {
+				if( rule === abilityBanTest ) {
 					//console.log("BnB rule IN ");
-					problems.push("If "+set.name+" beggar-evolves with the ability "+ set.ability + ", it will gain the banned ability "
+					problems.push("If "+set.name+" beggar-evolved with the ability "+ set.ability + ", it would gain the banned ability "
+						+ postBeggarAbilityName + " from its bitch "+ bitchSpecies.name + ".");
+				}
+				else if( rule === abilityRestrictedTest ) {
+					//console.log("BnB restriction IN ");
+					problems.push("If "+set.name+" beggar-evolved with the ability "+ set.ability + ", it would gain the restricted ability "
 						+ postBeggarAbilityName + " from its bitch "+ bitchSpecies.name + ".");
 				}
 			});
-			let restrictedAbilities = format.restrictedAbilities || [];
-			if (restrictedAbilities.includes(postBeggarAbilityId)) {
-				//console.log("BnB restriction IN ");
-				problems.push("If "+set.name+" beggar-evolves with the ability "+ set.ability + ", it will gain the restricted ability "
-					+ postBeggarAbilityName + " from its bitch "+ bitchSpecies.name + ".");
-			}
 			return problems;
 		},
 		onBegin() {
