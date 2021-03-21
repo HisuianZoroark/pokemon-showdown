@@ -105,7 +105,7 @@ export const Formats: FormatList = [
 			'King\'s Rock', 'Baton Pass', 'Electrify', 'Hypnosis', 'Sing', 'Sleep Powder',
 		],
 		unbanlist: [
-			'kriketune', 'luminon',
+			'Kriketune', 'Luminon',
 		],
 		restricted: [
 			'Acupressure', 'Astral Barrage', 'Belly Drum', 'Bolt Beak', 'Double Iron Bash', 'Extreme Speed', 'Fishious Rend', 'Geomancy',
@@ -123,7 +123,7 @@ export const Formats: FormatList = [
 
 		mod: 'gen8',
 		ruleset: [
-			'Standard', 'STABmons Move Legality', 'Dynamax Clause', '2 Ability Clause', '2 ability clause', '!Obtainable Abilities',
+			'Standard', 'STABmons Move Legality', 'Dynamax Clause', '2 Ability Clause', '!Obtainable Abilities',
 		],
 		banlist: [
 			'Calyrex-Ice', 'Calyrex-Shadow', 'Dialga', 'Eternatus', 'Giratina', 'Groudon', 'Ho-Oh', 'Kyogre',
@@ -183,7 +183,7 @@ export const Formats: FormatList = [
 			'Standard', 'STABmons Move Legality', 'Dynamax Clause', '2 Ability Clause', '!Obtainable Abilities',
 		],
 		banlist: [
-			'nu++publ>1', 'pu>1', 'ru++nubl>1', 'uber++ou++uubl>1', 'uu++rubl>1', 'Archeops', 'Blacephalon', 'Calyrex-Ice',
+			'NU ++ PUBL > 1', 'PU > 1', 'RU ++ NUBL > 1', 'UU ++ RUBL > 1', 'Uber ++ OU ++ UUBL > 1', 'Archeops', 'Blacephalon', 'Calyrex-Ice',
 			'Calyrex-Shadow', 'Chandelure', 'Dialga', 'Dragapult', 'Eternatus', 'Genesect', 'Giratina', 'Groudon',
 			'Ho-Oh', 'Kartana', 'Keldeo', 'Kyogre', 'Kyurem-Black', 'Kyurem-White', 'Landorus-Therian', 'Latios',
 			'Lugia', 'Lunala', 'Marshadow', 'Melmetal', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane',
@@ -254,9 +254,9 @@ export const Formats: FormatList = [
 			'Kartana', 'Kyurem-Black', 'Kyurem-White', 'Landorus-Therian', 'Lugia', 'Lunala', 'Mamoswine', 'Marshadow',
 			'Melmetal', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia', 'Rayquaza', 'Regigigas',
 			'Reshiram', 'Urshifu-Base', 'Xerneas', 'Yveltal', 'Zacian', 'Zekrom', 'Zygarde-Base', 'Zygarde-Complete',
-			'Acupressure', 'Belly Drum', 'Bolt Beak', 'Boomburst', 'Double Iron Bash', 'Extreme Speed', 'Fishious Rend', 'Geomancy',
-			'Glacial Lance', 'Lovely Kiss', 'Shell Smash', 'Shift Gear', 'Spore', 'Thousand Arrows', 'Transform', 'V-create',
-			'Wicked Blow', 'astral barrage',
+			'Acupressure', 'Astral Barrage', 'Belly Drum', 'Bolt Beak', 'Boomburst', 'Double Iron Bash', 'Extreme Speed', 'Fishious Rend',
+			'Geomancy', 'Glacial Lance', 'Lovely Kiss', 'Shell Smash', 'Shift Gear', 'Spore', 'Thousand Arrows', 'Transform',
+			'V-create', 'Wicked Blow',
 		],
 	},
 	{
