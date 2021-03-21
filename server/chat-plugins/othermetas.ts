@@ -8,7 +8,7 @@
 //#region TrashChannel
 import {TrashChannelChatSupport} from '../../.trashchannel-dist/trashchannel-chatsupport';
 //#endregion
-import {Utils} from '../../lib/utils';
+import {Utils} from '../../lib';
 
 interface StoneDeltas {
 	baseStats: {[stat in StatName]: number};
@@ -17,7 +17,7 @@ interface StoneDeltas {
 	type?: string;
 }
 
-type TierShiftTiers = 'UU' | 'RUBL' | 'RU' | 'NUBL' | 'NU' | 'PUBL' | 'PU' | 'NFE' | 'LC Uber' | 'LC';
+type TierShiftTiers = 'UU' | 'RUBL' | 'RU' | 'NUBL' | 'NU' | 'PUBL' | 'PU' | 'NFE' | 'LC';
 
 function getMegaStone(stone: string, mod = 'gen8'): Item | null {
 	let dex = Dex;
@@ -62,7 +62,7 @@ export const commands: ChatCommands = {
 			buffer += `- <a href="https://www.smogon.com/forums/forums/531/">Other Metagames Forum</a><br />`;
 			if (!target) return this.sendReplyBox(buffer);
 		}
-		const showMonthly = (target === 'all' || target === 'omofthemonth' || target === 'omotm' || target === 'month');
+		const showMonthly = (target === 'all' || target === 'omofthemonth' || target === 'month');
 
 		if (target === 'all') {
 			// Display OMotM formats, with forum thread links as caption
@@ -295,7 +295,6 @@ export const commands: ChatCommands = {
 			PUBL: 30,
 			PU: 40,
 			NFE: 40,
-			'LC Uber': 40,
 			LC: 40,
 		};
 		let tier = species.tier;
@@ -464,7 +463,7 @@ export const commands: ChatCommands = {
 	crossevo: 'crossevolve',
 	crossevolve(target, user, room) {
 		if (!this.runBroadcast()) return;
-		if (!target || !target.includes(',')) return this.parse(`/help crossevo`);
+		if (!target?.includes(',')) return this.parse(`/help crossevo`);
 
 		const pokes = target.split(',');
 		const species = Dex.getSpecies(pokes[0]);

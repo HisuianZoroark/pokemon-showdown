@@ -1,4 +1,4 @@
-import {Utils} from '../lib/utils';
+import {Utils} from '../lib';
 import {toID, BasicEffect} from './dex-data';
 import {EventMethods} from './dex-conditions';
 
@@ -216,7 +216,6 @@ export class Format extends BasicEffect implements Readonly<BasicEffect> {
 	) => string | null;
 	readonly getEvoFamily?: (this: Format, speciesid: string) => ID;
 	readonly getSharedPower?: (this: Format, pokemon: Pokemon) => Set<string>;
-	readonly onAfterMega?: (this: Battle, pokemon: Pokemon) => void;
 	readonly onChangeSet?: (
 		this: TeamValidator, set: PokemonSet, format: Format, setHas?: AnyObject, teamHas?: AnyObject
 	) => string[] | void;
@@ -322,13 +321,26 @@ export function mergeFormatLists(main: FormatList, custom: FormatList | undefine
 					// Random Battle must be completely removed not to be selected as the default format
 					if("[Gen 8] Random Battle" === formatElem.name) continue;
 
+					const allowLadderSections =
+					[
+						// Main
+						"National Dex",
+						"Pet Mods",
+						"OM of the Month",
+						"Other Metagames",
+
+						// Generated Mashup Formats
+						"Mashups Spotlight",
+						"Official OM Mashups (Singles)",
+						"Official OM Mashups (Doubles)",
+						"Official OM Mashups (Little Cup)",
+					];
+
 					// Disable ladders and challenging for normie formats to clear space
-					if(current &&
-						("National Dex" !== current.section) &&
-						("Pet Mods" !== current.section) &&
-						("OM of the Month" !== current.section) &&
-						("Other Metagames" !== current.section)) {
+					if(current && (!allowLadderSections.includes(current.section))) {
+						// @ts-ignore
 						formatElem.searchShow = false;
+						// @ts-ignore
 						formatElem.challengeShow = false;
 					}
 				}
