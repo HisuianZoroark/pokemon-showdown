@@ -1,4 +1,4 @@
-import {Utils} from '../lib/utils';
+import {Utils} from '../lib';
 import {toID, BasicEffect} from './dex-data';
 import {EventMethods} from './dex-conditions';
 
@@ -216,7 +216,6 @@ export class Format extends BasicEffect implements Readonly<BasicEffect> {
 	) => string | null;
 	readonly getEvoFamily?: (this: Format, speciesid: string) => ID;
 	readonly getSharedPower?: (this: Format, pokemon: Pokemon) => Set<string>;
-	readonly onAfterMega?: (this: Battle, pokemon: Pokemon) => void;
 	readonly onChangeSet?: (
 		this: TeamValidator, set: PokemonSet, format: Format, setHas?: AnyObject, teamHas?: AnyObject
 	) => string[] | void;

@@ -376,7 +376,7 @@ export const Conditions: {[k: string]: ConditionData} = {
 			}
 			const hitMove = new this.dex.Move(data.moveData) as ActiveMove;
 
-			this.trySpreadMoveHit([target], data.source, hitMove);
+			this.trySpreadMoveHit([target], data.source, hitMove, true);
 		},
 	},
 	healreplacement: {
@@ -426,7 +426,7 @@ export const Conditions: {[k: string]: ConditionData} = {
 		onBasePowerPriority: 14,
 		onBasePower(basePower, user, target, move) {
 			this.debug('Gem Boost');
-			return this.chainModify([0x14CD, 0x1000]);
+			return this.chainModify([5325, 4096]);
 		},
 	},
 

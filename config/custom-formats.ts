@@ -883,7 +883,8 @@ export const Formats: FormatList = [
 		ruleset: ['[Gen 7] OU', 'Tier Shift Rule'],
 		banlist: ['Drought', 'Damp Rock', 'Deep Sea Tooth', 'Eviolite', 'Heat Rock'],
 	},
-	{
+	// 21/03/21: Disable to prevent conflicts as gen7stab was added to Showdown formats
+	/*{
 		name: "[Gen 7] STABmons",
 		desc: `Pok&eacute;mon can use any move of their typing, in addition to the moves they can normally learn.`,
 		threads: [
@@ -894,7 +895,7 @@ export const Formats: FormatList = [
 		ruleset: ['[Gen 7] OU', 'STABmons Move Legality'],
 		banlist: ['Aerodactyl', 'Araquanid', 'Blacephalon', 'Kartana', 'Komala', 'Kyurem-Black', 'Porygon-Z', 'Silvally', 'Tapu Koko', 'Tapu Lele', 'Thundurus-Base', 'King\'s Rock', 'Razor Fang'],
 		restricted: ['Acupressure', 'Belly Drum', 'Chatter', 'Extreme Speed', 'Geomancy', 'Lovely Kiss', 'Shell Smash', 'Shift Gear', 'Spore', 'Thousand Arrows'],
-	},
+	},*/
 	{
 		name: "[Gen 7] Camomons",
 		desc: `Pok&eacute;mon change type to match their first two moves.`,
@@ -1301,7 +1302,8 @@ export const Formats: FormatList = [
 			return problems;
 		},
 	},
-	{
+	// 21/03/21: Disable to prevent conflicts as gen7mnm was added to Showdown formats
+	/*{
 		name: "[Gen 7] Mix and Mega",
 		desc: `Mega Stones and Primal Orbs can be used on almost any Pok&eacute;mon with no Mega Evolution limit.`,
 
@@ -1315,7 +1317,7 @@ export const Formats: FormatList = [
 			'Beedrillite', 'Blazikenite', 'Kangaskhanite', 'Mawilite', 'Medichamite', 'Pidgeotite', 'Ultranecrozium Z',
 		],
 		unbanlist: ['Deoxys-Defense', 'Kyurem-Base', 'Necrozma-Base'],
-	},
+	},*/
 
 	// Pet Mods
 	///////////////////////////////////////////////////////////////////
