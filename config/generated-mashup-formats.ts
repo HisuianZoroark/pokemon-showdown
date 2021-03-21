@@ -81,66 +81,6 @@ export const Formats: FormatList = [
 		],
 	},
 	{
-		name: "[Gen 8] STAAABmons + DPP mons",
-		desc: `(No description)`,
-		threads: [
-			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[Gen 8] STAAABmons + DPP mons Resources</a>`,
-			`&bullet; <a href="https://www.smogon.com/forums/threads/3656429/">Vanilla STABmons</a>`
-		],
-
-		mod: 'gen8',
-		ruleset: [
-			'Standard', 'STABmons Move Legality', 'Dynamax Clause', '2 Ability Clause', '!Obtainable Abilities',
-		],
-		banlist: [
-			'Archeops', 'Blacephalon', 'Calyrex-Ice', 'Calyrex-Shadow', 'Chandelure', 'Dialga', 'Dragapult', 'Eternatus',
-			'Genesect', 'Giratina', 'Groudon', 'Ho-Oh', 'Kartana', 'Keldeo', 'Kyogre', 'Kyurem-Black',
-			'Kyurem-White', 'Lugia', 'Lunala', 'Marshadow', 'Melmetal', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings',
-			'Necrozma-Dusk-Mane', 'Palkia', 'Pheromosa', 'Rayquaza', 'Regigigas', 'Reshiram', 'Shedinja', 'Silvally',
-			'Solgaleo', 'Tapu Koko', 'Terrakion', 'Thundurus', 'Urshifu-Base', 'Volcarona', 'Xerneas', 'Yveltal',
-			'Zacian', 'Zamazenta', 'Zekrom', 'Zeraora', 'Zygarde-Base', 'Zygarde-Complete', 'Arena Trap', 'Comatose',
-			'Contrary', 'Fluffy', 'Fur Coat', 'Gorilla Tactics', 'Huge Power', 'Ice Scales', 'Illusion', 'Imposter',
-			'Innards Out', 'Intrepid Sword', 'Libero', 'Moody', 'Neutralizing Gas', 'Parental Bond', 'Power Construct', 'Protean',
-			'Pure Power', 'Shadow Tag', 'Simple', 'Speed Boost', 'Stakeout', 'Tinted Lens', 'Water Bubble', 'Wonder Guard',
-			'King\'s Rock', 'Baton Pass', 'Electrify', 'Hypnosis', 'Sing', 'Sleep Powder',
-		],
-		unbanlist: [
-			'Kriketune', 'Luminon',
-		],
-		restricted: [
-			'Acupressure', 'Astral Barrage', 'Belly Drum', 'Bolt Beak', 'Double Iron Bash', 'Extreme Speed', 'Fishious Rend', 'Geomancy',
-			'Glacial Lance', 'Lovely Kiss', 'No Retreat', 'Shell Smash', 'Shift Gear', 'Spore', 'Thousand Arrows', 'Transform',
-			'V-create', 'Wicked Blow',
-		],
-	},
-	{
-		name: "[Gen 8] STAAABmons OUBL (UUBERS)",
-		desc: `(No description)`,
-		threads: [
-			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[Gen 8] STAAABmons OUBL (UUBERS) Resources</a>`,
-			`&bullet; <a href="https://www.smogon.com/forums/threads/3656429/">Vanilla STABmons</a>`
-		],
-
-		mod: 'gen8',
-		ruleset: [
-			'Standard', 'STABmons Move Legality', 'Dynamax Clause', '2 Ability Clause', '!Obtainable Abilities',
-		],
-		banlist: [
-			'Calyrex-Ice', 'Calyrex-Shadow', 'Dialga', 'Eternatus', 'Giratina', 'Groudon', 'Ho-Oh', 'Kyogre',
-			'Kyurem-Black', 'Kyurem-White', 'Lugia', 'Lunala', 'Mamoswine', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings',
-			'Necrozma-Dusk-Mane', 'Palkia', 'Rayquaza', 'Reshiram', 'Shedinja', 'Urshifu-Base', 'Xerneas', 'Yveltal',
-			'Zekrom', 'Arena Trap', 'Comatose', 'Contrary', 'Fluffy', 'Fur Coat', 'Gorilla Tactics', 'Huge Power',
-			'Ice Scales', 'Illusion', 'Imposter', 'Innards Out', 'Intrepid Sword', 'Libero', 'Moody', 'Neutralizing Gas',
-			'Parental Bond', 'Power Construct', 'Protean', 'Pure Power', 'Shadow Tag', 'Simple', 'Speed Boost', 'Stakeout',
-			'Water Bubble', 'Wonder Guard', 'King\'s Rock', 'Baton Pass', 'Hypnosis', 'Sing', 'Sleep Powder',
-		],
-		restricted: [
-			'Acupressure', 'Astral Barrage', 'Belly Drum', 'Bolt Beak', 'Double Iron Bash', 'Electrify', 'Extreme Speed', 'Fishious Rend',
-			'Geomancy', 'Lovely Kiss', 'No Retreat', 'Shell Smash', 'Shift Gear', 'Spore', 'Thousand Arrows', 'Transform',
-			'V-create', 'Wicked Blow',
-		],
-	},
-	{
 		name: "[Gen 8] STAAABmons",
 		desc: `Pok&eacute;mon can use almost any ability and any move of their typing. Thread with resources and teams: https://www.smogon.com/forums/threads/staaabmons.3680144/`,
 		threads: [
@@ -167,67 +107,6 @@ export const Formats: FormatList = [
 		restricted: [
 			'Acupressure', 'Astral Barrage', 'Belly Drum', 'Bolt Beak', 'Double Iron Bash', 'Extreme Speed', 'Fishious Rend', 'Geomancy',
 			'Glacial Lance', 'Lovely Kiss', 'No Retreat', 'Oblivion Wing', 'Shell Smash', 'Shift Gear', 'Spore', 'Thousand Arrows',
-			'Transform', 'V-create', 'Wicked Blow',
-		],
-	},
-	{
-		name: "[Gen 8] STAAABmons 1 per tier",
-		desc: `(No description)`,
-		threads: [
-			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[Gen 8] STAAABmons 1 per tier Resources</a>`,
-			`&bullet; <a href="https://www.smogon.com/forums/threads/3656429/">Vanilla STABmons</a>`
-		],
-
-		mod: 'gen8',
-		ruleset: [
-			'Standard', 'STABmons Move Legality', 'Dynamax Clause', '2 Ability Clause', '!Obtainable Abilities',
-		],
-		banlist: [
-			'NU ++ PUBL > 1', 'PU > 1', 'RU ++ NUBL > 1', 'UU ++ RUBL > 1', 'Uber ++ OU ++ UUBL > 1', 'Archeops', 'Blacephalon', 'Calyrex-Ice',
-			'Calyrex-Shadow', 'Chandelure', 'Dialga', 'Dragapult', 'Eternatus', 'Genesect', 'Giratina', 'Groudon',
-			'Ho-Oh', 'Kartana', 'Keldeo', 'Kyogre', 'Kyurem-Black', 'Kyurem-White', 'Landorus-Therian', 'Latios',
-			'Lugia', 'Lunala', 'Marshadow', 'Melmetal', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane',
-			'Palkia', 'Pheromosa', 'Rayquaza', 'Regigigas', 'Reshiram', 'Shedinja', 'Silvally', 'Solgaleo',
-			'Tapu Koko', 'Terrakion', 'Thundurus', 'Urshifu-Base', 'Volcarona', 'Xerneas', 'Yveltal', 'Zacian',
-			'Zamazenta', 'Zekrom', 'Zeraora', 'Zygarde-Base', 'Zygarde-Complete', 'Arena Trap', 'Comatose', 'Contrary',
-			'Fluffy', 'Fur Coat', 'Gorilla Tactics', 'Huge Power', 'Ice Scales', 'Illusion', 'Imposter', 'Innards Out',
-			'Intrepid Sword', 'Libero', 'Moody', 'Neutralizing Gas', 'Parental Bond', 'Power Construct', 'Protean', 'Pure Power',
-			'Shadow Tag', 'Simple', 'Speed Boost', 'Stakeout', 'Tinted Lens', 'Water Bubble', 'Wonder Guard', 'King\'s Rock',
-			'Baton Pass', 'Electrify', 'Hypnosis', 'Sing', 'Sleep Powder',
-		],
-		restricted: [
-			'Acupressure', 'Astral Barrage', 'Belly Drum', 'Bolt Beak', 'Double Iron Bash', 'Extreme Speed', 'Fishious Rend', 'Geomancy',
-			'Glacial Lance', 'Lovely Kiss', 'No Retreat', 'Oblivion Wing', 'Shell Smash', 'Shift Gear', 'Spore', 'Thousand Arrows',
-			'Transform', 'V-create', 'Wicked Blow',
-		],
-	},
-	{
-		name: "[Gen 8] STAAABmons (Koko, Dnite, Melm, Chande Trial Run + Bolt Strike restrict)",
-		desc: `(No description)`,
-		threads: [
-			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[Gen 8] STAAABmons (Koko, Dnite, Melm, Chande Trial Run + Bolt Strike restrict) Resources</a>`,
-			`&bullet; <a href="https://www.smogon.com/forums/threads/3656429/">Vanilla STABmons</a>`
-		],
-
-		mod: 'gen8',
-		ruleset: [
-			'Standard', 'STABmons Move Legality', 'Dynamax Clause', '2 Ability Clause', '!Obtainable Abilities',
-		],
-		banlist: [
-			'Archeops', 'Blacephalon', 'Calyrex-Ice', 'Calyrex-Shadow', 'Dialga', 'Dragapult', 'Eternatus', 'Genesect',
-			'Giratina', 'Groudon', 'Ho-Oh', 'Kartana', 'Keldeo', 'Kyogre', 'Kyurem-Black', 'Kyurem-White',
-			'Lugia', 'Lunala', 'Marshadow', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia',
-			'Pheromosa', 'Rayquaza', 'Regigigas', 'Reshiram', 'Shedinja', 'Silvally', 'Solgaleo', 'Terrakion',
-			'Thundurus', 'Urshifu-Base', 'Volcarona', 'Xerneas', 'Yveltal', 'Zacian', 'Zamazenta', 'Zekrom',
-			'Zeraora', 'Zygarde-Base', 'Zygarde-Complete', 'Arena Trap', 'Comatose', 'Contrary', 'Fluffy', 'Fur Coat',
-			'Gorilla Tactics', 'Huge Power', 'Ice Scales', 'Illusion', 'Imposter', 'Innards Out', 'Intrepid Sword', 'Libero',
-			'Moody', 'Neutralizing Gas', 'Parental Bond', 'Power Construct', 'Protean', 'Pure Power', 'Shadow Tag', 'Simple',
-			'Speed Boost', 'Stakeout', 'Tinted Lens', 'Water Bubble', 'Wonder Guard', 'King\'s Rock', 'Baton Pass', 'Electrify',
-			'Hypnosis', 'Sing', 'Sleep Powder',
-		],
-		restricted: [
-			'Acupressure', 'Astral Barrage', 'Belly Drum', 'Bolt Beak', 'Bolt Strike', 'Double Iron Bash', 'Extreme Speed', 'Fishious Rend',
-			'Geomancy', 'Glacial Lance', 'Lovely Kiss', 'No Retreat', 'Shell Smash', 'Shift Gear', 'Spore', 'Thousand Arrows',
 			'Transform', 'V-create', 'Wicked Blow',
 		],
 	},
