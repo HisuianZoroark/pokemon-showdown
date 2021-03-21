@@ -21,7 +21,7 @@ export const Formats: FormatList = [
 			'Standard', 'Dynamax Clause', 'STABmons Move Legality',
 		],
 		banlist: [
-			'AG', 'King\'s Rock', 'Razor Fang', 'Baton Pass',
+			'AG', 'King\'s Rock', 'Baton Pass',
 		],
 		restricted: [
 			'Acupressure', 'Belly Drum', 'Bolt Beak', 'Double Iron Bash', 'Electrify', 'Extreme Speed', 'Fishious Rend', 'Geomancy',
