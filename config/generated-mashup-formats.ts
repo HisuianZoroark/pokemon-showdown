@@ -37,7 +37,7 @@ export const Formats: FormatList = [
 	},
 	{
 		name: "[Gen 8] Almost Any Ability Ubers",
-		desc: `(No description)`,
+		desc: `Pok&eacute;mon can use almost any ability in an Ubers environment.`,
 		threads: [
 			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[Gen 8] Almost Any Ability Ubers Resources</a>`,
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3676539/">Vanilla Ubers Metagame Discussion</a>`,
