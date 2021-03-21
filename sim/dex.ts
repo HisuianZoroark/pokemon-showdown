@@ -47,6 +47,9 @@ const DATA_DIR = path.resolve(__dirname, '../.data-dist');
 const MODS_DIR = path.resolve(__dirname, '../.data-dist/mods');
 const MAIN_FORMATS = path.resolve(__dirname, '../.config-dist/formats');
 const CUSTOM_FORMATS = path.resolve(__dirname, '../.config-dist/custom-formats');
+//#region TrashChannel: Generated mashup formats
+const GENERATED_MASHUP_FORMATS = path.resolve(__dirname, '../.config-dist/generated-mashup-formats');
+//#endregion
 
 const dexes: {[mod: string]: ModdedDex} = Object.create(null);
 
@@ -1513,6 +1516,15 @@ export class ModdedDex {
 				throw e;
 			}
 		}
+//#region TrashChannel: Additional generated mashup formats merge step
+		try {
+			customFormats = mergeFormatLists(customFormats, require(GENERATED_MASHUP_FORMATS).Formats);
+		} catch (e) {
+			if (e.code !== 'MODULE_NOT_FOUND' && e.code !== 'ENOENT') {
+				throw e;
+			}
+		}
+//#endregion
 		try {
 //#region TrashChannel: Prioritise custom formats over main
 			Formats = mergeFormatLists(customFormats, require(MAIN_FORMATS).Formats);

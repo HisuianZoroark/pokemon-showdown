@@ -322,13 +322,26 @@ export function mergeFormatLists(main: FormatList, custom: FormatList | undefine
 					// Random Battle must be completely removed not to be selected as the default format
 					if("[Gen 8] Random Battle" === formatElem.name) continue;
 
+					const allowLadderSections =
+					[
+						// Main
+						"National Dex",
+						"Pet Mods",
+						"OM of the Month",
+						"Other Metagames",
+
+						// Generated Mashup Formats
+						"Mashups Spotlight",
+						"Official OM Mashups (Singles)",
+						"Official OM Mashups (Doubles)",
+						"Official OM Mashups (Little Cup)",
+					];
+
 					// Disable ladders and challenging for normie formats to clear space
-					if(current &&
-						("National Dex" !== current.section) &&
-						("Pet Mods" !== current.section) &&
-						("OM of the Month" !== current.section) &&
-						("Other Metagames" !== current.section)) {
+					if(current && (!allowLadderSections.includes(current.section))) {
+						// @ts-ignore
 						formatElem.searchShow = false;
+						// @ts-ignore
 						formatElem.challengeShow = false;
 					}
 				}
