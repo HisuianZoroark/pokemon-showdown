@@ -221,8 +221,7 @@ export const Formats: FormatList = [
 		mod: 'gen8',
 		gameType: 'doubles',
 		ruleset: [
-			'Standard Doubles', 'Dynamax Clause', 'Swagger Clause', 'Obtainable', 'Species Clause', 'Nickname Clause', 'OHKO Clause', 'Evasion Moves Clause',
-			'Team Preview', 'HP Percentage Mod', 'Cancel Mod', 'Sleep Clause Mod', 'Endless Battle Clause', 'Camomons Rule',
+			'Standard Doubles', 'Dynamax Clause', 'Swagger Clause', 'Sleep Clause Mod', 'Camomons Rule',
 		],
 		banlist: [
 			'DUber', 'Calyrex-Ice', 'Calyrex-Shadow', 'Dialga', 'Dracovish', 'Dragonite', 'Eternatus', 'Genesect',
@@ -321,8 +320,7 @@ export const Formats: FormatList = [
 		mod: 'gen8',
 		maxLevel: 5,
 		ruleset: [
-			'Little Cup', 'Standard', 'Dynamax Clause', 'Obtainable', 'Species Clause', 'Nickname Clause', 'OHKO Clause', 'Evasion Moves Clause',
-			'Team Preview', 'HP Percentage Mod', 'Cancel Mod', 'Sleep Clause Mod', 'Endless Battle Clause', 'Camomons Rule',
+			'Little Cup', 'Standard', 'Dynamax Clause', 'Camomons Rule',
 		],
 		banlist: [
 			'Calyrex-Ice', 'Calyrex-Shadow', 'Corsola-Galar', 'Cutiefly', 'Darmanitan-Galar', 'Dialga', 'Dracovish', 'Dragonite',
