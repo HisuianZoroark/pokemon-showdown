@@ -1499,22 +1499,16 @@ export const Formats: FormatList = [
 			'Calyrex-Ice', 'Dialga', 'Eternatus', 'Gengar', 'Giratina', 'Groudon', 'Ho-Oh', 'Kyurem-Black', 'Kyurem-White',
 			'Lugia', 'Lunala', 'Marshadow', 'Melmetal', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia',
 			'Rayquaza', 'Regigigas', 'Reshiram', 'Urshifu-Base', 'Xerneas', 'Yveltal', 'Zacian', 'Zekrom', 'Zygarde-Complete',
-			'Arena Trap', 'Huge Power', 'Pure Power', 'Wonder Guard',
+			'Arena Trap', 'Huge Power', 'Pure Power', 'Water Bubble', 'Wonder Guard',
 		],
 		modValueNumberA: 300,
 		onValidateTeam(team) {
 			/**@type {{[k: string]: true}} */
 			let itemTable = {};
 			for (const set of team) {
-				let beggarSpecies = this.dex.getSpecies(set.species || set.name);
 				let bitchSpecies = this.dex.getSpecies(set.item);
-				if (this.dex.getRuleTable(this.format).has('-AG') ) {
-					if(['Venusaur', 'Blastoise', 'Zamazenta'].includes(beggarSpecies.baseSpecies)) {
-						return [`${beggarSpecies.name} is not allowed to hold ${set.item}.`];
-					}
-					if (!bitchSpecies.exists) continue;
-					if (itemTable[bitchSpecies.id]) return ["You are limited to one of each Bitch.", "(You have more than one " + bitchSpecies.name + ")"];
-				}
+				if (!bitchSpecies.exists) continue;
+				if (itemTable[bitchSpecies.id]) return ["You are limited to one of each Bitch.", "(You have more than one " + bitchSpecies.name + ")"];
 				itemTable[bitchSpecies.id] = true;
 			}
 		},
