@@ -444,7 +444,7 @@ export const commands: ChatCommands = {
 		`/learn can also be prefixed by a generation acronym (e.g.: /dpplearn) to indicate which generation is used. Valid options are: rby gsc adv dpp bw2 oras usum`,
 	],
 
-	'!mergedexsearch': true,
+	/*'!mergedexsearch': true,
 	mergeds: 'mergedexsearch',
 	dsmerge: 'mergedexsearch',
 	mergedsearch: 'mergedexsearch',
@@ -536,7 +536,7 @@ export const commands: ChatCommands = {
 		`Parameters separated with '|' will be searched as alternatives for each other, e.g., 'fire | water' searches for all moves that are either Fire type or Water type.`,
 		`If a Pok\u00e9mon is included as a parameter, moves will be searched from its movepool.`,
 		`The order of the parameters does not matter.`,
-	],
+	],*/
 };
 
 function getMod(target: string) {
@@ -1212,7 +1212,7 @@ function runDexsearch(target: string, cmd: string, canAll: boolean, message: str
 			}
 			if (matched) continue;
 
-			let searchFormat = `gen${maxGen}ou`;
+			let searchFormat = `gen8ou`;
 			if (replaceSearchFormat) {
 				searchFormat = replaceSearchFormat.toString();
 			}
@@ -2038,6 +2038,7 @@ function runMovesearch(target: string, cmd: string, canAll: boolean, message: st
 }
 
 function runMergeMovesearch(target: string, cmd: string, canAll: boolean, message: string) {
+	// TrashChannel 21/03/22: doesn't work anymore due to changes with main
 	let learnsets = Object.assign({}, Dex.data.Learnsets);
 	let mergeLearnsets = Utils.deepClone(Dex.data.Learnsets);
 	let mergeDex = [];

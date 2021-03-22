@@ -369,4 +369,7 @@ export const Utils = {
 	randomElement, forceWrap, splitFirst,
 	stripHTML, visualize, getString,
 	escapeRegex,
+// #region TrashChannel
+	clampIntRange,
+// #endregion TrashChannel
 };
