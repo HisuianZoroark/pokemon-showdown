@@ -2239,7 +2239,7 @@ function runMergeMovesearch(target: string, cmd: string, canAll: boolean, messag
 				continue;
 			}
 
-			const species = Dex.getSpecies(target);
+			const species = Dex.species.get(target);
 			if (species.exists) {
 				if (parameters.length > 1) return {reply: "A Pok\u00e9mon learnset cannot have alternative parameters."};
 				if (targetMons.some(mon => mon.name === species.name && isNotSearch !== mon.shouldBeExcluded)) return {reply: "A search cannot both exclude and include the same Pok\u00e9mon."};
@@ -2418,14 +2418,14 @@ function runMergeMovesearch(target: string, cmd: string, canAll: boolean, messag
 		//console.log(mergeLearnsets);
 		let mergeLearnset = getSpeciesMergeLearnset(species, mergeLearnsets);
 		if (!mergeLearnset) {
-			species = Dex.getSpecies(species.baseSpecies);
+			species = Dex.species.get(species.baseSpecies);
 			mergeLearnset = getSpeciesMergeLearnset(species, mergeLearnsets) || {};
 		}
 		//console.log(mergeLearnset);
 		const lsetData = new Set(Object.keys(mergeLearnset));
 
 		while (species.prevo) {
-			species = Dex.getSpecies(species.prevo);
+			species = Dex.species.get(species.prevo);
 			mergeLearnset = getSpeciesMergeLearnset(species, mergeLearnsets);
 			for (const move in mergeLearnset) {
 				lsetData.add(move);
@@ -2440,7 +2440,7 @@ function runMergeMovesearch(target: string, cmd: string, canAll: boolean, messag
 	const validMoves = new Set(Object.keys(Dex.data.Moves));
 	validMoves.delete('magikarpsrevenge');
 	for (const mon of targetMons) {
-		const species = Dex.getSpecies(mon.name);
+		const species = Dex.species.get(mon.name);
 		const lsetData = getFullMergeLearnsetOfPokemon(species, mergeLearnsets);
 		// This pokemon's learnset needs to be excluded, so we perform a difference operation on the valid moveset and this pokemon's moveset.
 		if (mon.shouldBeExcluded) {

@@ -15,10 +15,10 @@ export const TrashChannelChatSupport = new class TrashChannelChatSupport {
 	getMegaStone(stone: string, mod = 'gen8'): Item | null {
 		let dex = Dex;
 		if (mod && toID(mod) in Dex.dexes) dex = Dex.mod(toID(mod));
-		const item = dex.getItem(stone);
+		const item = Dex.items.get(stone);
 		if (!item.exists) {
 			if (toID(stone) === 'dragonascent') {
-				const move = dex.getMove(stone);
+				const move = Dex.moves.get(stone);
 				return {
 					id: move.id,
 					name: move.name,
@@ -44,45 +44,47 @@ export const TrashChannelChatSupport = new class TrashChannelChatSupport {
 		let dex = Dex;
 		if (mod && toID(mod) in Dex.dexes) dex = Dex.mod(toID(mod));
 		const stone = this.getMegaStone(stoneName);
-		if (!stone || (dex.gen >= 8 && ['redorb', 'blueorb'].includes(stone.id))) return commandContext.errorReply(`Error: Mega Stone not found.`);
-		if (!species) return commandContext.errorReply(`Error: Pokemon not found.`);
-		if (!species.exists) return commandContext.errorReply(`Error: Pokemon not found.`);
+		if (!stone || (dex.gen >= 8 && ['redorb', 'blueorb'].includes(stone.id))) {
+			throw new Chat.ErrorMessage(`Error: Mega Stone not found.`);
+		}
+		if (!species) throw new Chat.ErrorMessage(`Error: Pokemon not found.`);
+		if (!species.exists) throw new Chat.ErrorMessage(`Error: Pokemon not found.`);
 		if (species.isMega || species.name === 'Necrozma-Ultra') { // Mega Pokemon and Ultra Necrozma cannot be mega evolved
-			commandContext.errorReply(`Warning: You cannot mega evolve Mega Pokemon and Ultra Necrozma in Mix and Mega.`);
+			throw new Chat.ErrorMessage(`Warning: You cannot mega evolve Mega Pokemon and Ultra Necrozma in Mix and Mega.`);
 		}
-		const banlist = Dex.getFormat('gen8mixandmega').banlist;
+		const banlist = Dex.formats.get('gen8mixandmega').banlist;
 		if (banlist.includes(stone.name)) {
-			commandContext.errorReply(`Warning: ${stone.name} is banned from Mix and Mega.`);
+			throw new Chat.ErrorMessage(`Warning: ${stone.name} is banned from Mix and Mega.`);
 		}
-		const restrictedStones = Dex.getFormat('gen8mixandmega').banlist || [];
+		const restrictedStones = Dex.formats.get('gen8mixandmega').banlist || [];
 		if (restrictedStones.includes(stone.name) && species.name !== stone.megaEvolves) {
-			commandContext.errorReply(`Warning: ${stone.name} is restricted to ${stone.megaEvolves} in Mix and Mega.`);
+			throw new Chat.ErrorMessage(`Warning: ${stone.name} is restricted to ${stone.megaEvolves} in Mix and Mega.`);
 		}
-		const cannotMega = Dex.getFormat('gen8mixandmega').cannotMega || [];
+		const cannotMega = Dex.formats.get('gen8mixandmega').cannotMega || [];
 		if (cannotMega.includes(species.name) && species.name !== stone.megaEvolves && !species.isMega) { // Separate messages because there's a difference between being already mega evolved / NFE and being banned from mega evolving
-			commandContext.errorReply(`Warning: ${species.name} is banned from mega evolving with a non-native mega stone in Mix and Mega.`);
+			throw new Chat.ErrorMessage(`Warning: ${species.name} is banned from mega evolving with a non-native mega stone in Mix and Mega.`);
 		}
 		if (['Multitype', 'RKS System'].includes(species.abilities['0']) && !['Arceus', 'Silvally'].includes(species.name)) {
-			commandContext.errorReply(`Warning: ${species.name} is required to hold ${species.baseSpecies === 'Arceus' && species.requiredItems ? 'either ' + species.requiredItems[0] + ' or ' + species.requiredItems[1] : species.requiredItem}.`);
+			throw new Chat.ErrorMessage(`Warning: ${species.name} is required to hold ${species.baseSpecies === 'Arceus' && species.requiredItems ? 'either ' + species.requiredItems[0] + ' or ' + species.requiredItems[1] : species.requiredItem}.`);
 		}
 		if (toID(stoneName) === 'dragonascent' && !['smeargle', 'rayquaza', 'rayquazamega'].includes(toID(species.name))) {
-			commandContext.errorReply(`Warning: Only Pokemon with access to Dragon Ascent can mega evolve with Mega Rayquaza's traits.`);
+			throw new Chat.ErrorMessage(`Warning: Only Pokemon with access to Dragon Ascent can mega evolve with Mega Rayquaza's traits.`);
 		}
 		// Fake Pokemon and Mega Stones
 		if (species.isNonstandard === "CAP") {
-			commandContext.errorReply(`Warning: ${species.name} is not a real Pokemon and is therefore not usable in Mix and Mega.`);
+			throw new Chat.ErrorMessage(`Warning: ${species.name} is not a real Pokemon and is therefore not usable in Mix and Mega.`);
 		}
 		if (stone.isNonstandard === "CAP") {
-			commandContext.errorReply(`Warning: ${stone.name} is a fake mega stone created by the CAP Project and is restricted to the CAP ${stone.megaEvolves}.`);
+			throw new Chat.ErrorMessage(`Warning: ${stone.name} is a fake mega stone created by the CAP Project and is restricted to the CAP ${stone.megaEvolves}.`);
 		}
-		let baseSpecies = Dex.getSpecies(stone.megaEvolves);
-		let megaSpecies = Dex.getSpecies(stone.megaStone);
+		let baseSpecies = Dex.species.get(stone.megaEvolves);
+		let megaSpecies = Dex.species.get(stone.megaStone);
 		if (stone.id === 'redorb') { // Orbs do not have 'Item.megaStone' or 'Item.megaEvolves' properties.
-			megaSpecies = Dex.getSpecies("Groudon-Primal");
-			baseSpecies = Dex.getSpecies("Groudon");
+			megaSpecies = Dex.species.get("Groudon-Primal");
+			baseSpecies = Dex.species.get("Groudon");
 		} else if (stone.id === 'blueorb') {
-			megaSpecies = Dex.getSpecies("Kyogre-Primal");
-			baseSpecies = Dex.getSpecies("Kyogre");
+			megaSpecies = Dex.species.get("Kyogre-Primal");
+			baseSpecies = Dex.species.get("Kyogre");
 		}
 		const deltas: StoneDeltas = {
 			baseStats: Object.create(null),
@@ -155,48 +157,48 @@ export const TrashChannelChatSupport = new class TrashChannelChatSupport {
 
 	gen7mixandmegainternal(commandContext: CommandContext, species: Species, stoneName: string, tierTextSuffix: string) {
 		const stone = this.getMegaStone(stoneName);
-		if (!stone || !stone.exists) return commandContext.errorReply(`Error: Mega Stone not found.`);
-		if (!species) return commandContext.errorReply(`Error: Pokemon not found.`);
-		if (!species.exists) return commandContext.errorReply(`Error: Pokemon not found.`);
+		if (!stone || !stone.exists) throw new Chat.ErrorMessage(`Error: Mega Stone not found.`);
+		if (!species) throw new Chat.ErrorMessage(`Error: Pokemon not found.`);
+		if (!species.exists) throw new Chat.ErrorMessage(`Error: Pokemon not found.`);
 		if (species.isMega || species.name === 'Necrozma-Ultra') { // Mega Pokemon and Ultra Necrozma cannot be mega evolved
-			commandContext.errorReply(`Warning: You cannot mega evolve Mega Pokemon and Ultra Necrozma in Mix and Mega.`);
+			throw new Chat.ErrorMessage(`Warning: You cannot mega evolve Mega Pokemon and Ultra Necrozma in Mix and Mega.`);
 		}
-		const banlist = Dex.getFormat('gen7mixandmega').banlist;
+		const banlist = Dex.formats.get('gen7mixandmega').banlist;
 		if (banlist.includes(stone.name)) {
-			commandContext.errorReply(`Warning: ${stone.name} is banned from Mix and Mega.`);
+			throw new Chat.ErrorMessage(`Warning: ${stone.name} is banned from Mix and Mega.`);
 		}
-		const restrictedStones = Dex.getFormat('gen7mixandmega').restrictedStones || [];
+		const restrictedStones = Dex.formats.get('gen7mixandmega').restrictedStones || [];
 		if (restrictedStones.includes(stone.name) && species.name !== stone.megaEvolves) {
-			commandContext.errorReply(`Warning: ${stone.name} is restricted to ${stone.megaEvolves} in Mix and Mega.`);
+			throw new Chat.ErrorMessage(`Warning: ${stone.name} is restricted to ${stone.megaEvolves} in Mix and Mega.`);
 		}
-		const cannotMega = Dex.getFormat('gen7mixandmega').cannotMega || [];
+		const cannotMega = Dex.formats.get('gen7mixandmega').cannotMega || [];
 		if (cannotMega.includes(species.name) && species.name !== stone.megaEvolves && !species.isMega) { // Separate messages because there's a difference between being already mega evolved / NFE and being banned from mega evolving
-			commandContext.errorReply(`Warning: ${species.name} is banned from mega evolving with a non-native mega stone in Mix and Mega.`);
+			throw new Chat.ErrorMessage(`Warning: ${species.name} is banned from mega evolving with a non-native mega stone in Mix and Mega.`);
 		}
 		if (['Multitype', 'RKS System'].includes(species.abilities['0']) && !['Arceus', 'Silvally'].includes(species.name)) {
-			commandContext.errorReply(`Warning: ${species.name} is required to hold ${species.baseSpecies === 'Arceus' && species.requiredItems ? 'either ' + species.requiredItems[0] + ' or ' + species.requiredItems[1] : species.requiredItem}.`);
+			throw new Chat.ErrorMessage(`Warning: ${species.name} is required to hold ${species.baseSpecies === 'Arceus' && species.requiredItems ? 'either ' + species.requiredItems[0] + ' or ' + species.requiredItems[1] : species.requiredItem}.`);
 		}
 		if (stone.isUnreleased) {
-			commandContext.errorReply(`Warning: ${stone.name} is unreleased and is not usable in current Mix and Mega.`);
+			throw new Chat.ErrorMessage(`Warning: ${stone.name} is unreleased and is not usable in current Mix and Mega.`);
 		}
 		if (toID(stoneName) === 'dragonascent' && !['smeargle', 'rayquaza', 'rayquazamega'].includes(toID(species.name))) {
-			commandContext.errorReply(`Warning: Only Pokemon with access to Dragon Ascent can mega evolve with Mega Rayquaza's traits.`);
+			throw new Chat.ErrorMessage(`Warning: Only Pokemon with access to Dragon Ascent can mega evolve with Mega Rayquaza's traits.`);
 		}
 		// Fake Pokemon and Mega Stones
 		if (species.isNonstandard) {
-			commandContext.errorReply(`Warning: ${species.name} is not a real Pokemon and is therefore not usable in Mix and Mega.`);
+			throw new Chat.ErrorMessage(`Warning: ${species.name} is not a real Pokemon and is therefore not usable in Mix and Mega.`);
 		}
 		if (stone.isNonstandard) {
-			commandContext.errorReply(`Warning: ${stone.name} is a fake mega stone created by the CAP Project and is restricted to the CAP ${stone.megaEvolves}.`);
+			throw new Chat.ErrorMessage(`Warning: ${stone.name} is a fake mega stone created by the CAP Project and is restricted to the CAP ${stone.megaEvolves}.`);
 		}
-		let baseSpecies = Dex.getSpecies(stone.megaEvolves);
-		let megaSpecies = Dex.getSpecies(stone.megaStone);
+		let baseSpecies = Dex.species.get(stone.megaEvolves);
+		let megaSpecies = Dex.species.get(stone.megaStone);
 		if (stone.id === 'redorb') { // Orbs do not have 'Item.megaStone' or 'Item.megaEvolves' properties.
-			megaSpecies = Dex.getSpecies("Groudon-Primal");
-			baseSpecies = Dex.getSpecies("Groudon");
+			megaSpecies = Dex.species.get("Groudon-Primal");
+			baseSpecies = Dex.species.get("Groudon");
 		} else if (stone.id === 'blueorb') {
-			megaSpecies = Dex.getSpecies("Kyogre-Primal");
-			baseSpecies = Dex.getSpecies("Kyogre");
+			megaSpecies = Dex.species.get("Kyogre-Primal");
+			baseSpecies = Dex.species.get("Kyogre");
 		}
 		const deltas: StoneDeltas = {
 			baseStats: Object.create(null),

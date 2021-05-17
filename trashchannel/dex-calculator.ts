@@ -95,14 +95,14 @@ export const DexCalculator = new class DexCalculator {
 
 	getFullLearnsetOfPokemon(species: Species) {
 		if (!species.learnset) {
-			species = Dex.getSpecies(species.baseSpecies);
+			species = Dex.species.get(species.baseSpecies);
 			// @ts-ignore
 			species.learnset = species.learnset || {};
 		}
 		const lsetData = new Set(Object.keys(species.learnset));
 
 		while (species.prevo) {
-			species = Dex.getSpecies(species.prevo);
+			species = Dex.species.get(species.prevo);
 			for (const move in species.learnset) {
 				lsetData.add(move);
 			}
@@ -120,7 +120,7 @@ export const DexCalculator = new class DexCalculator {
 		let dex = {};
 		for (const move of lsetData) {
 			// @ts-ignore
-			dex[move] = Dex.getMove(move);
+			dex[move] = Dex.moves.get(move);
 		}
 
 		// Get those that match the specified type

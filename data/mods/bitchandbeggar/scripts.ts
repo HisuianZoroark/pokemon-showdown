@@ -13,7 +13,7 @@ export const Scripts: ModdedBattleScriptsData = {
 	canMegaEvo(pokemon) {
 		if (pokemon.species.isMega || pokemon.species.isPrimal) return null;
 
-		let bitchSpecies = this.dex.getSpecies(pokemon.item);
+		let bitchSpecies = this.Dex.species.get(pokemon.item);
 		if (bitchSpecies.exists) { // Bitch and beggar
 			return bitchSpecies.id;
 		}
@@ -34,7 +34,7 @@ export const Scripts: ModdedBattleScriptsData = {
 			}
 		}
 
-		// Take care of regular megaevo case first (this.dex.getSpecies(pokemon.canMegaEvo).exists is true on Mega Stones!)
+		// Take care of regular megaevo case first (this.Dex.species.get(pokemon.canMegaEvo).exists is true on Mega Stones!)
 		let item = pokemon.getItem();
 		let isBeggarEvo = !pokemon.getItem().exists;
 
@@ -74,7 +74,7 @@ export const Scripts: ModdedBattleScriptsData = {
 		const species = this.getMixedSpecies(pokemon.m.originalSpecies, bitchSpecies);
 		
 		// Update ability for slot
-		let oSpecies = this.dex.getSpecies(pokemon.species);
+		let oSpecies = this.Dex.species.get(pokemon.species);
 		let oAbilitySlot = pokemon.calcActiveAbilitySlot();
 		// @ts-ignore
 		species.abilities = {'0': species.abilities[oAbilitySlot]};

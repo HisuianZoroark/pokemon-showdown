@@ -2267,7 +2267,7 @@ export class Battle {
 			team2PokemonLeft += this.sides[3]!.pokemonLeft;
 		}
 		//#region TrashChannel
-		const format = Dex.getFormat(this.format, true);
+		const format = Dex.formats.get(this.format, true);
 		let ruleTable = this.dex.getRuleTable(format);
 		if(ruleTable.has('suicidecupbattleeffects')) {
 			if (!team1PokemonLeft && !team2PokemonLeft && !team3PokemonLeft && !team4PokemonLeft) {

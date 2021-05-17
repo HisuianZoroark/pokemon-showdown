@@ -42,12 +42,12 @@ let Scripts = {
 
 		// Do we have a proper sprite for it?
 		// @ts-ignore assert non-null pokemon.canMegaEvo
-		if (isUltraBurst || this.dex.getSpecies(pokemon.canMegaEvo).baseSpecies === pokemon.m.originalSpecies) {
+		if (isUltraBurst || this.Dex.species.get(pokemon.canMegaEvo).baseSpecies === pokemon.m.originalSpecies) {
 			pokemon.formeChange(species, pokemon.getItem(), true);
 		} else {
-			let oSpecies = this.dex.getSpecies(pokemon.m.originalSpecies);
+			let oSpecies = this.Dex.species.get(pokemon.m.originalSpecies);
 			// @ts-ignore
-			let oMegaSpecies = this.dex.getSpecies(species.originalMega);
+			let oMegaSpecies = this.Dex.species.get(species.originalMega);
 			pokemon.formeChange(species, pokemon.getItem(), true);
 			this.add('-start', pokemon, oMegaSpecies.requiredItem || oMegaSpecies.requiredMove, '[silent]');
 			if (oSpecies.types.length !== pokemon.species.types.length || oSpecies.types[1] !== pokemon.species.types[1]) {
@@ -60,8 +60,8 @@ let Scripts = {
 		return true;
 	},
 	getMixedSpecies(originalSpecies, megaSpecies) {
-		let originalSpecies = this.dex.getSpecies(originalSpecies);
-		let megaSpecies = this.dex.getSpecies(megaSpecies);
+		let originalSpecies = this.Dex.species.get(originalSpecies);
+		let megaSpecies = this.Dex.species.get(megaSpecies);
 
 		// Mega and Mega: Ignore regular quick return for post-mega formes
 		// @ts-ignore
@@ -71,7 +71,7 @@ let Scripts = {
 		return species;
 	},
 	getMegaDeltas(megaSpecies) {
-		let baseSpecies = this.dex.getSpecies(megaSpecies.baseSpecies);
+		let baseSpecies = this.Dex.species.get(megaSpecies.baseSpecies);
 		/**@type {{ability: string, baseStats: {[k: string]: number}, weightkg: number, originalMega: string, requiredItem: string | undefined, type?: string, isMega?: boolean, isPrimal?: boolean}} */
 		let deltas = {
 			ability: megaSpecies.abilities['0'],
@@ -97,7 +97,7 @@ let Scripts = {
 	},
 	doGetMixedSpecies(speciesOrSpeciesName, deltas) {
 		if (!deltas) throw new TypeError("Must specify deltas!");
-		let species = this.dex.deepClone(this.dex.getSpecies(speciesOrSpeciesName));
+		let species = this.dex.deepClone(this.Dex.species.get(speciesOrSpeciesName));
 		species.abilities = {'0': deltas.ability};
 		if (species.types[0] === deltas.type) {
 			species.types = [deltas.type];

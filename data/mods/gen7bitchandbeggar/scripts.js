@@ -16,13 +16,13 @@ let Scripts = {
 	},
 	canMegaEvo(pokemon) {
 		if (pokemon.species.isMega || pokemon.species.isPrimal) return null;
-		let bitchSpecies = this.dex.getSpecies(pokemon.item);
+		let bitchSpecies = this.Dex.species.get(pokemon.item);
 		if (bitchSpecies.exists) { // Bitch and beggar
 			return bitchSpecies.id;
 		}
 		
 		// Regular mega evo case: have to copy and paste code from data/scripts.js for now
-		let altForme = pokemon.baseSpecies.otherFormes && this.dex.getSpecies(pokemon.baseSpecies.otherFormes[0]);
+		let altForme = pokemon.baseSpecies.otherFormes && this.Dex.species.get(pokemon.baseSpecies.otherFormes[0]);
 		let item = pokemon.getItem();
 		if (altForme && altForme.isMega && altForme.requiredMove && pokemon.baseMoves.includes(toID(altForme.requiredMove)) && !item.zMove) return altForme.species;
 		if (item.megaEvolves !== pokemon.baseSpecies.baseSpecies || item.megaStone === pokemon.species) {
@@ -43,7 +43,7 @@ let Scripts = {
 			}
 		}
 
-		// Take care of regular megaevo case first (this.dex.getSpecies(pokemon.canMegaEvo).exists is true on Mega Stones!)
+		// Take care of regular megaevo case first (this.Dex.species.get(pokemon.canMegaEvo).exists is true on Mega Stones!)
 		let item = pokemon.getItem();
 		let isBeggarEvo = !pokemon.getItem().exists;
 
@@ -83,7 +83,7 @@ let Scripts = {
 		const species = this.getMixedSpecies(pokemon.m.originalSpecies, bitchSpecies);
 		
 		// Update ability for slot
-		let oSpecies = this.dex.getSpecies(pokemon.species);
+		let oSpecies = this.Dex.species.get(pokemon.species);
 		let oAbilitySlot = pokemon.calcActiveAbilitySlot();
 		// @ts-ignore
 		species.abilities = {'0': species.abilities[oAbilitySlot]};

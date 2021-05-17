@@ -70,7 +70,7 @@ export const commands: ChatCommands = {
 		if (Punishments.isBattleBanned(user)) {
 			return this.popupReply(`You are banned from battling and cannot battle users.`);
 		}
-		const format = Dex.getFormat(formatName, true);
+		const format = Dex.formats.get(formatName, true);
 
 		/*
 		if( typeof format !== 'Format') {
@@ -94,7 +94,7 @@ export const commands: ChatCommands = {
 	'350cuptiershift': function (target, room, user) {
 		if (!this.runBroadcast()) return;
 		if (!toID(target)) return this.parse('/help 350tiershift');
-		let species = Object.assign({}, Dex.getSpecies(target));
+		let species = Object.assign({}, Dex.species.get(target));
 		if (!species.exists) return this.errorReply("Error: Pokemon not found.");
 
 		// Deepclone species to avoid permanently altering the original
@@ -121,7 +121,7 @@ export const commands: ChatCommands = {
 		const stoneName = sep.slice(1).join('@').trim().split(',');
 		const mod = stoneName[1];
 		if (mod && toID(mod) in Dex.dexes) dex = Dex.mod(toID(mod));
-		const species = Dex.getSpecies(sep[0]);
+		const species = Dex.species.get(sep[0]);
 
 		let cloneSpecies = DexCalculator.deepClone(species);
 		cloneSpecies = Rulesets['tiershiftrule'].onModifySpecies(cloneSpecies, null, null, 'dummy'); // Set dummy effect to bypass internal validation
@@ -137,18 +137,18 @@ export const commands: ChatCommands = {
 		if (!this.runBroadcast()) return;
 		if (!toID(target) || !target.includes('@')) return this.parse('/help bitchandbeggar');
 		let sep = target.split('@');
-		let bitchSpecies = Dex.getSpecies(sep[1]);
-		let beggarSpecies = Object.assign({}, Dex.getSpecies(sep[0]));
+		let bitchSpecies = Dex.species.get(sep[1]);
+		let beggarSpecies = Object.assign({}, Dex.species.get(sep[0]));
 		if (!bitchSpecies.exists) return this.errorReply(`Error: Bitch Pokemon not found.`);
 		if (!beggarSpecies.exists) return this.errorReply(`Error: Beggar Pokemon not found.`);
 		if (beggarSpecies.isMega || beggarSpecies.name === 'Necrozma-Ultra') { // Mega Pokemon and Ultra Necrozma cannot be beggar evolved
 			this.errorReply(`Warning: You cannot beggar evolve Mega Pokemon and Ultra Necrozma in Bitch and Beggar.`);
 		}
-		let banlist = Dex.getFormat('gen8bitchandbeggar').banlist;
+		let banlist = Dex.formats.get('gen8bitchandbeggar').banlist;
 		if (banlist.includes(bitchSpecies.name)) {
 			this.errorReply(`Warning: ${bitchSpecies.name} is banned from Bitch and Beggar.`);
 		}
-		let cannotMega = Dex.getFormat('gen8bitchandbeggar').cannotMega || [];
+		let cannotMega = Dex.formats.get('gen8bitchandbeggar').cannotMega || [];
 		if (cannotMega.includes(beggarSpecies.name) && beggarSpecies.name !== bitchSpecies.megaEvolves && !beggarSpecies.isMega) { // Separate messages because there's a difference between being already beggar evolved / NFE and being banned from beggar evolving
 			this.errorReply(`Warning: ${beggarSpecies.name} is banned from beggar evolving in Bitch and Beggar.`);
 		}

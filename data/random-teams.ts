@@ -2480,7 +2480,7 @@ export class RandomTeams {
 
 		let trademarkPool = [];
 		for (const moveid of movePool) {
-			let move = this.dex.getMove(moveid);
+			let move = this.Dex.moves.get(moveid);
 			if (move.category !== 'Status') continue;
 			trademarkPool.push(moveid);
 		}
@@ -2496,8 +2496,8 @@ export class RandomTeams {
 	}
 
 	suicideCupRandomSet(species: string | Species, teamDetails: RandomTeamsTypes.TeamDetails = {}, isLead = false, isDoubles = false): RandomTeamsTypes.RandomSet {
-		species = this.dex.getSpecies(species);
-		let baseSpecies = this.dex.getSpecies(species.baseSpecies);
+		species = this.Dex.species.get(species);
+		let baseSpecies = this.Dex.species.get(species.baseSpecies);
 		let forme = species.name;
 		const lsetData = this.dex.getLearnsetData(species.id);
 
@@ -2632,10 +2632,10 @@ export class RandomTeams {
 		/**@type {[string, string | undefined, string | undefined]} */
 		// @ts-ignore
 		let abilities = Object.values(baseSpecies.abilities);
-		abilities.sort((a, b) => this.dex.getAbility(b).rating - this.dex.getAbility(a).rating);
-		let ability0 = this.dex.getAbility(abilities[0]);
-		let ability1 = this.dex.getAbility(abilities[1]);
-		let ability2 = this.dex.getAbility(abilities[2]);
+		abilities.sort((a, b) => this.Dex.abilities.get(b).rating - this.Dex.abilities.get(a).rating);
+		let ability0 = this.Dex.abilities.get(abilities[0]);
+		let ability1 = this.Dex.abilities.get(abilities[1]);
+		let ability2 = this.Dex.abilities.get(abilities[2]);
 		if (abilities[1]) {
 			if (abilities[2] && ability1.rating <= ability2.rating && this.randomChance(1, 2)) {
 				[ability1, ability2] = [ability2, ability1];
@@ -2878,10 +2878,10 @@ export class RandomTeams {
 
 		let pokemonPool = [];
 		for (let id in this.dex.data.FormatsData) {
-			let species = this.dex.getSpecies(id);
+			let species = this.Dex.species.get(id);
 			if (isMonotype) {
 				let types = species.types;
-				if (species.battleOnly) types = this.dex.getSpecies(species.baseSpecies).types;
+				if (species.battleOnly) types = this.Dex.species.get(species.baseSpecies).types;
 				if (types.indexOf(type) < 0) continue;
 			}
 			if (species.gen <= this.gen && !species.isMega && !species.isPrimal && !species.isNonstandard && species.randomBattleMoves) {
@@ -2892,7 +2892,7 @@ export class RandomTeams {
 		// PotD stuff
 		let potd: Species | false = false;
         if (global.Config && Config.potd && ruleTable.has('potd')) {
-            potd = this.dex.getSpecies(Config.potd);
+            potd = this.Dex.species.get(Config.potd);
         }
 
 		/**@type {{[k: string]: number}} */
@@ -2907,7 +2907,7 @@ export class RandomTeams {
 		let teamDetails = {};
 
 		while (pokemonPool.length && pokemon.length < 6) {
-			let species = this.dex.getSpecies(this.sampleNoReplace(pokemonPool));
+			let species = this.Dex.species.get(this.sampleNoReplace(pokemonPool));
 			if (!species.exists) continue;
 
 			// Limit to one of each species (Species Clause)
@@ -2976,7 +2976,7 @@ export class RandomTeams {
 				if (typeComboCount[typeCombo] >= (isMonotype ? 2 : 1)) continue;
 			}
 
-			let item = this.dex.getItem(set.item);
+			let item = this.Dex.items.get(set.item);
 
 			// Limit 1 Z-Move per team
 			if (teamDetails['zMove'] && item.zMove) continue;

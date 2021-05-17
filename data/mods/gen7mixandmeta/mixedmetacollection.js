@@ -26,8 +26,8 @@ let MixedMetaCollection = {
 			}*/
 
 			// Check item-based mega evos
-			let species = global.Dex.getSpecies(set.species || set.name);
-			let item = global.Dex.getItem(set.item);
+			let species = global.Dex.species.get(set.species || set.name);
+			let item = global.Dex.items.get(set.item);
 			if (!item.megaEvolves && !['blueorb', 'redorb', 'ultranecroziumz'].includes(item.id)) return undefined; // Native mega-evos
 			if (species.baseSpecies === item.megaEvolves ||
 				(species.baseSpecies === 'Groudon' && item.id === 'redorb') ||
@@ -52,7 +52,7 @@ let MixedMetaCollection = {
 			let sCustomRulesString = '@@@' + customRules.join(',');
 			//console.log("sCustomRulesString: " + sCustomRulesString);
 
-			let metaFormat = global.Dex.getFormat('[Gen 7] OU' + sCustomRulesString, true);
+			let metaFormat = global.Dex.formats.get('[Gen 7] OU' + sCustomRulesString, true);
 			let metaRuleTable = global.Dex.getRuleTable(metaFormat);
 
 			let validatorProblems = validator.validateSetInternal(set, undefined, metaFormat, metaRuleTable, true) || [];

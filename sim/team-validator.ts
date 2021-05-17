@@ -469,7 +469,7 @@ export class TeamValidator {
 		/** @type {Boolean} */
 		let bitchAndBeggarItemException = false;
 		if( ruleTable.has('bitchandbeggarrule') ) {
-			let bitchSpecies = dex.getSpecies(set.item);
+			let bitchSpecies = Dex.species.get(set.item);
 			if(bitchSpecies.exists) {
 				bitchAndBeggarItemException = true;
 			}
@@ -615,7 +615,7 @@ export class TeamValidator {
 			/** @type {Boolean} */
 			let beastModeMoveException = false;
 			if( ruleTable.has('beastmoderule') ) {
-				let beastSpecies = dex.getSpecies(Utils.getString(moveName));
+				let beastSpecies = Dex.species.get(Utils.getString(moveName));
 				if(beastSpecies.exists) {
 					beastModeMoveException = true;
 				}
