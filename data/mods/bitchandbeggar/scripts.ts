@@ -5,7 +5,7 @@ import {DexCalculator} from '../../../.trashchannel-dist/dex-calculator';
 export const Scripts: ModdedBattleScriptsData = {
 	init() {
 		for (let id in this.data.Items) {
-			let bitchSpecies = this.getSpecies(id);
+			let bitchSpecies = this.species.get(id);
 			if (!bitchSpecies.exists) continue;
 			this.modData('Items', id).onTakeItem = false;
 		}

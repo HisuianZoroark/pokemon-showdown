@@ -9,7 +9,7 @@ let Scripts = {
 	inherit: 'gen7',
 	init() {
 		for (let id in this.data.Items) {
-			let bitchSpecies = this.getSpecies(id);
+			let bitchSpecies = this.species.get(id);
 			if (!bitchSpecies.exists) continue;
 			this.modData('Items', id).onTakeItem = false;
 		}

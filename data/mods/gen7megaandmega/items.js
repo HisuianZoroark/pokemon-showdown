@@ -46,7 +46,7 @@ let Items = {
 				pokemon.baseSpecies = species;
 				this.add('-start', pokemon, 'Red Orb', '[silent]');
 				let apparentSpecies = pokemon.illusion ? pokemon.illusion.species.name : pokemon.m.originalSpecies;
-				let oSpecies = this.getSpecies(apparentSpecies);
+				let oSpecies = this.species.get(apparentSpecies);
 				if (pokemon.illusion) {
 					let types = oSpecies.types;
 					if (types.length > 1 || types[types.length - 1] !== 'Fire') {

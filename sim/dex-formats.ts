@@ -6,6 +6,9 @@ import {Tags} from '../data/tags';
 const DEFAULT_MOD = 'gen8';
 const MAIN_FORMATS = `${__dirname}/../.config-dist/formats`;
 const CUSTOM_FORMATS = `${__dirname}/../.config-dist/custom-formats`;
+//#region TrashChannel: Generated mashup formats
+const GENERATED_MASHUP_FORMATS = `${__dirname}/../.config-dist/generated-mashup-formats`;
+//#endregion
 
 export interface FormatData extends Partial<Format>, EventMethods {
 	name: string;
@@ -516,23 +519,36 @@ export class DexFormats {
 		const formatsList = [];
 
 		// Load formats
+		let Formats: any;
 		let customFormats;
 		try {
 			customFormats = require(CUSTOM_FORMATS).Formats;
-			if (!Array.isArray(customFormats)) {
-				throw new TypeError(`Exported property 'Formats' from "./config/custom-formats.ts" must be an array`);
-			}
 		} catch (e) {
 			if (e.code !== 'MODULE_NOT_FOUND' && e.code !== 'ENOENT') {
 				throw e;
 			}
 		}
-		let Formats: AnyObject[] = require(MAIN_FORMATS).Formats;
+//#region TrashChannel: Additional generated mashup formats merge step
+		try {
+			customFormats = mergeFormatLists(customFormats, require(GENERATED_MASHUP_FORMATS).Formats);
+		} catch (e) {
+			if (e.code !== 'MODULE_NOT_FOUND' && e.code !== 'ENOENT') {
+				throw e;
+			}
+		}
+//#endregion
+		try {
+//#region TrashChannel: Prioritise custom formats over main
+			Formats = mergeFormatLists(customFormats, require(MAIN_FORMATS).Formats);
+//#endregion
+		} catch (e) {
+			if (e.code !== 'MODULE_NOT_FOUND' && e.code !== 'ENOENT') {
+				throw e;
+			}
+		}
 		if (!Array.isArray(Formats)) {
 			throw new TypeError(`Exported property 'Formats' from "./config/formats.ts" must be an array`);
 		}
-		if (customFormats) Formats = mergeFormatLists(Formats as any, customFormats);
-
 		let section = '';
 		let column = 1;
 		for (const [i, format] of Formats.entries()) {
@@ -904,11 +920,11 @@ export class DexFormats {
 			case 'move':
 				//#region TrashChannel
 				// 18/11/24 TrashChannel: Needed to avoid dupes from Pokemon names used as moves in Beast Mode
-				const species: Species = this.getSpecies(id) as Species;
+				const species: Species = this.dex.species.get(id) as Species;
 				if(undefined !== species) {
 					if(species.exists) continue;
 				}
-				table = this.data.Moves;
+				table = this.dex.data.Moves;
 				//#endregion
 				break;
 			case 'item': table = this.dex.data.Items; break;

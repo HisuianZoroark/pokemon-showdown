@@ -43,9 +43,6 @@ const DATA_DIR = path.resolve(__dirname, '../.data-dist');
 const MODS_DIR = path.resolve(__dirname, '../.data-dist/mods');
 const MAIN_FORMATS = path.resolve(__dirname, '../.config-dist/formats');
 const CUSTOM_FORMATS = path.resolve(__dirname, '../.config-dist/custom-formats');
-//#region TrashChannel: Generated mashup formats
-const GENERATED_MASHUP_FORMATS = path.resolve(__dirname, '../.config-dist/generated-mashup-formats');
-//#endregion
 
 const dexes: {[mod: string]: ModdedDex} = Object.create(null);
 
@@ -561,76 +558,8 @@ export class ModdedDex {
 	}
 
 	includeFormats(): this {
-		if (!this.isBase) throw new Error(`This should only be run on the base mod`);
-		this.includeMods();
-		if (this.formatsCache) return this;
-
-		if (!this.formatsCache) this.formatsCache = {};
-
-		// Load formats
-		let Formats: any;
-		let customFormats;
-		try {
-			customFormats = require(CUSTOM_FORMATS).Formats;
-		} catch (e) {
-			if (e.code !== 'MODULE_NOT_FOUND' && e.code !== 'ENOENT') {
-				throw e;
-			}
-		}
-//#region TrashChannel: Additional generated mashup formats merge step
-		try {
-			customFormats = mergeFormatLists(customFormats, require(GENERATED_MASHUP_FORMATS).Formats);
-		} catch (e) {
-			if (e.code !== 'MODULE_NOT_FOUND' && e.code !== 'ENOENT') {
-				throw e;
-			}
-		}
-//#endregion
-		try {
-//#region TrashChannel: Prioritise custom formats over main
-			Formats = mergeFormatLists(customFormats, require(MAIN_FORMATS).Formats);
-//#endregion
-		} catch (e) {
-			if (e.code !== 'MODULE_NOT_FOUND' && e.code !== 'ENOENT') {
-				throw e;
-			}
-		}
-		if (!Array.isArray(Formats)) {
-			throw new TypeError(`Exported property 'Formats' from "./config/formats.ts" must be an array`);
-		}
-		let section = '';
-		let column = 1;
-		for (const [i, format] of Formats.entries()) {
-			const id = toID(format.name);
-			if (format.section) section = format.section;
-			if (format.column) column = format.column;
-			if (!format.name && format.section) continue;
-			if (!id) {
-				throw new RangeError(`Format #${i + 1} must have a name with alphanumeric characters, not '${format.name}'`);
-			}
-			if (!format.section) format.section = section;
-			if (!format.column) format.column = column;
-			if (this.formatsCache[id]) throw new Error(`Format #${i + 1} has a duplicate ID: '${id}'`);
-			format.effectType = 'Format';
-			format.baseRuleset = format.ruleset ? format.ruleset.slice() : [];
-			if (format.challengeShow === undefined) format.challengeShow = true;
-			if (format.searchShow === undefined) format.searchShow = true;
-			if (format.tournamentShow === undefined) format.tournamentShow = true;
-			if (format.mod === undefined) format.mod = 'gen8';
-			if (!dexes[format.mod]) throw new Error(`Format "${format.name}" requires nonexistent mod: '${format.mod}'`);
-			this.formatsCache[id] = format;
-		}
-
+		this.formats.load();
 		return this;
-	}
-
-	installFormat(id: string, format: Format) {
-		dexes['base'].includeFormats();
-		dexes['base'].formatsCache![id] = format;
-		if (this.dataCache) this.dataCache.Formats[id] = format;
-		if (!this.isBase) {
-			if (dexes['base'].dataCache) dexes['base'].dataCache.Formats[id] = format;
-		}
 	}
 
 // #region TrashChannel
@@ -658,13 +587,13 @@ export class ModdedDex {
 
 	generateMegaStoneName(pokemonName: string): string {
 		let baseName = pokemonName;
-		let species = this.getSpecies(pokemonName);
+		let species = this.species.get(pokemonName);
 		if(!species.exists) return '???';
 		
 		/** @type {string | null} */
 		let stoneName = null;
 		baseName = species.name;
-		let baseSpecies = this.getSpecies(species.baseSpecies);
+		let baseSpecies = this.species.get(species.baseSpecies);
 		for(let item in this.data.Items) {
 			if( this.data.Items[item].megaEvolves === baseSpecies.name ) {
 				if(species.isMega) {
@@ -711,7 +640,7 @@ export class ModdedDex {
 
 	calcActiveAbilitySlot(speciesName: string | Species, ability: string): string {
 		let id = toID(speciesName || '');
-		let species = this.getSpecies(id);
+		let species = this.species.get(id);
 		let abilityId = toID(ability || '');
 		let abilitySlot = '0'; // Fallback to standard ability slot if we're in a meta that allows illegal abilities
 		for (let abilityItr in species.abilities) {

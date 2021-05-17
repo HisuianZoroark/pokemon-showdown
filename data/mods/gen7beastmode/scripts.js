@@ -17,7 +17,7 @@ let Scripts = {
 			//console.log('Generating beast mode move for Pokemon with modMoveId: '+ modMoveId);
 
 			let modMove = DexCalculator.deepClone(beastModeBaseMove);
-			modMoveSpecies = this.getSpecies(modMoveId);
+			modMoveSpecies = this.species.get(modMoveId);
 
 			// Base move name on source Pokemon
 			modMove.id = modMoveId;

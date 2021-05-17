@@ -12,7 +12,7 @@ class BeastModeTeams extends RandomTeams {
 	 * @return {RandomTeamsTypes.RandomSet}
 	 */
 	beastModeTransformation(beastSpecies, userPokemon, isDoubles = false) {
-		beastSpecies = this.getSpecies(beastSpecies);
+		beastSpecies = this.species.get(beastSpecies);
 		let baseSpecies = beastSpecies;
 		let species = beastSpecies.species;
 
@@ -23,7 +23,7 @@ class BeastModeTeams extends RandomTeams {
 
 		let battleForme = this.checkBattleForme(beastSpecies);
 		if (battleForme && battleForme.randomBattleMoves && beastSpecies.otherFormes) {
-			beastSpecies = this.getSpecies(beastSpecies.otherFormes.length >= 2 ? this.sample(beastSpecies.otherFormes) : beastSpecies.otherFormes[0]);
+			beastSpecies = this.species.get(beastSpecies.otherFormes.length >= 2 ? this.sample(beastSpecies.otherFormes) : beastSpecies.otherFormes[0]);
 		}
 
 		const randMoves = !isDoubles ? beastSpecies.randomBattleMoves : beastSpecies.randomDoubleBattleMoves || beastSpecies.randomBattleMoves;
