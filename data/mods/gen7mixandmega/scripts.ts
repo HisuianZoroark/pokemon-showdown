@@ -1,119 +1,120 @@
 export const Scripts: ModdedBattleScriptsData = {
 	inherit: 'gen7',
 	init() {
-		for (let id in this.data.Items) {
+		for (const id in this.data.Items) {
 			if (!this.data.Items[id].megaStone) continue;
 			this.modData('Items', id).onTakeItem = false;
 		}
 	},
-	canMegaEvo(pokemon) {
-		if (pokemon.species.isMega || pokemon.species.isPrimal) return null;
+	actions: {
+		canMegaEvo(pokemon) {
+			if (pokemon.species.isMega || pokemon.species.isPrimal) return null;
 
-		const item = pokemon.getItem();
-		if (item.megaStone) {
-			if (item.megaStone === pokemon.baseSpecies.name) return null;
-			return item.megaStone;
-		} else if (pokemon.baseMoves.includes(/** @type {ID} */('dragonascent'))) {
-			return 'Rayquaza-Mega';
-		} else {
-			return null;
-		}
-	},
-	runMegaEvo(pokemon) {
-		if (pokemon.species.isMega || pokemon.species.isPrimal) return false;
-
-		const isUltraBurst = !pokemon.canMegaEvo;
-		// @ts-ignore
-		const species: Species = this.getMixedSpecies(pokemon.m.originalSpecies, pokemon.canMegaEvo || pokemon.canUltraBurst);
-		const side = pokemon.side;
-
-		// Pokémon affected by Sky Drop cannot Mega Evolve. Enforce it here for now.
-		for (const foeActive of side.foe.active) {
-			if (foeActive.volatiles['skydrop'] && foeActive.volatiles['skydrop'].source === pokemon) {
-				return false;
+			const item = pokemon.getItem();
+			if (item.megaStone) {
+				if (item.megaStone === pokemon.name) return null;
+				return item.megaStone;
+			} else if (pokemon.baseMoves.includes('dragonascent' as ID)) {
+				return 'Rayquaza-Mega';
+			} else {
+				return null;
 			}
-		}
+		},
+		runMegaEvo(pokemon) {
+			if (pokemon.species.isMega || pokemon.species.isPrimal) return false;
 
-		// Do we have a proper sprite for it?
-		// @ts-ignore assert non-null pokemon.canMegaEvo
-		if (isUltraBurst || this.dex.getSpecies(pokemon.canMegaEvo!).baseSpecies === pokemon.m.originalSpecies) {
-			pokemon.formeChange(species, pokemon.getItem(), true);
-		} else {
-			const oSpecies = this.dex.getSpecies(pokemon.m.originalSpecies);
+			const isUltraBurst = !pokemon.canMegaEvo;
 			// @ts-ignore
-			const oMegaSpecies = this.dex.getSpecies(species.originalMega);
-			pokemon.formeChange(species, pokemon.getItem(), true);
-			this.add('-start', pokemon, oMegaSpecies.requiredItem, '[silent]');
-			if (oSpecies.types.length !== pokemon.species.types.length || oSpecies.types[1] !== pokemon.species.types[1]) {
-				this.add('-start', pokemon, 'typechange', pokemon.species.types.join('/'), '[silent]');
-			}
-		}
+			const species: Species = this.getMixedSpecies(pokemon.m.originalSpecies, pokemon.canMegaEvo || pokemon.canUltraBurst);
 
-		pokemon.canMegaEvo = null;
-		if (isUltraBurst) pokemon.canUltraBurst = null;
-		return true;
-	},
-	getMixedSpecies(originalForme, megaForme) {
-		const originalSpecies = this.dex.getSpecies(originalForme);
-		const megaSpecies = this.dex.getSpecies(megaForme);
-		if (originalSpecies.baseSpecies === megaSpecies.baseSpecies) return megaSpecies;
-		// @ts-ignore
-		const deltas = this.getMegaDeltas(megaSpecies);
-		// @ts-ignore
-		const species = this.doGetMixedSpecies(originalSpecies, deltas);
-		return species;
-	},
-	getMegaDeltas(megaSpecies) {
-		const baseSpecies = this.dex.getSpecies(megaSpecies.baseSpecies);
-		const deltas: {
-			ability: string,
-			baseStats: SparseStatsTable,
-			weighthg: number,
-			originalMega: string,
-			requiredItem: string | undefined,
-			type?: string,
-			isMega?: boolean,
-		} = {
-			ability: megaSpecies.abilities['0'],
-			baseStats: {},
-			weighthg: megaSpecies.weighthg - baseSpecies.weighthg,
-			originalMega: megaSpecies.name,
-			requiredItem: megaSpecies.requiredItem,
-		};
-		let statId: StatName;
-		for (statId in megaSpecies.baseStats) {
-			deltas.baseStats[statId] = megaSpecies.baseStats[statId] - baseSpecies.baseStats[statId];
-		}
-		if (megaSpecies.types.length > baseSpecies.types.length) {
-			deltas.type = megaSpecies.types[1];
-		} else if (megaSpecies.types.length < baseSpecies.types.length) {
-			deltas.type = baseSpecies.types[0];
-		} else if (megaSpecies.types[1] !== baseSpecies.types[1]) {
-			deltas.type = megaSpecies.types[1];
-		}
-		if (megaSpecies.isMega) deltas.isMega = true;
-		// @ts-ignore
-		if (megaSpecies.isPrimal) deltas.isPrimal = true;
-		return deltas;
-	},
-	doGetMixedSpecies(speciesOrForme, deltas) {
-		if (!deltas) throw new TypeError("Must specify deltas!");
-		const species = this.dex.deepClone(this.dex.getSpecies(speciesOrForme));
-		species.abilities = {'0': deltas.ability};
-		if (species.types[0] === deltas.type) {
-			species.types = [deltas.type];
-		} else if (deltas.type) {
-			species.types = [species.types[0], deltas.type];
-		}
-		const baseStats = species.baseStats;
-		for (const statName in baseStats) {
-			baseStats[statName] = this.clampIntRange(baseStats[statName] + deltas.baseStats[statName], 1, 255);
-		}
-		species.weighthg = Math.max(1, species.weighthg + deltas.weighthg);
-		species.originalMega = deltas.originalMega;
-		species.requiredItem = deltas.requiredItem;
-		if (deltas.isMega) species.isMega = true;
-		if (deltas.isPrimal) species.isPrimal = true;
-		return species;
+			// Pokémon affected by Sky Drop cannot Mega Evolve. Enforce it here for now.
+			for (const foeActive of pokemon.foes()) {
+				if (foeActive.volatiles['skydrop']?.source === pokemon) {
+					return false;
+				}
+			}
+
+			// Do we have a proper sprite for it?
+			// @ts-ignore assert non-null pokemon.canMegaEvo
+			if (isUltraBurst || this.dex.species.get(pokemon.canMegaEvo).baseSpecies === pokemon.m.originalSpecies) {
+				pokemon.formeChange(species, pokemon.getItem(), true);
+			} else {
+				const oSpecies = this.dex.species.get(pokemon.m.originalSpecies);
+				// @ts-ignore
+				const oMegaSpecies = this.dex.species.get(species.originalMega);
+				pokemon.formeChange(species, pokemon.getItem(), true);
+				this.battle.add('-start', pokemon, oMegaSpecies.requiredItem || oMegaSpecies.requiredMove, '[silent]');
+				if (oSpecies.types.length !== pokemon.species.types.length || oSpecies.types[1] !== pokemon.species.types[1]) {
+					this.battle.add('-start', pokemon, 'typechange', pokemon.species.types.join('/'), '[silent]');
+				}
+			}
+
+			pokemon.canMegaEvo = null;
+			if (isUltraBurst) pokemon.canUltraBurst = null;
+			return true;
+		},
+		getMixedSpecies(originalSpecies, megaSpecies) {
+			const oSpecies = this.dex.species.get(originalSpecies);
+			const mSpecies = this.dex.species.get(megaSpecies);
+			if (oSpecies.baseSpecies === mSpecies.baseSpecies) return mSpecies;
+			// @ts-ignore
+			const deltas = this.getMegaDeltas(mSpecies);
+			// @ts-ignore
+			const species = this.doGetMixedSpecies(oSpecies, deltas);
+			return species;
+		},
+		getMegaDeltas(megaSpecies) {
+			const baseSpecies = this.dex.species.get(megaSpecies.baseSpecies);
+			const deltas: {
+				ability: string,
+				baseStats: SparseStatsTable,
+				weighthg: number,
+				originalMega: string,
+				requiredItem: string | undefined,
+				type?: string,
+				isMega?: boolean,
+				isPrimal?: boolean,
+			} = {
+				ability: megaSpecies.abilities['0'],
+				baseStats: {},
+				weighthg: megaSpecies.weighthg - baseSpecies.weighthg,
+				originalMega: megaSpecies.name,
+				requiredItem: megaSpecies.requiredItem,
+			};
+			let stat: StatID;
+			for (stat in megaSpecies.baseStats) {
+				deltas.baseStats[stat] = megaSpecies.baseStats[stat] - baseSpecies.baseStats[stat];
+			}
+			if (megaSpecies.types.length > baseSpecies.types.length) {
+				deltas.type = megaSpecies.types[1];
+			} else if (megaSpecies.types.length < baseSpecies.types.length) {
+				deltas.type = baseSpecies.types[0];
+			} else if (megaSpecies.types[1] !== baseSpecies.types[1]) {
+				deltas.type = megaSpecies.types[1];
+			}
+			if (megaSpecies.isMega) deltas.isMega = true;
+			if (megaSpecies.isPrimal) deltas.isPrimal = true;
+			return deltas;
+		},
+		doGetMixedSpecies(speciesOrSpeciesName, deltas) {
+			if (!deltas) throw new TypeError("Must specify deltas!");
+			const species = this.dex.deepClone(this.dex.species.get(speciesOrSpeciesName));
+			species.abilities = {'0': deltas.ability};
+			if (species.types[0] === deltas.type) {
+				species.types = [deltas.type];
+			} else if (deltas.type) {
+				species.types = [species.types[0], deltas.type];
+			}
+			const baseStats = species.baseStats;
+			for (const statName in baseStats) {
+				baseStats[statName] = this.battle.clampIntRange(baseStats[statName] + deltas.baseStats[statName], 1, 255);
+			}
+			species.weighthg = Math.max(1, species.weighthg + deltas.weighthg);
+			species.originalMega = deltas.originalMega;
+			species.requiredItem = deltas.requiredItem;
+			if (deltas.isMega) species.isMega = true;
+			if (deltas.isPrimal) species.isPrimal = true;
+			return species;
+		},
 	},
 };

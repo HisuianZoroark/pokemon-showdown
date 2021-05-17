@@ -130,7 +130,7 @@ export const FormatsData: {[k: string]: ModdedSpeciesFormatsData} = {
 		randomBattleMoves: ["thunderwave", "surf"],
 		essentialMove: "thunderbolt",
 		exclusiveMoves: ["bodyslam", "thunder", "agility", "seismictoss", "hyperbeam"],
-		tier: "NU",
+		tier: "NUBL",
 	},
 	sandshrew: {
 		randomBattleMoves: ["swordsdance", "bodyslam", "rockslide"],
@@ -322,7 +322,7 @@ export const FormatsData: {[k: string]: ModdedSpeciesFormatsData} = {
 		essentialMove: "surf",
 		exclusiveMoves: ["psychic", "hypnosis", "hypnosis"],
 		comboMoves: ["amnesia", "blizzard"],
-		tier: "NU",
+		tier: "NUBL",
 	},
 	abra: {
 		randomBattleMoves: ["psychic", "thunderwave", "seismictoss"],

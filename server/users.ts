@@ -44,7 +44,9 @@ const PERMALOCK_CACHE_TIME = 30 * 24 * 60 * 60 * 1000; // 30 days
 const DEFAULT_TRAINER_SPRITES = [1, 2, 101, 102, 169, 170, 265, 266];
 
 import {FS, Utils, ProcessManager} from '../lib';
-import {Auth, GlobalAuth, PLAYER_SYMBOL, HOST_SYMBOL, RoomPermission, GlobalPermission} from './user-groups';
+import {
+	Auth, GlobalAuth, SECTIONLEADER_SYMBOL, PLAYER_SYMBOL, HOST_SYMBOL, RoomPermission, GlobalPermission,
+} from './user-groups';
 
 const MINUTES = 60 * 1000;
 const IDLE_TIMER = 60 * MINUTES;
@@ -345,7 +347,7 @@ export class User extends Chat.MessageContext {
 
 	lastChallenge: number;
 	lastPM: string;
-	lastMatch: string;
+	lastMatch: ID;
 
 	settings: UserSettings;
 
@@ -353,6 +355,7 @@ export class User extends Chat.MessageContext {
 		team: string,
 		hidden: boolean,
 		inviteOnly: boolean,
+		special?: string,
 	};
 
 	isSysop: boolean;
@@ -1160,6 +1163,12 @@ export class User extends Chat.MessageContext {
 		// NOTE: can't do a this.update(...) at this point because we're no longer connected.
 	}
 	onDisconnect(connection: Connection) {
+		// slightly safer to do this here so that we can do this before Conn#user is nulled.
+		if (connection.openPages) {
+			for (const page of connection.openPages) {
+				Chat.handleRoomClose(page as RoomID, this, connection);
+			}
+		}
 		for (const [i, connected] of this.connections.entries()) {
 			if (connected === connection) {
 				this.connections.splice(i, 1);
@@ -1479,13 +1488,6 @@ export class User extends Chat.MessageContext {
 			this.registered ? `[registered]` :
 			``;
 	}
-	battlesForcedPublic() {
-		if (!Config.forcedpublicprefixes) return null;
-		for (const prefix of Config.forcedpublicprefixes) {
-			if (this.id.startsWith(toID(prefix))) return prefix;
-		}
-		return null;
-	}
 	destroy() {
 		// deallocate user
 		for (const roomid of this.games) {
@@ -1702,6 +1704,7 @@ export const Users = {
 	globalAuth,
 	isUsernameKnown,
 	isTrusted,
+	SECTIONLEADER_SYMBOL,
 	PLAYER_SYMBOL,
 	HOST_SYMBOL,
 	connections,

@@ -171,6 +171,16 @@ represented by a space), and the rest of the string being their username.
 
 > `USER` said `MESSAGE`. Note that `MESSAGE` can contain `|` characters,
 > so you can't just split by `|` and take the fourth string.
+>
+> If `MESSAGE` starts with `/`, it is a special message. For instance,
+> `/me TEXT` or `/announce TEXT` or `/uhtml HTML`. A lot of these message
+> types are abused to embed protocol messages in PMs (for instance, `/uhtml`
+> is a stopgap before the client is rewritten to support `|uhtml|` etc in
+> PMs).
+>
+> If the server wants clients to actually render a message starting with
+> `/`, it will send a message starting with `//` (exactly like how users
+> need to send those messages).
 
 `|notify|TITLE|MESSAGE`
 
@@ -488,8 +498,7 @@ To cancel searching, send:
 ### Team format
 
 Pokémon Showdown's main way of representing teams is in packed format. This
-format is implemented in `Dex.packTeam` and `Dex.fastUnpackTeam` in
-`sim/dex.js`.
+format is implemented in `Teams.pack` and `Teams.unpack` in `sim/teams.ts`.
 
 If you're not using JavaScript and don't want to reimplement these conversions,
 [Pokémon Showdown's command-line client][command-line] can convert between packed teams and

@@ -15,6 +15,8 @@ import {FS, Repl, ProcessManager} from '../lib';
 import {execSync} from "child_process";
 import {BattleStream} from "../sim/battle-stream";
 import * as RoomGames from "./room-game";
+import type {Tournament} from './tournaments/index';
+import {RoomSettings} from './rooms';
 
 type ChannelIndex = 0 | 1 | 2 | 3 | 4;
 type PlayerIndex = 1 | 2 | 3 | 4;
@@ -92,6 +94,7 @@ export class RoomBattlePlayer extends RoomGames.RoomGamePlayer {
 	 * the proper message when it changes.
 	 */
 	connected: boolean;
+	invite: ID;
 	constructor(user: User | string | null, game: RoomBattle, num: PlayerIndex) {
 		super(user, game, num);
 		if (typeof user === 'string') user = null;
@@ -109,6 +112,7 @@ export class RoomBattlePlayer extends RoomGames.RoomGamePlayer {
 		this.dcSecondsLeft = 1;
 
 		this.connected = true;
+		this.invite = '';
 
 		if (user) {
 			user.games.add(this.game.roomid);
@@ -189,9 +193,9 @@ export class RoomBattleTimer {
 		this.lastDisabledTime = 0;
 		this.lastDisabledByUser = null;
 
-		const hasLongTurns = Dex.getFormat(battle.format, true).gameType !== 'singles';
-		const isChallenge = (!battle.rated && !battle.room.tour);
-		const timerEntry = Dex.getRuleTable(Dex.getFormat(battle.format, true)).timer;
+		const hasLongTurns = Dex.formats.get(battle.format, true).gameType !== 'singles';
+		const isChallenge = (battle.challengeType === 'challenge');
+		const timerEntry = Dex.formats.getRuleTable(Dex.formats.get(battle.format, true)).timer;
 		const timerSettings = timerEntry?.[0];
 
 		// so that Object.assign doesn't overwrite anything with `undefined`
@@ -209,7 +213,7 @@ export class RoomBattleTimer {
 			maxPerTurn: isChallenge ? MAX_TURN_TIME_CHALLENGE : MAX_TURN_TIME,
 			maxFirstTurn: isChallenge ? MAX_TURN_TIME_CHALLENGE : MAX_TURN_TIME,
 			timeoutAutoChoose: false,
-			accelerate: !timerSettings,
+			accelerate: !timerSettings && !isChallenge,
 			...timerSettings,
 		};
 		if (this.settings.maxPerTurn <= 0) this.settings.maxPerTurn = Infinity;
@@ -449,6 +453,32 @@ export class RoomBattleTimer {
 	}
 }
 
+interface RoomBattlePlayerOptions {
+	user: User;
+	/** should be '' for random teams */
+	team?: string;
+	rating?: number;
+	inviteOnly?: boolean;
+	hidden?: boolean;
+}
+
+export interface RoomBattleOptions {
+	format: string;
+	p1?: RoomBattlePlayerOptions;
+	p2?: RoomBattlePlayerOptions;
+	p3?: RoomBattlePlayerOptions;
+	p4?: RoomBattlePlayerOptions;
+
+	delayedStart?: boolean | 'multi';
+	challengeType?: ChallengeType;
+	allowRenames?: boolean;
+	rated?: number | boolean | null;
+	tour?: Tournament | null;
+	inputLog?: string;
+	ratedMessage?: string;
+	seed?: PRNGSeed;
+}
+
 export class RoomBattle extends RoomGames.RoomGame {
 	readonly gameid: ID;
 	readonly room: GameRoom;
@@ -470,12 +500,12 @@ export class RoomBattle extends RoomGames.RoomGame {
 	readonly allowExtraction: {[k: string]: Set<ID>};
 	readonly stream: Streams.ObjectReadWriteStream<string>;
 	readonly timer: RoomBattleTimer;
-	missingBattleStartMessage: boolean;
+	missingBattleStartMessage: boolean | 'multi';
 	started: boolean;
 	ended: boolean;
 	active: boolean;
 	replaySaved: boolean;
-	forcePublic: string | null = null;
+	forcedSettings: {modchat?: string | null, privacy?: string | null} = {};
 	playerTable: {[userid: string]: RoomBattlePlayer};
 	players: RoomBattlePlayer[];
 	p1: RoomBattlePlayer;
@@ -494,22 +524,22 @@ export class RoomBattle extends RoomGames.RoomGame {
 	rqid: number;
 	requestCount: number;
 	dataResolvers?: [((args: string[]) => void), ((error: Error) => void)][];
-	constructor(room: GameRoom, formatid: string, options: AnyObject) {
+	constructor(room: GameRoom, options: RoomBattleOptions) {
 		super(room);
-		const format = Dex.getFormat(formatid, true);
+		const format = Dex.formats.get(options.format, true);
 		this.gameid = 'battle' as ID;
 		this.room = room;
 		this.title = format.name;
 		if (!this.title.endsWith(" Battle")) this.title += " Battle";
 		this.allowRenames = options.allowRenames !== undefined ? !!options.allowRenames : (!options.rated && !options.tour);
 
-		this.format = formatid;
+		this.format = options.format;
 		this.gameType = format.gameType;
-		this.challengeType = options.challengeType;
-		this.rated = options.rated || 0;
-		this.ladder = typeof format.rated === 'string' ? toID(format.rated) : formatid;
+		this.challengeType = options.challengeType || 'challenge';
+		this.rated = options.rated === true ? 1 : options.rated || 0;
+		this.ladder = typeof format.rated === 'string' ? toID(format.rated) : options.format;
 		// true when onCreateBattleRoom has been called
-		this.missingBattleStartMessage = !!options.inputLog;
+		this.missingBattleStartMessage = !!options.inputLog || options.delayedStart || false;
 		this.started = false;
 		this.ended = false;
 		this.active = false;
@@ -520,7 +550,7 @@ export class RoomBattle extends RoomGames.RoomGame {
 		// TypeScript bug: no `T extends RoomGamePlayer`
 		this.players = [];
 
-		this.playerCap = this.gameType === 'multi' || this.gameType === 'free-for-all' ? 4 : 2;
+		this.playerCap = this.gameType === 'multi' || this.gameType === 'freeforall' ? 4 : 2;
 		this.p1 = null!;
 		this.p2 = null!;
 		this.p3 = null!;
@@ -567,11 +597,11 @@ export class RoomBattle extends RoomGames.RoomGame {
 
 		void this.listen();
 
-		this.addPlayer(options.p1, options.p1team || '', options.p1rating);
-		this.addPlayer(options.p2, options.p2team || '', options.p2rating);
+		this.addPlayer(options.p1?.user || null, options.p1);
+		this.addPlayer(options.p2?.user || null, options.p2);
 		if (this.playerCap > 2) {
-			this.addPlayer(options.p3, options.p3team || '', options.p3rating);
-			this.addPlayer(options.p4, options.p4team || '', options.p4rating);
+			this.addPlayer(options.p3?.user || null, options.p3);
+			this.addPlayer(options.p4?.user || null, options.p4);
 		}
 		this.timer = new RoomBattleTimer(this);
 		if (Config.forcetimer || this.format.includes('blitz')) this.timer.start();
@@ -638,11 +668,6 @@ export class RoomBattle extends RoomGames.RoomGame {
 		void this.stream.write(`>${player.slot} undo`);
 	}
 	joinGame(user: User, slot?: SideID) {
-		if (!user.can('joinbattle', null, this.room)) {
-			user.popup(`You must be a set as a player to join a battle you didn't start. Ask a player to use /addplayer on you to join this battle.`);
-			return false;
-		}
-
 		if (user.id in this.playerTable) {
 			user.popup(`You have already joined this battle.`);
 			return false;
@@ -670,6 +695,13 @@ export class RoomBattle extends RoomGames.RoomGame {
 
 		if (!slot) slot = validSlots[0];
 
+		if (this[slot].invite === user.id) {
+			this.room.auth.set(user.id, Users.PLAYER_SYMBOL);
+		} else if (!user.can('joinbattle', null, this.room)) {
+			user.popup(`You must be a set as a player to join a battle you didn't start. Ask a player to use /addplayer on you to join this battle.`);
+			return false;
+		}
+
 		this.updatePlayer(this[slot], user);
 		if (validSlots.length - 1 < 1 && this.missingBattleStartMessage) {
 			const users = this.players.map(player => {
@@ -679,6 +711,10 @@ export class RoomBattle extends RoomGames.RoomGame {
 			});
 			Rooms.global.onCreateBattleRoom(users, this.room, {rated: this.rated});
 			this.missingBattleStartMessage = false;
+			this.started = true;
+			this.room.add(`|uhtmlchange|invites|`);
+		} else if (!this.started) {
+			for (const player of this.players) this.sendInviteForm(player.getUser());
 		}
 		if (user.inRooms.has(this.roomid)) this.onConnect(user);
 		this.room.update();
@@ -757,8 +793,9 @@ export class RoomBattle extends RoomGames.RoomGame {
 			if (lines[2].startsWith(`|error|[Invalid choice] Can't do anything`)) {
 				// ... should not happen
 			} else if (lines[2].startsWith(`|error|[Invalid choice]`)) {
+				const undoFailed = lines[2].includes(`Can't undo`);
 				const request = this[slot].request;
-				request.isWait = false;
+				request.isWait = undoFailed ? 'cantUndo' : false;
 				request.choice = '';
 			} else if (lines[2].startsWith(`|request|`)) {
 				this.rqid++;
@@ -855,7 +892,7 @@ export class RoomBattle extends RoomGames.RoomGame {
 		p1score: number, p1rating: AnyObject | null = null, p2rating: AnyObject | null = null,
 		p3rating: AnyObject | null = null, p4rating: AnyObject | null = null
 	) {
-		if (Dex.getFormat(this.format, true).noLog) return;
+		if (Dex.formats.get(this.format, true).noLog) return;
 		const logData = this.logData;
 		if (!logData) return;
 		this.logData = null; // deallocate to save space
@@ -905,6 +942,9 @@ export class RoomBattle extends RoomGames.RoomGame {
 			let data = `|request|${request.request}`;
 			if (request.choice) data += `\n|sentchoice|${request.choice}`;
 			(connection || user).sendTo(this.roomid, data);
+		}
+		if (!this.started) {
+			this.sendInviteForm(connection || user);
 		}
 		if (!player.active) this.onJoin(user);
 	}
@@ -999,40 +1039,100 @@ export class RoomBattle extends RoomGames.RoomGame {
 		if (!message) message = ' forfeited.';
 		this.room.add(`|-message|${player.name}${message}`);
 		this.endType = 'forfeit';
-		const otherids = ['p2', 'p1'];
-		void this.stream.write(`>forcewin ${otherids[player.num - 1]}`);
+		// multi battles, they need to be removed, else they can do things like spam forfeit
+		if (this.playerCap > 2) {
+			player.sendRoom(`|request|null`);
+			this.removePlayer(player);
+		}
+		void this.stream.write(`>forcelose ${player.slot}`);
 		return true;
 	}
 
 	/**
-	 * Team should be '' for random teams. `null` should be used only if importing
-	 * an inputlog (so the player isn't recreated)
+	 * playerOpts should be emtpy only if importing an inputlog
+	 * (so the player isn't recreated)
 	 */
-	addPlayer(user: User | null, team: string | null, rating = 0) {
+	addPlayer(user: User | null, playerOpts?: RoomBattlePlayerOptions) {
 		// TypeScript bug: no `T extends RoomGamePlayer`
 		const player = super.addPlayer(user) as RoomBattlePlayer;
 		if (!player) return null;
 		const slot = player.slot;
 		this[slot] = player;
 
-		if (team !== null) {
+		if (playerOpts) {
 			const options = {
 				name: player.name,
 				avatar: user ? '' + user.avatar : '',
-				team,
-				rating: Math.round(rating),
+				team: playerOpts.team || undefined,
+				rating: Math.round(playerOpts.rating || 0),
 			};
 			void this.stream.write(`>player ${slot} ${JSON.stringify(options)}`);
 		}
 
 		if (user) {
 			this.room.auth.set(player.id, Users.PLAYER_SYMBOL);
-			if (this.rated && !this.forcePublic) {
-				this.forcePublic = user.battlesForcedPublic();
-			}
 		}
 		if (user?.inRooms.has(this.roomid)) this.onConnect(user);
 		return player;
+	}
+
+	checkPrivacySettings(options: RoomBattleOptions & Partial<RoomSettings>) {
+		let inviteOnly = false;
+		const privacySetter = new Set<ID>([]);
+		for (const p of ['p1', 'p2', 'p3', 'p4'] as const) {
+			const playerOptions = options[p];
+			if (playerOptions) {
+				if (playerOptions.inviteOnly) {
+					inviteOnly = true;
+					privacySetter.add(playerOptions.user.id);
+				} else if (playerOptions.hidden) {
+					privacySetter.add(playerOptions.user.id);
+				}
+				if (playerOptions.user) this.checkForcedUserSettings(playerOptions.user);
+			}
+		}
+
+		if (privacySetter.size) {
+			const room = this.room;
+			if (this.forcedSettings.privacy) {
+				room.setPrivate(false);
+				room.settings.modjoin = null;
+				room.add(`|raw|<div class="broadcast-blue"><strong>This battle is required to be public due to a player having a name starting with '${this.forcedSettings.privacy}'.</div>`);
+			} else if (!options.tour || (room.tour?.allowModjoin)) {
+				room.setPrivate('hidden');
+				if (inviteOnly) room.settings.modjoin = '%';
+				room.privacySetter = privacySetter;
+				if (inviteOnly) {
+					room.settings.modjoin = '%';
+					room.add(`|raw|<div class="broadcast-red"><strong>This battle is invite-only!</strong><br />Users must be invited with <code>/invite</code> (or be staff) to join</div>`);
+				}
+			}
+		}
+	}
+
+	checkForcedUserSettings(user: User) {
+		this.forcedSettings = {
+			modchat: this.forcedSettings.modchat || RoomBattle.battleForcedSetting(user, 'modchat'),
+			privacy: this.forcedSettings.privacy || RoomBattle.battleForcedSetting(user, 'privacy'),
+		};
+		if (
+			this.players.some(p => p.getUser()?.battleSettings.special) ||
+			(this.rated && this.forcedSettings.modchat)
+		) {
+			this.room.settings.modchat = '\u2606';
+		}
+	}
+
+	static battleForcedSetting(user: User, key: 'modchat' | 'privacy') {
+		if (Config.forcedpublicprefixes) {
+			Config.forcedprefixes = {privacy: Config.forcedpublicprefixes};
+			delete Config.forcedpublicprefixes;
+		}
+		if (!Config.forcedprefixes?.[key]) return null;
+		for (const prefix of Config.forcedprefixes[key]) {
+			if (user.id.startsWith(toID(prefix))) return prefix;
+		}
+		return null;
 	}
 
 	makePlayer(user: User) {
@@ -1043,6 +1143,7 @@ export class RoomBattle extends RoomGames.RoomGame {
 	updatePlayer(player: RoomBattlePlayer, user: User | null) {
 		super.updatePlayer(player, user);
 
+		player.invite = '';
 		const slot = player.slot;
 		if (user) {
 			const options = {
@@ -1064,7 +1165,6 @@ export class RoomBattle extends RoomGames.RoomGame {
 
 	start() {
 		// on start
-		this.started = true;
 		const users = this.players.map(player => {
 			const user = player.getUser();
 			if (!user && !this.missingBattleStartMessage) {
@@ -1075,11 +1175,12 @@ export class RoomBattle extends RoomGames.RoomGame {
 		if (!this.missingBattleStartMessage) {
 			// @ts-ignore The above error should throw if null is found, or this should be skipped
 			Rooms.global.onCreateBattleRoom(users, this.room, {rated: this.rated});
+			this.started = true;
 		}
 
 		if (this.gameType === 'multi') {
 			this.room.title = `Team ${this.p1.name} vs. Team ${this.p2.name}`;
-		} else if (this.gameType === 'free-for-all') {
+		} else if (this.gameType === 'freeforall') {
 			// p1 vs. p2 vs. p3 vs. p4 is too long of a title
 			this.room.title = `${this.p1.name} and friends`;
 		} else {
@@ -1088,12 +1189,36 @@ export class RoomBattle extends RoomGames.RoomGame {
 		this.room.send(`|title|${this.room.title}`);
 		const suspectTest = Chat.plugins['suspect-tests']?.suspectTests[this.format];
 		if (suspectTest) {
-			const format = Dex.getFormat(this.format);
+			const format = Dex.formats.get(this.format);
 			this.room.add(
 				`|html|<div class="broadcast-blue"><strong>${format.name} is currently suspecting ${suspectTest.suspect}! ` +
 				`For information on how to participate check out the <a href="${suspectTest.url}">suspect thread</a>.</strong></div>`
 			).update();
 		}
+		if (this.missingBattleStartMessage === 'multi') {
+			this.room.add(`|uhtml|invites|<div class="broadcast broadcast-blue"><strong>This is a 4-player challenge battle</strong><br />The players will need to add more players before the battle can start.</div>`);
+		}
+	}
+
+	sendInviteForm(connection: Connection | User | null) {
+		if (!connection) return;
+		const playerForms = this.players.map(player => (
+			player.id ? (
+				`<form><label>Player ${player.num}: <strong>${player.name}</strong></label></form>`
+			) : player.invite ? (
+				`<form data-submitsend="/msgroom ${this.roomid},/uninvitebattle ${player.invite}"><label>Player ${player.num}: <strong>${player.invite}</strong> (invited) <button>Uninvite</button></label></form>`
+			) : (
+				`<form data-submitsend="/msgroom ${this.roomid},/invitebattle {username}, p${player.num}"><label>Player ${player.num}: <input name="username" class="textbox" placeholder="Username" /></label> <button class="button">Add Player</button></form>`
+			)
+		));
+		if (this.gameType === 'multi') {
+			[playerForms[1], playerForms[2]] = [playerForms[2], playerForms[1]];
+			playerForms.splice(2, 0, '&mdash; vs &mdash;');
+		}
+		connection.sendTo(
+			this.room,
+			`|uhtmlchange|invites|<div class="broadcast broadcast-blue"><strong>This battle needs more players to start</strong><br /><br />${playerForms.join(``)}</div>`
+		);
 	}
 
 	clearPlayers() {
@@ -1108,14 +1233,10 @@ export class RoomBattle extends RoomGames.RoomGame {
 		}
 		this.playerTable = {};
 		this.players = [];
-		// @ts-ignore
-		this.p1 = null;
-		// @ts-ignore
-		this.p2 = null;
-		// @ts-ignore
-		this.p3 = null;
-		// @ts-ignore
-		this.p4 = null;
+		this.p1 = null!;
+		this.p2 = null!;
+		this.p3 = null!;
+		this.p4 = null!;
 
 		this.ended = true;
 		void this.stream.destroy();
@@ -1124,8 +1245,7 @@ export class RoomBattle extends RoomGames.RoomGame {
 			this.active = false;
 		}
 
-		// @ts-ignore
-		this.room = null;
+		(this as any).room = null;
 		if (this.dataResolvers) {
 			for (const [, reject] of this.dataResolvers) {
 				// reject the promise, make whatever function called it return undefined
@@ -1144,7 +1264,7 @@ export class RoomBattle extends RoomGames.RoomGame {
 		});
 		const resultStrings = await teamDataPromise;
 		if (!resultStrings) return;
-		const result = resultStrings.map(item => Dex.fastUnpackTeam(item))[0];
+		const result = Teams.unpack(resultStrings[0]);
 		return result;
 	}
 	onChatMessage(message: string, user: User) {
