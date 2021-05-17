@@ -1208,7 +1208,7 @@ export const Formats: FormatList = [
 
 		mod: 'gen7',
 		ruleset: ['[Gen 7] Ubers'],
-		banlist: ['Uber > 1', 'Uber ++ Arena Trap', 'Uber ++ Power Construct', 'Blissey', 'Chansey', 'Deoxys-Attack', 'Gengar-Mega', 'Mawile-Mega', 'Medicham-Mega', 'Sableye-Mega', 'Toxapex', 'Huge Power', 'Pure Power', 'Shadow Tag', 'Baton Pass'],
+		banlist: ['Uber > 1', 'Uber ++ Arena Trap', 'Uber ++ Power Construct', 'Blissey', 'Chansey', 'Deoxys-Attack', 'Gengar-Mega', 'Mawile-Mega', 'Medicham-Mega', 'Sableye-Mega', 'Toxapex', 'Huge Power', 'Pure Power', 'Shadow Tag'],
 		onModifySpecies(species, target, source, effect) {
 			if (source || !target || !target.side) return;
 			let uber = target.side.team.find(set => {
@@ -1988,8 +1988,8 @@ export const Formats: FormatList = [
 		banlist: [
 			'UU', 'RUBL', // RU
 			'Archeops', 'Komala', 'Regigigas', 'Silvally', 'Slaking', // AAA
-			'Aerodactyl', 'Araquanid', 'Blacephalon', 'Kartana', 'Komala', 'Kyurem-Black', 'Porygon-Z', 'Silvally', 'Tapu Koko', 'Tapu Lele', 'Thundurus-Base', 'King\'s Rock', 'Razor Fang', // STABmons
-			'Dragonite', 'Latias-Mega', 'Shedinja', 'Kommonium Z', // Camomons
+			'Aerodactyl', 'Araquanid', 'Blacephalon', 'Kartana', 'Kyurem-Black', 'Porygon-Z', 'Tapu Koko', 'Tapu Lele', 'Thundurus-Base', 'King\'s Rock', 'Razor Fang', // STABmons
+			'Dragonite', 'Latias-Mega', 'Shedinja', // Camomons
 			'Marowak-Alola', 'Emboar' // STAAABmons RU
 		],
 		restricted: [
