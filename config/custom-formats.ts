@@ -19,7 +19,6 @@ export const Formats: FormatList = [
         ],
 
 		mod: 'suicidecup',
-		forcedLevel: 100,
 		team: 'randomSC',
 		ruleset: ['PotD', 'Suicide Cup Standard Package', 'Cancel Mod', 'Evasion Moves Clause', 'HP Percentage Mod', 'Moody Clause', 'Nickname Clause', 'Obtainable', 'Sleep Clause Mod', 'Species Clause'],
 	},
@@ -689,7 +688,6 @@ export const Formats: FormatList = [
         ],
 
         mod: 'gen8',
-        forcedLevel: 100,
         ruleset: ['Suicide Cup Standard Package', 'Cancel Mod', 'Evasion Moves Clause', 'HP Percentage Mod', 'Moody Clause', 'Nickname Clause', 'Obtainable', 'Sleep Clause Mod', 'Species Clause', 'Team Preview'],
         banlist: [
         	'Shedinja', 'Infiltrator', 'Magic Guard', 'Choice Scarf', 'Leppa Berry', 'Explosion',
@@ -704,7 +702,6 @@ export const Formats: FormatList = [
         ],
 
         mod: 'gen8',
-        forcedLevel: 100,
         ruleset: [
 			'Suicide Cup Standard Package', 'Cancel Mod', 'Evasion Moves Clause', 'HP Percentage Mod', 'Moody Clause', 'Nickname Clause',
 			'Obtainable', 'Sleep Clause Mod', 'Species Clause', 'Team Preview', '+Past', '+Unreleased', 'Standard NatDex'
@@ -942,7 +939,6 @@ export const Formats: FormatList = [
         ],
 
         mod: 'gen7',
-        forcedLevel: 100,
         ruleset: ['Suicide Cup Standard Package', 'Cancel Mod', 'Evasion Moves Clause', 'HP Percentage Mod', 'Moody Clause', 'Nickname Clause', 'Obtainable', 'Sleep Clause Mod', 'Species Clause', 'Team Preview'],
         banlist: [
         	'Shedinja', 'Infiltrator', 'Magic Guard', 'Misty Surge', 'Assault Vest', 'Choice Scarf', 'Leppa Berry', 'Explosion',

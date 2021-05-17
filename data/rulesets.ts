@@ -2219,6 +2219,7 @@ export const Rulesets: {[k: string]: FormatData} = {
 		effectType: 'ValidatorRule',
 		name: 'Suicide Cup Standard Set Validation',
 		desc: "Standard set validation for Suicide Cup.",
+		ruleset: ['Adjust Level = 100'],
 		onValidateSet(set, format) {
 			let nRequiredLevel = 100;
 			if(format.forcedLevel) {
