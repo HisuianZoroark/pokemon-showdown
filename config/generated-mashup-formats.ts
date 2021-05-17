@@ -270,7 +270,6 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'gen8',
-		maxLevel: 5,
 		ruleset: [
 			'Little Cup', 'Standard', 'Dynamax Clause', '!Obtainable Abilities',
 		],
@@ -293,7 +292,6 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'gen8',
-		maxLevel: 5,
 		ruleset: [
 			'Little Cup', 'Standard', 'Dynamax Clause', '!Obtainable',
 		],
@@ -318,7 +316,6 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'gen8',
-		maxLevel: 5,
 		ruleset: [
 			'Little Cup', 'Standard', 'Dynamax Clause', 'Camomons Rule',
 		],
@@ -342,7 +339,6 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'gen8',
-		maxLevel: 5,
 		ruleset: [
 			'Little Cup', 'Standard', 'Dynamax Clause', 'STABmons Move Legality',
 		],

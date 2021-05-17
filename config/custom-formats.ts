@@ -442,7 +442,6 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'gen7',
-		maxLevel: 5,
 		ruleset: ['-Nonexistent', '2 Ability Clause', 'OHKO Clause', 'Evasion Moves Clause', 'CFZ Clause', 'Sleep Clause Mod', 'Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod', 'Team Preview', 'Little Cup'],
 		banlist: [
 			'Eevium Z', 'Baton Pass', 'Dragon Rage', 'Sonic Boom', // LC
@@ -461,7 +460,6 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'gen7',
-		maxLevel: 5,
 		ruleset: ['Obtainable', 'Standard', 'Swagger Clause', 'Little Cup', 'AAA Standard Package', '!Obtainable Abilities'],
 		banlist: [
 			'Aipom', 'Cutiefly', 'Gligar', 'Meditite', 'Misdreavus', 'Murkrow', 'Porygon',
@@ -485,7 +483,6 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'gen7',
-		maxLevel: 5,
 		ruleset: ['Obtainable', 'Standard', 'Swagger Clause', 'Little Cup', 'STABmons Move Legality'],
 		banlist: [
 			'Aipom', 'Cutiefly', 'Drifloon', 'Gligar', 'Meditite', 'Misdreavus', 'Murkrow', 'Porygon',
@@ -503,7 +500,6 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'gen7mixandmega',
-		maxLevel: 5,
 		ruleset: ['Obtainable', 'Standard', 'Little Cup', 'Gen 7 Mix and Mega Standard Package'],
 		banlist: ['Eevium Z', 'Baton Pass', 'Dragon Rage', 'Electrify', 'Sonic Boom'],
 		restricted: ['Beedrillite', 'Blazikenite', 'Gengarite', 'Kangaskhanite', 'Mawilite', 'Medichamite', 'Pidgeotite', 'Ultranecrozium Z',
