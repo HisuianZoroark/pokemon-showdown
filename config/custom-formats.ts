@@ -714,7 +714,7 @@ export const Formats: FormatList = [
 		gameType: 'doubles',
 		ruleset: ['[Gen 8] Doubles OU', 'Sleep Clause Mod'],
 		banlist: [
-			'Huge Power', 'Pure Power', 'Wonder Guard', 'Shadow Tag', 'Normalize', 'Trace', 'Imposter', 'Transform',
+			'Huge Power', 'Pure Power', 'Wonder Guard', 'Normalize', 'Trace', 'Imposter', 'Transform',
 			'Arctovish', 'Arctozolt', 'Dracovish', 'Dracozolt',
 		],
 		onBeforeSwitchIn(pokemon) {
@@ -814,7 +814,7 @@ export const Formats: FormatList = [
 		mod: 'gen8',
 		ruleset: ['[Gen 8] Ubers', '350 Cup Rule'],
 		banlist: [
-			'Shadow Tag', 'Arena Trap', // Abilities
+			'Arena Trap', // Abilities
 			'Eviolite', 'Light Ball', // Items
 			'Rufflet​', 'Pawniard​', // Pokemon
 		],
@@ -827,10 +827,10 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'gen8',
-		ruleset: ['[Gen 8] Ubers', 'Dynamax Clause', 'Scalemons Mod'],
+		ruleset: ['[Gen 8] Ubers', 'Scalemons Mod'],
 		banlist: [
 			'Crawdaunt', 'Darmanitan', 'Darmanitan-Galar', 'Darumaka', 'Darumaka-Galar', 'Gastly',
-			'Arena Trap', 'Drizzle', 'Drought', 'Huge Power', 'Moody', 'Shadow Tag', 'Baton Pass', 'Rain Dance', 'Sunny Day', 'Eviolite', 'Light Ball',
+			'Arena Trap', 'Drizzle', 'Drought', 'Huge Power', 'Moody', 'Rain Dance', 'Sunny Day', 'Eviolite', 'Light Ball',
 		],
 	},
 	{
@@ -960,7 +960,7 @@ export const Formats: FormatList = [
 
 		mod: 'gen7',
 		ruleset: ['[Gen 7] Ubers'],
-		banlist: ['Baton Pass'],
+		banlist: [],
 		onValidateTeam(team, format, teamHas) {
 			/*console.log("onvt: " + this.formatsCache);
 			for( let i=0; i<this.formatsCache.length; i++) {
@@ -1163,11 +1163,9 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'gen7',
-		teamLength: {
-			validate: [6, 6],
-			battle: 6,
-		},
-		ruleset: ['Obtainable', 'Moody Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod', 'Team Preview', 'Mega Rayquaza Clause'],
+		ruleset: [
+			'Obtainable', 'Moody Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod',
+			'Team Preview', 'Mega Rayquaza Clause', 'Min Team Size = 6', 'Max Team Size = 6', 'Picked Team Size = 1'],
 		banlist: [
 			'Shedinja', 'Smeargle', 'Huge Power', 'Pure Power', 'Deep Sea Tooth', 'Eviolite', 'Focus Sash', 'Light Ball', 'Lucky Punch',
 			'Stick', 'Thick Club', 'Dark Void', 'Grass Whistle', 'Hypnosis', 'Lovely Kiss', 'Perish Song', 'Sing', 'Sleep Powder', 'Spore', 'Transform',
