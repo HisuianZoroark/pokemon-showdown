@@ -36,11 +36,11 @@ export const Formats: FormatList = [
         },
         onSwitchIn(pokemon) {
             // @ts-ignore
-            const oMegaSpecies = this.Dex.species.get(pokemon.species.originalMega);
+            const oMegaSpecies = this.dex.species.get(pokemon.species.originalMega);
             if (oMegaSpecies.exists && pokemon.m.originalSpecies !== oMegaSpecies.baseSpecies) {
                 // Place volatiles on the Pokémon to show its mega-evolved condition and details
                 this.add('-start', pokemon, oMegaSpecies.requiredItem || oMegaSpecies.requiredMove, '[silent]');
-                const oSpecies = this.Dex.species.get(pokemon.m.originalSpecies);
+                const oSpecies = this.dex.species.get(pokemon.m.originalSpecies);
                 if (oSpecies.types.length !== pokemon.species.types.length || oSpecies.types[1] !== pokemon.species.types[1]) {
                     this.add('-start', pokemon, 'typechange', pokemon.species.types.join('/'), '[silent]');
                 }
@@ -48,7 +48,7 @@ export const Formats: FormatList = [
         },
         onSwitchOut(pokemon) {
             // @ts-ignore
-            const oMegaSpecies = this.Dex.species.get(pokemon.species.originalMega);
+            const oMegaSpecies = this.dex.species.get(pokemon.species.originalMega);
             if (oMegaSpecies.exists && pokemon.m.originalSpecies !== oMegaSpecies.baseSpecies) {
                 this.add('-end', pokemon, oMegaSpecies.requiredItem || oMegaSpecies.requiredMove, '[silent]');
             }
@@ -165,7 +165,7 @@ export const Formats: FormatList = [
 		ruleset: ['Obtainable', 'HP Percentage Mod', 'Cancel Mod'],
 		pokemon: {
 			getAbility() {
-				const move = this.battle.Dex.moves.get(toID(this.ability));
+				const move = this.battle.dex.moves.get(toID(this.ability));
 				if (!move.exists) return Object.getPrototypeOf(this).getAbility.call(this);
 				return {
 					id: move.id,
@@ -853,7 +853,7 @@ export const Formats: FormatList = [
 		onValidateSet(set, format) {
 			let restrictedAbilities = format.restrictedAbilities || [];
 			if (restrictedAbilities.includes(set.ability)) {
-				let species = this.Dex.species.get(set.species || set.name);
+				let species = this.dex.species.get(set.species || set.name);
 				let legalAbility = false;
 				for (let i in species.abilities) {
 					// @ts-ignore
@@ -901,7 +901,7 @@ export const Formats: FormatList = [
 		onModifySpecies(species, target, source, effect) {
 			if (!target) return; // Chat command
 			if (effect && ['imposter', 'transform'].includes(effect.id)) return;
-			let types = [...new Set(target.baseMoveSlots.slice(0, 2).map(move => this.Dex.moves.get(move.id).type))];
+			let types = [...new Set(target.baseMoveSlots.slice(0, 2).map(move => this.dex.moves.get(move.id).type))];
 			return Object.assign({}, species, {types: types});
 		},
 		onSwitchIn(pokemon) {
@@ -969,15 +969,15 @@ export const Formats: FormatList = [
 			let problemsArray = /** @type {string[]} */ ([]);
 			let types = /** @type {string[]} */ ([]);
 			for (const [i, set] of team.entries()) {
-				let item = this.Dex.items.get(set.item);
-				let species = this.Dex.species.get(set.species);
+				let item = this.dex.items.get(set.item);
+				let species = this.dex.species.get(set.species);
 				if (!species.exists) return [`The Pok\u00e9mon "${set.name || set.species}" does not exist.`];
 				if (i === 0) {
 					types = species.types;
 					if (species.name.substr(0, 9) === 'Necrozma-' && item.id === 'ultranecroziumz') types = ['Psychic'];
 					if (item.megaStone && species.name === item.megaEvolves) {
-						species = this.Dex.species.get(item.megaStone);
-						let baseSpecies = this.Dex.species.get(item.megaEvolves);
+						species = this.dex.species.get(item.megaStone);
+						let baseSpecies = this.dex.species.get(item.megaEvolves);
 						types = baseSpecies.types.filter(type => species.types.includes(type));
 					}
 					// 18/10/08 TrashChannel: Since this is already an ubers-based meta,
@@ -989,7 +989,7 @@ export const Formats: FormatList = [
 						problemsArray.push("You can't use an Ubers pokemon as a follower!");
 					}
 					let followerBannedAbilities = ['Arena Trap', 'Power Construct', 'Shadow Tag'];
-					let ability = this.getAbility(set.ability);
+					let ability = this.dex.abilities.get(set.ability);
 					let abilityName = ability.toString();
 					for (let nBanAbItr = 0; nBanAbItr < followerBannedAbilities.length; ++nBanAbItr) {
 						if (followerBannedAbilities[nBanAbItr] == abilityName) { // Ban OU banned abilities
@@ -999,8 +999,8 @@ export const Formats: FormatList = [
 					// Baton Pass is also banned on Ubers, so we move it to general banlist
 					let followerTypes = species.types;
 					if (item.megaStone && species.name === item.megaEvolves) {
-						species = this.Dex.species.get(item.megaStone);
-						let baseSpecies = this.Dex.species.get(item.megaEvolves);
+						species = this.dex.species.get(item.megaStone);
+						let baseSpecies = this.dex.species.get(item.megaEvolves);
 						if (baseSpecies.types.some(type => types.includes(type)) && species.types.some(type => types.includes(type))) {
 							followerTypes = baseSpecies.types.concat(species.types).filter(type => species.types.concat(baseSpecies.types).includes(type));
 						}
@@ -1023,13 +1023,13 @@ export const Formats: FormatList = [
 		validateSet(set, teamHas) {
 			const restrictedMoves = this.format.restricted || [];
 			let item = set.item;
-			let move = this.Dex.moves.get(set.item);
+			let move = this.dex.moves.get(set.item);
 			if (!move.exists || move.type === 'Status' || restrictedMoves.includes(move.name) || move.flags['charge'] || move.priority > 0) return this.validateSet(set, teamHas);
 			set.item = '';
 			let problems = this.validateSet(set, teamHas) || [];
 			set.item = item;
 			// @ts-ignore
-			if (this.format.checkCanLearn.call(this, move, this.Dex.species.get(set.species))) problems.push(`${set.species} can't learn ${move.name}.`);
+			if (this.format.checkCanLearn.call(this, move, this.dex.species.get(set.species))) problems.push(`${set.species} can't learn ${move.name}.`);
 			// @ts-ignore
 			if (move.secondaries && move.secondaries.some(secondary => secondary.boosts && secondary.boosts.accuracy < 0)) problems.push(`${set.name || set.species}'s move ${move.name} can't be used as an item.`);
 			return problems.length ? problems : null;
@@ -1172,7 +1172,7 @@ export const Formats: FormatList = [
 		],
 		onValidateSet(set) {
 			if (set && set.item) {
-				let item = this.Dex.items.get(set.item);
+				let item = this.dex.items.get(set.item);
 				if (item.zMoveUser || item.megaStone || item.onPrimal) return [`${set.name || set.species}'s item ${set.item} is banned.`];
 			}
 		},
@@ -1212,13 +1212,13 @@ export const Formats: FormatList = [
 		onModifySpecies(species, target, source, effect) {
 			if (source || !target || !target.side) return;
 			let uber = target.side.team.find(set => {
-				let item = this.Dex.items.get(set.item);
-				return set.ability === 'Arena Trap' || set.ability === 'Power Construct' || this.Dex.species.get(item.megaEvolves === set.species ? item.megaStone : set.species).tier === 'Uber';
+				let item = this.dex.items.get(set.item);
+				return set.ability === 'Arena Trap' || set.ability === 'Power Construct' || this.dex.species.get(item.megaEvolves === set.species ? item.megaStone : set.species).tier === 'Uber';
 			}) || target.side.team[0];
 			let stat = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'][target.side.team.indexOf(target.set)];
 			let pokemon = this.dex.deepClone(species);
 			// @ts-ignore
-			pokemon.baseStats[stat] = this.Dex.species.get(uber.species).baseStats[stat];
+			pokemon.baseStats[stat] = this.dex.species.get(uber.species).baseStats[stat];
 			return pokemon;
 		},
 	},
@@ -1248,7 +1248,7 @@ export const Formats: FormatList = [
 		onModifySpecies(species, target, source, effect) {
 			if (!target) return;
 			if (effect && ['imposter', 'transform'].includes(effect.id)) return;
-			let nature = this.getNature(target.set.nature);
+			let nature = this.dex.natures.get(target.set.nature);
 			if (!nature.plus) return species;
 			let newStats = Object.assign({}, species.baseStats);
 			let swap = newStats[nature.plus];
@@ -1283,7 +1283,7 @@ export const Formats: FormatList = [
 			leader.species = teamHas.leader;
 			let problems = this.validateSet(leader, teamHas);
 			if (problems) return problems;
-			set.ability = this.Dex.species.get(set.species || set.name).abilities['0'];
+			set.ability = this.dex.species.get(set.species || set.name).abilities['0'];
 			// @ts-ignore
 			set.follower = true;
 			problems = this.validateSet(set, teamHas);
@@ -1390,7 +1390,7 @@ export const Formats: FormatList = [
 			return newSpecies;
 		},
 		onSwitchIn(pokemon) {
-			const baseSpecies = this.Dex.species.get(pokemon.species.baseSpecies);
+			const baseSpecies = this.dex.species.get(pokemon.species.baseSpecies);
 			if (baseSpecies.exists && pokemon.species.name !== (pokemon.species.changesFrom || baseSpecies.name)) {
 				if (pokemon.species.types.length !== baseSpecies.types.length || pokemon.species.types[1] !== baseSpecies.types[1]) {
 					this.add('-start', pokemon, 'typechange', pokemon.species.types.join('/'), '[silent]');
@@ -1398,7 +1398,7 @@ export const Formats: FormatList = [
 			}
 		},
 		onAfterMega(pokemon) {
-			const baseSpecies = this.Dex.species.get(pokemon.species.baseSpecies);
+			const baseSpecies = this.dex.species.get(pokemon.species.baseSpecies);
 			if (baseSpecies.exists && pokemon.species.name !== (pokemon.species.changesFrom || baseSpecies.name)) {
 				if (pokemon.species.types.length !== baseSpecies.types.length || pokemon.species.types[1] !== baseSpecies.types[1]) {
 					this.add('-start', pokemon, 'typechange', pokemon.species.types.join('/'), '[silent]');
@@ -1494,21 +1494,20 @@ export const Formats: FormatList = [
 		],
 		modValueNumberA: 300,
 		onValidateTeam(team) {
-			/**@type {{[k: string]: true}} */
-			let itemTable = {};
+			const itemTable = new Set<ID>();
 			for (const set of team) {
-				let bitchSpecies = this.Dex.species.get(set.item);
+				let bitchSpecies = this.dex.species.get(set.item);
 				if (!bitchSpecies.exists) continue;
-				if (itemTable[bitchSpecies.id]) return ["You are limited to one of each Bitch.", "(You have more than one " + bitchSpecies.name + ")"];
-				itemTable[bitchSpecies.id] = true;
+				if (itemTable.has(bitchSpecies.id)) return ["You are limited to one of each Bitch.", "(You have more than one " + bitchSpecies.name + ")"];
+				itemTable.add(bitchSpecies.id);
 			}
 		},
-		onValidateSet(set, format, setHas, teamHas, ruleTable) {
+		onValidateSet(set, format) {
 			//console.log('BnB: val ');
 			//console.log('format.modValueNumberA: '+format.modValueNumberA.toString());
 
-			let beggarSpecies = this.Dex.species.get(set.species || set.name);
-			let bitchSpecies = this.Dex.species.get(set.item);
+			let beggarSpecies = this.dex.species.get(set.species || set.name);
+			let bitchSpecies = this.dex.species.get(set.item);
 			//console.log('bitch: '+set.item);
 			if(!bitchSpecies.exists) return;
 
@@ -1537,7 +1536,7 @@ export const Formats: FormatList = [
 			let abilityBanTest = '-ability:'+postBeggarAbilityId;
 			//console.log("abilityBanTest: " + abilityBanTest);
 			let abilityRestrictedTest = '*ability:'+postBeggarAbilityId;
-			ruleTable.forEach((v, rule) => {
+			this.ruleTable.forEach((v, rule) => {
 				//console.log("BnB rule: " + rule);
 				if( rule === abilityBanTest ) {
 					//console.log("BnB rule IN ");
@@ -1559,13 +1558,13 @@ export const Formats: FormatList = [
 		},
 		onSwitchIn(pokemon) {
 			// Take care of non-BnB case
-			let bitchSpecies = this.Dex.species.get(pokemon.item);
+			let bitchSpecies = this.dex.species.get(pokemon.item);
 			if(!bitchSpecies.exists) return;
 			if (null === pokemon.canMegaEvo) {
 				// Place volatiles on the Pokémon to show its beggar-evolved condition and details
 				let bitchSpecies = pokemon.item;
 				this.add('-start', pokemon, this.dex.generateMegaStoneName(bitchSpecies), '[silent]');
-				let oSpecies = this.Dex.species.get(pokemon.m.originalSpecies);
+				let oSpecies = this.dex.species.get(pokemon.m.originalSpecies);
 				if (oSpecies.types.length !== pokemon.species.types.length || oSpecies.types[1] !== pokemon.species.types[1]) {
 					this.add('-start', pokemon, 'typechange', pokemon.species.types.join('/'), '[silent]');
 				}
@@ -1573,7 +1572,7 @@ export const Formats: FormatList = [
 		},
 		onSwitchOut(pokemon) {
 			// @ts-ignore
-			let oMegaSpecies = this.Dex.species.get(pokemon.species.originalMega);
+			let oMegaSpecies = this.dex.species.get(pokemon.species.originalMega);
 			if (oMegaSpecies.exists && pokemon.m.originalSpecies !== oMegaSpecies.baseSpecies) {
 				this.add('-end', pokemon, oMegaSpecies.requiredItem || oMegaSpecies.requiredMove, '[silent]');
 			}
@@ -1595,13 +1594,13 @@ export const Formats: FormatList = [
 		},
 		onSwitchIn(pokemon) {
 			// Take care of non-BnB case
-			let bitchSpecies = this.Dex.species.get(pokemon.item);
+			let bitchSpecies = this.dex.species.get(pokemon.item);
 			if(!bitchSpecies.exists) return;
 			if (null === pokemon.canMegaEvo) {
 				// Place volatiles on the Pokémon to show its beggar-evolved condition and details
 				let bitchSpecies = pokemon.item;
 				this.add('-start', pokemon, this.dex.generateMegaStoneName(bitchSpecies), '[silent]');
-				let oSpecies = this.Dex.species.get(pokemon.m.originalSpecies);
+				let oSpecies = this.dex.species.get(pokemon.m.originalSpecies);
 				if (oSpecies.types.length !== pokemon.species.types.length || oSpecies.types[1] !== pokemon.species.types[1]) {
 					this.add('-start', pokemon, 'typechange', pokemon.species.types.join('/'), '[silent]');
 				}
@@ -1609,7 +1608,7 @@ export const Formats: FormatList = [
 		},
 		onSwitchOut(pokemon) {
 			// @ts-ignore
-			let oMegaSpecies = this.Dex.species.get(pokemon.species.originalMega);
+			let oMegaSpecies = this.dex.species.get(pokemon.species.originalMega);
 			if (oMegaSpecies.exists && pokemon.m.originalSpecies !== oMegaSpecies.baseSpecies) {
 				this.add('-end', pokemon, oMegaSpecies.requiredItem || oMegaSpecies.requiredMove, '[silent]');
 			}
@@ -1637,8 +1636,8 @@ export const Formats: FormatList = [
 			if (this.format && this.format.banlist && this.format.banlist.includes(effectName)) return;
 
 			const effectID = toID(effectName);
-			const effectAsAbility = checkAbility ? battle.Dex.abilities.get(effectID) : null;
-			const effectAsMove = checkMove ? battle.Dex.moves.get(effectID) : null;
+			const effectAsAbility = checkAbility ? battle.dex.abilities.get(effectID) : null;
+			const effectAsMove = checkMove ? battle.dex.moves.get(effectID) : null;
 
 			for (const side of battle.sides) {
 				if (!side) continue;
@@ -1723,7 +1722,7 @@ export const Formats: FormatList = [
 			//console.log('onAfterMove: ' + move);
 			let format = this.format;
 			// @ts-ignore
-			if (!format.runTeachableMoment) format = this.Dex.formats.get('gen8liveandlearn');
+			if (!format.runTeachableMoment) format = this.dex.formats.get('gen8liveandlearn');
 			// @ts-ignore
 			format.runTeachableMoment!(this, move.name, false, true);
 			if(move.hasBounced) {
@@ -1736,7 +1735,7 @@ export const Formats: FormatList = [
 			{
 				let format = this.format;
 				// @ts-ignore
-				if (!format.runTeachableMoment) format = this.Dex.formats.get('gen8liveandlearn');
+				if (!format.runTeachableMoment) format = this.dex.formats.get('gen8liveandlearn');
 				// @ts-ignore
 				format.runTeachableMoment!(this, abilityName, true, false);
 			},
@@ -1748,7 +1747,7 @@ export const Formats: FormatList = [
 			{
 				let format = this.format;
 				// @ts-ignore
-				if (!format.runTeachableMoment) format = this.Dex.formats.get('gen8liveandlearn');
+				if (!format.runTeachableMoment) format = this.dex.formats.get('gen8liveandlearn');
 
 				if (effect) {
 					if ( ('Ability' !== effect.effectType) &&
@@ -1777,7 +1776,7 @@ export const Formats: FormatList = [
 
 				let format = this.format;
 				// @ts-ignore
-				if (!format.runTeachableMoment) format = this.Dex.formats.get('gen8liveandlearn');
+				if (!format.runTeachableMoment) format = this.dex.formats.get('gen8liveandlearn');
 				// @ts-ignore
 				format.runTeachableMoment!(this, sourceEffect.name, true, false);
 			},*/
@@ -1850,7 +1849,7 @@ export const Formats: FormatList = [
 			//console.log('onAfterMove: ' + move);
 			let format = this.format;
 			// @ts-ignore
-			if (!format.runTeachableMoment) format = this.Dex.formats.get('gen8liveandlearn');
+			if (!format.runTeachableMoment) format = this.dex.formats.get('gen8liveandlearn');
 			// @ts-ignore
 			format.runTeachableMoment!(this, move.name, false, true);
 			if(move.hasBounced) {
@@ -1863,7 +1862,7 @@ export const Formats: FormatList = [
 			{
 				let format = this.format;
 				// @ts-ignore
-				if (!format.runTeachableMoment) format = this.Dex.formats.get('gen8liveandlearn');
+				if (!format.runTeachableMoment) format = this.dex.formats.get('gen8liveandlearn');
 				// @ts-ignore
 				format.runTeachableMoment!(this, abilityName, true, false);
 			},
@@ -1875,7 +1874,7 @@ export const Formats: FormatList = [
 			{
 				let format = this.format;
 				// @ts-ignore
-				if (!format.runTeachableMoment) format = this.Dex.formats.get('gen8liveandlearn');
+				if (!format.runTeachableMoment) format = this.dex.formats.get('gen8liveandlearn');
 
 				if (effect) {
 					if ( ('Ability' !== effect.effectType) &&
@@ -1904,7 +1903,7 @@ export const Formats: FormatList = [
 
 				let format = this.format;
 				// @ts-ignore
-				if (!format.runTeachableMoment) format = this.Dex.formats.get('gen8liveandlearn');
+				if (!format.runTeachableMoment) format = this.dex.formats.get('gen8liveandlearn');
 				// @ts-ignore
 				format.runTeachableMoment!(this, sourceEffect.name, true, false);
 			},*/
