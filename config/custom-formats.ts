@@ -279,7 +279,6 @@ export const Formats: FormatList = [
 			'Comatose', 'Contrary', 'Fluffy', 'Fur Coat', 'Huge Power', 'Illusion', 'Imposter', 'Innards Out',
 			'Parental Bond', 'Protean', 'Pure Power', 'Simple', 'Speed Boost', 'Stakeout', 'Water Bubble', 'Wonder Guard',
 		],
-		minSourceGen: 8,
 	},
 	{
 		name: "[Gen 7] STABmons Ubers",
