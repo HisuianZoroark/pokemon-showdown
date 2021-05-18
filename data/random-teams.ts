@@ -2499,7 +2499,7 @@ export class RandomTeams {
 		species = this.dex.species.get(species);
 		let baseSpecies = this.dex.species.get(species.baseSpecies);
 		let forme = species.name;
-		const lsetData = this.dex.getLearnsetData(species.id);
+		const lsetData = this.dex.data.Learnsets[species.id];
 
 		const allowedMega = ['Absol', 'Gengar', 'Banette'];
 

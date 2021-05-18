@@ -1078,7 +1078,7 @@ export const Rulesets: {[k: string]: FormatData} = {
 			const restrictedMoves = this.format.restricted || [];
 			let rejectForNonstandard = false;
 			if(move.isNonstandard) {
-				const ruleTable = this.dex.getRuleTable(this.format);
+				const ruleTable = this.dex.formats.getRuleTable(this.format);
 				//ruleTable.forEach(logMapElements); // Debug
 				switch(move.isNonstandard) {
 					case "Past":
@@ -1769,7 +1769,7 @@ export const Rulesets: {[k: string]: FormatData} = {
 			let species = this.dex.species.get(set.species);
 			let problems = [];
 			let totalEV = 0;
-			let allowCAP = !!(format && this.dex.getRuleTable(format).has('allowcap'));
+			let allowCAP = !!(format && this.dex.formats.getRuleTable(format).has('allowcap'));
 
 			if (set.species === set.name) delete set.name;
 			if (species.gen > this.gen) {
@@ -1838,7 +1838,7 @@ export const Rulesets: {[k: string]: FormatData} = {
 			}
 
 			// ----------- legality line ------------------------------------------
-			if (!this.dex.getRuleTable(format).has('-illegal')) return problems;
+			if (!this.dex.formats.getRuleTable(format).has('-illegal')) return problems;
 			// everything after this line only happens if we're doing legality enforcement
 
 			// Pokestar studios
@@ -1892,7 +1892,7 @@ export const Rulesets: {[k: string]: FormatData} = {
 
 			let battleForme = species.battleOnly && species.forme;
 			// 19/07/14 TrashChannel: Option to pass non-mega analogous behaviour like Primal Reversion and Ultra Burst
-			let allowIrregularMegaesques = !!(format && this.dex.getRuleTable(format).has('megamonsallowirregularmegaesques'));
+			let allowIrregularMegaesques = !!(format && this.dex.formats.getRuleTable(format).has('megamonsallowirregularmegaesques'));
 			if (battleForme && !species.isMega) {
 				if (species.requiredAbility && set.ability !== species.requiredAbility) {
 					problems.push("" + species.forme + " transforms in-battle with " + species.requiredAbility + "."); // Darmanitan-Zen, Zygarde-Complete
@@ -1937,7 +1937,7 @@ export const Rulesets: {[k: string]: FormatData} = {
 				// Autofixed forme.
 				species = this.dex.species.get(set.species);
 
-				if (!this.dex.getRuleTable(format).has('ignoreillegalabilities') && !format.noChangeAbility) {
+				if (!this.dex.formats.getRuleTable(format).has('ignoreillegalabilities') && !format.noChangeAbility) {
 					// Ensure that the ability is (still) legal.
 					let legalAbility = false;
 					for (let i in species.abilities) {
@@ -2228,8 +2228,7 @@ export const Rulesets: {[k: string]: FormatData} = {
 			else if(format.maxForcedLevel) {
 				nRequiredLevel = format.maxForcedLevel;
 			}
-			//const format = Dex.formats.get(this.format, true);
-			let ruleTable = this.dex.getRuleTable(format);
+			let ruleTable = this.dex.formats.getRuleTable(format);
 			if(ruleTable.has('littlecup')) {
 				nRequiredLevel = 5;
 			}

@@ -53,7 +53,7 @@ let MixedMetaCollection = {
 			//console.log("sCustomRulesString: " + sCustomRulesString);
 
 			let metaFormat = global.Dex.formats.get('[Gen 7] OU' + sCustomRulesString, true);
-			let metaRuleTable = global.Dex.getRuleTable(metaFormat);
+			let metaRuleTable = global.Dex.formats.getRuleTable(metaFormat);
 
 			let validatorProblems = validator.validateSetInternal(set, undefined, metaFormat, metaRuleTable, true) || [];
 			console.log("validatorProblems.length: " + validatorProblems.length.toString());
