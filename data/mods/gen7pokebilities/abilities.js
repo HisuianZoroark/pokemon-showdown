@@ -17,7 +17,7 @@ exports.Abilities = {
 			if (pokemon.innates) bannedAbilities = bannedAbilities.concat(pokemon.innates);
 			possibleAbilities = possibleAbilities.filter(val => !bannedAbilities.includes(val));
 			if (!possibleAbilities.length) return;
-			let ability = this.Dex.abilities.get(possibleAbilities[this.random(possibleAbilities.length)]);
+			let ability = this.dex.abilities.get(possibleAbilities[this.random(possibleAbilities.length)]);
 			this.add('-ability', pokemon, ability, '[from] ability: Power of Alchemy', '[of] ' + ally);
 			if (isAbility) {
 				pokemon.setAbility(ability);
@@ -42,7 +42,7 @@ exports.Abilities = {
 			if (pokemon.innates) bannedAbilities = bannedAbilities.concat(pokemon.innates);
 			possibleAbilities = possibleAbilities.filter(val => !bannedAbilities.includes(val));
 			if (!possibleAbilities.length) return;
-			let ability = this.Dex.abilities.get(possibleAbilities[this.random(possibleAbilities.length)]);
+			let ability = this.dex.abilities.get(possibleAbilities[this.random(possibleAbilities.length)]);
 			this.add('-ability', pokemon, ability, '[from] ability: Receiver', '[of] ' + ally);
 			if (isAbility) {
 				pokemon.setAbility(ability);
@@ -80,7 +80,7 @@ exports.Abilities = {
 					possibleTargets.splice(rand, 1);
 					continue;
 				}
-				let ability = this.Dex.abilities.get(this.sample(possibleAbilities));
+				let ability = this.dex.abilities.get(this.sample(possibleAbilities));
 				this.add('-ability', pokemon, ability, '[from] ability: Trace', '[of] ' + target);
 				if (isAbility) {
 					pokemon.setAbility(ability);

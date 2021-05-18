@@ -5,7 +5,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			// Ability suppression implemented in Pokemon.ignoringAbility() within sim/pokemon.js
 			onStart(pokemon) {
 				this.add('-endability', pokemon);
-				this.singleEvent('End', this.Dex.abilities.get(pokemon.ability), pokemon.abilityData, pokemon, pokemon, 'gastroacid');
+				this.singleEvent('End', this.dex.abilities.get(pokemon.ability), pokemon.abilityData, pokemon, pokemon, 'gastroacid');
 				// @ts-ignore
 				if (pokemon.m.innates) pokemon.m.innates.forEach(innate => pokemon.removeVolatile("ability:" + innate));
 			},

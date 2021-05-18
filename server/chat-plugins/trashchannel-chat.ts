@@ -190,7 +190,7 @@ export const commands: ChatCommands = {
 		if(!BnBMod) return this.errorReply(`BnBMod not found.`);
 
 		// Do beggar evo calcs
-		const mixedSpecies = BnBMod.getMixedSpecies(beggarSpecies.name, bitchSpecies.name);
+		const mixedSpecies = BnBMod.actions.getMixedSpecies(beggarSpecies.name, bitchSpecies.name);
 		mixedSpecies.tier = "BnB";
 		let weighthit = 20;
 		if (mixedSpecies.weighthg >= 2000) {
