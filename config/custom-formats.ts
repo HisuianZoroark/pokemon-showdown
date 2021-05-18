@@ -146,14 +146,14 @@ export const Formats: FormatList = [
 		ruleset: ['Obtainable', 'HP Percentage Mod', 'Cancel Mod'],
 		pokemon: {
 			getAbility() {
-				const move = this.battle.dex.moves.get(toID(this.ability));
+				const move = this.battle.dex.moves.get(this.battle.toID(this.ability));
 				if (!move.exists) return Object.getPrototypeOf(this).getAbility.call(this);
 				return {
 					id: move.id,
 					name: move.name,
-					onStart(pokemon) {
+					onStart(this: Battle, pokemon: Pokemon) {
 						this.add('-activate', pokemon, 'ability: ' + move.name);
-						this.useMove(move, pokemon);
+						this.actions.useMove(move, pokemon);
 					},
 					toString() {
 						return "";
