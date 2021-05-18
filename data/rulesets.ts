@@ -1506,6 +1506,105 @@ export const Rulesets: {[k: string]: FormatData} = {
 			pokemon.trapped = true;
 		},
 	},
+	multipleabilities: {
+		effectType: 'Rule',
+		name: 'Multiple Abilities',
+		desc: "Allows the simulator to recognize that Pok&eacute;mon may have multiple abilities active simulataneously.",
+		// Implemented in sim and data
+	},
+	pokebilitiesrule: {
+		effectType: 'Rule',
+		name: 'Pokebilities Rule',
+		desc: "Pokebilities battle effects: Pok&eacute;mon have all of their released abilities simultaneously.",
+		ruleset: ['Multiple Abilities'],
+		onBegin() {
+			if (!this.ruleTable.has('multipleabilities')) return;
+
+			this.add('rule', 'Pokebilities Rule: Pokémon have all of their released abilities simultaneously.');
+
+			for (const pokemon of this.getAllPokemon()) {
+				if (pokemon.ability === this.toID(pokemon.species.abilities['S'])) {
+					continue;
+				}
+				const existingPseudoAbilities = pokemon.m.pseudoAbilities || [];
+				pokemon.m.pokebilitiesPseudoAbilities = Object.keys(pokemon.species.abilities)
+					.filter(key => key !== 'S' && (key !== 'H' || !pokemon.species.unreleasedHidden))
+					.map(key => this.toID(pokemon.species.abilities[key as "0" | "1" | "H" | "S"]))
+					.filter(ability => ability !== pokemon.ability);
+				pokemon.m.pseudoAbilities = [...new Set(pokemon.m.pokebilitiesPseudoAbilities.concat(existingPseudoAbilities))];
+			}
+		},
+		onSwitchInPriority: 3,
+		onSwitchIn(pokemon) {
+			if (!this.ruleTable.has('multipleabilities')) return;
+
+			if (pokemon.m.pseudoAbilities) {
+				for (const pseudoAbility of pokemon.m.pseudoAbilities) {
+					const volatileName = 'ability:' + pseudoAbility;
+					if (pokemon.getVolatile(volatileName)) continue;
+					pokemon.addVolatile(volatileName, pokemon);
+				}
+			}
+		},
+		onAfterMega(pokemon) {
+			if (!this.ruleTable.has('multipleabilities')) return;
+			if (!pokemon.m.pokebilitiesPseudoAbilities) return; // Only clear our own pseudo-abilities
+
+			for (const pseudoAbility of pokemon.m.pokebilitiesPseudoAbilities) {
+				pokemon.removeVolatile('ability:' + pseudoAbility);
+			}
+			pokemon.m.pseudoAbilities = pokemon.m.pseudoAbilities.filter(
+				(ability: string) => !pokemon.m.pokebilitiesPseudoAbilities.includes(ability)
+			);
+			pokemon.m.pokebilitiesPseudoAbilities = undefined;
+		},
+	},
+	sharedpowerrule: {
+		effectType: 'Rule',
+		name: 'Shared Power Rule',
+		desc: "Shared Power battle effects: Once a Pok&eacute;mon switches in, its ability is shared with the rest of the team.",
+		ruleset: ['Multiple Abilities'],
+		onBegin() {
+			if (!this.ruleTable.has('multipleabilities')) return;
+
+			this.add('rule', 'Shared Power Rule: Once a Pokémon switches in, its ability is shared with the rest of the team.');
+		},
+		getSharedPower(pokemon) {
+			const sharedPower = new Set<string>();
+			for (const ally of pokemon.side.pokemon) {
+				if (ally.previouslySwitchedIn > 0) {
+					sharedPower.add(ally.baseAbility);
+				}
+			}
+			sharedPower.delete(pokemon.baseAbility);
+			return sharedPower;
+		},
+		onBeforeSwitchIn(pokemon) {
+			if (!this.ruleTable.has('multipleabilities')) return;
+
+			const rulesets = this.dex.data.Rulesets;
+			const rule = rulesets.hasOwnProperty('sharedpowerrule') ? rulesets['sharedpowerrule'] as Format : null;
+			if (!rule) return;
+
+			for (const ability of rule.getSharedPower!(pokemon)) {
+				const effect = 'ability:' + ability;
+				pokemon.volatiles[effect] = {id: this.toID(effect), target: pokemon};
+				if (!pokemon.m.pseudoAbilities) pokemon.m.pseudoAbilities = [];
+				if (!pokemon.m.pseudoAbilities.includes(ability)) pokemon.m.pseudoAbilities.push(ability);
+				if (!this.ruleTable.has('multipleabilities')) return;
+
+				const rulesets = this.dex.data.Rulesets;
+				const rule = rulesets.hasOwnProperty('sharedpowerrule') ? rulesets['sharedpowerrule'] as Format : null;
+				if (!rule) return;
+	
+				for (const ability of rule.getSharedPower!(pokemon)) {
+					const effect = 'ability:' + ability;
+					delete pokemon.volatiles[effect];
+					pokemon.addVolatile(effect);
+				}
+			},
+		},
+	},
 // #region TrashChannel Rules
 	/////////////////////////////
 	// TrashChannel: New rules //
@@ -2096,30 +2195,6 @@ export const Rulesets: {[k: string]: FormatData} = {
 		name: 'Mix and Mega Standard Package',
 		desc: "Standard package of rulesets for Mix and Mega (insufficient to run MnM without mod, crashes when called though Mix and Meta).",
 		ruleset: ['Mix and Mega Standard Validation', 'Mix and Mega Battle Effects'],
-	},
-	pokebilitiesliterule: {
-		effectType: 'Rule',
-		name: 'Pokebilities Lite Rule',
-		desc: "Basic Pokebilities functionality (does not override broken abilities like Trace).",
-		onBegin() {
-			let allPokemon = this.p1.pokemon.concat(this.p2.pokemon);
-			for (let pokemon of allPokemon) {
-				if (pokemon.ability === toID(pokemon.species.abilities['S'])) {
-					continue;
-				}
-				// @ts-ignore
-				pokemon.m.innates = Object.keys(pokemon.species.abilities).filter(key => key !== 'S' && (key !== 'H' || !pokemon.species.unreleasedHidden)).map(key => toID(pokemon.species.abilities[key])).filter(ability => ability !== pokemon.ability);
-			}
-		},
-		onSwitchInPriority: 2,
-		onSwitchIn(pokemon) {
-			// @ts-ignore
-			if (pokemon.m.innates) pokemon.m.innates.forEach(innate => pokemon.addVolatile("ability:" + innate, pokemon));
-		},
-		onAfterMega(pokemon) {
-			Object.keys(pokemon.volatiles).filter(innate => innate.startsWith('ability:')).forEach(innate => pokemon.removeVolatile(innate));
-			pokemon.m.innates = undefined;
-		},
 	},
 	reversedrule: {
 		effectType: 'Rule',
