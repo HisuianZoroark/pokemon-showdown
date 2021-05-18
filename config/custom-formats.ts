@@ -130,31 +130,12 @@ export const Formats: FormatList = [
 		},
 	},
 	{
-		name: "[Gen 8] Pokebilities: Random Battle (Beta)",
+		name: "[Gen 8] Pokebilities: Random Battle",
 		desc: `Randomized teams of level-balanced Pok&eacute;mon with all of their released Abilities simultaneously.`,
 
-		mod: 'pokebilities',
-		team: 'randomPokebilities',
-		ruleset: ['[Gen 8] OU'],
-		onBegin() {
-			let allPokemon = this.p1.pokemon.concat(this.p2.pokemon);
-			for (let pokemon of allPokemon) {
-				if (pokemon.ability === toID(pokemon.species.abilities['S'])) {
-					continue;
-				}
-				// @ts-ignore
-				pokemon.m.innates = Object.keys(pokemon.species.abilities).filter(key => key !== 'S' && (key !== 'H' || !pokemon.species.unreleasedHidden)).map(key => toID(pokemon.species.abilities[key])).filter(ability => ability !== pokemon.ability);
-			}
-		},
-		onSwitchInPriority: 2,
-		onSwitchIn(pokemon) {
-			// @ts-ignore
-			if (pokemon.m.innates) pokemon.m.innates.forEach(innate => pokemon.addVolatile("ability:" + innate, pokemon));
-		},
-		onAfterMega(pokemon) {
-			Object.keys(pokemon.volatiles).filter(innate => innate.startsWith('ability:')).forEach(innate => pokemon.removeVolatile(innate));
-			pokemon.m.innates = undefined;
-		},
+		mod: 'gen8',
+		team: 'random',
+		ruleset: ['Standard', 'Pokebilities Rule'],
 	},
 	{
 		name: "[Gen 8] Trademarked: Hackmons Cup",
@@ -595,9 +576,8 @@ export const Formats: FormatList = [
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3587901/">Vanilla Almost Any Ability</a>`,
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3595753/">Vanilla AAA Resources</a>`,
 		],
-
-		mod: 'gen7pokebilities',
-		ruleset: ['[Gen 7] OU', 'AAA Standard Package', '!Obtainable Abilities'],
+		mod: 'gen7',
+		ruleset: ['[Gen 7] OU', 'Pokebilities Rule', 'AAA Standard Package', '!Obtainable Abilities'],
 		banlist: [
 			'Bibarel', 'Bidoof', 'Diglett', 'Dugtrio', 'Excadrill', 'Glalie', 'Gothita', 'Gothitelle', 'Gothorita', 'Octillery', 'Porygon-Z', 'Remoraid', 'Smeargle', 'Snorunt', 'Trapinch', 'Wobbuffet', 'Wynaut', // Pokebilities
 			 'Archeops', 'Dragonite', 'Hoopa-Unbound', 'Kartana', 'Keldeo', 'Kyurem-Black', 'Regigigas', 'Shedinja', 'Slaking', 'Terrakion', 'Victini', 'Weavile' // AAA
@@ -782,31 +762,22 @@ export const Formats: FormatList = [
 		},
 	},
 	{
-		name: "[Gen 8] Pokebilities (Beta)",
+		name: "[Gen 8] Pokebilities",
 		desc: `Pok&eacute;mon have all of their released Abilities simultaneously.`,
 
-		mod: 'pokebilities',
-		ruleset: ['[Gen 8] OU'],
-		banlist: ['Diglett', 'Dugtrio', 'Excadrill', 'Glalie', 'Gothita', 'Gothitelle', 'Gothorita', 'Octillery', 'Porygon-Z', 'Remoraid', 'Snorunt', 'Trapinch', 'Wobbuffet', 'Wynaut'],
-		onBegin() {
-			let allPokemon = this.p1.pokemon.concat(this.p2.pokemon);
-			for (let pokemon of allPokemon) {
-				if (pokemon.ability === toID(pokemon.species.abilities['S'])) {
-					continue;
-				}
-				// @ts-ignore
-				pokemon.m.innates = Object.keys(pokemon.species.abilities).filter(key => key !== 'S' && (key !== 'H' || !pokemon.species.unreleasedHidden)).map(key => toID(pokemon.species.abilities[key])).filter(ability => ability !== pokemon.ability);
-			}
-		},
-		onSwitchInPriority: 2,
-		onSwitchIn(pokemon) {
-			// @ts-ignore
-			if (pokemon.m.innates) pokemon.m.innates.forEach(innate => pokemon.addVolatile("ability:" + innate, pokemon));
-		},
-		onAfterMega(pokemon) {
-			Object.keys(pokemon.volatiles).filter(innate => innate.startsWith('ability:')).forEach(innate => pokemon.removeVolatile(innate));
-			pokemon.m.innates = undefined;
-		},
+		mod: 'gen8',
+		ruleset: ['Standard', 'Dynamax Clause', 'Pokebilities Rule'],
+		banlist: [
+			'Calyrex-Ice', 'Calyrex-Shadow', 'Cinderace', 'Darmanitan-Galar', 'Dialga', 'Dracovish', 'Eternatus', 'Excadrill',
+			'Genesect', 'Giratina', 'Giratina-Origin', 'Groudon', 'Ho-Oh', 'Kyogre', 'Kyurem-Black', 'Kyurem-White', 'Landorus-Base',
+			'Lugia', 'Lunala', 'Magearna', 'Marshadow', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia',
+			'Porygon-Z', 'Rayquaza', 'Reshiram', 'Solgaleo', 'Spectrier', 'Urshifu-Base', 'Xerneas', 'Yveltal', 'Zacian', 'Zacian-Crowned',
+			'Zamazenta-Base', 'Zekrom', 'Zygarde-Base', 'Power Construct', 'Baton Pass',
+			// Moody users
+			'Glalie', 'Octillery', 'Remoraid', 'Snorunt',
+			// Shadow Tag/Arena Trap
+			'Diglett-Base', 'Dugtrio-Base', 'Gothita', 'Gothitelle', 'Gothorita', 'Trapinch', 'Wobbuffet', 'Wynaut',
+		],
 	},
 	{
 		name: "[Gen 8] 350 Cup",
