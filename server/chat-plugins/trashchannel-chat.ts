@@ -9,7 +9,7 @@
 import {DexCalculator} from '../../.trashchannel-dist/dex-calculator';
 import {TrashChannelChatSupport} from '../../.trashchannel-dist/trashchannel-chatsupport';
 
-import {Formats as Rulesets} from '../../data/rulesets';
+import {Rulesets} from '../../data/rulesets';
 import {Formats} from '../../.config-dist/formats';
 
 import {Scripts as BnBMod} from '../../data/mods/bitchandbeggar/scripts';
