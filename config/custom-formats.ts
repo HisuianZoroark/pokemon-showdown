@@ -1564,7 +1564,7 @@ export const Formats: FormatList = [
 			// @ts-ignore
 			import {Scripts as BnBMod} from '../.data-dist/mods/bitchandbeggar/scripts';
 
-			const mixedSpecies = BnBMod.getMixedSpecies(beggarSpecies.name, bitchSpecies.baseSpecies);
+			const mixedSpecies = BnBMod.actions.getMixedSpecies(beggarSpecies.name, bitchSpecies.baseSpecies);
 			let oAbilitySlot = this.dex.calcActiveAbilitySlot(beggarSpecies, set.ability);
 			//console.log("oAbilitySlot: " + oAbilitySlot);
 			// @ts-ignore
