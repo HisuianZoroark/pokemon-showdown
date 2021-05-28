@@ -2513,7 +2513,7 @@ export class RandomTeams {
 
 		let nSCUMTierCount = SuicideCupUsefulMoves.length;
 
-		let movePool = lsetData.learnset ? Object.keys(lsetData.learnset) : []; // Directly use the learnset as a movepool
+		let movePool = lsetData && lsetData.learnset ? Object.keys(lsetData.learnset) : []; // Directly use the learnset as a movepool
 		/**@type {string[]} */
 		let moves = [];
 		let ability = '';
