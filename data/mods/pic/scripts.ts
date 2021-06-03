@@ -12,13 +12,13 @@ export const Scripts: ModdedBattleScriptsData = {
 	pokemon: {
 		setAbility(ability, source, isFromFormechange) {
 			if (!this.hp) return false;
-			ability = this.battle.Dex.abilities.get(ability);
+			ability = this.battle.dex.abilities.get(ability);
 			let oldAbility = this.ability;
 			if (!isFromFormechange) {
 				if (['illusion', 'battlebond', 'comatose', 'disguise', 'multitype', 'powerconstruct', 'rkssystem', 'schooling', 'shieldsdown', 'stancechange', 'gulpmissile', 'hungerswitch', 'iceface'].includes(ability.id)) return false;
 				if (['battlebond', 'comatose', 'disguise', 'multitype', 'powerconstruct', 'rkssystem', 'schooling', 'shieldsdown', 'stancechange', 'gulpmissile', 'hungerswitch', 'iceface'].includes(oldAbility)) return false;
 			}
-			this.battle.singleEvent('End', this.battle.Dex.abilities.get(oldAbility), this.abilityData, this, source);
+			this.battle.singleEvent('End', this.battle.dex.abilities.get(oldAbility), this.abilityData, this, source);
 			let ally = this.side.active.find(ally => ally && ally !== this && !ally.fainted);
 			if (ally && ally.m.innate) {
 				ally.removeVolatile(ally.m.innate);
