@@ -148,15 +148,12 @@ export const commands: ChatCommands = {
 		if (banlist.includes(bitchSpecies.name)) {
 			this.errorReply(`Warning: ${bitchSpecies.name} is banned from Bitch and Beggar.`);
 		}
-		let cannotMega = Dex.formats.get('gen8bitchandbeggar').cannotMega || [];
-		if (cannotMega.includes(beggarSpecies.name) && beggarSpecies.name !== bitchSpecies.megaEvolves && !beggarSpecies.isMega) { // Separate messages because there's a difference between being already beggar evolved / NFE and being banned from beggar evolving
+		let cannotMega = Dex.formats.get('gen8bitchandbeggar').restricted || [];
+		if (cannotMega.includes(beggarSpecies.name)) { // Separate messages because there's a difference between being already beggar evolved / NFE and being banned from beggar evolving
 			this.errorReply(`Warning: ${beggarSpecies.name} is banned from beggar evolving in Bitch and Beggar.`);
 		}
 		if (['Multitype', 'RKS System'].includes(beggarSpecies.abilities['0']) && !['Arceus', 'Silvally'].includes(beggarSpecies.name)) {
 			this.errorReply(`Warning: ${beggarSpecies.name} is required to hold ${beggarSpecies.baseSpecies === 'Arceus' && beggarSpecies.requiredItems ? 'either ' + beggarSpecies.requiredItems[0] + ' or ' + beggarSpecies.requiredItems[1] : beggarSpecies.requiredItem}.`);
-		}
-		if (bitchSpecies.isUnreleased) {
-			this.errorReply(`Warning: ${bitchSpecies.name} is unreleased and is not usable in current Bitch and Beggar.`);
 		}
 
 		// BnB BST limit

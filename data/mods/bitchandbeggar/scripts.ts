@@ -163,9 +163,11 @@ export const Scripts: ModdedBattleScriptsData = {
 			let baseStats = species.baseStats;
 			// @ts-ignore
 			species.baseStats = {};
+			species.bst = 0;
 			for (let statName in baseStats) {
 				// @ts-ignore
 				species.baseStats[statName] = DexCalculator.clampIntRange(baseStats[statName] + deltas.baseStats[statName], 1, 255);
+				species.bst += species.baseStats[statName];
 			}
 			species.weighthg = Math.max(1, species.weighthg + deltas.weighthg);
 			species.originalMega = deltas.originalMega;
