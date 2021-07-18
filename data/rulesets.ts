@@ -1672,12 +1672,12 @@ export const Rulesets: {[k: string]: FormatData} = {
 		name: 'Balanced Hackmons Validation',
 		desc: "Forces Zacian/Zamzenta sets to conform to on-cart behaviour.",
 		onValidateSet(set) {
-			if (set.species === 'Zacian-Crowned' && (toID(set.item) !== 'rustedsword' || toID(set.ability) !== 'intrepidsword')) {
+			if (set.species === 'Zacian-Crowned' && (this.toID(set.item) !== 'rustedsword' || this.toID(set.ability) !== 'intrepidsword')) {
 				return [set.species + " is banned."];
 			}
 		},
 		onChangeSet(set) {
-			const item = toID(set.item);
+			const item = this.toID(set.item);
 			if (set.species === 'Zacian' && item === 'rustedsword') {
 				set.species = 'Zacian-Crowned';
 				set.ability = 'Intrepid Sword';
@@ -1787,7 +1787,7 @@ export const Rulesets: {[k: string]: FormatData} = {
 			let types = [...new Set(set.moves.slice(0, 2).map(moveId => Dex.moves.get(moveId).type))];
 
 			// Do full set validation to determine if we can access this typing if this the first move
-			if(toID(move) === toID(set.moves[0])) {
+			if(this.toID(move) === this.toID(set.moves[0])) {
 				// Check that under these conditions, we learn native moves that could give us that typing normally
 				let typesetArray = Array();
 				for( let nTypeItr=0; nTypeItr<2; ++nTypeItr ) {
@@ -2003,8 +2003,8 @@ export const Rulesets: {[k: string]: FormatData} = {
 						problems.push(`${species.forme} transforms in-battle with ${Chat.plural(species.requiredItems.length, "either ") + species.requiredItems.join(" or ")}.`); // Mega or Primal
 					}
 				}
-				if (species.requiredMove && set.moves.indexOf(toID(species.requiredMove)) < 0 &&
-				   (!allowIrregularMegaesques || ('dragonascent' !== toID(species.requiredMove)))) { // 19/07/14 TrashChannel: Allow Rayquaza-Mega without Dragon Ascent as an irregular megaesque
+				if (species.requiredMove && set.moves.indexOf(this.toID(species.requiredMove)) < 0 &&
+				   (!allowIrregularMegaesques || ('dragonascent' !== this.toID(species.requiredMove)))) { // 19/07/14 TrashChannel: Allow Rayquaza-Mega without Dragon Ascent as an irregular megaesque
 					problems.push(`${species.forme} transforms in-battle with ${species.requiredMove}.`); // Meloetta-Pirouette, Rayquaza-Mega
 				}
 				if (!format.noChangeForme &&
@@ -2019,8 +2019,8 @@ export const Rulesets: {[k: string]: FormatData} = {
 				if (species.requiredItems && !species.requiredItems.includes(item.name) && !species.isMega) {
 					problems.push(`${(set.name || set.species)} needs to hold ${Chat.plural(species.requiredItems.length, "either ") + species.requiredItems.join(" or ")}.`); // Memory/Drive/Griseous Orb/Plate/Z-Crystal - Forme mismatch
 				}
-				if (species.requiredMove && set.moves.indexOf(toID(species.requiredMove)) < 0 &&
-				   (!allowIrregularMegaesques || ('dragonascent' !== toID(species.requiredMove)))) { // 19/07/14 TrashChannel: Allow Rayquaza-Mega without Dragon Ascent as an irregular megaesque
+				if (species.requiredMove && set.moves.indexOf(this.toID(species.requiredMove)) < 0 &&
+				   (!allowIrregularMegaesques || ('dragonascent' !== this.toID(species.requiredMove)))) { // 19/07/14 TrashChannel: Allow Rayquaza-Mega without Dragon Ascent as an irregular megaesque
 					problems.push(`${(set.name || set.species)} needs to have the move ${species.requiredMove}.`); // Keldeo-Resolute
 				}
 
