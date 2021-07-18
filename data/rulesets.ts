@@ -1784,7 +1784,8 @@ export const Rulesets: {[k: string]: FormatData} = {
 			let baseSpecies = Dex.species.get(species.baseSpecies);
 
 			// Determine target typing
-			let types = [...new Set(set.moves.slice(0, 2).map(moveId => Dex.moves.get(moveId).type))];
+			let types = [...new Set(set.moves.slice(0, 2).map(moveId => dex.moves.get(moveId).type))];
+			//console.log("types: " + types);
 
 			// Do full set validation to determine if we can access this typing if this the first move
 			if(this.toID(move) === this.toID(set.moves[0])) {
@@ -1792,6 +1793,8 @@ export const Rulesets: {[k: string]: FormatData} = {
 				let typesetArray = Array();
 				for( let nTypeItr=0; nTypeItr<2; ++nTypeItr ) {
 					typesetArray[nTypeItr] = DexCalculator.getMovesPokemonLearnsOfType(baseSpecies, types[nTypeItr]);
+					//console.log("type: " + types[nTypeItr]);
+					//console.log(typesetArray[nTypeItr]);
 					if( typesetArray[nTypeItr].length > 0 ) continue;
 					// Reject early if we get zero moves of that type
 					return this.checkCanLearn(move, species, lsetData, set);
@@ -1846,9 +1849,10 @@ export const Rulesets: {[k: string]: FormatData} = {
 				}
 			}
 
-			// Check that out moveset includes only legal moves or moves that would be legal under STABmons with our new typing
+			// Check that our moveset includes only legal moves or moves that would be legal under STABmons with our new typing
+			const nonstandard = move.isNonstandard === 'Past' && !this.ruleTable.has('standardnatdex');
 			const restrictedMoves = this.format.restricted || [];
-			if (!move.isZ && !restrictedMoves.includes(move.name)) {
+			if (!nonstandard && !move.isZ && !move.isMax && !restrictedMoves.includes(move.name)) {
 				if (types.includes(move.type)) return null;
 			}
 			return this.checkCanLearn(move, species, lsetData, set);

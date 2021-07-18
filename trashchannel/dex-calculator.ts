@@ -94,16 +94,16 @@ export const DexCalculator = new class DexCalculator {
 	}
 
 	getFullLearnsetOfPokemon(species: Species) {
-		if (!species.learnset) {
+		let lset = Dex.species.getLearnset(species.id);
+		if (!lset) {
 			species = Dex.species.get(species.baseSpecies);
-			// @ts-ignore
-			species.learnset = species.learnset || {};
+			lset = Dex.species.getLearnset(species.id) || {};
 		}
-		const lsetData = new Set(Object.keys(species.learnset));
+		const lsetData = new Set(Object.keys(lset));
 
 		while (species.prevo) {
 			species = Dex.species.get(species.prevo);
-			for (const move in species.learnset) {
+			for (const move in lset) {
 				lsetData.add(move);
 			}
 		}
