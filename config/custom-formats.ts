@@ -1623,7 +1623,7 @@ export const Formats: FormatList = [
 			``,
 		],
 		mod: 'bitchandbeggar',
-		ruleset: ['Obtainable', 'HP Percentage Mod', 'Cancel Mod'],
+		ruleset: ['Obtainable', 'HP Percentage Mod', 'Cancel Mod', 'Bitch And Beggar Rule'],
 		team: 'randomHCBnB',
 		onBegin() {
 			for (const pokemon of this.getAllPokemon()) {

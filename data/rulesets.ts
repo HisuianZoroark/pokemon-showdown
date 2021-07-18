@@ -2327,6 +2327,14 @@ export const Rulesets: {[k: string]: FormatData} = {
 		effectType: 'Rule',
 		name: 'Bitch And Beggar Rule',
 		desc: "The mod for Bitch And Beggar: ",
+		onValidateRule() {
+			const mod = this.format.mod;
+			if (mod !== 'bitchandbeggar') {
+				throw new Error(
+					`Bitch and Beggar requires its own mod and cannot be used with '${mod}'.`
+				);
+			}
+		},
 	},
 	beastmoderule: {
 		effectType: 'Rule',
