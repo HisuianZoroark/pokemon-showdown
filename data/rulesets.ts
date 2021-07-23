@@ -1630,30 +1630,13 @@ export const Rulesets: {[k: string]: FormatData} = {
             return species;
         },
 	},
-	aaarestrictionsvalidation: {
-		effectType: 'Rule',
-		name: 'AAA Restrictions Validation',
-		desc: "Validates restricted abilities in AAA.",
-        onValidateSet(set, format) {
-			let restrictedAbilities = format.restrictedAbilities || [];
-			if (restrictedAbilities.includes(set.ability)) {
-				let species = this.dex.species.get(set.species || set.name);
-				let legalAbility = false;
-				for (let i in species.abilities) {
-					// @ts-ignore
-					if (set.ability === species.abilities[i]) legalAbility = true;
-				}
-				if (!legalAbility) return ['The ability ' + set.ability + ' is banned on Pok\u00e9mon that do not naturally have it.'];
-			}
-		},
-	},
 	// 19/11/30: We want '!Obtainable Abilities' to be effective from here but it isn't
 	// Most likely can't unwrap it in order: https://github.com/smogon/pokemon-showdown/commit/c1ecbc65223525d8a6e0dd66cb1f0327996b3d7d
-	aaastandardpackage: {
+	aaaclassicstandardpackage: {
 		effectType: 'Rule',
-		name: 'AAA Standard Package',
+		name: 'AAA Classic Standard Package',
 		desc: "Standard package of rulesets for Almost Any Ability.",
-		ruleset: ['2 Ability Clause', 'AAA Restrictions Validation'],
+		ruleset: ['2 Ability Clause', 'AAA Restricted Abilities'],
 	},
 	averagemonsrule: {
 		effectType: 'Rule',
