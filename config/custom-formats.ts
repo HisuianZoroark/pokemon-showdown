@@ -28,31 +28,12 @@ export const Formats: FormatList = [
 
 		mod: 'mixandmega',
 		team: 'randomHCMnM',
-		ruleset: ['Obtainable', 'HP Percentage Mod', 'Cancel Mod'],
-		onBegin() {
-            for (const pokemon of this.getAllPokemon()) {
-                pokemon.m.originalSpecies = pokemon.baseSpecies.name;
-            }
-        },
-        onSwitchIn(pokemon) {
-            // @ts-ignore
-            const oMegaSpecies = this.dex.species.get(pokemon.species.originalMega);
-            if (oMegaSpecies.exists && pokemon.m.originalSpecies !== oMegaSpecies.baseSpecies) {
-                // Place volatiles on the Pokémon to show its mega-evolved condition and details
-                this.add('-start', pokemon, oMegaSpecies.requiredItem || oMegaSpecies.requiredMove, '[silent]');
-                const oSpecies = this.dex.species.get(pokemon.m.originalSpecies);
-                if (oSpecies.types.length !== pokemon.species.types.length || oSpecies.types[1] !== pokemon.species.types[1]) {
-                    this.add('-start', pokemon, 'typechange', pokemon.species.types.join('/'), '[silent]');
-                }
-            }
-        },
-        onSwitchOut(pokemon) {
-            // @ts-ignore
-            const oMegaSpecies = this.dex.species.get(pokemon.species.originalMega);
-            if (oMegaSpecies.exists && pokemon.m.originalSpecies !== oMegaSpecies.baseSpecies) {
-                this.add('-end', pokemon, oMegaSpecies.requiredItem || oMegaSpecies.requiredMove, '[silent]');
-            }
-        },
+		ruleset: ['Obtainable', 'HP Percentage Mod', 'Cancel Mod', 'Mix and Mega Battle Effects'],
+		onBegin() { // For some reason this is necessary in randoms even with Battle Effects
+			for (const pokemon of this.getAllPokemon()) {
+				pokemon.m.originalSpecies = pokemon.baseSpecies.name;
+			}
+		},
 	},
 	{
 		name: "[Gen 8] Partners in Crime: Hackmons Cup",

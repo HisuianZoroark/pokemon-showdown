@@ -2137,7 +2137,7 @@ export const Rulesets: {[k: string]: FormatData} = {
 			const itemTable = new Set<ID>();
 			for (const set of team) {
 				const item = this.dex.items.get(set.item);
-				if (!item || !item.megaStone) continue;
+				if (!item?.megaStone) continue;
 				const species = this.dex.species.get(set.species);
 				if (species.isNonstandard) return [`${species.baseSpecies} does not exist in gen 8.`];
 				if (this.ruleTable.isRestrictedSpecies(species) || this.toID(set.ability) === 'powerconstruct') {
@@ -2156,8 +2156,8 @@ export const Rulesets: {[k: string]: FormatData} = {
 		desc: "Battle effects for Mix and Mega (insufficient to run MnM without mod, crashes when called though Mix and Meta).",
 		onBegin() {
 			for (const pokemon of this.getAllPokemon()) {
-                pokemon.m.originalSpecies = pokemon.baseSpecies.name;
-            }
+				pokemon.m.originalSpecies = pokemon.baseSpecies.name;
+			}
 		},
 		onSwitchIn(pokemon) {
 			// @ts-ignore
