@@ -1,5 +1,37 @@
 export const Formats: FormatList = [
 
+	// Mashups Spotlight
+	///////////////////////////////////////////////////////////////////
+	{
+		section: "Mashups Spotlight",
+		column: 1,
+	},
+	{
+		name: "[Gen 8] Mix and Mega Little Cup",
+		desc: `(No description)`,
+		threads: [
+			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[Gen 8] Mix and Mega Little Cup Resources</a>`,
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3656469/">Vanilla Mix and Mega</a>`,
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3659028/">Vanilla M&amp;M Resources</a>`
+		],
+
+		mod: 'mixandmega',
+		ruleset: [
+			'Obtainable', 'Species Clause', 'Nickname Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Team Preview', 'HP Percentage Mod', 'Cancel Mod',
+			'Overflow Stat Mod', 'Dynamax Clause', 'Sleep Clause Mod', 'Endless Battle Clause', 'Mix and Mega Standard Package', 'Little Cup',
+		],
+		banlist: [
+			'Calyrex-Shadow', 'Kyogre', 'Zacian', 'Moody', 'Shadow Tag', 'Beedrillite', 'Blazikenite', 'Gengarite',
+			'Kangaskhanite', 'Mawilite', 'Medichamite', 'Pidgeotite', 'Baton Pass', 'Electrify',
+		],
+		restricted: [
+			'Calyrex-Ice', 'Corsola-Galar', 'Dialga', 'Dratini', 'Eternatus', 'Gastly', 'Gengar', 'Giratina',
+			'Groudon', 'Ho-Oh', 'Kyurem-Black', 'Kyurem-White', 'Lugia', 'Lunala', 'Marshadow', 'Melmetal',
+			'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia', 'Rayquaza', 'Regigigas', 'Reshiram',
+			'Scyther', 'Sneasel', 'Tangela', 'Urshifu-Base', 'Xerneas', 'Yveltal', 'Zekrom', 'Zygarde-Complete',
+		],
+	},
+
 	// Official OM Mashups
 	///////////////////////////////////////////////////////////////////
 	{
@@ -70,11 +102,11 @@ export const Formats: FormatList = [
 			'Kyurem-White', 'Landorus-Therian', 'Latios', 'Lugia', 'Lunala', 'Magearna', 'Marshadow', 'Melmetal',
 			'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia', 'Pheromosa', 'Rayquaza', 'Regigigas',
 			'Reshiram', 'Shedinja', 'Silvally', 'Solgaleo', 'Spectrier', 'Tapu Koko', 'Terrakion', 'Thundurus',
-			'Urshifu-Base', 'Volcarona', 'Xerneas', 'Yveltal', 'Zacian', 'Zamazenta', 'Zekrom', 'Zeraora',
-			'Zygarde-Base', 'Arena Trap', 'Comatose', 'Contrary', 'Fluffy', 'Fur Coat', 'Gorilla Tactics', 'Huge Power',
-			'Ice Scales', 'Illusion', 'Imposter', 'Innards Out', 'Intrepid Sword', 'Libero', 'Moody', 'Neutralizing Gas',
-			'Parental Bond', 'Poison Heal', 'Power Construct', 'Protean', 'Pure Power', 'Shadow Tag', 'Simple', 'Speed Boost',
-			'Stakeout', 'Tinted Lens', 'Water Bubble', 'Wonder Guard', 'King\'s Rock', 'Baton Pass', 'Electrify',
+			'Urshifu-Base', 'Victini', 'Volcarona', 'Xerneas', 'Yveltal', 'Zacian', 'Zamazenta', 'Zekrom',
+			'Zeraora', 'Zygarde-Base', 'Arena Trap', 'Comatose', 'Contrary', 'Fluffy', 'Fur Coat', 'Gorilla Tactics',
+			'Huge Power', 'Ice Scales', 'Illusion', 'Imposter', 'Innards Out', 'Intrepid Sword', 'Libero', 'Moody',
+			'Neutralizing Gas', 'Parental Bond', 'Poison Heal', 'Power Construct', 'Protean', 'Pure Power', 'Shadow Tag', 'Simple',
+			'Speed Boost', 'Stakeout', 'Tinted Lens', 'Water Bubble', 'Wonder Guard', 'King\'s Rock', 'Baton Pass', 'Electrify',
 		],
 		unbanlist: [
 			'Precipice Blades',
