@@ -832,11 +832,7 @@ export const Formats: FormatList = [
 		desc: "Pok&eacute;mon with a base stat total of 350 or lower get their stats doubled. &bullet; <a href=\"https://www.smogon.com/forums/threads/350-cup.3656554/\">350 Cup</a>",
 		mod: 'gen8',
 		ruleset: ['[Gen 8] Ubers', '350 Cup Rule'],
-		banlist: [
-			'Arena Trap', // Abilities
-			'Eviolite', 'Light Ball', // Items
-			'Rufflet​', 'Pawniard​', // Pokemon
-		],
+		banlist: ['Abra', 'Gastly', 'Pawniard', 'Rufflet', 'Woobat', 'Eviolite', 'Light Ball', 'Arena Trap', 'Shadow Tag', 'Baton Pass'],
 	},
 	{
 		name: "[Gen 8] Scalemons",
