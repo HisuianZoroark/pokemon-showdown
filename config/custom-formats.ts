@@ -962,6 +962,18 @@ export const Formats: FormatList = [
 		},
 	},
 	{
+		name: "[Gen 8] Flipped",
+		desc: `Every Pok&eacute;mon's stats are reversed. HP becomes Spe, Atk becomes Sp. Def, Def becomes Sp. Atk, and vice versa. To see a Pok&eacute;mon's stats outside of battle, type <code>/dt [pokemon], flipped</code>.`,
+		threads: [
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3662020/">Flipped</a>`,
+		],
+
+		mod: 'gen8',
+		ruleset: ['[Gen 8] OU', 'Flipped Mod'],
+		banlist: ['Steelix', 'Psychic Surge', 'Psychic Terrain', 'Shell Smash'],
+		unbanlist: ['Darmanitan-Galar'],
+	},
+	{
 		name: "[Gen 7] Almost Any Ability",
 		desc: `Pok&eacute;mon can use any ability, barring the few that are restricted to their natural users.`,
 		threads: [
