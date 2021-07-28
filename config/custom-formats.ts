@@ -853,6 +853,27 @@ export const Formats: FormatList = [
 		],
 	},
 	{
+		name: "[Gen 8] First Blood",
+		desc: `The first team to have a Pok&eacute;mon faint loses.`,
+		threads: [
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3682954/">First Blood</a>`,
+		],
+
+		mod: 'gen8',
+		ruleset: ['Standard', 'Dynamax Clause'],
+		banlist: [
+			'Calyrex-Ice', 'Calyrex-Shadow', 'Cinderace', 'Darmanitan-Galar', 'Dialga', 'Dracovish', 'Eternatus', 'Genesect', 'Giratina',
+			'Giratina-Origin', 'Groudon', 'Heatran', 'Ho-Oh', 'Kyogre', 'Kyurem-Black', 'Kyurem-White', 'Lugia', 'Lunala', 'Landorus-Base',
+			'Magearna', 'Marshadow', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia', 'Pheromosa', 'Porygon-Z',
+			'Rayquaza', 'Reshiram', 'Solgaleo', 'Spectrier', 'Urshifu-Base', 'Xerneas', 'Yveltal', 'Zacian', 'Zacian-Crowned', 'Zamazenta',
+			'Zamazenta-Crowned', 'Zekrom', 'Zygarde-Base', 'Arena Trap', 'Magnet Pull', 'Moody', 'Power Construct', 'Shadow Tag', 'Eject Button',
+			'Baton Pass', 'Swagger',
+		],
+		onFaint(target) {
+			this.lose(target.side);
+		},
+	},
+	{
 		name: "[Gen 7] Almost Any Ability",
 		desc: `Pok&eacute;mon can use any ability, barring the few that are restricted to their natural users.`,
 		threads: [
