@@ -920,6 +920,24 @@ export const Formats: FormatList = [
 		],
 	},
 	{
+		name: "[Gen 8] Max Berries",
+		desc: `All berries have their effects maximized.`,
+		threads: [
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3677136/">Max Berries</a>`,
+		],
+
+		mod: 'maxberries',
+		ruleset: ['Standard', 'Dynamax Clause'],
+		banlist: [
+			'Calyrex-Ice', 'Calyrex-Shadow', 'Darmanitan-Galar', 'Dialga', 'Dracovish', 'Eternatus', 'Genesect', 'Giratina',
+			'Groudon', 'Ho-Oh', 'Kyogre', 'Kyurem-Black', 'Kyurem-White', 'Landorus-Base', 'Lugia', 'Lunala', 'Magearna',
+			'Marshadow', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia', 'Pheromosa', 'Rayquaza',
+			'Reshiram', 'Solgaleo', 'Spectrier', 'Urshifu-Base', 'Xerneas', 'Yveltal', 'Zacian', 'Zamazenta', 'Zekrom', 'Zygarde-Base',
+			'Arena Trap', 'Moody', 'Power Construct', 'Shadow Tag', 'Jaboca Berry', 'Rowap Berry', 'Starf Berry', 'Baton Pass',
+			'Block', 'Bug Bite', 'Knock Off', 'Mean Look', 'Pluck', 'Substitute',
+		],
+	},
+	{
 		name: "[Gen 7] Tier Shift",
 		desc: "Pok&eacute;mon below OU get all their stats boosted. UU/RUBL get +10, RU/NUBL get +20, NU/PUBL get +30, and PU or lower get +40.",
 		threads: [
