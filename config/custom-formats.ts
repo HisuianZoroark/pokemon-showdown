@@ -634,24 +634,6 @@ export const Formats: FormatList = [
 			'Comatose', 'Contrary', 'Fluffy', 'Fur Coat', 'Huge Power', 'Illusion', 'Imposter', 'Innards Out',
 			'Parental Bond', 'Protean', 'Pure Power', 'Simple', 'Speed Boost', 'Stakeout', 'Water Bubble', 'Wonder Guard',
 		],
-		onBegin() {
-			let allPokemon = this.p1.pokemon.concat(this.p2.pokemon);
-			for (let pokemon of allPokemon) {
-				if (pokemon.ability === toID(pokemon.species.abilities['S'])) {
-					continue;
-				}
-				// @ts-ignore
-				pokemon.innates = Object.keys(pokemon.species.abilities).filter(key => key !== 'S' && (key !== 'H' || !pokemon.species.unreleasedHidden)).map(key => toID(pokemon.species.abilities[key])).filter(ability => ability !== pokemon.ability);
-			}
-		},
-		onSwitchInPriority: 2,
-		onSwitchIn(pokemon) {
-			if (pokemon.innates) pokemon.innates.forEach(innate => pokemon.addVolatile("ability" + innate, pokemon));
-		},
-		onAfterMega(pokemon) {
-			Object.keys(pokemon.volatiles).filter(innate => innate.startsWith('ability')).forEach(innate => pokemon.removeVolatile(innate));
-			pokemon.innates = undefined;
-		},
 	},
 	{
 		name: "[Gen 7] Camomons Balanced Hackmons",
@@ -667,7 +649,7 @@ export const Formats: FormatList = [
 			'-Nonexistent', '2 Ability Clause', 'OHKO Clause', 'Evasion Moves Clause', 'CFZ Clause', 'Sleep Clause Mod', 'Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod', 'Team Preview', // BH
 			'Camomons Rule', // Camomons
 			'Species Clause', // BH Camomons
-		 ],
+		],
 		banlist: [
 			'Arena Trap', 'Contrary', 'Huge Power', 'Illusion', 'Innards Out', 'Magnet Pull', 'Moody', 'Parental Bond', 'Protean', 'Psychic Surge', 'Pure Power', 'Shadow Tag', 'Stakeout', 'Water Bubble', 'Wonder Guard', 'Gengarite', 'Chatter', 'Comatose + Sleep Talk',  // BH
 			'V-Create', // BH Camomons
@@ -1095,6 +1077,7 @@ export const Formats: FormatList = [
 				console.console.log("i: " + this.formatsCache[i]);
 			}*/
 			let problemsArray = /** @type {string[]} */ ([]);
+			// @ts-ignore
 			let types = /** @type {string[]} */ ([]);
 			for (const [i, set] of team.entries()) {
 				let item = this.dex.items.get(set.item);
@@ -1129,6 +1112,7 @@ export const Formats: FormatList = [
 					if (item.megaStone && species.name === item.megaEvolves) {
 						species = this.dex.species.get(item.megaStone);
 						let baseSpecies = this.dex.species.get(item.megaEvolves);
+						// @ts-ignore
 						if (baseSpecies.types.some(type => types.includes(type)) && species.types.some(type => types.includes(type))) {
 							followerTypes = baseSpecies.types.concat(species.types).filter(type => species.types.concat(baseSpecies.types).includes(type));
 						}
@@ -1137,7 +1121,8 @@ export const Formats: FormatList = [
 			}
 		},
 	},
-	{
+	// Probably crashes now, needs updates
+	/*{
 		name: "[Gen 7] Fortemons",
 		desc: `Pok&eacute;mon have all of their moves inherit the properties of the move in their item slot.`,
 		threads: [
@@ -1167,10 +1152,9 @@ export const Formats: FormatList = [
 			return this.checkCanLearn(move, species, lsetData, set);
 		},
 		onValidateTeam(team, format) {
-			/**@type {{[k: string]: true}} */
-			let itemTable = {};
+			let itemTable: {[k: string]: true} = {};
 			for (const set of team) {
-				let move = this.getMove(set.item);
+				let move = this.dex.moves.get(set.item);
 				if (!move.exists) continue;
 				if (itemTable[move.id]) {
 					return ["You are limited to one of each forte by Forte Clause.", "(You have more than one " + move.name + ")"];
@@ -1268,7 +1252,7 @@ export const Formats: FormatList = [
 			// @ts-ignore
 			if (move && move.category !== 'Status' && source.forte && source.forte.onAfterMoveSecondarySelf) this.singleEvent('AfterMoveSecondarySelf', source.forte, null, source, target, move);
 		},
-	},
+	},*/
 	{
 		name: "[Gen 7] Averagemons",
 		desc: `Every Pok&eacute;mon, including formes, has base 100 in every stat.`,
@@ -1292,40 +1276,12 @@ export const Formats: FormatList = [
 
 		mod: 'gen7',
 		ruleset: [
-			'Obtainable', 'Moody Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod',
-			'Team Preview', 'Mega Rayquaza Clause', 'Min Team Size = 6', 'Max Team Size = 6', 'Picked Team Size = 1'],
+			'Chimera 1v1 Rule', 'Obtainable', 'Moody Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Endless Battle Clause', 'HP Percentage Mod',
+			'Cancel Mod', 'Mega Rayquaza Clause'],
 		banlist: [
 			'Shedinja', 'Smeargle', 'Huge Power', 'Pure Power', 'Deep Sea Tooth', 'Eviolite', 'Focus Sash', 'Light Ball', 'Lucky Punch',
 			'Stick', 'Thick Club', 'Dark Void', 'Grass Whistle', 'Hypnosis', 'Lovely Kiss', 'Perish Song', 'Sing', 'Sleep Powder', 'Spore', 'Transform',
 		],
-		onValidateSet(set) {
-			if (set && set.item) {
-				let item = this.dex.items.get(set.item);
-				if (item.zMoveUser || item.megaStone || item.onPrimal) return [`${set.name || set.species}'s item ${set.item} is banned.`];
-			}
-		},
-		onBeforeSwitchIn(pokemon) {
-			let allies = pokemon.side.pokemon.splice(1);
-			pokemon.side.pokemonLeft = 1;
-			let species = this.dex.deepClone(pokemon.baseSpecies);
-			pokemon.item = allies[0].item;
-			species.abilities = allies[1].baseSpecies.abilities;
-			pokemon.ability = pokemon.baseAbility = allies[1].ability;
-
-			// Stats
-			species.baseStats = allies[2].baseSpecies.baseStats;
-			pokemon.hp = pokemon.maxhp = species.maxHP = allies[2].maxhp;
-			pokemon.set.evs = allies[2].set.evs;
-			pokemon.set.nature = allies[2].getNature().name;
-			// @ts-ignore
-			pokemon.set.ivs = pokemon.baseIvs = allies[2].set.ivs;
-			// @ts-ignore
-			pokemon.hpType = pokemon.baseHpType = allies[2].baseHpType;
-
-			// @ts-ignore
-			pokemon.moveSlots = pokemon.baseMoveSlots = allies[3].baseMoveSlots.slice(0, 2).concat(allies[4].baseMoveSlots.slice(2)).filter((move, index, moveSlots) => moveSlots.find(othermove => othermove.id === move.id) === move);
-			pokemon.setSpecies(species);
-		},
 	},
 	{
 		name: "[Gen 7] Godly Gift",
@@ -1362,7 +1318,7 @@ export const Formats: FormatList = [
 		banlist: ['Blissey', 'Chansey', 'Cloyster', 'Hoopa-Unbound', 'Kyurem-Black', 'Stakataka'],
 		battle: {
 			natureModify(stats, set) {
-				let nature = this.getNature(set.nature);
+				let nature = this.dex.natures.get(set.nature);
 				let stat;
 				if (nature.plus) {
 					// @ts-ignore
