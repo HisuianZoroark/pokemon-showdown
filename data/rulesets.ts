@@ -1580,7 +1580,17 @@ export const Rulesets: {[k: string]: FormatData} = {
 		effectType: 'Rule',
 		name: 'Multiple Abilities',
 		desc: "Allows the simulator to recognize that Pok&eacute;mon may have multiple abilities active simulataneously.",
-		// Implemented in sim and data
+		// Implemented mainly in sim and data
+		onSwitchInPriority: 3,
+		onSwitchIn(pokemon) {
+			if (pokemon.m.pseudoAbilities) {
+				for (const pseudoAbility of pokemon.m.pseudoAbilities) {
+					const volatileName = 'ability:' + pseudoAbility;
+					if (pokemon.getVolatile(volatileName)) continue;
+					pokemon.addVolatile(volatileName, pokemon);
+				}
+			}
+		},
 	},
 	pokebilitiesrule: {
 		effectType: 'Rule',
@@ -1605,16 +1615,6 @@ export const Rulesets: {[k: string]: FormatData} = {
 					.map(key => this.toID(pokemon.species.abilities[key as "0" | "1" | "H" | "S"]))
 					.filter(ability => ability !== pokemon.ability);
 				pokemon.m.pseudoAbilities = [...new Set(pokemon.m.pokebilitiesPseudoAbilities.concat(existingPseudoAbilities))];
-			}
-		},
-		onSwitchInPriority: 3,
-		onSwitchIn(pokemon) {
-			if (pokemon.m.pseudoAbilities) {
-				for (const pseudoAbility of pokemon.m.pseudoAbilities) {
-					const volatileName = 'ability:' + pseudoAbility;
-					if (pokemon.getVolatile(volatileName)) continue;
-					pokemon.addVolatile(volatileName, pokemon);
-				}
 			}
 		},
 		onAfterMega(pokemon) {
@@ -1662,18 +1662,6 @@ export const Rulesets: {[k: string]: FormatData} = {
 				pokemon.volatiles[effect] = {id: this.toID(effect), target: pokemon};
 				if (!pokemon.m.pseudoAbilities) pokemon.m.pseudoAbilities = [];
 				if (!pokemon.m.pseudoAbilities.includes(ability)) pokemon.m.pseudoAbilities.push(ability);
-			}
-		},
-		onSwitchInPriority: 2,
-		onSwitchIn(pokemon) {
-			const rulesets = this.dex.data.Rulesets;
-			const rule = rulesets.hasOwnProperty('sharedpowerrule') ? rulesets['sharedpowerrule'] as Format : null;
-			if (!rule) return;
-
-			for (const ability of rule.getSharedPower!(pokemon)) {
-				const effect = 'ability:' + ability;
-				delete pokemon.volatiles[effect];
-				pokemon.addVolatile(effect);
 			}
 		},
 	},
@@ -2254,6 +2242,78 @@ export const Rulesets: {[k: string]: FormatData} = {
 		name: 'Mix and Mega Standard Package',
 		desc: "Standard package of rulesets for Mix and Mega (insufficient to run MnM without mod, crashes when called though Mix and Meta).",
 		ruleset: ['Mix and Mega Standard Validation', 'Mix and Mega Battle Effects'],
+	},
+	"2multibilityclause": {
+		effectType: 'ValidatorRule',
+		name: '2 Multibility Clause',
+		desc: "Prevents teams from having more than two Pok&eacute;mon with the same ability (including Multibilities)",
+		onBegin() {
+			this.add('rule', '2 Multibility Clause: Limit two of each ability (including Multibilities)');
+		},
+		onValidateTeam(team) {
+			const abilityTable = new Map<string, number>();
+			const base: {[k: string]: string} = {
+				airlock: 'cloudnine',
+				battlearmor: 'shellarmor',
+				clearbody: 'whitesmoke',
+				dazzling: 'queenlymajesty',
+				emergencyexit: 'wimpout',
+				filter: 'solidrock',
+				gooey: 'tanglinghair',
+				insomnia: 'vitalspirit',
+				ironbarbs: 'roughskin',
+				libero: 'protean',
+				minus: 'plus',
+				moxie: 'chillingneigh',
+				powerofalchemy: 'receiver',
+				propellertail: 'stalwart',
+				teravolt: 'moldbreaker',
+				turboblaze: 'moldbreaker',
+			};
+			for (const set of team) {
+				let abilities: ID[] = [];
+
+				const realAbility = this.toID(set.ability);
+				if (realAbility) abilities.push(realAbility);
+
+				const itemPseudoAbility = this.toID(set.item);
+				if (itemPseudoAbility && Dex.abilities.get(itemPseudoAbility).exists) abilities.push(itemPseudoAbility);
+
+				for (let ability of abilities) {
+					if (ability in base) ability = base[ability] as ID;
+					if ((abilityTable.get(ability) || 0) >= 2) {
+						return [
+							`You are limited to two of each ability (item slot included) by 2 Multibility Clause.`,
+							`(You have more than two ${this.dex.abilities.get(ability).name} variants)`,
+						];
+					}
+					abilityTable.set(ability, (abilityTable.get(ability) || 0) + 1);
+				}
+			}
+		},
+	},
+	multibilityrule: {
+		effectType: 'Rule',
+		name: 'Multibility Rule',
+		desc: "Multibility battle effects: Pok&eacute;mon may set an additional ability in place of an item.",
+		ruleset: ['Multiple Abilities'],
+		onValidateRule() {
+			if (!this.ruleTable.has('multipleabilities')) {
+				throw new Error(`Multibility Rule requires Multiple Abilities to be active.`);
+			}
+		},
+		onBegin() {
+			this.add('rule', 'Multibility Rule: Pokémon may set an additional ability in place of an item.');
+
+			for (const pokemon of this.getAllPokemon()) {
+				const itemPseudoAbility = this.toID(pokemon.item);
+				if (!Dex.abilities.get(itemPseudoAbility).exists) continue;
+				if (this.toID(pokemon.ability) === itemPseudoAbility) continue; // Not allowed to stack duplicates
+				const existingPseudoAbilities = pokemon.m.pseudoAbilities || [];
+				pokemon.m.pseudoAbilities = [...new Set([itemPseudoAbility].concat(existingPseudoAbilities))];
+				pokemon.item = itemPseudoAbility + 'multibility' as ID; // Mark the item as a mulibility (unremovable)
+			}
+		},
 	},
 	reversedrule: {
 		effectType: 'Rule',
