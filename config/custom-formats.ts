@@ -686,6 +686,74 @@ export const Formats: FormatList = [
 		column: 2,
 	},
 	{
+		name: "[Gen 8] Multibility",
+		desc: `Pok&eacute;mon may set an additional ability in place of an item. (Use Import in the builder to set the extra ability.)`,
+		threads: [
+			`&bullet; <a href="https://www.smogon.com/forums/threads/multibility.3688892/">Multibility</a>`,
+		],
+
+		mod: 'multibility',
+		ruleset: ['Standard', 'Multibility Rule', '2 Multibility Clause', 'Dynamax Clause'],
+		banlist: [
+			// Pokemon
+			'Calyrex-Ice', 'Calyrex-Shadow', 'Cinderace', 'Darmanitan-Galar', 'Dialga', 'Dracovish', 'Dragonite', 'Eternatus',
+			'Genesect', 'Giratina', 'Giratina-Origin', 'Groudon', 'Ho-Oh', 'Kartana', 'Kyogre', 'Kyurem-Black', 'Kyurem-White',
+			'Lugia', 'Lunala', 'Magearna', 'Marshadow', 'Melmetal', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane',
+			'Palkia', 'Pheromosa', 'Rayquaza', 'Reshiram', 'Shedinja', 'Solgaleo', 'Spectrier', 'Urshifu-Single-Strike', 'Xerneas',
+			'Yveltal', 'Zacian', 'Zacian-Crowned', 'Zamazenta', 'Zamazenta-Crowned', 'Zekrom', 'Zygarde',
+			// Abilities
+			'Arena Trap', 'Moody', 'Power Construct', 'Shadow Tag'
+		],
+		restricted: [
+			'Comatose', 'Contrary', 'Fluffy', 'Fur Coat', 'Huge Power', 'Ice Scales', 'Illusion', 'Imposter', 'Innards Out',
+			'Intrepid Sword', 'Libero', 'Magnet Pull', 'Neutralizing Gas', 'Parental Bond', 'Protean', 'Pure Power', 'Simple',
+			'Speed Boost', 'Stakeout', 'Water Bubble', 'Wonder Guard'
+		],
+		validateSet(set, teamHas) {
+			const dex = this.dex;
+			const itemPseudoAbility = dex.abilities.get(set.item);
+			if (!itemPseudoAbility.exists) { // Not even a real ability
+				return this.validateSet(set, teamHas);
+			}
+			const realAbility = dex.abilities.get(set.ability);
+			const abilityNames = [...new Set([realAbility.name, itemPseudoAbility.name])];
+			// Absolute multibility bans
+			const endlessTurnPivots = ['Emergency Exit', 'Wimp Out'];
+			const endlessTurnRecovery = ['Regenerator'];
+			const setEndlessTurnPivots = abilityNames.filter(value => endlessTurnPivots.includes(value));
+			const setEndlessTurnRecovery = abilityNames.filter(value => endlessTurnRecovery.includes(value));
+			if (setEndlessTurnPivots.length > 0 && setEndlessTurnRecovery.length > 0) {
+				return [
+					`${set.name} may not use both ${setEndlessTurnPivots[0]} and ${setEndlessTurnRecovery[0]} simultaneously, because it could lead to an endless turn.`,
+				];
+			}
+			// Contingent multibility bans
+			if (this.ruleTable.isBanned(`ability:${itemPseudoAbility.id}`)) {
+				return [`${set.name}'s item slot ability ${itemPseudoAbility.name} is banned.`];
+			}
+			if (this.ruleTable.isRestricted(`ability:${itemPseudoAbility.id}`)) {
+				return [`${set.name}'s ${itemPseudoAbility.name} is restricted from being set in the item slot.`];
+			}
+			if (realAbility.id === itemPseudoAbility.id) {
+				return [`${set.name}'s ${realAbility.name} cannot stack from being set in both its ability and item slots simultaneously.`];
+			}
+
+			const TeamValidator: typeof import('../sim/team-validator').TeamValidator =
+				// @ts-ignore
+				require('../sim/team-validator').TeamValidator;
+
+			let customRules = this.format.customRules || [];
+			const noItemBanIndex = customRules.indexOf('-noitem');
+			if (noItemBanIndex > 0) customRules = customRules.splice(noItemBanIndex, 1);
+			const validator = new TeamValidator(dex.formats.get(`${this.format.id}@@@${customRules.join(',')}`));
+			const backupItem = set.item;
+			set.item = ''; // Remove item ability to pass standard validator
+			const problems = validator.validateSet(set, {}) || [];
+			set.item = backupItem; // Replace it for onValidateTeam checks
+			return problems;
+		},
+	},
+	{
         name: "[Gen 8] Suicide Cup",
         desc: `Victory is obtained when all of your Pok&eacute;mon have fainted.`,
         threads: [
