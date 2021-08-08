@@ -1583,12 +1583,34 @@ export const Rulesets: {[k: string]: FormatData} = {
 		// Implemented mainly in sim and data
 		onSwitchInPriority: 3,
 		onSwitchIn(pokemon) {
-			if (pokemon.m.pseudoAbilities) {
-				for (const pseudoAbility of pokemon.m.pseudoAbilities) {
-					const volatileName = 'ability:' + pseudoAbility;
-					if (pokemon.getVolatile(volatileName)) continue;
-					pokemon.addVolatile(volatileName, pokemon);
-				}
+			if (!pokemon.m.pseudoAbilities) return;
+
+			for (const pseudoAbility of pokemon.m.pseudoAbilities) {
+				const volatileName = 'ability:' + pseudoAbility;
+				if (pokemon.getVolatile(volatileName)) continue;
+				pokemon.addVolatile(volatileName, pokemon);
+			}
+		},
+		onSwitchOut(pokemon) {
+			if (!pokemon.m.pseudoAbilities) return;
+
+			// Necessary to end e.g. primal weather pseudoAbilities
+			for (const pseudoAbility of pokemon.m.pseudoAbilities) {
+				const volatileName = 'ability:' + pseudoAbility;
+				const volatile = pokemon.getVolatile(volatileName);
+				if (!volatile) continue;
+				this.singleEvent('End', this.dex.abilities.get(pseudoAbility), pokemon.abilityState, pokemon);
+			}
+		},
+		onFaint(pokemon) {
+			if (!pokemon.m.pseudoAbilities) return;
+
+			// Necessary to end e.g. primal weather pseudoAbilities
+			for (const pseudoAbility of pokemon.m.pseudoAbilities) {
+				const volatileName = 'ability:' + pseudoAbility;
+				const volatile = pokemon.getVolatile(volatileName);
+				if (!volatile) continue;
+				this.singleEvent('End', this.dex.abilities.get(pseudoAbility), pokemon.abilityState, pokemon);
 			}
 		},
 	},
