@@ -1820,4 +1820,11 @@ export const Aliases: {[alias: string]: string} = {
 	zugadoon: "Blacephalon",
 	merutan: "Meltan",
 	merumetaru: "Melmetal",
+// #region TrashChannel
+	// formats
+	mixandmeta: "[Gen 8] Ultimate Mix and Meta",
+	mxm: "[Gen 8] Ultimate Mix and Meta",
+	umnm: "[Gen 8] Ultimate Mix and Meta",
+	umxm: "[Gen 8] Ultimate Mix and Meta",
+// #endregion TrashChannel
 };

@@ -3,6 +3,10 @@
 
 import {toID} from './../sim/dex';
 
+// Mix and Meta includes
+import {MixAndMeta as MxM} from '../.data-dist/mods/mixandmeta/mixedmetacollection';
+const MixedMetaCollection = MxM.MixedMetaCollection as {[k: string]: MixedMeta}; // Type import correctly
+
 export const Formats: FormatList = [
 
 	// Random Mashups
@@ -879,7 +883,10 @@ export const Formats: FormatList = [
 	},
 	{
 		name: "[Gen 8] 350 Cup",
-		desc: "Pok&eacute;mon with a base stat total of 350 or lower get their stats doubled. &bullet; <a href=\"https://www.smogon.com/forums/threads/350-cup.3656554/\">350 Cup</a>",
+		desc: "Pok&eacute;mon with a base stat total of 350 or lower get their stats doubled.",
+		threads: [
+			`&bullet; <a href=\"https://www.smogon.com/forums/threads/350-cup.3656554/\">350 Cup</a>`,
+		],
 		mod: 'gen8',
 		ruleset: ['Standard', 'Dynamax Clause', '350 Cup Rule'],
 		banlist: ['Abra', 'Gastly', 'Pawniard', 'Rufflet', 'Woobat', 'Eviolite', 'Light Ball', 'Arena Trap', 'Shadow Tag', 'Baton Pass'],
@@ -1620,6 +1627,433 @@ export const Formats: FormatList = [
 	{
 		section: "TrashChannel Original Programming",
 		column: 3,
+	},
+	{
+		name: "[Gen 8] Ultimate Mix and Meta",
+		onDesc() {
+			let descString = `<b>EveryOM is here!</b> <br>Bring together your dream team of Pok&eacute;mon from over 20 different OMs! ` +
+			`Nickname a Pok&eacute;mon with an OM format's name or its special nicknames (e.g. type names for Bonus Type) to gain its mechanics. `;
+
+			let ourFormat = Dex.formats.get("[Gen 8] Ultimate Mix and Meta", true);
+			if (!ourFormat) return descString;
+
+			if (ourFormat.modValueNumberA) {
+				descString += `Meta clause limits you to <b>${ourFormat.modValueNumberA.toString()}</b> set(s) per meta on a single team.`;
+			}
+
+			descString += `<details><summary>Playable Meta List</summary>`;
+			let isFirstEntry = true;
+			for (const mixedMetaKey in MixedMetaCollection) {
+				const mixedMeta = MixedMetaCollection[mixedMetaKey];
+				const metaFormat = Dex.formats.get(mixedMeta.format, true);
+				const metaBanned = (undefined !== mixedMeta.banReason);
+
+				if (metaBanned) descString += `<s>`;
+
+				if (isFirstEntry) {
+					isFirstEntry = false;
+				} else {
+					descString += `<br><br>`;
+				}
+				descString += `<b>${metaFormat.name}</b>`;
+				if (metaBanned) {
+					descString += `</s>`;
+					descString += ` <font color="red">BANNED!!</font>`;
+					descString += `<s>`;
+				}
+				descString += `<br>${metaFormat.desc}`;
+				if (!metaBanned) {
+					if (metaFormat.threads) {
+						descString += `<br>${metaFormat.threads[0]}`;
+					}
+					descString += `<br>Tier Limit: ${mixedMeta.weightTier}`;
+					if (mixedMeta.bstLimit) {
+						descString += `<br>BST Limit: ${mixedMeta.bstLimit.toString()}`;
+					}
+				}
+
+				if (metaBanned) {
+					descString += `</s>`;
+					descString += `<br>Ban Reasoning: ${mixedMeta.banReason}`;
+				}
+			}
+			descString += `</details>`;
+
+			return descString;
+		},
+		threads: [``,],
+		mod: 'mixandmeta',
+		ruleset: [
+			'Obtainable', 'Team Preview', 'Sleep Clause Mod', 'Species Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod',
+			'Overflow Stat Mod', 'Multiple Abilities'
+		],
+		banlist: [],
+		modValueNumberA: 1,
+		onValidateTeam(team, format) {
+			if ('mixandmeta' !== format.mod) {
+				return [`Mix and Meta must be the base format!`];
+			}
+
+			let perMetaUserCount: {[k: string]: number}  = {};
+			for (const set of team) {
+				if (!format.determineMeta) continue;
+				const setMeta = format.determineMeta.call(this.dex, set);
+				if (!setMeta) continue;
+
+				const metaFormatName = MixedMetaCollection[setMeta].format;
+
+				if (!perMetaUserCount.hasOwnProperty(metaFormatName)) {
+					perMetaUserCount[metaFormatName] = 0;
+				}
+				perMetaUserCount[metaFormatName]++;
+			}
+
+			let problems: string[] = [];
+
+			// Per-meta set limit
+			if (format.modValueNumberA) {
+				const perMetaLimit = format.modValueNumberA;
+				for (const metaFormatName in perMetaUserCount) {
+					if (perMetaUserCount[metaFormatName] > perMetaLimit) {
+						problems.push(`This team has too many ${metaFormatName} users (${perMetaUserCount[metaFormatName]}/${perMetaLimit}).`);
+					}
+				}
+			}
+
+			// Special case teamwide validation
+			if (perMetaUserCount.hasOwnProperty("[Gen 8] Shared Power")) {
+				// Shared Power ability share bans
+				const sharedPowerFormat = this.dex.formats.get("[Gen 8] Shared Power", true);
+
+				const abilityPokemonBanDict: {[k: string]: string}  = {};
+				for (const ban of sharedPowerFormat.banlist) {
+					const banSpecies = this.dex.species.get(ban);
+					if (!banSpecies.exists) continue;
+
+					const abilities = Object.values(banSpecies.abilities).filter(a => this.dex.abilities.get(a).gen <= this.gen);
+					for (const ability of abilities) {
+						abilityPokemonBanDict[ability] = banSpecies.name;
+					}
+				}
+				const pokemonAbilityBans = Object.keys(abilityPokemonBanDict);
+				//console.log(sharedPowerFormat.banlist);
+				//console.log(pokemonAbilityBans);
+				//console.log(abilityPokemonBanDict);
+				
+				for (const set of team) {
+					if (!format.determineMeta) continue;
+					const setMeta = format.determineMeta.call(this.dex, set);
+					if ('sharedpower' === setMeta) continue; // Shared power user bans will be validated separately
+
+					const setAbility = this.dex.abilities.get(set.ability);
+					if (!setAbility.exists) continue;
+
+					// Direct ability bans
+					if (sharedPowerFormat.banlist.includes(setAbility.name)) {
+						problems.push(`${set.name} (${set.species}) would share the banned Shared Power ability ${setAbility.name}.`);
+					}
+
+					// Complex ability bans
+					for (const setB of team) {
+						const setBAbility = this.dex.abilities.get(setB.ability);
+						if (!setBAbility.exists) continue;
+
+						if (sharedPowerFormat.banlist.includes(setAbility.name + ' ++ ' + setBAbility.name) ||
+							sharedPowerFormat.banlist.includes(setBAbility.name + ' ++ ' + setAbility.name)) {
+							problems.push(`${set.name} (${set.species}) would share part of ` + 
+							`the Shared Power complex ability ban ${setAbility.name} ++ ${setBAbility.name}.`);
+						}
+					}
+
+					// Pokemon ability bans
+					if (pokemonAbilityBans.includes(setAbility.name)) {
+						problems.push(`${set.name} (${set.species}) would share the indirectly banned Shared Power ability ${setAbility.name} (banned from ${abilityPokemonBanDict[setAbility.name]}).`);
+					}
+				}
+			}
+
+			return problems;
+		},
+		validateSet(set) {
+			if (!this.format.determineMeta) {
+				return [`${this.format.name} lacks a determineMeta method! Mix and Meta must be the base format!`];
+			}
+			const setMeta = this.format.determineMeta.call(this.dex, set);
+			if (!setMeta) {
+				return [`${set.name} (${set.species})'s nickname doesn't identify a supported meta!`];
+			}
+
+			let tieringProblems: string[] = [];
+
+			const DexCalculator: typeof import('../.trashchannel-dist/dex-calculator').DexCalculator =
+				// @ts-ignore
+				require('../.trashchannel-dist/dex-calculator').DexCalculator;
+
+			const dex = this.dex;
+			const customRules = this.format.customRules || [];
+
+			const mixedMeta = MixedMetaCollection[setMeta];
+			const metaFormatName = mixedMeta.format;
+			const metaFormat = dex.formats.get(metaFormatName, true);
+
+			// Meta bans validation
+			if (mixedMeta.banReason) {
+				return [`${set.name} (${set.species})'s meta, ${metaFormatName} is banned. Ban reason: ${mixedMeta.banReason}`];
+			}
+
+			// Tiering system validation 
+			let species = dex.species.get(set.species || set.name);
+			let item = dex.items.get(set.item);
+			if (set.item && item.megaStone && (item.megaEvolves === species.baseSpecies)) {
+				species = dex.species.get(item.megaStone);
+			}
+			const setTierEnum = DexCalculator.calcTierEnumeration(species.tier);
+			const metaTierEnum = DexCalculator.calcTierEnumeration(mixedMeta.weightTier);
+			if (metaTierEnum > setTierEnum) {
+				tieringProblems.push(
+					`${set.name} (${set.species}) is in the tier ${species.tier}, ` +
+					`but the meta ${metaFormat.name} has a ${mixedMeta.weightTier} tier restriction.`
+				);
+			}
+
+			let setBst = 0;
+			let statName: keyof StatsTable;
+			for (statName in species.baseStats) {
+				setBst += species.baseStats[statName];
+			}
+
+			if (mixedMeta.bstLimit && (setBst > mixedMeta.bstLimit)) {
+				tieringProblems.push(
+					`${set.name} (${set.species})'s BST exceeds the limit for ${metaFormatName} (${setBst}/${mixedMeta.bstLimit}).`
+				);
+			}
+
+			if (tieringProblems.length > 0) return tieringProblems;
+
+			// @ts-ignore
+			//console.log("validator: " + `${metaFormat.id}@@@${customRules.join(',')}`);
+
+			// Remove namespace if it exists before using external validator
+			const backupSetName = set.name;
+			let postNamespaceSetName = null;
+			if (set.name.includes(':')) {
+				postNamespaceSetName = toID(set.name.split(':')[1]);
+			}
+			if (postNamespaceSetName) {
+				set.name = postNamespaceSetName;
+			}
+
+			let metaProblems: string[] = [];
+			if (metaFormat.validateSet) {
+				// If the format has its own validator, directly call it with its own id to avoid validateSetInternal redirecting here
+				const backupFormatId = this.format.id;
+				this.format.id = metaFormat.id;
+				metaProblems = metaFormat.validateSet.call(this, set, {}) || [];
+				this.format.id = backupFormatId;
+			} else { // Otherwise use a natural validator for the format
+				const TeamValidator: typeof import('../sim/team-validator').TeamValidator =
+					// @ts-ignore
+					require('../sim/team-validator').TeamValidator;
+
+				const validator = new TeamValidator(dex.formats.get(`${metaFormat.id}@@@${customRules.join(',')}`));
+				metaProblems = validator.validateSet(set, {}) || [];
+			}
+
+			// Return namespace
+			if (postNamespaceSetName) {
+				set.name = backupSetName;
+			}
+
+			if (metaProblems.length) {
+				const metaLocator = [`${set.name} (${set.species}) was identified as a ${metaFormatName} user, ` +
+				`but it failed that format's validator with the following problems:-`];
+				return metaLocator.concat(metaProblems);
+			}
+
+			return null;
+		},
+		determineMeta(set) {
+			//console.log("Running determineMeta for: " + set.species || set.name);
+			return MxM.determineSetMetaKey(set);
+		},
+		// Call format custom methods
+		onBegin() {
+			this.disableAddMessage = true; // Don't show startup messages for meta rules
+			const allPokemon = this.getAllPokemon();
+			for (const pokemon of allPokemon) {
+				const metaFormat = MxM.getMetaFormat(pokemon);
+				metaFormat.onBegin?.call(this);
+
+				if (!metaFormat.ruleset) continue;
+
+				for (const rule of metaFormat.ruleset) {
+					const ruleFormat = Dex.formats.get(rule) as FormatData;
+					if (ruleFormat.onBegin) {
+						ruleFormat.onBegin.call(this);
+					}
+				}
+			}
+			this.disableAddMessage = false;
+
+			// Clear teamwide effects of OM rules
+			for (const pokemon of allPokemon) {
+				const metaFormat = MxM.getMetaFormat(pokemon);
+				if (metaFormat && metaFormat.ruleset && metaFormat.ruleset.includes('Pokebilities Rule')) continue;
+
+				pokemon.m.pseudoAbilities = undefined;
+				pokemon.m.pokebilitiesPseudoAbilities = undefined;
+			}
+
+			for (const side of this.sides) {
+				// Reverse teamwide effects of Dynamax Clause in sub-formats
+				side.dynamaxUsed = false;
+
+				// Only apply it to Pokemon from metas where it is banned
+				side.canDynamaxNow = function () {
+					if (!this.active) return false;
+
+					const activePokemon = this.active[0];
+					if (!activePokemon) return false;
+
+					const metaFormat = MxM.getMetaFormat(activePokemon);
+					if (metaFormat.ruleset) {
+						if (metaFormat.ruleset.includes('Dynamax Clause') ||
+							metaFormat.ruleset.includes('[Gen 8] OU') || // FIXME: Hack to deal with nested formats
+							metaFormat.ruleset.includes('[Gen 8] Ubers')) {
+							return false;
+						}
+					}
+
+					return !this.dynamaxUsed;
+				};
+			}
+		},
+		onModifySpecies(species, pokemon, source, effect) {
+			let pokemonSpecies = this.dex.deepClone(species);
+			if (!pokemon) return pokemonSpecies;
+
+			const metaFormat = MxM.getMetaFormat(pokemon);
+			if (metaFormat.onModifySpecies) {
+				pokemonSpecies = metaFormat.onModifySpecies.call(this, pokemonSpecies, pokemon, source, effect);
+			}
+
+			if (!metaFormat.ruleset) return pokemonSpecies;
+
+			for (const rule of metaFormat.ruleset) {
+				const ruleFormat = Dex.formats.get(rule) as FormatData;
+				if (ruleFormat.onModifySpecies) {
+					pokemonSpecies = ruleFormat.onModifySpecies.call(this, pokemonSpecies, pokemon, source, effect);
+				}
+			}
+
+			return pokemonSpecies;
+		},
+		onBeforeSwitchIn(pokemon) {
+			const metaFormat = MxM.getMetaFormat(pokemon) as FormatData;
+			metaFormat.onBeforeSwitchIn?.call(this, pokemon);
+
+			if (!metaFormat.ruleset) return;
+
+			for (const rule of metaFormat.ruleset) {
+				const ruleFormat = Dex.formats.get(rule) as FormatData;
+				if (ruleFormat.onBeforeSwitchIn) {
+					ruleFormat.onBeforeSwitchIn.call(this, pokemon);
+				}
+			}
+		},
+		onSwitchIn(pokemon) {
+			if (pokemon.meta) { // Place volatiles on the Pokémon to show its meta if defined
+				this.add('-start', pokemon, toID(pokemon.meta.format), '[silent]');
+			}
+
+			const metaFormat = MxM.getMetaFormat(pokemon) as FormatData;
+			metaFormat.onSwitchIn?.call(this, pokemon);
+
+			if (!metaFormat.ruleset) return;
+
+			for (const rule of metaFormat.ruleset) {
+				const ruleFormat = Dex.formats.get(rule) as FormatData;
+				if (ruleFormat.onSwitchIn) {
+					ruleFormat.onSwitchIn.call(this, pokemon);
+				}
+			}
+		},
+		onSwitchOut(pokemon) {
+			const metaFormat = MxM.getMetaFormat(pokemon) as FormatData;
+			metaFormat.onSwitchOut?.call(this, pokemon);
+
+			if (!metaFormat.ruleset) return;
+
+			for (const rule of metaFormat.ruleset) {
+				const ruleFormat = Dex.formats.get(rule) as FormatData;
+				if (ruleFormat.onSwitchOut) {
+					ruleFormat.onSwitchOut.call(this, pokemon);
+				}
+			}
+		},
+		onAfterMega(pokemon) {
+			const metaFormat = MxM.getMetaFormat(pokemon) as FormatData;
+			metaFormat.onAfterMega?.call(this, pokemon);
+
+			if (!metaFormat.ruleset) return;
+
+			for (const rule of metaFormat.ruleset) {
+				const ruleFormat = Dex.formats.get(rule) as FormatData;
+				if (ruleFormat.onAfterMega) {
+					ruleFormat.onAfterMega.call(this, pokemon);
+				}
+			}
+		},
+		battle: {
+			spreadModify(baseStats, set) {
+				const metaKey = MxM.determineSetMetaKey(set);
+				if ('natureswap' === metaKey) {
+					const natureSwapFormat = Dex.formats.get("[Gen 8] Nature Swap") as FormatData;
+					return natureSwapFormat.battle!.spreadModify!.call(this, baseStats, set);
+				} else { // Copy of default implementation
+					const modStats: SparseStatsTable = {atk: 10, def: 10, spa: 10, spd: 10, spe: 10};
+					const tr = this.trunc;
+					let statName: keyof StatsTable;
+					for (statName in modStats) {
+						const stat = baseStats[statName];
+						modStats[statName] = tr(tr(2 * stat + set.ivs[statName] + tr(set.evs[statName] / 4)) * set.level / 100 + 5);
+					}
+					if ('hp' in baseStats) {
+						const stat = baseStats['hp'];
+						modStats['hp'] = tr(tr(2 * stat + set.ivs['hp'] + tr(set.evs['hp'] / 4) + 100) * set.level / 100 + 10);
+					}
+					return this.natureModify(modStats as StatsTable, set);
+				}
+			},
+			natureModify(stats, set) {
+				const metaKey = MxM.determineSetMetaKey(set);
+				if ('natureswap' === metaKey) {
+					const natureSwapFormat = Dex.formats.get("[Gen 8] Nature Swap") as FormatData;
+					return natureSwapFormat.battle!.natureModify!.call(this, stats, set);
+				} else { // Copy of default implementation
+					const tr = this.trunc;
+					const nature = this.dex.natures.get(set.nature);
+					let s: StatIDExceptHP;
+					if (nature.plus) {
+						s = nature.plus;
+						const stat = this.ruleTable.has('overflowstatmod') ? Math.min(stats[s], 595) : stats[s];
+						stats[s] = tr(tr(stat * 110, 16) / 100);
+					}
+					if (nature.minus) {
+						s = nature.minus;
+						const stat = this.ruleTable.has('overflowstatmod') ? Math.min(stats[s], 728) : stats[s];
+						stats[s] = tr(tr(stat * 90, 16) / 100);
+					}
+					return stats;
+				}
+			},
+		},
+		pokemon: {
+			getAbility() {
+				const trademarkedFormat = Dex.formats.get("[Gen 8] Trademarked") as FormatData;
+				return trademarkedFormat.pokemon!.getAbility!.call(this);
+			},
+		},
 	},
 	{
 		name: "[Gen 8] Bitch and Beggar",

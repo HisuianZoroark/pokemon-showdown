@@ -391,7 +391,7 @@ export class Format extends BasicEffect implements Readonly<BasicEffect> {
 	readonly restrictionlist?: string[];
 	readonly modValueNumberA?: number;
 	// Where a format includes multiple potential metas, determine which one a Pokemon set qualifies as
-	readonly determineMeta?: (this: ModdedDex, set: PokemonSet, teamHas: AnyObject) => string | undefined;
+	readonly determineMeta?: (this: ModdedDex, set: PokemonSet) => string | undefined;
 //#endregion
 
 	constructor(data: AnyObject) {

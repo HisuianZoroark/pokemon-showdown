@@ -274,8 +274,7 @@ export class Pokemon {
 	lockTypesArray: string[];
 
 	// For Mix and Meta
-	/**@type {string | undefined} */
-	meta = undefined;
+	meta?: MixedMeta | null;
 //#endregion
 
 	constructor(set: string | AnyObject, side: Side) {

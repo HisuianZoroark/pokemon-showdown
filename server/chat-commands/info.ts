@@ -1843,8 +1843,9 @@ export const commands: Chat.ChatCommands = {
 			}
 			// TrashChannel 18/12/02: Allow description to be procedurally generated
 			let generateDesc = subformat.onDesc ? subformat.onDesc() : subformat.desc;
+			let joinString = subformat.onDesc ? "" : "<br />";
 			const descHtml = [...(generateDesc ? [generateDesc] : []), ...(subformat.threads || [])];
-			return this.sendReplyBox(`${descHtml.join("<br />")}<br />${rulesetHtml}`);
+			return this.sendReplyBox(`${descHtml.join(joinString)}${rulesetHtml}`);
 		}
 
 		let tableStyle = `border:1px solid gray; border-collapse:collapse`;

@@ -75,7 +75,7 @@ export const DexCalculator = new class DexCalculator {
 			'lc' : 15,
 		};
 
-		tier = toID(tier);
+		tier = Dex.toID(tier);
 
 		// @ts-ignore
 		let tierEnum = (tier in tierEnums) ? tierEnums[tier] : 0;

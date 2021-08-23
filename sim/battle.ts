@@ -2705,6 +2705,9 @@ export class Battle {
 
 	add(...parts: (Part | (() => {side: SideID, secret: string, shared: string}))[]) {
 		//#region TrashChannel
+		// 21/08/12: For Mix and Meta
+		if (this.disableAddMessage) return;
+
 		// 20/07/23: For Live and Learn
 		//console.log("Adding: " + parts.toString());
 		if (this.doOnShowAbility) {
@@ -2938,4 +2941,9 @@ export class Battle {
 		// in case the garbage collector really sucks, at least deallocate the log
 		(this as any).log = [];
 	}
+
+	//#region TrashChannel
+	// 21/08/12: For Mix and Meta
+	disableAddMessage: boolean = false;
+	//#endregion
 }
