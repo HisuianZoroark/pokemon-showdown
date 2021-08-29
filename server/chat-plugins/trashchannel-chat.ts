@@ -105,6 +105,11 @@ export const commands: ChatCommands = {
 		cloneSpecies = Rulesets['tiershiftrule'].onModifySpecies(cloneSpecies, null, null, 'dummy'); // Set dummy effect to bypass internal validation
 		if(!cloneSpecies) return this.errorReply(`tiershiftrule.onModifySpecies failed on this Pokemon.`);
 
+		cloneSpecies.bst = 0;
+		for (const statName in species.baseStats) {
+			cloneSpecies.bst += cloneSpecies.baseStats[statName];
+		}
+
 		this.sendReply(`|html|${Chat.getDataPokemonHTML(cloneSpecies)}`);
 	},
 	'350cuptiershifthelp': [`/350ts OR /350tiershift OR /350cuptiershift <pokemon> - Shows the base stats that a Pokemon would have in a mashup including 350 Cup and Tier Shift.`],
@@ -126,6 +131,11 @@ export const commands: ChatCommands = {
 		let cloneSpecies = DexCalculator.deepClone(species);
 		cloneSpecies = Rulesets['tiershiftrule'].onModifySpecies(cloneSpecies, null, null, 'dummy'); // Set dummy effect to bypass internal validation
 		if(!cloneSpecies) return this.errorReply(`tiershiftrule.onModifySpecies failed on this Pokemon.`);
+
+		cloneSpecies.bst = 0;
+		for (const statName in species.baseStats) {
+			cloneSpecies.bst += cloneSpecies.baseStats[statName];
+		}
 
 		TrashChannelChatSupport.mixandmegainternal(this, cloneSpecies, stoneName[0], mod, "TS");
 	},

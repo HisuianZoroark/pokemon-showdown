@@ -237,8 +237,8 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 		num: 188,
 	},
 	baddreams: {
-		onResidualOrder: 26,
-		onResidualSubOrder: 1,
+		onResidualOrder: 28,
+		onResidualSubOrder: 2,
 		onResidual(pokemon) {
 			if (!pokemon.hp) return;
 			for (const target of pokemon.foes()) {
@@ -287,7 +287,8 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 		},
 		onModifyMovePriority: -1,
 		onModifyMove(move, attacker) {
-			if (move.id === 'watershuriken' && attacker.species.name === 'Greninja-Ash') {
+			if (move.id === 'watershuriken' && attacker.species.name === 'Greninja-Ash' &&
+				!attacker.transformed) {
 				move.multihit = 3;
 			}
 		},
@@ -583,7 +584,7 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 	cursedbody: {
 		onDamagingHit(damage, target, source, move) {
 			if (source.volatiles['disable']) return;
-			if (!move.isMax && !move.isFutureMove) {
+			if (!move.isMax && !move.isFutureMove && move.id !== 'struggle') {
 				if (this.randomChance(3, 10)) {
 					source.addVolatile('disable', this.effectState.target);
 				}
@@ -878,9 +879,8 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 				return null;
 			}
 		},
-		onFoeBasePowerPriority: 17,
-		onFoeBasePower(basePower, attacker, defender, move) {
-			if (this.effectState.target !== defender) return;
+		onSourceBasePowerPriority: 17,
+		onSourceBasePower(basePower, attacker, defender, move) {
 			if (move.type === 'Fire') {
 				return this.chainModify(1.25);
 			}
@@ -1388,8 +1388,8 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 	},
 	harvest: {
 		name: "Harvest",
-		onResidualOrder: 26,
-		onResidualSubOrder: 1,
+		onResidualOrder: 28,
+		onResidualSubOrder: 2,
 		onResidual(pokemon) {
 			if (this.field.isWeather(['sunnyday', 'desolateland']) || this.randomChance(1, 2)) {
 				if (pokemon.hp && !pokemon.item && this.dex.items.get(pokemon.lastItem).isBerry) {
@@ -1405,7 +1405,7 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 	healer: {
 		name: "Healer",
 		onResidualOrder: 5,
-		onResidualSubOrder: 4,
+		onResidualSubOrder: 3,
 		onResidual(pokemon) {
 			for (const allyActive of pokemon.adjacentAllies()) {
 				if (allyActive.status && this.randomChance(3, 10)) {
@@ -1459,6 +1459,7 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 		num: 37,
 	},
 	hungerswitch: {
+		onResidualOrder: 29,
 		onResidual(pokemon) {
 			if (pokemon.species.baseSpecies !== 'Morpeko' || pokemon.transformed) return;
 			const targetForme = pokemon.species.name === 'Morpeko' ? 'Morpeko-Hangry' : 'Morpeko';
@@ -1486,7 +1487,7 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 	},
 	hydration: {
 		onResidualOrder: 5,
-		onResidualSubOrder: 4,
+		onResidualSubOrder: 3,
 		onResidual(pokemon) {
 			if (pokemon.status && ['raindance', 'primordialsea'].includes(pokemon.effectiveWeather())) {
 				this.debug('hydration');
@@ -1658,8 +1659,9 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 		onStart(pokemon) {
 			// Imposter does not activate when Skill Swapped or when Neutralizing Gas leaves the field
 			if (!this.effectState.switchingIn) return;
-			// copies across in multibattle and diagonally in free-for-all
-			// fortunately, side.foe already takes care of all that
+			// copies across in doubles/triples
+			// (also copies across in multibattle and diagonally in free-for-all,
+			// but side.foe already takes care of those)
 			const target = pokemon.side.foe.active[pokemon.side.foe.active.length - 1 - pokemon.position];
 			if (target) {
 				pokemon.transformInto(target, this.dex.abilities.get('imposter'));
@@ -2161,8 +2163,8 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 		num: 104,
 	},
 	moody: {
-		onResidualOrder: 26,
-		onResidualSubOrder: 1,
+		onResidualOrder: 28,
+		onResidualSubOrder: 2,
 		onResidual(pokemon) {
 			let stats: BoostID[] = [];
 			const boost: SparseBoostsTable = {};
@@ -2670,8 +2672,8 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 		num: 124,
 	},
 	pickup: {
-		onResidualOrder: 26,
-		onResidualSubOrder: 1,
+		onResidualOrder: 28,
+		onResidualSubOrder: 2,
 		onResidual(pokemon) {
 			if (pokemon.item) return;
 			const pickupTargets = this.getAllActive().filter(target => (
@@ -2762,7 +2764,7 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 		num: 143,
 	},
 	powerconstruct: {
-		onResidualOrder: 27,
+		onResidualOrder: 29,
 		onResidual(pokemon) {
 			if (pokemon.baseSpecies.baseSpecies !== 'Zygarde' || pokemon.transformed || !pokemon.hp) return;
 			if (pokemon.species.id === 'zygardecomplete' || pokemon.hp > pokemon.maxhp / 2) return;
@@ -3276,7 +3278,7 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 				}
 			}
 		},
-		onResidualOrder: 27,
+		onResidualOrder: 29,
 		onResidual(pokemon) {
 			if (
 				pokemon.baseSpecies.baseSpecies !== 'Wishiwashi' || pokemon.level < 20 ||
@@ -3380,7 +3382,7 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 	},
 	shedskin: {
 		onResidualOrder: 5,
-		onResidualSubOrder: 4,
+		onResidualSubOrder: 3,
 		onResidual(pokemon) {
 			if (pokemon.hp && pokemon.status && this.randomChance(33, 100)) {
 				this.debug('shed skin');
@@ -3441,7 +3443,7 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 				}
 			}
 		},
-		onResidualOrder: 27,
+		onResidualOrder: 29,
 		onResidual(pokemon) {
 			if (pokemon.baseSpecies.baseSpecies !== 'Minior' || pokemon.transformed || !pokemon.hp) return;
 			if (pokemon.hp > pokemon.maxhp / 2) {
@@ -3508,6 +3510,8 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 		},
 		condition: {
 			duration: 5,
+			onResidualOrder: 28,
+			onResidualSubOrder: 2,
 			onStart(target) {
 				this.add('-start', target, 'ability: Slow Start');
 			},
@@ -3629,8 +3633,8 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 		num: 43,
 	},
 	speedboost: {
-		onResidualOrder: 26,
-		onResidualSubOrder: 1,
+		onResidualOrder: 28,
+		onResidualSubOrder: 2,
 		onResidual(pokemon) {
 			if (pokemon.activeTurns) {
 				this.boost({spe: 1});
@@ -4536,7 +4540,7 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 		num: 147,
 	},
 	zenmode: {
-		onResidualOrder: 27,
+		onResidualOrder: 29,
 		onResidual(pokemon) {
 			if (pokemon.baseSpecies.baseSpecies !== 'Darmanitan' || pokemon.transformed) {
 				return;

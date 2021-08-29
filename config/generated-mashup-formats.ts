@@ -139,7 +139,8 @@ export const Formats: FormatList = [
 			'Lovely Kiss', 'Shell Smash', 'Shift Gear', 'Spore', 'Thousand Arrows', 'V-create', 'Wicked Blow',
 		],
 	},
-	{
+	// Currently in formats.ts
+	/*{
 		name: "[Gen 8] STABmons Mix and Mega",
 		desc: `Pok&eacute;mon can use any move of their typing and mega evolve with any stone to gain the respective boosts.`,
 		threads: [
@@ -166,7 +167,7 @@ export const Formats: FormatList = [
 			'Double Iron Bash', 'Extreme Speed', 'Fishious Rend', 'Geomancy', 'Glacial Lance', 'Lovely Kiss', 'Precipice Blades', 'Shell Smash',
 			'Shift Gear', 'Sleep Powder', 'Spore', 'Thousand Arrows', 'Transform', 'V-create', 'Wicked Blow',
 		],
-	},
+	},*/
 	{
 		name: "[Gen 8] Tier Shift AAA",
 		desc: `Pok&eacute;mon can use any ability, barring the few that are restricted to their natural users. Those below OU get all their stats, excluding HP, boosted. UU/RUBL get +10, RU/NUBL get +20, NU/PUBL get +30, and PU or lower get +40.`,

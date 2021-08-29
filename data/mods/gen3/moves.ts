@@ -27,6 +27,30 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			return 30;
 		},
 	},
+	beatup: {
+		inherit: true,
+		onModifyMove(move, pokemon) {
+			pokemon.addVolatile('beatup');
+			move.type = '???';
+			move.category = 'Special';
+			move.allies = pokemon.side.pokemon.filter(ally => !ally.fainted && !ally.status);
+			move.multihit = move.allies.length;
+		},
+		condition: {
+			duration: 1,
+			onModifySpAPriority: -101,
+			onModifySpA(atk, pokemon, defender, move) {
+				this.add('-activate', pokemon, 'move: Beat Up', '[of] ' + move.allies![0].name);
+				this.event.modifier = 1;
+				return move.allies!.shift()!.species.baseStats.atk;
+			},
+			onFoeModifySpDPriority: -101,
+			onFoeModifySpD(def, pokemon) {
+				this.event.modifier = 1;
+				return pokemon.species.baseStats.def;
+			},
+		},
+	},
 	bide: {
 		inherit: true,
 		accuracy: 100,
@@ -98,6 +122,15 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		accuracy: 100,
 		ignoreAccuracy: true,
 	},
+	brickbreak: {
+		inherit: true,
+		onTryHit(target, source) {
+			// will shatter screens through sub, before you hit
+			const foe = source.side.foe;
+			foe.removeSideCondition('reflect');
+			foe.removeSideCondition('lightscreen');
+		},
+	},
 	charge: {
 		inherit: true,
 		boosts: null,
@@ -137,7 +170,10 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			},
 			onDamagePriority: -101,
 			onDamage(damage, target, source, effect) {
-				if (effect.effectType === 'Move' && !source.isAlly(target) && this.getCategory(effect.id) === 'Physical') {
+				if (
+					effect.effectType === 'Move' && !source.isAlly(target) &&
+					(effect.category === 'Physical' || effect.id === 'hiddenpower')
+				) {
 					this.effectState.slot = source.getSlot();
 					this.effectState.damage = 2 * damage;
 				}
@@ -274,7 +310,8 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			onOverrideAction(pokemon) {
 				return this.effectState.move;
 			},
-			onResidualOrder: 13,
+			onResidualOrder: 10,
+			onResidualSubOrder: 14,
 			onResidual(target) {
 				if (
 					target.moves.includes(this.effectState.move) &&
@@ -321,6 +358,25 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	fly: {
 		inherit: true,
 		basePower: 70,
+	},
+	followme: {
+		inherit: true,
+		volatileStatus: undefined,
+		slotCondition: 'followme',
+		condition: {
+			duration: 1,
+			onStart(target, source, effect) {
+				this.add('-singleturn', target, 'move: Follow Me');
+				this.effectState.slot = target.getSlot();
+			},
+			onFoeRedirectTargetPriority: 1,
+			onFoeRedirectTarget(target, source, source2, move) {
+				const userSlot = this.getAtSlot(this.effectState.slot);
+				if (this.validTarget(userSlot, source, move.target)) {
+					return userSlot;
+				}
+			},
+		},
 	},
 	furycutter: {
 		inherit: true,
@@ -413,7 +469,10 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			},
 			onDamagePriority: -101,
 			onDamage(damage, target, source, effect) {
-				if (effect.effectType === 'Move' && !source.isAlly(target) && this.getCategory(effect.id) === 'Special') {
+				if (
+					effect.effectType === 'Move' && !source.isAlly(target) &&
+					effect.category === 'Special' && effect.id !== 'hiddenpower'
+				) {
 					this.effectState.slot = source.getSlot();
 					this.effectState.damage = 2 * damage;
 				}
@@ -571,7 +630,8 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			onStart(target) {
 				this.add('-start', target, 'move: Taunt');
 			},
-			onResidualOrder: 12,
+			onResidualOrder: 10,
+			onResidualSubOrder: 15,
 			onEnd(target) {
 				this.add('-end', target, 'move: Taunt', '[silent]');
 			},
