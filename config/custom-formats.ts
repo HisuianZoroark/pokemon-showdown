@@ -972,27 +972,29 @@ export const Formats: FormatList = [
 			'Block', 'Bug Bite', 'Knock Off', 'Mean Look', 'Pluck', 'Substitute',
 		],
 	},
-	{
+	// Currently in formats.ts
+	/*{
 		name: "[Gen 8] Alphabet Cup",
-		desc: `Pok&eacute;mon gain access to moves that share the same starting letter as their name or the name of a pre-evolution.`,
+		desc: `Allows Pok&eacute;mon to use any move that shares the same first letter as their name or a previous evolution's name.`,
 		threads: [
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3672756/">Alphabet Cup</a>`,
 		],
 
 		mod: 'gen8',
-		ruleset: ['Standard', 'Alphabet Cup Move Legality', 'Dynamax Clause'],
+		ruleset: ['Standard', 'Dynamax Clause', 'Alphabet Cup Move Legality'],
 		banlist: [
-			'Blaziken', 'Calyrex-Ice', 'Calyrex-Shadow', 'Cinderace', 'Darmanitan-Galar', 'Dialga', 'Dracovish', 'Eternatus', 'Genesect',
-			'Giratina', 'Giratina-Origin', 'Groudon', 'Ho-Oh', 'Kyogre', 'Kyurem-Black', 'Kyurem-White', 'Landorus-Base', 'Lugia', 'Lunala',
-			'Marshadow', 'Melmetal', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia', 'Pheromosa', 'Rayquaza',
-			'Reshiram', 'Scolipede', 'Solgaleo', 'Spectrier', 'Weavile', 'Xerneas', 'Yveltal', 'Zacian', 'Zacian-Crowned', 'Zekrom', 'Zygarde-Base',
+			'Blaziken', 'Calyrex-Ice', 'Calyrex-Shadow', 'Cinderace', 'Darmanitan-Galar', 'Dialga', 'Dracovish', 'Eternatus',
+			'Genesect', 'Giratina', 'Giratina-Origin', 'Groudon', 'Ho-Oh', 'Kyogre', 'Kyurem-Black', 'Kyurem-White', 'Landorus-Base',
+			'Lugia', 'Lunala', 'Magearna', 'Mamoswine', 'Marshadow', 'Melmetal', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings',
+			'Necrozma-Dusk-Mane', 'Palkia', 'Pheromosa', 'Rayquaza', 'Reshiram', 'Scolipede', 'Solgaleo', 'Spectrier', 'Urshifu-Base',
+			'Weavile', 'Xerneas', 'Yveltal', 'Zacian', 'Zacian-Crowned', 'Zamazenta', 'Zamazenta-Crowned', 'Zekrom', 'Zygarde-Base',
 			'Arena Trap', 'Moody', 'Power Construct', 'Shadow Tag', 'Acupressure', 'Baton Pass',
 		],
 		restricted: [
 			'Astral Barrage', 'Belly Drum', 'Bolt Beak', 'Double Iron Bash', 'Electrify', 'Geomancy', 'Glacial Lance',
 			'Lovely Kiss', 'Shell Smash', 'Shift Gear', 'Sleep Powder', 'Spore', 'Surging Strikes', 'Thousand Arrows',
 		],
-	},
+	},*/
 	{
 		name: "[Gen 8] Linked",
 		desc: `The first two moves in a Pok&eacute;mon's moveset are used simultaneously.`,
@@ -1002,7 +1004,7 @@ export const Formats: FormatList = [
 
 		mod: 'linked',
 		ruleset: ['[Gen 8] OU'],
-		banlist: ['Chlorophyll', 'Unburden', 'Sand Rush', 'Slush Rush', 'Surge Surfer', 'Swift Swim', 'King\'s Rock', 'Razor Fang'],
+		banlist: ['Chlorophyll', 'Unburden', 'Sand Rush', 'Slush Rush', 'Surge Surfer', 'Swift Swim', 'Razor Fang'],
 		restricted: [
 			'Baneful Bunker', 'Bounce', 'Protect', 'Detect', 'Dig', 'Dive', 'Fly', 'King\'s Shield', 'Nature\'s Madness', 'Night Shade',
 			'Obstruct', 'Phantom Force', 'Seismic Toss', 'Shadow Force', 'Sky Drop', 'Spiky Shield', 'Super Fang', 'Trick Room',
@@ -2110,9 +2112,13 @@ export const Formats: FormatList = [
 			
 			// Load BnB mod functions
 			// @ts-ignore
-			import {Scripts as BnBMod} from '../.data-dist/mods/bitchandbeggar/scripts';
+			//import {Scripts as BnBMod} from '../.data-dist/mods/bitchandbeggar/scripts';
+			const BnBMod: ModdedBattleScriptsData =
+				// @ts-ignore
+				require('../.data-dist/mods/bitchandbeggar/scripts').Scripts;
 
-			const mixedSpecies = BnBMod.actions.getMixedSpecies(beggarSpecies.name, bitchSpecies.baseSpecies);
+			// @ts-ignore
+			const mixedSpecies = BnBMod.actions?.getMixedSpecies(beggarSpecies.name, bitchSpecies.baseSpecies);
 			let oAbilitySlot = this.dex.calcActiveAbilitySlot(beggarSpecies, set.ability);
 			//console.log("oAbilitySlot: " + oAbilitySlot);
 			// @ts-ignore

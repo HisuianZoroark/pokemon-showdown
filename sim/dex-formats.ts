@@ -547,12 +547,20 @@ export class DexFormats {
 			if (!Array.isArray(customFormats)) {
 				throw new TypeError(`Exported property 'Formats' from "./config/custom-formats.ts" must be an array`);
 			}
+		} catch (e) {
+			if (e.code !== 'MODULE_NOT_FOUND' && e.code !== 'ENOENT') {
+				throw e;
+			}
 		}
 //#region TrashChannel: Additional generated mashup formats merge step
 		try {
 			customFormats = mergeFormatLists(customFormats, require(`${__dirname}/../config/generated-mashup-formats.ts`).Formats);
 			if (!Array.isArray(customFormats)) {
 				throw new TypeError(`Exported property 'Formats' from "./config/generated-mashup-formats.ts" must be an array`);
+			}
+		} catch (e) {
+			if (e.code !== 'MODULE_NOT_FOUND' && e.code !== 'ENOENT') {
+				throw e;
 			}
 		}
 //#endregion
