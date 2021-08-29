@@ -1689,7 +1689,9 @@ export const Formats: FormatList = [
 			'Obtainable', 'Team Preview', 'Sleep Clause Mod', 'Species Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod',
 			'Overflow Stat Mod', 'Multiple Abilities'
 		],
-		banlist: [],
+		banlist: [
+			'Pure Power'
+		],
 		modValueNumberA: 1,
 		onValidateTeam(team, format) {
 			if ('mixandmeta' !== format.mod) {
@@ -1776,7 +1778,27 @@ export const Formats: FormatList = [
 
 			return problems;
 		},
-		validateSet(set) {
+		validateSet(set, teamHas) {
+			// Base format validation
+			const TeamValidator: typeof import('../sim/team-validator').TeamValidator =
+				// @ts-ignore
+				require('../sim/team-validator').TeamValidator;
+
+			const dex = this.dex;
+			const customRules = this.format.customRules || [];
+			let baseFormatCustomRules = customRules;
+			baseFormatCustomRules = baseFormatCustomRules.filter(item => // Necessary for AAA, etc mashups
+				!['obtainablemoves', 'obtainableabilities', 'obtainableformes', 'obtainablemisc'].includes(toID(item)));
+			if (!baseFormatCustomRules.includes('!obtainable')) baseFormatCustomRules.push('!obtainable');
+			const baseFormatValidator = new TeamValidator(dex.formats.get(`${this.format.id}@@@${baseFormatCustomRules.join(',')}`));
+
+			let baseFormatProblems = baseFormatValidator.validateSet(set, {}) || [];
+			if (baseFormatProblems && baseFormatProblems.length > 0) {
+				baseFormatProblems = ['Ultimate Mix and Meta base format problems:-'].concat(baseFormatProblems);
+				return baseFormatProblems;
+			}
+
+			// Meta type validation
 			if (!this.format.determineMeta) {
 				return [`${this.format.name} lacks a determineMeta method! Mix and Meta must be the base format!`];
 			}
@@ -1790,9 +1812,6 @@ export const Formats: FormatList = [
 			const DexCalculator: typeof import('../.trashchannel-dist/dex-calculator').DexCalculator =
 				// @ts-ignore
 				require('../.trashchannel-dist/dex-calculator').DexCalculator;
-
-			const dex = this.dex;
-			const customRules = this.format.customRules || [];
 
 			const mixedMeta = MixedMetaCollection[setMeta];
 			const metaFormatName = mixedMeta.format;
@@ -1853,10 +1872,6 @@ export const Formats: FormatList = [
 				metaProblems = metaFormat.validateSet.call(this, set, {}) || [];
 				this.format.id = backupFormatId;
 			} else { // Otherwise use a natural validator for the format
-				const TeamValidator: typeof import('../sim/team-validator').TeamValidator =
-					// @ts-ignore
-					require('../sim/team-validator').TeamValidator;
-
 				const validator = new TeamValidator(dex.formats.get(`${metaFormat.id}@@@${customRules.join(',')}`));
 				metaProblems = validator.validateSet(set, {}) || [];
 			}
