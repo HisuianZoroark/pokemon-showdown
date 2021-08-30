@@ -1793,6 +1793,8 @@ export const Formats: FormatList = [
 			const baseFormatValidator = new TeamValidator(dex.formats.get(`${this.format.id}@@@${baseFormatCustomRules.join(',')}`));
 
 			let baseFormatProblems = baseFormatValidator.validateSet(set, {}) || [];
+			baseFormatProblems = baseFormatProblems.filter(item => // Necessary to prevent illegalizing Trademarked, CrossEvo, etc
+				!item.includes('invalid') && !item.includes('must not be nicknamed'));
 			if (baseFormatProblems && baseFormatProblems.length > 0) {
 				baseFormatProblems = ['Ultimate Mix and Meta base format problems:-'].concat(baseFormatProblems);
 				return baseFormatProblems;
