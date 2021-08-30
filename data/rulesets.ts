@@ -5,7 +5,6 @@ import {Utils} from "../lib";
 // The list of formats is stored in config/formats.js
 
 // #region TrashChannel Rules
-import {Utils} from './../lib/utils';
 import {DexCalculator} from '../.trashchannel-dist/dex-calculator';
 // #endregion TrashChannel Rules
 
