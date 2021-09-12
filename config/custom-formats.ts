@@ -1688,7 +1688,9 @@ export const Formats: FormatList = [
 			for (const mixedMetaKey in MixedMetaCollection) {
 				const mixedMeta = MixedMetaCollection[mixedMetaKey];
 				const metaFormat = Dex.formats.get(mixedMeta.format, true);
-				const metaBanned = (undefined !== mixedMeta.banReason);
+				const metaBanned = 
+					(undefined !== mixedMeta.banReason) || // Hard-coded ban
+					ourFormat.banlist.includes(metaFormat.name); // Format ban
 
 				if (metaBanned) descString += `<s>`;
 
@@ -1715,8 +1717,14 @@ export const Formats: FormatList = [
 				}
 
 				if (metaBanned) {
+					let banReasonText;
+					if (mixedMeta.banReason) {
+						banReasonText = mixedMeta.banReason;
+					} else {
+						banReasonText = 'Balance Ban (can be revoked in custom tours/challenges)';
+					}
 					descString += `</s>`;
-					descString += `<br>Ban Reasoning: ${mixedMeta.banReason}`;
+					descString += `<br>Ban Reasoning: ${banReasonText}`;
 				}
 			}
 			descString += `</details>`;
@@ -1730,7 +1738,7 @@ export const Formats: FormatList = [
 			'Overflow Stat Mod', 'Multiple Abilities'
 		],
 		banlist: [
-			'Pure Power'
+			'[Gen 8] Pure Hackmons', 'Pure Power'
 		],
 		modValueNumberA: 1,
 		onValidateTeam(team, format) {
@@ -1825,7 +1833,7 @@ export const Formats: FormatList = [
 				require('../sim/team-validator').TeamValidator;
 
 			const dex = this.dex;
-			const customRules = this.format.customRules || [];
+			let customRules = this.format.customRules || [];
 			let baseFormatCustomRules = customRules;
 			baseFormatCustomRules = baseFormatCustomRules.filter(item => // Necessary for AAA, etc mashups
 				!['obtainablemoves', 'obtainableabilities', 'obtainableformes', 'obtainablemisc'].includes(toID(item)));
@@ -1861,7 +1869,10 @@ export const Formats: FormatList = [
 
 			// Meta bans validation
 			if (mixedMeta.banReason) {
-				return [`${set.name} (${set.species})'s meta, ${metaFormatName} is banned. Ban reason: ${mixedMeta.banReason}`];
+				return [`${set.name} (${set.species})'s meta, ${metaFormatName}, has a hard-coded ban. Ban reason: ${mixedMeta.banReason}`];
+			}
+			if (baseFormatValidator.ruleTable.isBanned(`item:${toID(metaFormatName)}`)) {
+				return [`${set.name} (${set.species})'s meta, ${metaFormatName}, is banned for balance reasons (it can be unbanned in custom challenges/tours).`];
 			}
 
 			// Tiering system validation 
@@ -1895,6 +1906,19 @@ export const Formats: FormatList = [
 
 			// @ts-ignore
 			//console.log("validator: " + `${metaFormat.id}@@@${customRules.join(',')}`);
+
+			// Clear unverifiable custom rules (can't use yet)
+			/*const metaFormatCustomRules: string[] = [];
+			for (const mixedMetaKey in MixedMetaCollection) {
+				const mixedMeta = MixedMetaCollection[mixedMetaKey];
+				const metaFormat = Dex.formats.get(mixedMeta.format, true);
+				metaFormatCustomRules.push(toID(metaFormat.name));
+			}
+			customRules = customRules.filter(item => 
+				!metaFormatCustomRules.includes(toID(item)));
+
+			// @ts-ignore
+			console.log("cleaned validator: " + `${metaFormat.id}@@@${customRules.join(',')}`);*/
 
 			// Remove namespace if it exists before using external validator
 			const backupSetName = set.name;
