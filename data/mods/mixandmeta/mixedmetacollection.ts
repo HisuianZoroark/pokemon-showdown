@@ -4,7 +4,7 @@ export class MixAndMeta {
 	public static readonly MixedMetaCollection: {[k: string]: MixedMeta} = {
 		'350cup': {
 			format: "[Gen 8] 350 Cup",
-			weightTier: "OU",
+			weightTier: "LC",
 		},
 		almostanyability: {
 			format: "[Gen 8] Almost Any Ability",
