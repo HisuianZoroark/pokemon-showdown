@@ -1638,16 +1638,6 @@ export const Rulesets: {[k: string]: FormatData} = {
 		name: 'Multiple Abilities',
 		desc: "Allows the simulator to recognize that Pok&eacute;mon may have multiple abilities active simulataneously.",
 		// Implemented mainly in sim and data
-		onSwitchInPriority: 3,
-		onSwitchIn(pokemon) {
-			if (!pokemon.m.pseudoAbilities) return;
-
-			for (const pseudoAbility of pokemon.m.pseudoAbilities) {
-				const volatileName = 'ability:' + pseudoAbility;
-				if (pokemon.getVolatile(volatileName)) continue;
-				pokemon.addVolatile(volatileName, pokemon);
-			}
-		},
 		onSwitchOut(pokemon) {
 			if (!pokemon.m.pseudoAbilities) return;
 
@@ -1696,6 +1686,16 @@ export const Rulesets: {[k: string]: FormatData} = {
 				pokemon.m.pseudoAbilities = [...new Set(pokemon.m.pokebilitiesPseudoAbilities.concat(existingPseudoAbilities))];
 			}
 		},
+		onSwitchInPriority: 3,
+		onSwitchIn(pokemon) {
+			if (pokemon.m.pseudoAbilities) {
+				for (const pseudoAbility of pokemon.m.pseudoAbilities) {
+					const volatileName = 'ability:' + pseudoAbility;
+					if (pokemon.getVolatile(volatileName)) continue;
+					pokemon.addVolatile(volatileName, pokemon);
+				}
+			}
+		},
 		onAfterMega(pokemon) {
 			if (!pokemon.m.pokebilitiesPseudoAbilities) return; // Only clear our own pseudo-abilities
 
@@ -1741,6 +1741,18 @@ export const Rulesets: {[k: string]: FormatData} = {
 				pokemon.volatiles[effect] = {id: this.toID(effect), target: pokemon};
 				if (!pokemon.m.pseudoAbilities) pokemon.m.pseudoAbilities = [];
 				if (!pokemon.m.pseudoAbilities.includes(ability)) pokemon.m.pseudoAbilities.push(ability);
+			}
+		},
+		onSwitchInPriority: 2,
+		onSwitchIn(pokemon) {
+			const rulesets = this.dex.data.Rulesets;
+			const rule = rulesets.hasOwnProperty('sharedpowerrule') ? rulesets['sharedpowerrule'] as Format : null;
+			if (!rule) return;
+
+			for (const ability of rule.getSharedPower!(pokemon)) {
+				const effect = 'ability:' + ability;
+				delete pokemon.volatiles[effect];
+				pokemon.addVolatile(effect);
 			}
 		},
 	},
@@ -2391,6 +2403,16 @@ export const Rulesets: {[k: string]: FormatData} = {
 				const existingPseudoAbilities = pokemon.m.pseudoAbilities || [];
 				pokemon.m.pseudoAbilities = [...new Set([itemPseudoAbility].concat(existingPseudoAbilities))];
 				pokemon.item = itemPseudoAbility + 'multibility' as ID; // Mark the item as a mulibility (unremovable)
+			}
+		},
+		onSwitchInPriority: 4,
+		onSwitchIn(pokemon) {
+			if (pokemon.m.pseudoAbilities) {
+				for (const pseudoAbility of pokemon.m.pseudoAbilities) {
+					const volatileName = 'ability:' + pseudoAbility;
+					if (pokemon.getVolatile(volatileName)) continue;
+					pokemon.addVolatile(volatileName, pokemon);
+				}
 			}
 		},
 	},
