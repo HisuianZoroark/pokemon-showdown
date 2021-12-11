@@ -340,6 +340,24 @@ export class TeamValidator {
 		return problems;
 	}
 
+	getEventOnlyData(species: Species, noRecurse?: boolean): {species: Species, eventData: EventInfo[]} | null {
+		const dex = this.dex;
+		const learnset = dex.species.getLearnsetData(species.id);
+		if (!learnset?.eventOnly) {
+			if (noRecurse) return null;
+			return this.getEventOnlyData(dex.species.get(species.prevo), true);
+		}
+
+		if (!learnset.eventData && species.forme) {
+			return this.getEventOnlyData(dex.species.get(species.baseSpecies), true);
+		}
+		if (!learnset.eventData) {
+			throw new Error(`Event-only species ${species.name} has no eventData table`);
+		}
+
+		return {species, eventData: learnset.eventData};
+	}
+
 	validateSet(set: PokemonSet, teamHas: AnyObject): string[] | null {
 		let format = this.format;
 		const ruleTable = this.ruleTable;
@@ -526,7 +544,7 @@ export class TeamValidator {
 		problem = this.checkItem(set, item, setHas);
 		if (problem) problems.push(problem);
 		if (ruleTable.has('obtainablemisc')) {
-			if (dex.gen <= 1 || ruleTable.has('allowavs')) {
+			if (dex.gen <= 1) {
 				if (item.id) {
 					// no items allowed
 					set.item = '';
@@ -631,6 +649,7 @@ export class TeamValidator {
 		}
 
 		const learnsetSpecies = dex.species.getLearnsetData(outOfBattleSpecies.id);
+		let eventOnlyData;
 
 		if (!setSources.sourcesBefore && setSources.sources.length) {
 			let legal = false;
@@ -662,13 +681,8 @@ export class TeamValidator {
 					if (eventProblems) problems.push(...eventProblems);
 				}
 			}
-		} else if (ruleTable.has('obtainablemisc') && learnsetSpecies.eventOnly) {
-			const eventSpecies = !learnsetSpecies.eventData &&
-			outOfBattleSpecies.baseSpecies !== outOfBattleSpecies.name ?
-				dex.species.get(outOfBattleSpecies.baseSpecies) : outOfBattleSpecies;
-			const eventData = learnsetSpecies.eventData ||
-				dex.species.getLearnsetData(eventSpecies.id).eventData;
-			if (!eventData) throw new Error(`Event-only species ${species.name} has no eventData table`);
+		} else if (ruleTable.has('obtainablemisc') && (eventOnlyData = this.getEventOnlyData(outOfBattleSpecies))) {
+			const {species: eventSpecies, eventData} = eventOnlyData;
 			let legal = false;
 			for (const event of eventData) {
 				if (this.validateEvent(set, event, eventSpecies)) continue;
@@ -705,7 +719,7 @@ export class TeamValidator {
 			for (const encounter of learnsetSpecies.encounters || []) {
 				if (encounter.generation !== 1) continue;
 				if (!encounter.level) continue;
-				if (lowestEncounterLevel && encounter.level < lowestEncounterLevel) continue;
+				if (lowestEncounterLevel && encounter.level > lowestEncounterLevel) continue;
 
 				lowestEncounterLevel = encounter.level;
 			}
@@ -1328,6 +1342,12 @@ export class TeamValidator {
 			}
 		}
 
+		let isGmax = false;
+		if (tierSpecies.canGigantamax && set.gigantamax) {
+			setHas['pokemon:' + tierSpecies.id + 'gmax'] = true;
+			isGmax = true;
+		}
+
 		const tier = tierSpecies.tier === '(PU)' ? 'ZU' : tierSpecies.tier === '(NU)' ? 'PU' : tierSpecies.tier;
 		const tierTag = 'pokemontag:' + toID(tier);
 		setHas[tierTag] = true;
@@ -1359,6 +1379,13 @@ export class TeamValidator {
 			banReason = ruleTable.check('pokemontag:mega', setHas);
 			if (banReason) {
 				return `Mega evolutions are ${banReason}.`;
+			}
+		}
+
+		if (isGmax) {
+			banReason = ruleTable.check('pokemon:' + tierSpecies.id + 'gmax');
+			if (banReason) {
+				return `Gigantamaxing ${species.name} is ${banReason}.`;
 			}
 		}
 
@@ -1897,6 +1924,10 @@ export class TeamValidator {
 		 * (This is everything except in Gen 1 Tradeback)
 		 */
 		const noFutureGen = !ruleTable.has('allowtradeback');
+		/**
+		 * The format allows Sketch to copy moves in Gen 8
+		 */
+		const canSketchGen8Moves = ruleTable.has('sketchgen8moves') || this.dex.currentMod === 'gen8bdsp';
 
 		let tradebackEligible = false;
 		while (species?.name && !alreadyChecked[species.id]) {
@@ -1934,7 +1965,7 @@ export class TeamValidator {
 			} else if (learnset['sketch']) {
 				if (move.noSketch || move.isZ || move.isMax) {
 					cantLearnReason = `can't be Sketched.`;
-				} else if (move.gen > 7 && !ruleTable.has('standardnatdex')) {
+				} else if (move.gen > 7 && !canSketchGen8Moves) {
 					cantLearnReason = `can't be Sketched because it's a Gen 8 move and Sketch isn't available in Gen 8.`;
 				} else {
 					if (!sources) sketch = true;
@@ -1997,7 +2028,7 @@ export class TeamValidator {
 						if (dex.gen >= 5 && learnedGen <= 4 && [
 							'cut', 'fly', 'surf', 'strength', 'rocksmash', 'waterfall', 'rockclimb',
 						].includes(moveid)) {
-							cantLearnReason = `can't be transferred from Gen 3 to 4 because it's an HM move.`;
+							cantLearnReason = `can't be transferred from Gen 4 to 5 because it's an HM move.`;
 							continue;
 						}
 						// Defog and Whirlpool can't be transferred together

@@ -168,7 +168,7 @@ function getMastermindGame(room: Room | null) {
 function getTriviaOrMastermindGame(room: Room | null) {
 	try {
 		return getMastermindGame(room);
-	} catch (e) {
+	} catch {
 		return getTriviaGame(room);
 	}
 }
@@ -187,7 +187,7 @@ function broadcast(room: BasicRoom, title: string, message?: string) {
 
 async function getQuestions(
 	categories: ID[] | 'random' | 'all',
-	order: 'random' | 'time',
+	order: 'newestfirst' | 'oldestfirst' | 'random',
 	limit = 1000
 ): Promise<TriviaQuestion[]> {
 	if (categories === 'random') {
@@ -623,7 +623,7 @@ export class Trivia extends Rooms.RoomGame {
 			if (!cap.questions && !cap.points) {
 				if (this.game.length === 'infinite') {
 					this.questions = await database.getQuestions(this.categories, 1000, {
-						order: this.game.mode.startsWith('Random') ? 'random' : 'time',
+						order: this.game.mode.startsWith('Random') ? 'random' : 'oldestfirst',
 					});
 				}
 				// If there's no score cap, we declare a winner when we run out of questions,
@@ -645,7 +645,7 @@ export class Trivia extends Rooms.RoomGame {
 		this.phase = QUESTION_PHASE;
 		this.askedAt = process.hrtime();
 
-		const question = this.questions.pop()!;
+		const question = this.questions.shift()!;
 		this.questionNumber++;
 		this.curQuestion = question.question;
 		this.curAnswers = question.answers;
@@ -1536,7 +1536,8 @@ const triviaCommands: Chat.ChatCommands = {
 			if (categories.length > 1) throw new Chat.ErrorMessage(`You cannot combine random with another category.`);
 			categories = 'random';
 		}
-		const questions = await getQuestions(categories, randomizeQuestionOrder ? 'random' : 'time');
+
+		const questions = await getQuestions(categories, randomizeQuestionOrder ? 'random' : 'oldestfirst');
 
 		let length: ID | number = toID(targets[2]);
 		if (!LENGTHS[length]) {
@@ -1627,7 +1628,7 @@ const triviaCommands: Chat.ChatCommands = {
 			const mastermindRound = getMastermindGame(room).currentRound;
 			if (!mastermindRound) throw new Error;
 			game = mastermindRound;
-		} catch (e) {
+		} catch {
 			game = getTriviaGame(room);
 		}
 
@@ -2014,7 +2015,7 @@ const triviaCommands: Chat.ChatCommands = {
 			return this.errorReply(this.tr`'${target}' is not a valid category. View /help trivia for more information.`);
 		}
 
-		const list = await database.getQuestions([category], Number.MAX_SAFE_INTEGER, {order: 'time'});
+		const list = await database.getQuestions([category], Number.MAX_SAFE_INTEGER, {order: 'oldestfirst'});
 		if (!list.length) {
 			buffer += `<tr><td>${this.tr`There are no questions in the ${ALL_CATEGORIES[category]} category.`}</td></table></div>`;
 			return this.sendReply(buffer);
@@ -2310,7 +2311,7 @@ const triviaCommands: Chat.ChatCommands = {
 		try {
 			await mergeAlts(user.id, altid);
 			return this.sendReply(`Your Trivia leaderboard score has been transferred to '${altid}'!`);
-		} catch (err) {
+		} catch (err: any) {
 			if (!err.message.includes('/trivia mergescore')) throw err;
 
 			await requestAltMerge(altid, user.id);

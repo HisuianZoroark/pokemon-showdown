@@ -2108,6 +2108,12 @@ export class Battle {
 		return stats;
 	}
 
+	finalModify(relayVar: number) {
+		relayVar = this.modify(relayVar, this.event.modifier);
+		this.event.modifier = 1;
+		return relayVar;
+	}
+
 	getCategory(move: string | Move) {
 		return this.dex.moves.get(move).category || 'Physical';
 	}
