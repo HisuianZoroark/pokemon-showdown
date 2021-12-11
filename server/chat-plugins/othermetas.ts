@@ -24,17 +24,35 @@ function getMegaStone(stone: string, mod = 'gen8'): Item | null {
 	if (mod && toID(mod) in Dex.dexes) dex = Dex.mod(toID(mod));
 	const item = dex.items.get(stone);
 	if (!item.exists) {
-		if (toID(stone) === 'dragonascent') {
+		const isMixt = mod === 'genmixt';
+		const stoneId = toID(stone);
+		if (['dragonascent'].includes(stoneId) ||
+			(isMixt && ['glaciallance', 'astralbarrage'].includes(stoneId))) {
 			const move = dex.moves.get(stone);
+			var megaEvolves, megaStone;
+			switch (move.id) {
+				case 'dragonascent':
+					megaEvolves = 'Rayquaza';
+					megaStone = 'Rayquaza-Mega';
+					break;
+				case 'glaciallance':
+					megaEvolves = 'Calyrex';
+					megaStone = 'Calyrex-Ice';
+					break;
+				case 'astralbarrage':
+					megaEvolves = 'Calyrex';
+					megaStone = 'Calyrex-Shadow';
+					break;
+			}
 			return {
 				id: move.id,
 				name: move.name,
 				fullname: move.name,
-				megaEvolves: 'Rayquaza',
-				megaStone: 'Rayquaza-Mega',
+				megaEvolves: megaEvolves,
+				megaStone: megaStone,
 				exists: true,
 				// Adding extra values to appease typescript
-				gen: 6,
+				gen: move.gen,
 				num: -1,
 				effectType: 'Item',
 				sourceEffect: '',
@@ -110,21 +128,26 @@ export const commands: Chat.ChatCommands = {
 	stone(target) {
 		const sep = target.split(',');
 		let dex = Dex;
+		let mod = toID(sep[1]);
 		if (sep[1]) {
-			if (toID(sep[1]) in Dex.dexes) {
-				dex = Dex.mod(toID(sep[1]));
+			if (mod in Dex.dexes) {
+				dex = Dex.mod(mod);
 			} else {
 				throw new Chat.ErrorMessage(`A mod by the name of '${sep[1].trim()}' does not exist.`);
 			}
 			if (dex === Dex.dexes['ssb']) {
 				throw new Chat.ErrorMessage(`The SSB mod supports custom elements for Mega Stones that have the capability of crashing the server.`);
 			}
+		} else {
+			mod = 'gen8' as ID;
 		}
 		const targetid = toID(sep[0]);
 		if (!targetid) return this.parse('/help stone');
 		this.runBroadcast();
-		const stone = getMegaStone(targetid, sep[1]);
-		if (stone && dex.gen >= 8 && ['redorb', 'blueorb'].includes(stone.id)) {
+		const stone = getMegaStone(targetid, mod);
+		const isNotMixt = mod !== 'genmixt';
+		const newStoneData = dex.gen >= 8 && isNotMixt;
+		if (stone && newStoneData && ['redorb', 'blueorb'].includes(stone.id)) {
 			throw new Chat.ErrorMessage("The Orbs do not exist in Gen 8 and later.");
 		}
 		const stones = [];
@@ -135,10 +158,10 @@ export const commands: Chat.ChatCommands = {
 			for (const poke of species.otherFormes) {
 				if (!/(?:-Primal|-Mega(?:-[XY])?)$/.test(poke)) continue;
 				const megaPoke = dex.species.get(poke);
-				const flag = megaPoke.requiredMove === 'Dragon Ascent' ? megaPoke.requiredMove : megaPoke.requiredItem;
+				const flag = megaPoke.requiredMove && ['Dragon Ascent', 'Glacial Lance', 'Astral Barrage'].includes(megaPoke.requiredMove) ? megaPoke.requiredMove : megaPoke.requiredItem;
 				if (/mega[xy]$/.test(targetid) && toID(megaPoke.name) !== toID(dex.species.get(targetid))) continue;
 				if (!flag) continue;
-				stones.push(getMegaStone(flag, sep[1]));
+				stones.push(getMegaStone(flag, mod));
 			}
 			if (!stones.length) throw new Chat.ErrorMessage(`Error: Mega Evolution not found.`);
 		}
@@ -147,8 +170,11 @@ export const commands: Chat.ChatCommands = {
 			if (!aStone) return;
 			let baseSpecies = dex.species.get(aStone.megaEvolves);
 			let megaSpecies = dex.species.get(aStone.megaStone);
-			if (dex.gen >= 8 && ['redorb', 'blueorb'].includes(aStone.id)) {
+			if (newStoneData && ['redorb', 'blueorb'].includes(aStone.id)) {
 				throw new Chat.ErrorMessage("The Orbs do not exist in Gen 8 and later.");
+			}
+			if (newStoneData && ['rustedshield', 'rustedsword'].includes(aStone.id)) {
+				throw new Chat.ErrorMessage(aStone.name+" isn't an Orb in "+mod);
 			}
 			if (aStone.id === 'redorb') { // Orbs do not have 'Item.megaStone' or 'Item.megaEvolves' properties.
 				megaSpecies = dex.species.get("Groudon-Primal");
@@ -156,6 +182,12 @@ export const commands: Chat.ChatCommands = {
 			} else if (aStone.id === 'blueorb') {
 				megaSpecies = dex.species.get("Kyogre-Primal");
 				baseSpecies = dex.species.get("Kyogre");
+			} else if (aStone.id === 'rustedshield') {
+				megaSpecies = dex.species.get("Zamazenta-Crowned");
+				baseSpecies = dex.species.get("Zamazenta");
+			} else if (aStone.id === 'rustedsword') {
+				megaSpecies = dex.species.get("Zacian-Crowned");
+				baseSpecies = dex.species.get("Zacian");
 			}
 			const deltas: StoneDeltas = {
 				baseStats: Object.create(null),
@@ -169,7 +201,7 @@ export const commands: Chat.ChatCommands = {
 			if (megaSpecies.types.length > baseSpecies.types.length) {
 				deltas.type = megaSpecies.types[1];
 			} else if (megaSpecies.types.length < baseSpecies.types.length) {
-				deltas.type = dex.gen >= 8 ? 'mono' : megaSpecies.types[0];
+				deltas.type = newStoneData ? 'mono' : megaSpecies.types[0];
 			} else if (megaSpecies.types[1] !== baseSpecies.types[1]) {
 				deltas.type = megaSpecies.types[1];
 			}
@@ -177,23 +209,24 @@ export const commands: Chat.ChatCommands = {
 				Gen: aStone.gen,
 				Weight: (deltas.weighthg < 0 ? "" : "+") + deltas.weighthg / 10 + " kg",
 			};
+			const isMove = ['dragonascent', 'glaciallance', 'astralbarrage'].includes(aStone.id);
 			let tier;
-			if (['redorb', 'blueorb'].includes(aStone.id)) {
+			if (['redorb', 'blueorb', 'rustedshield', 'rustedsword'].includes(aStone.id)) {
 				tier = "Orb";
-			} else if (aStone.name === "Dragon Ascent") {
+			} else if (isMove) {
 				tier = "Move";
 			} else {
 				tier = "Stone";
 			}
 			let buf = `<li class="result">`;
 			buf += `<span class="col numcol">${tier}</span> `;
-			if (aStone.name === "Dragon Ascent") {
+			if (isMove) {
 				buf += `<span class="col itemiconcol"></span>`;
 			} else {
 				buf += `<span class="col itemiconcol"><psicon item="${toID(aStone)}"/></span> `;
 			}
-			if (aStone.name === "Dragon Ascent") {
-				buf += `<span class="col movenamecol" style="white-space:nowrap"><a href="https://${Config.routes.dex}/moves/${targetid}" target="_blank">Dragon Ascent</a></span> `;
+			if (isMove) {
+				buf += `<span class="col movenamecol" style="white-space:nowrap"><a href="https://${Config.routes.dex}/moves/${targetid}" target="_blank">${aStone.name}</a></span> `;
 			} else {
 				buf += `<span class="col pokemonnamecol" style="white-space:nowrap"><a href="https://${Config.routes.dex}/items/${aStone.id}" target="_blank">${aStone.name}</a></span> `;
 			}
