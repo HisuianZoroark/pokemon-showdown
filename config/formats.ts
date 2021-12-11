@@ -1230,7 +1230,7 @@ export const Formats: FormatList = [
 			this.add('-start', pokemon, donorTemplate.name, '[silent]');
 		},
 	},
-	{
+	/*{
 		name: "[Gen 8] Multibility",
 		desc: `Run a second ability at the cost of giving up a Pok&eacute;mon's item slot.`,
 		threads: [
@@ -1419,7 +1419,7 @@ export const Formats: FormatList = [
 				return false;
 			},
 		},
-	},
+	},*/
 	{
 		name: "[Gen 8] Nature Swap",
 		desc: `Pok&eacute;mon have their base stats swapped depending on their nature.`,
