@@ -1333,6 +1333,11 @@ export class GlobalRoomState {
 		let prevSection = '';
 		let curColumn = 1;
 		for (const format of Dex.formats.all()) {
+//#region TrashChannel
+			// Deal with Random Battle being removed
+			if ("[Gen 8] Random Battle" === format.name) continue;
+			if (format.ruleset.includes("[Gen 8] Random Battle")) continue;
+//#endregion
 			if (format.section) section = format.section;
 			if (format.column) curColumn = format.column;
 			if (!format.name) continue;
