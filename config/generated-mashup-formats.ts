@@ -7,7 +7,7 @@ export const Formats: FormatList = [
 		column: 1,
 	},
 	{
-		name: "[BDSP] STAAABmons",
+		name: "[Gen 8 BDSP] STAAABmons",
 		desc: `(No description)`,
 		threads: [
 			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[BDSP] STAAABmons Resources</a>`,
