@@ -162,7 +162,7 @@ export const Formats: FormatList = [
 		
 		ruleset: [
 			'Obtainable', 'Species Clause', 'Nickname Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Team Preview', 'HP Percentage Mod', 'Cancel Mod',
-			'Overflow Stat Mod', 'Dynamax Clause', 'Sleep Clause Mod', 'Endless Battle Clause', 'Mix and Mega Standard Package', 'STABmons Move Legality',
+			'Overflow Stat Mod', 'Dynamax Clause', 'Sleep Clause Mod', 'Endless Battle Clause', 'Mega Rayquaza Clause', 'STABmons Move Legality',
 		],
 		banlist: [
 			'Kyogre', 'Zacian', 'Moody', 'Shadow Tag', 'Beedrillite', 'Blazikenite', 'Gengarite',
@@ -1604,7 +1604,7 @@ export const Formats: FormatList = [
 		desc: `Mega Stones, Primal Orbs and other things can be used on almost any Pok&eacute;mon with no Mega Evolution limit.`,
 
 		mod: 'genmixt',
-		ruleset: ['Obtainable', 'Species Clause', 'Nickname Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Team Preview', 'HP Percentage Mod', 'Cancel Mod', 'Overflow Stat Mod', 'Dynamax Clause', 'Sleep Clause Mod', 'Endless Battle Clause'],
+		ruleset: ['Obtainable', 'Species Clause', 'Nickname Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Team Preview', 'HP Percentage Mod', 'Cancel Mod', 'Overflow Stat Mod', 'Dynamax Clause', 'Sleep Clause Mod', 'Endless Battle Clause', 'Mega Rayquaza Clause'],
 		banlist: [
 			'Kyogre', 'Zacian',
 			'Beedrillite', 'Blazikenite', 'Gengarite', 'Kangaskhanite', 'Mawilite', 'Medichamite', 'Pidgeotite',
