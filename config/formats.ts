@@ -643,7 +643,7 @@ export const Formats: FormatList = [
 		section: "OM of the Month",
 		column: 2,
 	},
-	{
+	/*{
 		name: "[Gen 8] Pokebilities",
 		desc: `Pok&eacute;mon have all of their released abilities simultaneously.`,
 		threads: [
@@ -687,7 +687,7 @@ export const Formats: FormatList = [
 			}
 			pokemon.m.innates = undefined;
 		},
-	},
+	},*/
 	{
 		name: "[Gen 8] Camomons",
 		desc: `Pok&eacute;mon change type to match their first two moves.`,
