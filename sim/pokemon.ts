@@ -786,6 +786,7 @@ export class Pokemon {
 			if ((pokemon.ability === ('neutralizinggas' as ID) ||
 					(isMultipleAbilities && pokemon.volatiles['ability:neutralizinggas'])) &&
 				!pokemon.volatiles['gastroacid'] &&
+				!pokemon.transformed && 
 				!pokemon.abilityState.ending) {
 				neutralizinggas = true;
 				break;

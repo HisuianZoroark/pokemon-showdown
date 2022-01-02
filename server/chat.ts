@@ -1133,7 +1133,7 @@ export class CommandContext extends MessageContext {
 					);
 					throw new Chat.Interruption();
 				}
-				if (!(targetUser.registered || targetUser.autoconfirmed)) {
+				if (targetUser.id !== user.id && !(targetUser.registered || targetUser.autoconfirmed)) {
 					throw new Chat.ErrorMessage(this.tr`That user is unregistered and cannot be PMed.`);
 				}
 				if (lockType && !targetUser.can('lock')) {
