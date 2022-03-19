@@ -1635,6 +1635,78 @@ export const Rulesets: {[k: string]: FormatData} = {
 			pokemon.trapped = true;
 		},
 	},
+	crazyhousemod: {
+		effectType: 'Rule',
+		name: 'Crazyhouse Mod',
+		desc: "You obtain the pokemon you KO.",
+		onBegin() {
+			this.add('rule', "Crazyhouse Mod: You obtain the pokemon you KO.");
+		},
+		onValidateRule(value) {
+			const ruleTable = this.ruleTable;
+			const maxTeamSize = ruleTable.pickedTeamSize || ruleTable.maxTeamSize;
+			const maxTeamSizeBlame = ruleTable.pickedTeamSize ? ruleTable.blame('pickedteamsize') : ruleTable.blame('maxteamsize');
+			const potentialMaxTeamSize = maxTeamSize * 2;
+			if (potentialMaxTeamSize > 24) {
+				throw new Error(`${maxTeamSizeBlame} cannot be added because a team can potentially have ${potentialMaxTeamSize} Pokemon on one team, which is more than the server limit of 24.`);
+			}
+		},
+		onBeforeSwitchIn(pokemon) {
+			if (this.turn < 1 || !pokemon.side.faintedThisTurn) return;
+			pokemon.side.pokemon = pokemon.side.pokemon.filter(x => !(x.fainted && !x.m.outofplay));
+			for (let i = 0; i < pokemon.side.pokemon.length && i < 24; i++) {
+				pokemon.side.pokemon[i].position = i;
+			}
+		},
+		onFaint(target, source, effect) {
+			if (!target.m.numSwaps) {
+				target.m.numSwaps = 0;
+			}
+			target.m.numSwaps++;
+			if (effect && effect.effectType === 'Move' && source.side.pokemon.length < 24 &&
+                source.side !== target.side && target.m.numSwaps < 4) {
+				const Pokemon: typeof import('../sim/pokemon').Pokemon =
+                    require('../sim/pokemon').Pokemon;
+				const hpCost = this.clampIntRange(Math.floor((target.baseMaxhp * target.m.numSwaps) / 4), 1);
+				// Just in case(tm) and for Shedinja
+				if (hpCost === target.baseMaxhp) {
+					target.m.outofplay = true;
+					return;
+				}
+				source.side.pokemonLeft++;
+				source.side.pokemon.length++;
+
+				const newPoke = new Pokemon(target.set, source.side);
+				const newPos = source.side.pokemon.length - 1;
+
+				// If there is a better way please tell me
+				const doNotCarryOver = [
+					'fullname', 'side', 'fainted', 'status', 'hp', 'illusion',
+					'transformed', 'position', 'isActive', 'faintQueued',
+					'subFainted', 'getHealth', 'getDetails', 'moveSlots', 'ability',
+					'maxhp',
+				];
+				for (const [key, value] of Object.entries(target)) {
+					if (doNotCarryOver.includes(key)) continue;
+					// @ts-ignore
+					newPoke[key] = value;
+				}
+				newPoke.hp = newPoke.baseMaxhp - hpCost;
+				for (const [j, moveSlot] of newPoke.moveSlots.entries()) {
+					moveSlot.pp = Math.floor(
+						moveSlot.maxpp * (target.moveSlots[j] ? (target.moveSlots[j].pp / target.moveSlots[j].maxpp) : 1)
+					);
+				}
+				newPoke.clearVolatile();
+				newPoke.position = newPos;
+				source.side.pokemon[newPos] = newPoke;
+				this.add('poke', source.side.pokemon[newPos].side.id, source.side.pokemon[newPos].details, '');
+				this.add('-message', `${target.name} was captured by ${newPoke.side.name}!`);
+			} else {
+				target.m.outofplay = true;
+			}
+		},
+	},
 	chimera1v1rule: {
 		effectType: 'Rule',
 		name: 'Chimera 1v1 Rule',
