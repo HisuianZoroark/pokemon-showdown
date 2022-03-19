@@ -1272,7 +1272,10 @@ export class BattleActions {
 				this.battle.runEvent('ModifySecondaries', target, source, moveData, moveData.secondaries.slice());
 			for (const secondary of secondaries) {
 				const secondaryRoll = this.battle.random(100);
-				if (typeof secondary.chance === 'undefined' || secondaryRoll < secondary.chance) {
+				// User stat boosts or target stat drops can possibly overflow if it goes beyond 256
+				const secondaryOverflow = (secondary.boosts || secondary.self);
+				if (typeof secondary.chance === 'undefined' ||
+					secondaryRoll < (secondaryOverflow ? secondary.chance % 256 : secondary.chance)) {
 					this.moveHit(target, source, move, secondary, true, isSelf);
 				}
 			}
@@ -1762,13 +1765,6 @@ export class BattleActions {
 	runMegaEvo(pokemon: Pokemon) {
 		const speciesid = pokemon.canMegaEvo || pokemon.canUltraBurst;
 		if (!speciesid) return false;
-
-		// Pokémon affected by Sky Drop cannot mega evolve. Enforce it here for now.
-		for (const foeActive of pokemon.foes()) {
-			if (foeActive.volatiles['skydrop']?.source === pokemon) {
-				return false;
-			}
-		}
 
 		pokemon.formeChange(speciesid, pokemon.getItem(), true);
 

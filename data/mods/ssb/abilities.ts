@@ -1315,7 +1315,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 				}
 			}
 			// Infinite Loop preventer
-			if (effect?.name === 'Stubbornness') return;
+			if (effect?.name === "Stubbornness") return;
 			if (success) {
 				if (!this.effectState.happened) {
 					this.boost({atk: 1, def: 1, spd: 1}, pokemon);
@@ -1572,7 +1572,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 			if (!pokemon.hp) return;
 			const types = pokemon.moveSlots.map(slot => this.dex.moves.get(slot.id).type);
 			const type = types.length ? this.sample(types) : '???';
-			if (pokemon.setType(type)) {
+			if (this.dex.types.isName(type) && pokemon.setType(type)) {
 				this.add('-ability', pokemon, 'Wild Magic Surge');
 				this.add('-start', pokemon, 'typechange', type);
 			}

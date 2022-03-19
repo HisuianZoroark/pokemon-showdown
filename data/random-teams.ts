@@ -80,6 +80,10 @@ const Hazards = [
 	'spikes', 'stealthrock', 'stickyweb', 'toxicspikes',
 ];
 
+function sereneGraceBenefits(move: Move) {
+	return move.secondary?.chance && move.secondary.chance >= 20 && move.secondary.chance < 100;
+}
+
 export class RandomTeams {
 	dex: ModdedDex;
 	gen: number;
@@ -293,7 +297,7 @@ export class RandomTeams {
 	private hasDirectCustomBanlistChanges() {
 		if (!this.format.customRules) return false;
 		for (const rule of this.format.customRules) {
-			for (const banlistOperator of ['-','+','*']) {
+			for (const banlistOperator of ['-', '+', '*']) {
 				if (rule.startsWith(banlistOperator)) return true;
 			}
 		}
@@ -304,8 +308,9 @@ export class RandomTeams {
 	 * Inform user when custom bans are unsupported in a team generator.
 	 */
 	protected enforceNoDirectCustomBanlistChanges() {
-		if (!this.hasDirectCustomBanlistChanges()) return;
-		throw new Error(`Custom bans are not currently supported in ${this.format.name}.`);
+		if (this.hasDirectCustomBanlistChanges()) {
+			throw new Error(`Custom bans are not currently supported in ${this.format.name}.`);
+		}
 	}
 
 	/**
@@ -315,7 +320,7 @@ export class RandomTeams {
 		if (!this.format.customRules) return false;
 		for (const rule of this.format.customRules) {
 			if (rule.includes('+') && !rule.startsWith('+')) {
-				throw new Error(`Complex bans are not currently supported in ${this.format.name}.`);;
+				throw new Error(`Complex bans are not currently supported in ${this.format.name}.`);
 			}
 		}
 	}
@@ -327,7 +332,8 @@ export class RandomTeams {
 		effectTypeName: string,
 		basicEffectPool: BasicEffect[],
 		requiredCount: number,
-		requiredCountExplanation: string) {
+		requiredCountExplanation: string
+	) {
 		if (basicEffectPool.length >= requiredCount) return;
 		throw new Error(`Legal ${effectTypeName} count is insufficient to support ${requiredCountExplanation} (${basicEffectPool.length} / ${requiredCount}).`);
 	}
@@ -507,7 +513,7 @@ export class RandomTeams {
 		return team;
 	}
 
-	randomNPokemon(n: number, requiredType?: string, minSourceGen?: number) {
+	randomNPokemon(n: number, requiredType?: string, minSourceGen?: number, ruleTable?: RuleTable) {
 		// Picks `n` random pokemon--no repeats, even among formes
 		// Also need to either normalize for formes or select formes at random
 		// Unreleased are okay but no CAP
@@ -518,15 +524,65 @@ export class RandomTeams {
 			throw new Error(`"${requiredType}" is not a valid type.`);
 		}
 
+		const isNotCustom = !ruleTable;
+
 		const pool: number[] = [];
-		for (const species of this.dex.species.all()) {
-			if (species.isNonstandard && species.isNonstandard !== 'Unobtainable') continue;
-			if (requiredType && !species.types.includes(requiredType)) continue;
-			if (minSourceGen && species.gen < minSourceGen) continue;
-			const num = species.num;
-			if (num <= 0 || pool.includes(num)) continue;
-			if (num > last) break;
-			pool.push(num);
+		let speciesPool: Species[] = [];
+		if (isNotCustom) {
+			speciesPool = [...this.dex.species.all()];
+			for (const species of speciesPool) {
+				if (species.isNonstandard && species.isNonstandard !== 'Unobtainable') continue;
+				if (requiredType && !species.types.includes(requiredType)) continue;
+				if (minSourceGen && species.gen < minSourceGen) continue;
+				const num = species.num;
+				if (num <= 0 || pool.includes(num)) continue;
+				if (num > last) break;
+				pool.push(num);
+			}
+		} else {
+			const EXISTENCE_TAG = ['past', 'future', 'lgpe', 'unobtainable', 'cap', 'custom', 'nonexistent'];
+			const nonexistentBanReason = ruleTable.check('nonexistent');
+			// Assume tierSpecies does not differ from species here (mega formes can be used without their stone, etc)
+			for (const species of this.dex.species.all()) {
+				if (requiredType && !species.types.includes(requiredType)) continue;
+
+				let banReason = ruleTable.check('pokemon:' + species.id);
+				if (banReason) continue;
+				if (banReason !== '') {
+					if (species.isMega && ruleTable.check('pokemontag:mega')) continue;
+
+					banReason = ruleTable.check('basepokemon:' + toID(species.baseSpecies));
+					if (banReason) continue;
+					if (banReason !== '' || this.dex.species.get(species.baseSpecies).isNonstandard !== species.isNonstandard) {
+						const nonexistentCheck = Tags.nonexistent.genericFilter!(species) && nonexistentBanReason;
+						let tagWhitelisted = false;
+						let tagBlacklisted = false;
+						for (const ruleid of ruleTable.tagRules) {
+							if (ruleid.startsWith('*')) continue;
+							const tagid = ruleid.slice(12);
+							const tag = Tags[tagid];
+							if ((tag.speciesFilter || tag.genericFilter)!(species)) {
+								const existenceTag = EXISTENCE_TAG.includes(tagid);
+								if (ruleid.startsWith('+')) {
+									if (!existenceTag && nonexistentCheck) continue;
+									tagWhitelisted = true;
+									break;
+								}
+								tagBlacklisted = true;
+								break;
+							}
+						}
+						if (tagBlacklisted) continue;
+						if (!tagWhitelisted) {
+							if (ruleTable.check('pokemontag:allpokemon')) continue;
+						}
+					}
+				}
+				speciesPool.push(species);
+				const num = species.num;
+				if (pool.includes(num)) continue;
+				pool.push(num);
+			}
 		}
 
 		const hasDexNumber: {[k: string]: number} = {};
@@ -536,12 +592,16 @@ export class RandomTeams {
 		}
 
 		const formes: string[][] = [];
-		for (const species of this.dex.species.all()) {
+		for (const species of speciesPool) {
 			if (!(species.num in hasDexNumber)) continue;
-			if (species.gen <= this.gen && (!species.isNonstandard || species.isNonstandard === 'Unobtainable')) {
-				if (!formes[hasDexNumber[species.num]]) formes[hasDexNumber[species.num]] = [];
-				formes[hasDexNumber[species.num]].push(species.name);
-			}
+			if (isNotCustom && (species.gen > this.gen ||
+				(species.isNonstandard && species.isNonstandard !== 'Unobtainable'))) continue;
+			if (!formes[hasDexNumber[species.num]]) formes[hasDexNumber[species.num]] = [];
+			formes[hasDexNumber[species.num]].push(species.name);
+		}
+
+		if (formes.length < n) {
+			throw new Error(`Legal Pokemon forme count insufficient to support Max Team Size: (${formes.length} / ${n}).`);
 		}
 
 		const nPokemon = [];
@@ -651,7 +711,7 @@ export class RandomTeams {
 
 		// Item Pool
 		const doItemsExist = this.gen > 1;
-		let itemPool : Item[] = [];
+		let itemPool: Item[] = [];
 		if (doItemsExist) {
 			if (!hasCustomBans) {
 				itemPool = [...this.dex.items.all()].filter(item => (item.gen <= this.gen && !item.isNonstandard));
@@ -660,18 +720,14 @@ export class RandomTeams {
 				for (const item of this.dex.items.all()) {
 					let banReason = ruleTable.check('item:' + item.id);
 					if (banReason) continue;
-					if (banReason !== '') {
-						if (item.id) {
-							if (hasAllItemsBan) continue;
-							if (item.isNonstandard) {
-								banReason = ruleTable.check('pokemontag:' + toID(item.isNonstandard));
-								if (banReason) continue;
-								if (banReason !== '') {
-									if (item.isNonstandard !== 'Unobtainable') {
-										if (hasNonexistentBan) continue;
-										if (!hasNonexistentWhitelist) continue;
-									}
-								}
+					if (banReason !== '' && item.id) {
+						if (hasAllItemsBan) continue;
+						if (item.isNonstandard) {
+							banReason = ruleTable.check('pokemontag:' + toID(item.isNonstandard));
+							if (banReason) continue;
+							if (banReason !== '' && item.isNonstandard !== 'Unobtainable') {
+								if (hasNonexistentBan) continue;
+								if (!hasNonexistentWhitelist) continue;
 							}
 						}
 					}
@@ -685,7 +741,7 @@ export class RandomTeams {
 
 		// Ability Pool
 		const doAbilitiesExist = (this.gen > 2) && (this.dex.currentMod !== 'gen7letsgo');
-		let abilityPool : Ability[] = [];
+		let abilityPool: Ability[] = [];
 		if (doAbilitiesExist) {
 			if (!hasCustomBans) {
 				abilityPool = [...this.dex.abilities.all()].filter(ability => (ability.gen <= this.gen && !ability.isNonstandard));
@@ -715,13 +771,15 @@ export class RandomTeams {
 
 		// Move Pool
 		const setMoveCount = ruleTable.maxMoveCount;
-		let movePool : Move[] = [];
+		let movePool: Move[] = [];
 		if (!hasCustomBans) {
-			movePool = [...this.dex.moves.all()].filter(move => (move.gen <= this.gen && !move.isNonstandard && !move.name.startsWith('Hidden Power ')));
+			movePool = [...this.dex.moves.all()].filter(move =>
+				(move.gen <= this.gen && !move.isNonstandard && !move.name.startsWith('Hidden Power ')));
 		} else {
 			const hasAllMovesBan = ruleTable.check('pokemontag:allmoves');
 			for (const move of this.dex.moves.all()) {
-				if (move.name.startsWith('Hidden Power ')) continue; // Legality of specific HP types can't be altered in built formats anyway
+				// Legality of specific HP types can't be altered in built formats anyway
+				if (move.name.startsWith('Hidden Power ')) continue;
 				let banReason = ruleTable.check('move:' + move.id);
 				if (banReason) continue;
 				if (banReason !== '') {
@@ -729,11 +787,9 @@ export class RandomTeams {
 					if (move.isNonstandard) {
 						banReason = ruleTable.check('pokemontag:' + toID(move.isNonstandard));
 						if (banReason) continue;
-						if (banReason !== '') {
-							if (move.isNonstandard !== 'Unobtainable') {
-								if (hasNonexistentBan) continue;
-								if (!hasNonexistentWhitelist) continue;
-							}
+						if (banReason !== '' && move.isNonstandard !== 'Unobtainable') {
+							if (hasNonexistentBan) continue;
+							if (!hasNonexistentWhitelist) continue;
 						}
 					}
 				}
@@ -744,7 +800,7 @@ export class RandomTeams {
 
 		// Nature Pool
 		const doNaturesExist = this.gen > 2;
-		let naturePool : Nature[] = [];
+		let naturePool: Nature[] = [];
 		if (doNaturesExist) {
 			if (!hasCustomBans) {
 				if (!hasCustomBans) {
@@ -754,18 +810,14 @@ export class RandomTeams {
 					for (const nature of this.dex.natures.all()) {
 						let banReason = ruleTable.check('nature:' + nature.id);
 						if (banReason) continue;
-						if (banReason !== '') {
-							if (nature.id) {
-								if (hasAllNaturesBan) continue;
-								if (nature.isNonstandard) {
-									banReason = ruleTable.check('pokemontag:' + toID(nature.isNonstandard));
-									if (banReason) continue;
-									if (banReason !== '') {
-										if (nature.isNonstandard !== 'Unobtainable') {
-											if (hasNonexistentBan) continue;
-											if (!hasNonexistentWhitelist) continue;
-										}
-									}
+						if (banReason !== '' && nature.id) {
+							if (hasAllNaturesBan) continue;
+							if (nature.isNonstandard) {
+								banReason = ruleTable.check('pokemontag:' + toID(nature.isNonstandard));
+								if (banReason) continue;
+								if (banReason !== '' && nature.isNonstandard !== 'Unobtainable') {
+									if (hasNonexistentBan) continue;
+									if (!hasNonexistentWhitelist) continue;
 								}
 							}
 						}
@@ -776,13 +828,8 @@ export class RandomTeams {
 			}
 		}
 
-		let randomN : string[] = [];
-		if (!hasCustomBans) {
-			randomN = this.randomNPokemon(this.maxTeamSize, this.forceMonotype);
-		} else {
-			randomN = this.customRandomNPokemon(ruleTable, this.maxTeamSize, this.forceMonotype);
-		}
-		if (randomN?.length < this.maxTeamSize) { throw new Error(`Pokemon pool size is insufficient to support Max Team Size: ${this.maxTeamSize}`); }
+		const randomN = this.randomNPokemon(this.maxTeamSize, this.forceMonotype, undefined,
+			hasCustomBans ? ruleTable : undefined);
 
 		const team = [];
 		for (const forme of randomN) {
@@ -959,7 +1006,7 @@ export class RandomTeams {
 			// Moves with secondary effects:
 			if (move.secondary) {
 				counter.add('sheerforce');
-				if (move.secondary.chance && move.secondary.chance >= 20 && move.secondary.chance < 100) {
+				if (sereneGraceBenefits(move)) {
 					counter.add('serenegrace');
 				}
 			}
@@ -1348,10 +1395,6 @@ export class RandomTeams {
 		case 'airslash':
 			return {cull:
 				(species.id === 'naganadel' && moves.has('nastyplot')) ||
-				// I'm told that Nasty Plot Noctowl wants Air Slash (presumably for consistent damage),
-				// and Defog Noctowl wants Hurricane—presumably for a high-risk, high-reward damaging move
-				// after its main job of removing hazards is done.
-				(species.id === 'noctowl' && !counter.setupType) ||
 				hasRestTalk ||
 				(abilities.has('Simple') && !!counter.get('recovery')) ||
 				counter.setupType === 'Physical',
@@ -1360,9 +1403,7 @@ export class RandomTeams {
 			// Special case for Mew, which only wants Brave Bird with Swords Dance
 			return {cull: moves.has('dragondance')};
 		case 'hurricane':
-			// Special case for Noctowl, which wants Air Slash if Nasty Plot instead
-			const noctowlCase = (!isNoDynamax && !isDoubles && species.id === 'noctowl' && !!counter.setupType);
-			return {cull: counter.setupType === 'Physical' || noctowlCase};
+			return {cull: counter.setupType === 'Physical'};
 		case 'futuresight':
 			return {cull: moves.has('psyshock') || moves.has('trick') || movePool.includes('teleport')};
 		case 'photongeyser':
@@ -1731,7 +1772,7 @@ export class RandomTeams {
 			this.dex.getEffectiveness('Rock', species) >= 2 &&
 			!isDoubles
 		);
-		if (species.evos.length && !HDBBetterThanEviolite) return 'Eviolite';
+		if (species.nfe && !HDBBetterThanEviolite) return 'Eviolite';
 
 		// Ability based logic and miscellaneous logic
 		if (species.name === 'Wobbuffet' || ['Cheek Pouch', 'Harvest', 'Ripen'].includes(ability)) return 'Sitrus Berry';
@@ -2047,7 +2088,6 @@ export class RandomTeams {
 			// Iterate through the moves again, this time to cull them:
 			for (const moveid of moves) {
 				const move = this.dex.moves.get(moveid);
-
 				let {cull, isSetup} = this.shouldCullMove(
 					move, types, moves, abilities, counter,
 					movePool, teamDetails, species, isLead, isDoubles, isNoDynamax
@@ -2068,7 +2108,7 @@ export class RandomTeams {
 				// Genesect-Douse should never reject Techno Blast
 				const moveIsRejectable = !(species.id === 'genesectdouse' && move.id === 'technoblast') && (
 					move.category === 'Status' ||
-					!types.has(move.type) ||
+					(!types.has(move.type) && move.id !== 'judgment') ||
 					(isLowBP && !move.multihit && !abilities.has('Technician'))
 				);
 				// Setup-supported moves should only be rejected under specific circumstances
@@ -2100,7 +2140,8 @@ export class RandomTeams {
 					) {
 						cull = true;
 					// Pokemon should have moves that benefit their typing
-					} else if (move.id !== 'stickyweb') { // Don't cull Sticky Web in type-based enforcement
+					// Don't cull Sticky Web in type-based enforcement, and make sure Azumarill always has Aqua Jet
+					} else if (move.id !== 'stickyweb' && !(species.id === 'azumarill' && move.id === 'aquajet')) {
 						for (const type of types) {
 							if (runEnforcementChecker(type)) {
 								cull = true;
@@ -2295,7 +2336,7 @@ export class RandomTeams {
 				PUBL: 87,
 				PU: 88, "(PU)": 88, NFE: 88,
 			};
-			const customScale: {[k: string]: number} = {};
+			const customScale: {[k: string]: number} = {delibird: 100, glalie: 76, luvdisc: 100, spinda: 100, unown: 100};
 
 			level = customScale[species.id] || tierScale[species.tier] || 80;
 		// Arbitrary levelling base on data files (typically winrate-influenced)
@@ -2337,7 +2378,7 @@ export class RandomTeams {
 		// Minimize confusion damage
 		const noAttackStatMoves = [...moves].every(m => {
 			const move = this.dex.moves.get(m);
-			if (move.damageCallback || move.damage) return false;
+			if (move.damageCallback || move.damage) return true;
 			return move.category !== 'Physical' || move.id === 'bodypress';
 		});
 		if (noAttackStatMoves && !moves.has('transform') && (!moves.has('shellsidearm') || !counter.get('Status'))) {

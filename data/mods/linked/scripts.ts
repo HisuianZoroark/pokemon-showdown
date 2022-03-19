@@ -1,7 +1,5 @@
-import {toID} from './../../../sim/dex';
-
 export const Scripts: ModdedBattleScriptsData = {
-	getActionSpeed(action: AnyObject) {
+	getActionSpeed(action) {
 		if (action.choice === 'move') {
 			let move = action.move;
 			if (action.zmove) {
@@ -31,8 +29,7 @@ export const Scripts: ModdedBattleScriptsData = {
 			// Linked mod
 			const linkedMoves: [string, string] = action.pokemon.getLinkedMoves();
 			let linkIndex = -1;
-			if (linkedMoves.length && !move.isZ && !move.isMax && (linkIndex = linkedMoves.indexOf(toID(action.move))) >= 0) {
-				// @ts-ignore
+			if (linkedMoves.length && !move.isZ && !move.isMax && (linkIndex = linkedMoves.indexOf(this.toID(action.move))) >= 0) {
 				const linkedActions = action.linked || linkedMoves.map(moveid => this.dex.getActiveMove(moveid));
 				const altMove = linkedActions[1 - linkIndex];
 				const thisPriority = this.runEvent('ModifyPriority', action.pokemon, null, linkedActions[linkIndex], priority);
@@ -58,9 +55,9 @@ export const Scripts: ModdedBattleScriptsData = {
 			action.speed = action.pokemon.getActionSpeed();
 		}
 	},
-
-	runAction(this: Battle, action: Action) {
+	runAction(action) {
 		const pokemonOriginalHP = action.pokemon?.hp;
+		let residualPokemon: (readonly [Pokemon, number])[] = [];
 		// returns whether or not we ended in a callback
 		switch (action.choice) {
 		case 'start': {
@@ -139,15 +136,16 @@ export const Scripts: ModdedBattleScriptsData = {
 		}
 
 		case 'event':
-			// @ts-ignore - easier than defining a custom event attribute TBH
-			this.runEvent(action.event, action.pokemon);
+			this.runEvent(action.event!, action.pokemon);
 			break;
-		case 'team': {
-			action.pokemon.side.pokemon.splice(action.index, 0, action.pokemon);
+		case 'team':
+			if (action.index === 0) {
+				action.pokemon.side.pokemon = [];
+			}
+			action.pokemon.side.pokemon.push(action.pokemon);
 			action.pokemon.position = action.index;
 			// we return here because the update event would crash since there are no active pokemon yet
 			return;
-		}
 
 		case 'pass':
 			return;
@@ -182,12 +180,11 @@ export const Scripts: ModdedBattleScriptsData = {
 				this.singleEvent('Primal', action.pokemon.getItem(), action.pokemon.itemState, action.pokemon);
 			}
 			break;
-		case 'shift': {
+		case 'shift':
 			if (!action.pokemon.isActive) return false;
 			if (action.pokemon.fainted) return false;
 			this.swapPosition(action.pokemon, 1);
 			break;
-		}
 
 		case 'beforeTurn':
 			this.eachEvent('BeforeTurn');
@@ -196,13 +193,8 @@ export const Scripts: ModdedBattleScriptsData = {
 			this.add('');
 			this.clearActiveMove(true);
 			this.updateSpeed();
-			const residualPokemon = this.getAllActive().map(pokemon => [pokemon, pokemon.hp] as const);
+			residualPokemon = this.getAllActive().map(pokemon => [pokemon, pokemon.getUndynamaxedHP()] as const);
 			this.residualEvent('Residual');
-			for (const [pokemon, originalHP] of residualPokemon) {
-				if (pokemon.hp && pokemon.hp <= pokemon.maxhp / 2 && originalHP > pokemon.maxhp / 2) {
-					this.runEvent('EmergencyExit', pokemon);
-				}
-			}
 			this.add('upkeep');
 			break;
 		}
@@ -233,7 +225,7 @@ export const Scripts: ModdedBattleScriptsData = {
 		} else if (action.choice === 'megaEvo' && this.gen === 7) {
 			this.eachEvent('Update');
 			// In Gen 7, the action order is recalculated for a Pokémon that mega evolves.
-			for (const [i, queuedAction] of this.queue.entries()) {
+			for (const [i, queuedAction] of this.queue.list.entries()) {
 				if (queuedAction.pokemon === action.pokemon && queuedAction.choice === 'move') {
 					this.queue.list.splice(i, 1);
 					queuedAction.mega = 'done';
@@ -248,6 +240,12 @@ export const Scripts: ModdedBattleScriptsData = {
 
 		if (this.gen >= 5) {
 			this.eachEvent('Update');
+			for (const [pokemon, originalHP] of residualPokemon) {
+				const maxhp = pokemon.getUndynamaxedHP(pokemon.maxhp);
+				if (pokemon.hp && pokemon.getUndynamaxedHP() <= maxhp / 2 && originalHP > maxhp / 2) {
+					this.runEvent('EmergencyExit', pokemon);
+				}
+			}
 		}
 
 		if (action.choice === 'runSwitch') {
@@ -267,6 +265,18 @@ export const Scripts: ModdedBattleScriptsData = {
 					pokemon.switchFlag = false;
 				}
 				switches[i] = false;
+			} else if (switches[i]) {
+				for (const pokemon of this.sides[i].active) {
+					if (pokemon.switchFlag && !pokemon.skipBeforeSwitchOutEventFlag) {
+						this.runEvent('BeforeSwitchOut', pokemon);
+						pokemon.skipBeforeSwitchOutEventFlag = true;
+						this.faintMessages(); // Pokemon may have fainted in BeforeSwitchOut
+						if (this.ended) return true;
+						if (pokemon.fainted) {
+							switches[i] = this.sides[i].active.some(sidePokemon => sidePokemon && !!sidePokemon.switchFlag);
+						}
+					}
+				}
 			}
 		}
 
@@ -279,11 +289,10 @@ export const Scripts: ModdedBattleScriptsData = {
 
 		if (this.gen < 5) this.eachEvent('Update');
 
-		const nextAction = this.queue.peek();
-		if (this.gen >= 8 && nextAction?.choice === 'move' && nextAction?.pokemon !== action.pokemon) {
+		if (this.gen >= 8 && this.queue.peek()?.choice === 'move') {
 			// In gen 8, speed is updated dynamically so update the queue's speed properties and sort it.
 			this.updateSpeed();
-			for (const queueAction of this.queue) {
+			for (const queueAction of this.queue.list) {
 				if (queueAction.pokemon) this.getActionSpeed(queueAction);
 			}
 			this.queue.sort();
@@ -292,10 +301,7 @@ export const Scripts: ModdedBattleScriptsData = {
 		return false;
 	},
 	actions: {
-		runMove(
-			moveOrMoveName: Move | string, pokemon: Pokemon, targetLoc: number, sourceEffect?: Effect | null,
-			zMove?: string, externalMove?: boolean, maxMove?: string, originalTarget?: Pokemon
-		) {
+		runMove(moveOrMoveName, pokemon, targetLoc, sourceEffect, zMove, externalMove, maxMove, originalTarget) {
 			pokemon.activeMoveActions++;
 			let target = this.battle.getTarget(pokemon, maxMove || zMove || moveOrMoveName, targetLoc, originalTarget);
 			let baseMove = this.dex.getActiveMove(moveOrMoveName);
@@ -314,17 +320,17 @@ export const Scripts: ModdedBattleScriptsData = {
 			} else if (maxMove) {
 				move = this.getActiveMaxMove(baseMove, pokemon);
 			}
-	
+
 			move.isExternal = externalMove;
-	
+
 			this.battle.setActiveMove(move, pokemon, target);
-	
+
 			/* if (pokemon.moveThisTurn) {
 				// THIS IS PURELY A SANITY CHECK
 				// DO NOT TAKE ADVANTAGE OF THIS TO PREVENT A POKEMON FROM MOVING;
 				// USE this.queue.cancelMove INSTEAD
-				this.battle.debug('' + pokemon.id + ' INCONSISTENT STATE, ALREADY MOVED: ' + pokemon.moveThisTurn);
-				this.battle.clearActiveMove(true);
+				this.debug('' + pokemon.id + ' INCONSISTENT STATE, ALREADY MOVED: ' + pokemon.moveThisTurn);
+				this.clearActiveMove(true);
 				return;
 			} */
 			const willTryMove = this.battle.runEvent('BeforeMove', pokemon, target, move);
@@ -355,6 +361,10 @@ export const Scripts: ModdedBattleScriptsData = {
 				if (!lockedMove) {
 					if (!pokemon.deductPP(baseMove, null, target) && (move.id !== 'struggle')) {
 						this.battle.add('cant', pokemon, 'nopp', move);
+						const gameConsole = [
+							null, 'Game Boy', 'Game Boy Color', 'Game Boy Advance', 'DS', 'DS', '3DS', '3DS',
+						][this.battle.gen] || 'Switch';
+						this.battle.hint(`This is not a bug, this is really how it works on the ${gameConsole}; try it yourself if you don't believe us.`);
 						this.battle.clearActiveMove(true);
 						pokemon.moveThisTurnResult = false;
 						return;
@@ -364,11 +374,11 @@ export const Scripts: ModdedBattleScriptsData = {
 				}
 				pokemon.moveUsed(move, targetLoc);
 			}
-	
+
 			// Dancer Petal Dance hack
 			// TODO: implement properly
 			const noLock = externalMove && !pokemon.volatiles.lockedmove;
-	
+
 			if (zMove) {
 				if (pokemon.illusion) {
 					this.battle.singleEvent('End', this.dex.abilities.get('Illusion'), pokemon.abilityState, pokemon);
@@ -377,10 +387,11 @@ export const Scripts: ModdedBattleScriptsData = {
 				pokemon.side.zMoveUsed = true;
 			}
 			const moveDidSomething = this.useMove(baseMove, pokemon, target, sourceEffect, zMove, maxMove);
+			this.battle.lastSuccessfulMoveThisTurn = moveDidSomething ? this.battle.activeMove && this.battle.activeMove.id : null;
 			if (this.battle.activeMove) move = this.battle.activeMove;
 			this.battle.singleEvent('AfterMove', move, null, pokemon, target, move);
 			this.battle.runEvent('AfterMove', pokemon, target, move);
-	
+
 			// Dancer's activation order is completely different from any other event, so it's handled separately
 			if (move.flags['dance'] && moveDidSomething && !move.isExternal) {
 				const dancers = [];
@@ -401,13 +412,13 @@ export const Scripts: ModdedBattleScriptsData = {
 					if (this.battle.faintMessages()) break;
 					if (dancer.fainted) continue;
 					this.battle.add('-activate', dancer, 'ability: Dancer');
-					// @ts-ignore - the Dancer ability can't trigger on a move where target is null because it does not copy failed moves.
-					const dancersTarget = target.side !== dancer.side && pokemon.side === dancer.side ? target : pokemon;
-					// @ts-ignore
-					this.runMove(move.id, dancer, this.battle.getTargetLoc(dancersTarget, dancer), this.dex.abilities.get('dancer'), undefined, true);
+					const dancersTarget = !target!.isAlly(dancer) && pokemon.isAlly(dancer) ? target! : pokemon;
+					this.runMove(move.id, dancer, dancer.getLocOf(dancersTarget), this.dex.abilities.get('dancer'), undefined, true);
 				}
 			}
-			if (noLock && pokemon.volatiles.lockedmove) delete pokemon.volatiles.lockedmove;
+			if (noLock && pokemon.volatiles['lockedmove']) delete pokemon.volatiles['lockedmove'];
+			this.battle.faintMessages();
+			this.battle.checkWin();
 		},
 	},
 	queue: {
@@ -454,9 +465,7 @@ export const Scripts: ModdedBattleScriptsData = {
 							choice: 'beforeTurnMove', pokemon: action.pokemon, move: action.move, targetLoc: action.targetLoc,
 						}));
 					}
-					if (action.mega) {
-						// TODO: Check that the Pokémon is not affected by Sky Drop.
-						// (This is currently being done in `runMegaEvo`).
+					if (action.mega && !action.pokemon.isSkyDropped()) {
 						actions.unshift(...this.resolveAction({
 							choice: 'megaEvo',
 							pokemon: action.pokemon,
@@ -470,12 +479,12 @@ export const Scripts: ModdedBattleScriptsData = {
 					}
 					action.fractionalPriority = this.battle.runEvent('FractionalPriority', action.pokemon, null, action.move, 0);
 					const linkedMoves: [string, string] = action.pokemon.getLinkedMoves();
-					if (linkedMoves.length && !action.pokemon.getItem().isChoice && !action.zmove && !action.maxMove) {
-						const decisionMove = toID(action.move);
+					if (linkedMoves.length &&
+							!(action.pokemon.getItem().isChoice || action.pokemon.hasAbility('gorillatactics')) &&
+							!action.zmove && !action.maxMove) {
+						const decisionMove = this.battle.toID(action.move);
 						if (linkedMoves.includes(decisionMove)) {
-							// @ts-ignore
 							action.linked = linkedMoves.map(moveid => this.battle.dex.getActiveMove(moveid));
-							// @ts-ignore
 							const linkedOtherMove = action.linked[1 - linkedMoves.indexOf(decisionMove)];
 							if (linkedOtherMove.beforeTurnCallback) {
 								this.addChoice({
