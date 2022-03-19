@@ -317,7 +317,9 @@ class Giveaway extends Rooms.RoomGame {
 
 	generateWindow(rightSide: Chat.VNode | string): Chat.VNode {
 		const set = Giveaway.convertIVs(this.prize, this.ivs);
-		return <center>
+		// 22/03/19 TrashChannel: Crashes on log-in with "error: Unterminated string constant"
+		return <center></center>;
+		/*return <center>
 			<h3>It's {this.game} giveaway time!</h3>
 			<small>Giveaway started by {this.host.name}</small>
 			<table style={{marginLeft: 'auto', marginRight: 'auto'}}>
@@ -347,7 +349,7 @@ class Giveaway extends Rooms.RoomGame {
 				Do not join if you are currently unable to trade. Do not enter if you have already won this exact Pok&eacute;mon, {}
 				unless it is explicitly allowed.
 			</p>
-		</center>;
+		</center>;*/
 	}
 }
 
