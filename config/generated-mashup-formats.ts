@@ -7,27 +7,40 @@ export const Formats: FormatList = [
 		column: 1,
 	},
 	{
-		name: "[Gen 8 BDSP] STAAABmons",
+		name: "[Gen 8] ZU STAAAB",
 		desc: `(No description)`,
 		threads: [
-			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[BDSP] STAAABmons Resources</a>`,
-			`&bullet; <a href="https://www.smogon.com/forums/threads/3694036/">Vanilla BDSP Ubers Discussion &amp; Resources</a>`
+			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[Gen 8] ZU STAAAB Resources</a>`,
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3656429/">Vanilla STABmons</a>`,
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3695169/">Vanilla STABmons Resources</a>`
 		],
 
-		mod: 'gen8bdsp',
+		mod: 'gen8',
 		ruleset: [
-			'Standard', '2 Ability Clause', 'STABmons Move Legality', 'Sleep Moves Clause', '!Obtainable Abilities',
+			'Standard', 'STABmons Move Legality', 'Dynamax Clause', 'Sleep Moves Clause', '2 Ability Clause', '!Sleep Clause Mod', '!Obtainable Abilities',
 		],
 		banlist: [
-			'AG', 'Dialga', 'Dragonite', 'Giratina', 'Groudon', 'Ho-Oh', 'Kyogre', 'Lugia',
-			'Mewtwo', 'Palkia', 'Rayquaza', 'Regigigas', 'Shedinja', 'Slaking', 'Weavile', 'Arena Trap',
+			'NU', 'NUBL', 'OU', 'PU', 'PUBL', 'RU', 'RUBL', 'UU',
+			'UUBL', 'Aegislash', 'Blacephalon', 'Calyrex-Ice', 'Calyrex-Shadow', 'Darmanitan-Galar', 'Dialga', 'Dracovish',
+			'Dragapult', 'Dragonite', 'Eternatus', 'Garchomp', 'Genesect', 'Giratina', 'Groudon', 'Ho-Oh',
+			'Kartana', 'Kyogre', 'Kyurem-Black', 'Kyurem-White', 'Landorus', 'Lugia', 'Lunala', 'Magearna',
+			'Magmortar', 'Marshadow', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia', 'Pheromosa',
+			'Porygon-Z', 'Raichu', 'Rayquaza', 'Regigigas', 'Reshiram', 'Shedinja', 'Silvally', 'Sneasel',
+			'Solgaleo', 'Spectrier', 'Tapu Bulu', 'Tapu Koko', 'Tapu Lele', 'Thundurus-Base', 'Type: Null', 'Urshifu-Base',
+			'Xerneas', 'Yveltal', 'Zacian', 'Zamazenta', 'Zapdos-Galar', 'Zekrom', 'Zygarde-Base', 'Arena Trap',
 			'Comatose', 'Contrary', 'Fluffy', 'Fur Coat', 'Gorilla Tactics', 'Huge Power', 'Ice Scales', 'Illusion',
 			'Imposter', 'Innards Out', 'Intrepid Sword', 'Libero', 'Magnet Pull', 'Moody', 'Neutralizing Gas', 'Parental Bond',
-			'Poison Heal', 'Protean', 'Pure Power', 'Shadow Tag', 'Simple', 'Speed Boost', 'Stakeout', 'Tinted Lens',
-			'Water Bubble', 'Wonder Guard', 'King\'s Rock', 'Razor Fang', 'Baton Pass',
+			'Poison Heal', 'Power Construct', 'Protean', 'Pure Power', 'Quick Draw', 'Sand Veil', 'Shadow Tag', 'Simple',
+			'Snow Cloak', 'Speed Boost', 'Stakeout', 'Tinted Lens', 'Triage', 'Water Bubble', 'Wonder Guard', 'Bright Powder',
+			'King\'s Rock', 'Lax Incense', 'Baton Pass', 'Electrify',
+		],
+		unbanlist: [
+			'Precipice Blades', 'Thunderous Kick',
 		],
 		restricted: [
-			'Acupressure', 'Belly Drum', 'Dragon Ascent', 'Extreme Speed', 'Shell Smash', 'Transform',
+			'Acupressure', 'Astral Barrage', 'Belly Drum', 'Bolt Beak', 'Boomburst', 'Clangorous Soul', 'Double Iron Bash', 'Dragon Ascent',
+			'Dragon Energy', 'Eruption', 'Extreme Speed', 'Fishious Rend', 'Geomancy', 'Glacial Lance', 'No Retreat', 'Oblivion Wing',
+			'Shell Smash', 'Shift Gear', 'Surging Strikes', 'Thousand Arrows', 'Transform', 'V-create', 'Water Spout', 'Wicked Blow',
 		],
 	},
 
@@ -68,19 +81,18 @@ export const Formats: FormatList = [
 
 		mod: 'gen8',
 		ruleset: [
-			'Obtainable', 'Species Clause', 'Nickname Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Team Preview', 'HP Percentage Mod', 'Cancel Mod',
-			'Dynamax Clause', 'Sleep Clause Mod', 'Endless Battle Clause', 'Camomons Rule', '2 Ability Clause', '!Obtainable Abilities',
+			'Standard', 'Dynamax Clause', 'Camomons Mod', '2 Ability Clause', '!Obtainable Abilities',
 		],
 		banlist: [
 			'Archeops', 'Blacephalon', 'Calyrex-Ice', 'Calyrex-Shadow', 'Cresselia', 'Dialga', 'Dracovish', 'Dragapult',
 			'Dragonite', 'Eternatus', 'Genesect', 'Giratina', 'Groudon', 'Ho-Oh', 'Kartana', 'Kyogre',
 			'Kyurem', 'Landorus-Base', 'Lugia', 'Lunala', 'Marshadow', 'Mew', 'Mewtwo', 'Naganadel',
-			'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia', 'Pheromosa', 'Rayquaza', 'Regigigas', 'Reshiram', 'Reuniclus',
-			'Shedinja', 'Solgaleo', 'Spectrier', 'Tornadus-Therian', 'Urshifu', 'Xerneas', 'Yveltal', 'Zacian',
+			'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia', 'Pheromosa', 'Rayquaza', 'Regigigas', 'Reshiram', 'Shedinja',
+			'Solgaleo', 'Spectrier', 'Tornadus-Therian', 'Urshifu', 'Volcarona', 'Xerneas', 'Yveltal', 'Zacian',
 			'Zamazenta', 'Zekrom', 'Zeraora', 'Zygarde-Base', 'Arena Trap', 'Comatose', 'Contrary', 'Fluffy',
 			'Fur Coat', 'Gorilla Tactics', 'Huge Power', 'Ice Scales', 'Illusion', 'Imposter', 'Innards Out', 'Intrepid Sword',
 			'Libero', 'Moody', 'Neutralizing Gas', 'Parental Bond', 'Poison Heal', 'Power Construct', 'Protean', 'Pure Power',
-			'Shadow Tag', 'Simple', 'Speed Boost', 'Stakeout', 'Water Bubble', 'Wonder Guard', 'Baton Pass',
+			'Shadow Tag', 'Simple', 'Speed Boost', 'Stakeout', 'Water Bubble', 'Wonder Guard', 'Baton Pass', 'Calm Mind',
 		],
 	},
 	{
@@ -88,12 +100,13 @@ export const Formats: FormatList = [
 		desc: `Pok&eacute;mon can use almost any ability and any move of their typing. Teams: https://www.smogon.com/forums/threads/staaabmons.3680144/#post-8787305`,
 		threads: [
 			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[Gen 8] STAAABmons Resources</a>`,
-			`&bullet; <a href="https://www.smogon.com/forums/threads/3656429/">Vanilla STABmons</a>`
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3656429/">Vanilla STABmons</a>`,
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3695169/">Vanilla STABmons Resources</a>`
 		],
 
 		mod: 'gen8',
 		ruleset: [
-			'Standard', 'STABmons Move Legality', 'Dynamax Clause', 'Sleep Moves Clause', '2 Ability Clause', '!Obtainable Abilities',
+			'Standard', 'STABmons Move Legality', 'Dynamax Clause', 'Sleep Moves Clause', '2 Ability Clause', '!Sleep Clause Mod', '!Obtainable Abilities',
 		],
 		banlist: [
 			'Aegislash', 'Archeops', 'Blacephalon', 'Calyrex-Ice', 'Calyrex-Shadow', 'Chandelure', 'Dialga', 'Dragapult',
@@ -101,20 +114,21 @@ export const Formats: FormatList = [
 			'Kyogre', 'Kyurem-Black', 'Kyurem-White', 'Landorus-Therian', 'Latios', 'Lugia', 'Lunala', 'Magearna',
 			'Marshadow', 'Melmetal', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia', 'Pheromosa',
 			'Rayquaza', 'Regigigas', 'Reshiram', 'Shedinja', 'Silvally', 'Solgaleo', 'Spectrier', 'Tapu Koko',
-			'Terrakion', 'Thundurus', 'Urshifu-Base', 'Victini', 'Volcarona', 'Xerneas', 'Yveltal', 'Zacian',
-			'Zamazenta', 'Zekrom', 'Zeraora', 'Zygarde-Base', 'Arena Trap', 'Comatose', 'Contrary', 'Fluffy',
-			'Fur Coat', 'Gorilla Tactics', 'Huge Power', 'Ice Scales', 'Illusion', 'Imposter', 'Innards Out', 'Intrepid Sword',
-			'Libero', 'Magnet Pull', 'Moody', 'Neutralizing Gas', 'Parental Bond', 'Poison Heal', 'Power Construct', 'Protean',
-			'Pure Power', 'Shadow Tag', 'Simple', 'Speed Boost', 'Stakeout', 'Tinted Lens', 'Water Bubble', 'Wonder Guard',
-			'King\'s Rock', 'Baton Pass', 'Electrify',
+			'Tapu Lele', 'Terrakion', 'Thundurus', 'Urshifu-Base', 'Victini', 'Volcarona', 'Weavile', 'Xerneas',
+			'Yveltal', 'Zacian', 'Zamazenta', 'Zekrom', 'Zeraora', 'Zygarde-Base', 'Arena Trap', 'Comatose',
+			'Contrary', 'Fluffy', 'Fur Coat', 'Gorilla Tactics', 'Huge Power', 'Ice Scales', 'Illusion', 'Imposter',
+			'Innards Out', 'Intrepid Sword', 'Libero', 'Magnet Pull', 'Moody', 'Neutralizing Gas', 'Parental Bond', 'Poison Heal',
+			'Power Construct', 'Protean', 'Pure Power', 'Quick Draw', 'Sand Veil', 'Shadow Tag', 'Simple', 'Snow Cloak',
+			'Speed Boost', 'Stakeout', 'Tinted Lens', 'Water Bubble', 'Wonder Guard', 'Bright Powder', 'King\'s Rock', 'Lax Incense',
+			'Baton Pass', 'Electrify',
 		],
 		unbanlist: [
 			'Precipice Blades',
 		],
 		restricted: [
-			'Acupressure', 'Astral Barrage', 'Belly Drum', 'Bolt Beak', 'Clangorous Soul', 'Double Iron Bash', 'Dragon Ascent', 'Extreme Speed',
-			'Fishious Rend', 'Geomancy', 'Glacial Lance', 'No Retreat', 'Oblivion Wing', 'Shell Smash', 'Shift Gear', 'Thousand Arrows',
-			'Transform', 'V-create', 'Wicked Blow',
+			'Acupressure', 'Astral Barrage', 'Belly Drum', 'Bolt Beak', 'Clangorous Soul', 'Double Iron Bash', 'Dragon Ascent', 'Dragon Energy',
+			'Eruption', 'Extreme Speed', 'Fishious Rend', 'Geomancy', 'Glacial Lance', 'No Retreat', 'Oblivion Wing', 'Shell Smash',
+			'Shift Gear', 'Thousand Arrows', 'Thunderous Kick', 'Transform', 'V-create', 'Water Spout', 'Wicked Blow',
 		],
 	},
 	{
@@ -161,7 +175,36 @@ export const Formats: FormatList = [
 			'Calyrex-Ice', 'Dialga', 'Dragapult', 'Dragonite', 'Eternatus', 'Genesect', 'Gengar', 'Giratina',
 			'Groudon', 'Ho-Oh', 'Kartana', 'Keldeo', 'Kyurem-Black', 'Kyurem-White', 'Landorus-Therian', 'Lugia',
 			'Lunala', 'Marshadow', 'Melmetal', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia',
-			'Rayquaza', 'Regigigas', 'Reshiram', 'Tapu Koko', 'Thundurus', 'Urshifu-Base', 'Xerneas', 'Yveltal',
+			'Pheromosa', 'Rayquaza', 'Regigigas', 'Reshiram', 'Tapu Koko', 'Thundurus', 'Urshifu', 'Xerneas',
+			'Yveltal', 'Zekrom', 'Zeraora', 'Zygarde-Base', 'Zygarde-Complete', 'Acupressure', 'Astral Barrage', 'Belly Drum',
+			'Bolt Beak', 'Boomburst', 'Clangorous Soul', 'Double Iron Bash', 'Extreme Speed', 'Fishious Rend', 'Geomancy', 'Glacial Lance',
+			'Lovely Kiss', 'Precipice Blades', 'Shell Smash', 'Shift Gear', 'Sleep Powder', 'Spore', 'Thousand Arrows', 'Transform',
+			'V-create', 'Wicked Blow',
+		],
+	},
+	{
+		name: "[Gen 8] STABmons Mix and Mega (Pheromosa Suspect)",
+		desc: `(No description)`,
+		threads: [
+			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[Gen 8] STABmons Mix and Mega (Pheromosa Suspect) Resources</a>`,
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3656469/">Vanilla Mix and Mega</a>`,
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3659028/">Vanilla M&amp;M Resources</a>`
+		],
+
+		mod: 'mixandmega',
+		ruleset: [
+			'Obtainable', 'Species Clause', 'Nickname Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Team Preview', 'HP Percentage Mod', 'Cancel Mod',
+			'Overflow Stat Mod', 'Dynamax Clause', 'Sleep Clause Mod', 'Endless Battle Clause', 'Mix and Mega Standard Package', 'STABmons Move Legality',
+		],
+		banlist: [
+			'Calyrex-Shadow', 'Kyogre', 'Zacian', 'Moody', 'Shadow Tag', 'Beedrillite', 'Blazikenite', 'Gengarite',
+			'Kangaskhanite', 'King\'s Rock', 'Mawilite', 'Medichamite', 'Pidgeotite', 'Baton Pass', 'Electrify',
+		],
+		restricted: [
+			'Calyrex-Ice', 'Dialga', 'Dragapult', 'Dragonite', 'Eternatus', 'Genesect', 'Gengar', 'Giratina',
+			'Groudon', 'Ho-Oh', 'Kartana', 'Keldeo', 'Kyurem-Black', 'Kyurem-White', 'Landorus-Therian', 'Lugia',
+			'Lunala', 'Marshadow', 'Melmetal', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia',
+			'Rayquaza', 'Regigigas', 'Reshiram', 'Tapu Koko', 'Thundurus', 'Urshifu', 'Xerneas', 'Yveltal',
 			'Zekrom', 'Zeraora', 'Zygarde-Base', 'Zygarde-Complete', 'Acupressure', 'Astral Barrage', 'Belly Drum', 'Bolt Beak',
 			'Boomburst', 'Clangorous Soul', 'Double Iron Bash', 'Extreme Speed', 'Fishious Rend', 'Geomancy', 'Glacial Lance', 'Lovely Kiss',
 			'Precipice Blades', 'Shell Smash', 'Shift Gear', 'Sleep Powder', 'Spore', 'Thousand Arrows', 'Transform', 'V-create',
@@ -170,7 +213,7 @@ export const Formats: FormatList = [
 	},
 	{
 		name: "[Gen 8] Tier Shift AAA",
-		desc: `Pok&eacute;mon can use any ability, barring the few that are restricted to their natural users. Those below OU get all their stats, excluding HP, boosted. UU/RUBL get +10, RU/NUBL get +20, NU/PUBL get +30, and PU or lower get +40.`,
+		desc: `Pok&eacute;mon can use any ability, barring the few that are banned. Those below OU get all their stats, excluding HP, boosted. UU/RUBL get +10, RU/NUBL get +20, NU/PUBL get +30, and PU or lower get +40.`,
 		threads: [
 			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[Gen 8] Tier Shift AAA Resources</a>`,
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3656414/">Vanilla Almost Any Ability</a>`,
@@ -183,16 +226,13 @@ export const Formats: FormatList = [
 			'Cancel Mod', 'Dynamax Clause', 'Sleep Moves Clause', 'Endless Battle Clause', 'Tier Shift Mod', '!Obtainable Abilities',
 		],
 		banlist: [
-			'Absol', 'Archeops', 'Arctovish', 'Bellossom', 'Buzzwole', 'Calyrex-Ice', 'Calyrex-Shadow', 'Dialga',
-			'Dragapult', 'Dragonite', 'Eternatus', 'Gengar', 'Giratina', 'Groudon', 'Guzzlord', 'Ho-Oh',
-			'Kartana', 'Keldeo', 'Kyogre', 'Kyurem', 'Lugia', 'Lunala', 'Marowak-Base', 'Marshadow',
-			'Melmetal', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Noivern', 'Pheromosa', 'Rayquaza',
-			'Regigigas', 'Reshiram', 'Shedinja', 'Sneasel', 'Talonflame', 'Urshifu', 'Victini', 'Weavile',
-			'Xerneas', 'Zacian', 'Zamazenta-Base', 'Zekrom', 'Zeraora', 'Zygarde-Base', 'Arena Trap', 'Comatose',
+			'Absol', 'Archeops', 'Arctovish', 'Bellossom', 'Calyrex-Ice', 'Calyrex-Shadow', 'Eternatus', 'Guzzlord',
+			'Marowak-Base', 'Marshadow', 'Mewtwo', 'Naganadel', 'Necrozma-Dusk-Mane', 'Pheromosa', 'Rayquaza', 'Regigigas',
+			'Shedinja', 'Sneasel', 'Talonflame', 'Xerneas', 'Zacian', 'Zekrom', 'Arena Trap', 'Comatose',
 			'Contrary', 'Fluffy', 'Fur Coat', 'Gorilla Tactics', 'Huge Power', 'Ice Scales', 'Illusion', 'Imposter',
 			'Innards Out', 'Intrepid Sword', 'Libero', 'Magnet Pull', 'Moody', 'Neutralizing Gas', 'Parental Bond', 'Poison Heal',
-			'Power Construct', 'Protean', 'Pure Power', 'Shadow Tag', 'Simple', 'Speed Boost', 'Stakeout', 'Tinted Lens',
-			'Water Bubble', 'Wonder Guard', 'Damp Rock', 'Eviolite', 'Heat Rock', 'King\'s Rock', 'Light Ball', 'Baton Pass',
+			'Protean', 'Pure Power', 'Shadow Tag', 'Simple', 'Speed Boost', 'Stakeout', 'Tinted Lens', 'Water Bubble',
+			'Wonder Guard', 'Damp Rock', 'Eviolite', 'Heat Rock', 'King\'s Rock', 'Light Ball', 'Baton Pass',
 		],
 	},
 	{
@@ -215,7 +255,7 @@ export const Formats: FormatList = [
 			'Standard Doubles', 'Dynamax Clause', 'Swagger Clause', '2 Ability Clause', 'Sleep Clause Mod', '!Obtainable Abilities',
 		],
 		banlist: [
-			'DUber', 'Kyurem-Black', 'Regigigas', 'Shedinja', 'Urshifu-Rapid-Strike', 'Zygarde-Base', 'Anger Point', 'Arena Trap',
+			'DUber', 'Dragonite', 'Kyurem-Black', 'Regigigas', 'Shedinja', 'Zygarde-Base', 'Anger Point', 'Arena Trap',
 			'Comatose', 'Contrary', 'Dancer', 'Desolate Land', 'Fluffy', 'Fur Coat', 'Gorilla Tactics', 'Huge Power',
 			'Ice Scales', 'Illusion', 'Imposter', 'Innards Out', 'Intrepid Sword', 'Libero', 'Moody', 'Neutralizing Gas',
 			'Parental Bond', 'Power Construct', 'Prankster', 'Primordial Sea', 'Protean', 'Pure Power', 'Rattled', 'Serene Grace',
@@ -256,15 +296,10 @@ export const Formats: FormatList = [
 		mod: 'gen8',
 		gameType: 'doubles',
 		ruleset: [
-			'Standard Doubles', 'Dynamax Clause', 'Swagger Clause', 'Sleep Clause Mod', 'Camomons Rule',
+			'Standard Doubles', 'Dynamax Clause', 'Swagger Clause', 'Camomons Mod',
 		],
 		banlist: [
-			'DUber', 'Calyrex-Ice', 'Calyrex-Shadow', 'Dialga', 'Dracovish', 'Dragonite', 'Eternatus', 'Genesect',
-			'Giratina', 'Groudon', 'Ho-Oh', 'Kartana', 'Kyogre', 'Kyurem-Black', 'Kyurem-White', 'Landorus-Base',
-			'Latias', 'Latios', 'Lugia', 'Lunala', 'Marshadow', 'Mew', 'Mewtwo', 'Naganadel',
-			'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia', 'Pheromosa', 'Rayquaza', 'Reshiram', 'Reuniclus', 'Shedinja',
-			'Slowking-Galar', 'Solgaleo', 'Spectrier', 'Tornadus-Therian', 'Xerneas', 'Yveltal', 'Zacian', 'Zamazenta',
-			'Zekrom', 'Zygarde-Base', 'Moody', 'Power Construct', 'Shadow Tag', 'Baton Pass',
+			'DUber', 'Shedinja', 'Power Construct', 'Shadow Tag',
 		],
 	},
 	{
@@ -298,7 +333,7 @@ export const Formats: FormatList = [
 	},
 	{
 		name: "[Gen 8] Almost Any Ability Little Cup",
-		desc: `Pok&eacute;mon can use any ability, barring the few that are restricted to their natural users, in a Little Cup environment.`,
+		desc: `Pok&eacute;mon can use any ability, barring the few that are banned, in a Little Cup environment.`,
 		threads: [
 			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[Gen 8] Almost Any Ability Little Cup Resources</a>`,
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3656348/">Vanilla LC Metagame Discussion</a>`,
@@ -354,17 +389,12 @@ export const Formats: FormatList = [
 
 		mod: 'gen8',
 		ruleset: [
-			'Little Cup', 'Standard', 'Dynamax Clause', 'Camomons Rule',
+			'Little Cup', 'Standard', 'Dynamax Clause', 'Camomons Mod',
 		],
 		banlist: [
-			'Calyrex-Ice', 'Calyrex-Shadow', 'Corsola-Galar', 'Cutiefly', 'Darmanitan-Galar', 'Dialga', 'Dracovish', 'Dragonite',
-			'Drifloon', 'Eternatus', 'Gastly', 'Genesect', 'Giratina', 'Gothita', 'Groudon', 'Ho-Oh',
-			'Hydreigon', 'Kartana', 'Kyogre', 'Kyurem', 'Landorus-Base', 'Latias', 'Latios', 'Lugia',
-			'Lunala', 'Marshadow', 'Mew', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia',
-			'Pheromosa', 'Rayquaza', 'Reshiram', 'Reuniclus', 'Rufflet', 'Scraggy', 'Scyther', 'Shedinja',
-			'Slowking-Galar', 'Sneasel', 'Solgaleo', 'Spectrier', 'Swirlix', 'Tangela', 'Tornadus-Therian', 'Vullaby',
-			'Vulpix-Alola', 'Woobat', 'Xerneas', 'Yveltal', 'Zacian', 'Zamazenta', 'Zekrom', 'Zeraora',
-			'Zigzagoon-Base', 'Zygarde-Base', 'Chlorophyll', 'Moody', 'Power Construct', 'Baton Pass', 'Sticky Web',
+			'Corsola-Galar', 'Cutiefly', 'Drifloon', 'Gastly', 'Gothita', 'Rufflet', 'Scraggy', 'Scyther',
+			'Sneasel', 'Swirlix', 'Tangela', 'Vullaby', 'Vulpix-Alola', 'Woobat', 'Zigzagoon-Base', 'Chlorophyll',
+			'Moody', 'Baton Pass', 'Sticky Web',
 		],
 	},
 	{
