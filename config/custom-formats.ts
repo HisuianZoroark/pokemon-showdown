@@ -773,6 +773,21 @@ export const Formats: FormatList = [
 		column: 2,
 	},
 	{
+		name: "[Gen 8] Crazyhouse",
+		desc: `You can use Pok&eacute;mon you KO.`,
+		threads: [
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3699268/">Crazyhouse</a>`,
+		],
+
+		mod: 'gen8',
+		ruleset: ['Standard', 'Dynamax Clause', 'Crazyhouse Mod'],
+		banlist: [
+			'Uber', 'AG', 'Arena Trap', 'Moody', 'Power Construct', 'Sand Veil', 'Shadow Tag', 'Snow Cloak',
+			'Bright Powder', 'King\'s Rock', 'Lax Incense',
+			'Baton Pass', 'Explosion', 'Final Gambit', 'Misty Explosion', 'Self-Destruct',
+		],
+	},
+	{
 		name: "[Gen 8] Multibility",
 		desc: `Pok&eacute;mon may set an additional ability in place of an item. (Use Import in the builder to set the extra ability.)`,
 		threads: [
