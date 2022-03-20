@@ -123,6 +123,14 @@ export const Formats: FormatList = [
 		ruleset: ['Standard', 'Pokebilities Rule'],
 	},
 	{
+		name: "[Gen 8] Crazyhouse: Random Battle",
+		desc: `Randomized teams of level-balanced Pok&eacute;mon with the Crazyhouse mechanic.`,
+
+		mod: 'gen8',
+		team: 'random',
+		ruleset: ['Standard', 'Crazyhouse Mod'],
+	},
+	{
 		name: "[Gen 8] Trademarked: Hackmons Cup",
 		desc: `Randomized teams of level-balanced Pok&eacute;mon with random trademarks.`,
 
@@ -780,7 +788,7 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'gen8',
-		ruleset: ['Standard', 'Dynamax Clause', 'Crazyhouse Mod'],
+		ruleset: ['Standard', 'Dynamax Clause', 'Crazyhouse Mod', 'Sleep Moves Clause'],
 		banlist: [
 			'Uber', 'AG', 'Arena Trap', 'Moody', 'Power Construct', 'Sand Veil', 'Shadow Tag', 'Snow Cloak',
 			'Bright Powder', 'King\'s Rock', 'Lax Incense',
