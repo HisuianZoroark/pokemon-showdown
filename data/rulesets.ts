@@ -1646,7 +1646,8 @@ export const Rulesets: {[k: string]: FormatData} = {
 			const ruleTable = this.ruleTable;
 			const maxTeamSize = ruleTable.pickedTeamSize || ruleTable.maxTeamSize;
 			const maxTeamSizeBlame = ruleTable.pickedTeamSize ? ruleTable.blame('pickedteamsize') : ruleTable.blame('maxteamsize');
-			const potentialMaxTeamSize = maxTeamSize * 2;
+			const numPlayers = (this.format.gameType === 'freeforall' || this.format.gameType === 'multi') ? 4 : 2;
+			const potentialMaxTeamSize = maxTeamSize * numPlayers;
 			if (potentialMaxTeamSize > 24) {
 				throw new Error(`${maxTeamSizeBlame} cannot be added because a team can potentially have ${potentialMaxTeamSize} Pokemon on one team, which is more than the server limit of 24.`);
 			}
