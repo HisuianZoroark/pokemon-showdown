@@ -128,7 +128,7 @@ export const Formats: FormatList = [
 
 		mod: 'gen8',
 		team: 'random',
-		ruleset: ['Standard', 'Crazyhouse Mod'],
+		ruleset: ['Standard', 'Crazyhouse Mod', 'Dynamax Clause'],
 	},
 	{
 		name: "[Gen 8] Trademarked: Hackmons Cup",
