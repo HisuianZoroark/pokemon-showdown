@@ -630,7 +630,7 @@ export const Formats: FormatList = [
 			'Lunala', 'Magearna', 'Marshadow', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia', 'Pheromosa',
 			'Rayquaza', 'Reshiram', 'Solgaleo', 'Spectrier', 'Urshifu-Base', 'Xerneas', 'Yveltal', 'Zacian', 'Zacian-Crowned', 'Zamazenta',
 			'Zamazenta-Crowned', 'Zekrom', 'Zygarde-Base', 'Arena Trap', 'Moody', 'Power Construct', 'Shadow Tag', 'Bright Powder',
-			'King\'s Rock', 'Lax Incense', 'Baton Pass', 'Explosion', 'Final Gambit', 'Healing Wish', 'Lunar Dance', 'Memento'
+			'King\'s Rock', 'Lax Incense', 'Baton Pass', 'Explosion', 'Final Gambit', 'Healing Wish', 'Lunar Dance', 'Memento',
 			'Misty Explosion', 'Self-Destruct',
 		],
 	},
