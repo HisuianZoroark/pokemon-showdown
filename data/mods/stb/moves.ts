@@ -41,6 +41,28 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	},
 	*/
 	// Please keep sets organized alphabetically based on staff member name!
+	// ABR
+	burningrain: {
+		accuracy: 100,
+		basePower: 95,
+		category: "Special",
+		desc: "Has a 50% chance to burn the target.",
+		shortDesc: "50% chance to burn the target.",
+		name: "Burning Rain",
+		gen: 8,
+		pp: 10,
+		priority: 0,
+		flags: {defrost: 1, protect: 1, mirror: 1},
+		onPrepareHit(target, source, move) {
+			this.attrLastMove('[anim] Water Spout');
+		},
+		secondary: {
+			chance: 50,
+			status: 'brn',
+		},
+		target: "allAdjacentFoes",
+		type: "Water",
+	},
 	// z0mOG
 	sleepwalk: {
 		accuracy: 100,

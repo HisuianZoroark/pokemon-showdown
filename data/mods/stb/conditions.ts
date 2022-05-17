@@ -39,6 +39,18 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 	},
 	IMPORTANT: Obtain the username from getName
 	*/
+	abr: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('ABR')}|This will be a breeze`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('ABR')}|Your time will come`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('ABR')}|East > West`);
+		},
+	},
 	z0mog: {
 		noCopy: true,
 		onStart() {

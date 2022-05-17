@@ -35,6 +35,12 @@ export const ssbSets: SSBSets = {
 	// Nature needs to be a valid nature with the first letter capitalized ex: Modest
 	*/
 	// Please keep sets organized alphabetically based on staff member name!
+	ABR: {
+		species: 'Gastrodon-East', ability: 'Water Bubble', item: 'Rocky Helmet', gender: 'M',
+		moves: ['Calm Mind', 'Scorching Sands', 'Recover'],
+		signatureMove: 'Burning Rain',
+		evs: {hp: 252, def: 252, spd: 4}, nature: 'Bold',
+	},
 	z0mOG: {
 		species: 'Obstagoon', ability: 'Comatose', item: 'Choice Band', gender: 'M',
 		moves: ['Sleep Talk'],
