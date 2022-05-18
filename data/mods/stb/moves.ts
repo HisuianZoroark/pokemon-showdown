@@ -63,6 +63,76 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		target: "allAdjacentFoes",
 		type: "Water",
 	},
+	// Empo
+	angryrant: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		desc: "Raises the user's Speed by 2 stages. The target's next attack will be a critical hit.",
+		shortDesc: "Raises user's spe by 2. Target's next move crits.",
+		name: "Angry Rant",
+		gen: 8,
+		pp: 5,
+		priority: 2,
+		flags: {snatch: 1},
+		onPrepareHit(target, source, move) {
+			this.attrLastMove('[anim] No Retreat');
+		},
+		onHit(target, source, move) {
+			const foe = source.side.foe.active[0];
+			foe.addVolatile('angryrant');
+		},
+		boosts: {
+			spe: 2,
+		},
+		condition: {
+			duration: 1,
+			onStart(pokemon, source, effect) {
+				if (effect && (['imposter', 'psychup', 'transform'].includes(effect.id))) {
+					this.add('-start', pokemon, 'move: Angry Rant', '[silent]');
+				} else {
+					this.add('-start', pokemon, 'move: Angry Rant');
+				}
+			},
+			onRestart(pokemon) {
+				this.effectState.duration = 1;
+				this.add('-start', pokemon, 'move: Angry Rant');
+			},
+			onModifyCritRatio(critRatio) {
+				return 5;
+			},
+			onEnd(pokemon) {
+				this.add('-end', pokemon, 'move: Angry Rant', '[silent]');
+			},
+		},
+		secondary: null,
+		target: "self",
+		type: "Fire",
+	},
+	// Empo
+	timestopper: {
+		accuracy: 100,
+		basePower: 0,
+		category: "Status",
+		desc: "Freezes the target. Sets Sticky Web.",
+		shortDesc: "Freezes the target. Sets Sticky Web.",
+		name: "Time Stopper",
+		gen: 8,
+		pp: 1,
+		noPPBoosts: true,
+		priority: 0,
+		flags: {protect: 1},
+		onPrepareHit(target, source, move) {
+			this.attrLastMove('[anim] Sheer Cold');
+		},
+		onHit(target, source, move) {
+			source.side.foe.addSideCondition('stickyweb');
+			target.trySetStatus('frz', source, move);
+		},
+		secondary: null,
+		target: "normal",
+		type: "Ice",
+	},
 	// z0mOG
 	sleepwalk: {
 		accuracy: 100,

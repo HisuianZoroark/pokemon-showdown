@@ -41,6 +41,18 @@ export const ssbSets: SSBSets = {
 		signatureMove: 'Burning Rain',
 		evs: {hp: 252, def: 252, spd: 4}, nature: 'Bold',
 	},
+	BKC: {
+		species: 'Blaziken', ability: 'Anger Point', item: 'Focus Sash', gender: 'M',
+		moves: ['Blaze Kick', 'Close Combat', 'Outrage'],
+		signatureMove: 'Angry Rant',
+		evs: {atk: 252, def: 4, spe: 252}, nature: 'Adamant',
+	},
+	Empo: {
+		species: 'Grovyle', ability: 'Time Tripper', item: 'Eviolite', gender: 'M',
+		moves: ['Swords Dance', 'Leaf Blade', 'Close Combat'],
+		signatureMove: 'Time Stopper',
+		evs: {atk: 252, def: 4, spe: 252}, nature: 'Adamant',
+	},
 	z0mOG: {
 		species: 'Obstagoon', ability: 'Comatose', item: 'Choice Band', gender: 'M',
 		moves: ['Sleep Talk'],
