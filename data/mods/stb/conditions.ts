@@ -75,6 +75,30 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Empo')}|Grovyle was revived! ...thought it was the right one... looking closer this is... not a Reviver Seed but a Reviser Seed!`);
 		},
 	},
+	heroictroller: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Heroic Troller')}|Ratio`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Heroic Troller')}|Not yet`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Heroic Troller')}|I see`);
+		},
+	},
+	punny: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Punny')}|God clef`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Punny')}|:c`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Punny')}|Gasp..`);
+		},
+	},
 	z0mog: {
 		noCopy: true,
 		onStart() {

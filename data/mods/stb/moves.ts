@@ -63,7 +63,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		target: "allAdjacentFoes",
 		type: "Water",
 	},
-	// Empo
+	// BKC
 	angryrant: {
 		accuracy: true,
 		basePower: 0,
@@ -132,6 +132,107 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		secondary: null,
 		target: "normal",
 		type: "Ice",
+	},
+	// Heroic Troller
+	shadowend: {
+		accuracy: 100,
+		basePower: 110,
+		basePowerCallback(pokemon, target, move) {
+			// You can't get here unless the pursuit succeeds
+			if (target.beingCalledBack || target.switchFlag) {
+				this.debug('Pursuit damage boost');
+				return move.basePower + 60;
+			}
+			return move.basePower;
+		},
+		category: "Physical",
+		desc: "This move can hit Normal-type Pokemon. If an opposing Pokemon switches out this turn, this move hits that Pokemon before it leaves the field, even if it was not the original target. If the user moves after an opponent using Flip Turn, Parting Shot, Teleport, U-turn, or Volt Switch, but not Baton Pass, it will hit that opponent before it leaves the field. Power increases by 60 and no accuracy check is done if the user hits an opponent switching out, and the user's turn is over; if an opponent faints from this, the replacement Pokemon does not become active until the end of the turn.",
+		shortDesc: "If a foe is switching out, +60 BP. Hits Normal.",
+		name: "Shadow End",
+		gen: 8,
+		pp: 5,
+		priority: 0,
+		flags: {protect: 1, mirror: 1},
+		onPrepareHit(target, source, move) {
+			this.attrLastMove('[anim] Spectral Thief');
+		},
+		beforeTurnCallback(pokemon) {
+			for (const side of this.sides) {
+				if (side.hasAlly(pokemon)) continue;
+				side.addSideCondition('shadowend', pokemon);
+				const data = side.getSideConditionData('shadowend');
+				if (!data.sources) {
+					data.sources = [];
+				}
+				data.sources.push(pokemon);
+			}
+		},
+		onModifyMove(move, source, target) {
+			if (target?.beingCalledBack || target?.switchFlag) move.accuracy = true;
+		},
+		onTryHit(target, pokemon) {
+			target.side.removeSideCondition('shadowend');
+		},
+		condition: {
+			duration: 1,
+			onBeforeSwitchOut(pokemon) {
+				this.debug('Pursuit start');
+				let alreadyAdded = false;
+				pokemon.removeVolatile('destinybond');
+				for (const source of this.effectState.sources) {
+					if (!this.queue.cancelMove(source) || !source.hp) continue;
+					if (!alreadyAdded) {
+						this.add('-activate', pokemon, 'move: Shadow End');
+						alreadyAdded = true;
+					}
+					// Run through each action in queue to check if the Pursuit user is supposed to Mega Evolve this turn.
+					// If it is, then Mega Evolve before moving.
+					if (source.canMegaEvo || source.canUltraBurst) {
+						for (const [actionIndex, action] of this.queue.entries()) {
+							if (action.pokemon === source && action.choice === 'megaEvo') {
+								this.actions.runMegaEvo(source);
+								this.queue.list.splice(actionIndex, 1);
+								break;
+							}
+						}
+					}
+					this.actions.runMove('shadowend', source, source.getLocOf(pokemon));
+				}
+			},
+		},
+		ignoreImmunity: true,
+		secondary: null,
+		target: "normal",
+		type: "Ghost",
+	},
+	// Punny
+	fairypower: {
+		accuracy: 100,
+		basePower: 30,
+		basePowerCallback(pokemon, target, move) {
+			return move.basePower + 20 * pokemon.positiveBoosts();
+		},
+		category: "Special",
+		desc: "Power is equal to 30+(X*20), where X is the user's total stat stage changes that are greater than 0. Has an 100% chance to raise the user's Defense by 1 stage.",
+		shortDesc: "+20 BP each user's stat boosts. 100% chance user's Def +1.",
+		name: "Fairy Power",
+		gen: 8,
+		pp: 15,
+		priority: 0,
+		flags: {protect: 1, mirror: 1},
+		onPrepareHit(target, source, move) {
+			this.attrLastMove('[anim] Stored Power');
+		},
+		secondary: {
+			chance: 100,
+			self: {
+				boosts: {
+					def: 1,
+				},
+			},
+		},
+		target: "normal",
+		type: "Fairy",
 	},
 	// z0mOG
 	sleepwalk: {

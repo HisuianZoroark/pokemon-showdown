@@ -108,6 +108,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	*/
 	// Please keep abilites organized alphabetically based on staff member name!
+	// Empo
 	timetripper: {
 		desc: "This Pokemon's damaging moves become multi-hit moves that hit twice. Does not affect multi-hit moves or moves that have multiple targets.",
 		shortDesc: "This Pokemon's damaging moves hit twice.",
@@ -119,6 +120,15 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 				move.multihit = 2;
 				move.multihitType = 'timetripper';
 			}
+		},
+	},
+	// Heroic Troller
+	timelinereversal: {
+		desc: "This Pokemon uses Topsy-Turvy on switch-in.",
+		shortDesc: "This Pokemon uses Topsy-Turvy on switch-in.",
+		name: "Timeline Reversal",
+		onStart(pokemon) {
+			this.actions.useMove('Topsy-Turvy', pokemon);
 		},
 	},
 };

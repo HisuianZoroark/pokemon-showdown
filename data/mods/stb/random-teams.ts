@@ -53,6 +53,18 @@ export const ssbSets: SSBSets = {
 		signatureMove: 'Time Stopper',
 		evs: {atk: 252, def: 4, spe: 252}, nature: 'Adamant',
 	},
+	'Heroic Troller': {
+		species: 'Dusknoir', ability: 'Timeline Reversal', item: 'Choice Band', gender: 'M',
+		moves: ['Shadow Sneak', 'Close Combat', 'Glacial Lance'],
+		signatureMove: 'Shadow End',
+		evs: {hp: 248, atk: 252, spd: 8}, nature: 'Adamant',
+	},
+	Punny: {
+		species: 'Clefable', ability: 'Magic Guard', item: 'Leftovers', gender: 'M',
+		moves: ['Soft Boiled', 'Quiver Dance', 'Lava Plume'],
+		signatureMove: 'Fairy Power',
+		evs: {hp: 252, def: 252, spe: 4}, nature: 'Bold',
+	},
 	z0mOG: {
 		species: 'Obstagoon', ability: 'Comatose', item: 'Choice Band', gender: 'M',
 		moves: ['Sleep Talk'],
