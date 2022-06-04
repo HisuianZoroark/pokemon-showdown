@@ -128,7 +128,7 @@ export const Formats: FormatList = [
 
 		mod: 'gen8',
 		team: 'random',
-		ruleset: ['Standard', 'Crazyhouse Mod', 'Dynamax Clause'],
+		ruleset: ['Standard', 'Crazyhouse Rule', 'Dynamax Clause'],
 	},
 	{
 		name: "[Gen 8] Trademarked: Hackmons Cup",
@@ -788,7 +788,7 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'gen8',
-		ruleset: ['Standard', 'Dynamax Clause', 'Crazyhouse Mod', 'Sleep Moves Clause'],
+		ruleset: ['Standard', 'Dynamax Clause', 'Crazyhouse Rule', 'Sleep Moves Clause'],
 		banlist: [
 			'Uber', 'AG', 'Arena Trap', 'Moody', 'Power Construct', 'Sand Veil', 'Shadow Tag', 'Snow Cloak',
 			'Bright Powder', 'King\'s Rock', 'Lax Incense',
