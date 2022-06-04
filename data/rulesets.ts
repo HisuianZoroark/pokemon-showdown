@@ -2732,26 +2732,26 @@ export const Rulesets: {[k: string]: FormatData} = {
 		name: 'Suicide Cup Standard Team Validation',
 		desc: "Standard team validation for Suicide Cup.",
 		onValidateTeam: function (team) {
-            let problems = [];
-            if (team.length !== 6) problems.push(`Your team cannot have less than 6 Pok\u00e9mon.`);
-            let families = {};
-            for (const set of team) {
-                let species = this.dex.species.get(set.species);
-                if (species.baseSpecies) species = this.dex.species.get(species.baseSpecies);
-                if (species.prevo) {
-	                species = this.dex.species.get(species.prevo);
-                    if (species.prevo) {
-	                	species = this.dex.species.get(species.prevo);
-                    }
-                }
-                if (!families[species.name]) families[species.name] = [];
-                families[species.name].push(set.species);
-            }
-            for (const family in families) {
-                if (families[family].length > 1) problems.push(`${DexCalculator.toListString(families[family])} are in the same evolutionary family.`);
-            }
-            return problems;
-        },
+			let problems = [];
+			if (team.length !== 6) problems.push(`Your team cannot have less than 6 Pok\u00e9mon.`);
+			let families = {};
+			for (const set of team) {
+				let species = this.dex.species.get(set.species);
+				if (species.baseSpecies) species = this.dex.species.get(species.baseSpecies);
+				if (species.prevo) {
+					species = this.dex.species.get(species.prevo);
+					if (species.prevo) {
+						species = this.dex.species.get(species.prevo);
+					}
+				}
+				if (!families[species.name]) families[species.name] = [];
+				families[species.name].push(set.species);
+			}
+			for (const family in families) {
+				if (families[family].length > 1) problems.push(`${DexCalculator.toListString(families[family])} are in the same evolutionary family.`);
+			}
+			return problems;
+		},
 	},
 	suicidecupstandardsetvalidation: {
 		effectType: 'ValidatorRule',

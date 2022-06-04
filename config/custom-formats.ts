@@ -19,8 +19,8 @@ export const Formats: FormatList = [
 		name: "[Gen 8] Suicide Cup: Random Battle",
 		desc: `Randomized teams of Pok&eacute;mon with sets that are generated to end their lives in a quick and humane manner.`,
 		threads: [
-            `&bullet; <a href="https://www.smogon.com/forums/threads/3633603/">Suicide Cup</a>`,
-        ],
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3633603/">Suicide Cup</a>`,
+		],
 
 		mod: 'suicidecup',
 		team: 'randomSC',
@@ -844,35 +844,35 @@ export const Formats: FormatList = [
 		},
 	},
 	{
-        name: "[Gen 8] Suicide Cup",
-        desc: `Victory is obtained when all of your Pok&eacute;mon have fainted.`,
-        threads: [
-            `&bullet; <a href="https://www.smogon.com/forums/threads/3633603/">Suicide Cup</a>`,
-        ],
+		name: "[Gen 8] Suicide Cup",
+		desc: `Victory is obtained when all of your Pok&eacute;mon have fainted.`,
+		threads: [
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3633603/">Suicide Cup</a>`,
+		],
 
-        mod: 'gen8',
-        ruleset: ['Suicide Cup Standard Package', 'Cancel Mod', 'Evasion Moves Clause', 'HP Percentage Mod', 'Moody Clause', 'Nickname Clause', 'Obtainable', 'Sleep Clause Mod', 'Species Clause', 'Team Preview'],
-        banlist: [
-        	'Shedinja', 'Infiltrator', 'Magic Guard', 'Choice Scarf', 'Leppa Berry', 'Explosion',
-            'Final Gambit', 'Healing Wish', 'Lunar Dance', 'Magic Room', 'Memento', 'Self-Destruct',
-        ],
-    },
+		mod: 'gen8',
+		ruleset: ['Suicide Cup Standard Package', 'Cancel Mod', 'Evasion Moves Clause', 'HP Percentage Mod', 'Moody Clause', 'Nickname Clause', 'Obtainable', 'Sleep Clause Mod', 'Species Clause', 'Team Preview'],
+		banlist: [
+			'Shedinja', 'Infiltrator', 'Magic Guard', 'Choice Scarf', 'Leppa Berry', 'Explosion',
+			'Final Gambit', 'Healing Wish', 'Lunar Dance', 'Magic Room', 'Memento', 'Self-Destruct',
+		],
+	},
 	{
-        name: "[Gen 8] Suicide Cup: National Dex",
-        desc: `Victory is obtained when all of your Pok&eacute;mon have fainted, in a National Dex environment.`,
-        threads: [
-            `&bullet; <a href="https://www.smogon.com/forums/threads/3633603/">Suicide Cup</a>`,
-        ],
+		name: "[Gen 8] Suicide Cup: National Dex",
+		desc: `Victory is obtained when all of your Pok&eacute;mon have fainted, in a National Dex environment.`,
+		threads: [
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3633603/">Suicide Cup</a>`,
+		],
 
-        mod: 'gen8',
-        ruleset: [
+		mod: 'gen8',
+		ruleset: [
 			'Suicide Cup Standard Package', 'Cancel Mod', 'Evasion Moves Clause', 'HP Percentage Mod', 'Moody Clause', 'Nickname Clause',
 			'Obtainable', 'Sleep Clause Mod', 'Species Clause', 'Team Preview', '+Past', '+Unreleased', 'Standard NatDex'
 		],
 		banlist: [
-        	'Shedinja', 'Infiltrator', 'Magic Guard', 'Misty Surge', 'Assault Vest', 'Choice Scarf', 'Leppa Berry', 'Explosion',
-            'Final Gambit', 'Healing Wish', 'Lunar Dance', 'Magic Room', 'Memento', 'Misty Terrain', 'Self-Destruct',
-        ],
+			'Shedinja', 'Infiltrator', 'Magic Guard', 'Misty Surge', 'Assault Vest', 'Choice Scarf', 'Leppa Berry', 'Explosion',
+			'Final Gambit', 'Healing Wish', 'Lunar Dance', 'Magic Room', 'Memento', 'Misty Terrain', 'Self-Destruct',
+		],
 	},
 	{
 		name: "[Gen 8] Partners in Crime",
@@ -1254,19 +1254,19 @@ export const Formats: FormatList = [
 		unbanlist: ['Aegislash', 'Dialga', 'Giratina', 'Pheromosa', 'Solgaleo', 'Lucarionite'],
 	},
 	{
-        name: "[Gen 7] Suicide Cup",
-        desc: `Victory is obtained when all of your Pok&eacute;mon have fainted.`,
-        threads: [
-            `&bullet; <a href="https://www.smogon.com/forums/threads/3633603/">Suicide Cup</a>`,
-        ],
+		name: "[Gen 7] Suicide Cup",
+		desc: `Victory is obtained when all of your Pok&eacute;mon have fainted.`,
+		threads: [
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3633603/">Suicide Cup</a>`,
+		],
 
-        mod: 'gen7',
-        ruleset: ['Suicide Cup Standard Package', 'Cancel Mod', 'Evasion Moves Clause', 'HP Percentage Mod', 'Moody Clause', 'Nickname Clause', 'Obtainable', 'Sleep Clause Mod', 'Species Clause', 'Team Preview'],
-        banlist: [
-        	'Shedinja', 'Infiltrator', 'Magic Guard', 'Misty Surge', 'Assault Vest', 'Choice Scarf', 'Leppa Berry', 'Explosion',
-            'Final Gambit', 'Healing Wish', 'Lunar Dance', 'Magic Room', 'Memento', 'Misty Terrain', 'Self-Destruct',
-        ],
-    },
+		mod: 'gen7',
+		ruleset: ['Suicide Cup Standard Package', 'Cancel Mod', 'Evasion Moves Clause', 'HP Percentage Mod', 'Moody Clause', 'Nickname Clause', 'Obtainable', 'Sleep Clause Mod', 'Species Clause', 'Team Preview'],
+		banlist: [
+			'Shedinja', 'Infiltrator', 'Magic Guard', 'Misty Surge', 'Assault Vest', 'Choice Scarf', 'Leppa Berry', 'Explosion',
+			'Final Gambit', 'Healing Wish', 'Lunar Dance', 'Magic Room', 'Memento', 'Misty Terrain', 'Self-Destruct',
+		],
+	},
 	{
 		name: "[Gen 7] Reversed",
 		desc: `Every Pok&eacute;mon has its base Atk and Sp. Atk stat, as well as its base Def and Sp. Def stat, swapped.`,
@@ -2458,8 +2458,8 @@ export const Formats: FormatList = [
 		name: "[Gen 8] Live and Learn",
 		desc: `Pok&eacute;mon can learn each other's moves and abilities when they are activated.`,
 		threads: [
-            `&bullet; <a href="https://www.youtube.com/watch?v=z1BRZg0GG0A">OST</a>`,
-        ],
+			`&bullet; <a href="https://www.youtube.com/watch?v=z1BRZg0GG0A">OST</a>`,
+		],
 
 		mod: 'gen8',
 		ruleset: ['Standard', 'Dynamax Clause'],
@@ -2646,8 +2646,8 @@ export const Formats: FormatList = [
 		name: "[Gen 8] Live and Learn: Random Battle",
 		desc: `Pok&eacute;mon can learn each other's moves and abilities when they are activated.`,
 		threads: [
-            `&bullet; <a href="https://www.youtube.com/watch?v=z1BRZg0GG0A">OST</a>`,
-        ],
+			`&bullet; <a href="https://www.youtube.com/watch?v=z1BRZg0GG0A">OST</a>`,
+		],
 
 		mod: 'liveandlearn',
 		team: 'randomLaL',
