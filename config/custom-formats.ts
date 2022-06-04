@@ -745,7 +745,7 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'gen8',
-		ruleset: ['Category Swap Rule', 'Species Clause', 'Sleep Clause Mod', 'Evasion Moves Clause', 'OHKO Clause', 'Endless Battle Clause', 'Dynamax Clause'],
+		ruleset: ['Standard', 'Category Swap Rule', 'Dynamax Clause'],
 		banlist: [
 			// Pokemon
 			'Calyrex-Ice', 'Calyrex-Shadow', 'Darmanitan-Galar', 'Dialga', 'Dracovish', 'Eternatus', 'Genesect', 'Giratina', 'Giratina-Origin',
