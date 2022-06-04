@@ -738,6 +738,29 @@ export const Formats: FormatList = [
 		column: 2,
 	},
 	{
+		name: "[Gen 8] Category Swap",
+		desc: `All damaging moves have the opposite category.`,
+		threads: [
+			`&bullet; <a href="https://www.smogon.com/forums/threads/category-swap.3702709/">Category Swap</a>`,
+		],
+
+		mod: 'gen8',
+		ruleset: ['Category Swap Rule', 'Species Clause', 'Sleep Clause Mod', 'Evasion Moves Clause', 'OHKO Clause', 'Endless Battle Clause', 'Dynamax Clause'],
+		banlist: [
+			// Pokemon
+			'Calyrex-Ice', 'Calyrex-Shadow', 'Darmanitan-Galar', 'Dialga', 'Dracovish', 'Eternatus', 'Genesect', 'Giratina', 'Giratina-Origin',
+			'Groudon', 'Ho-Oh', 'Kyogre', 'Kyurem', 'Kyurem-Black', 'Kyurem-White', 'Landorus-Incarnate', 'Lugia', 'Lunala', 'Mewtwo',
+			'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia', 'Pheromosa', 'Rayquaza', 'Reshiram', 'Solgaleo', 'Xerneas', 'Yveltal',
+			'Zacian', 'Zacian-Crowned', 'Zamazenta', 'Zamazenta-Crowned', 'Zekrom',
+			// Abilities
+			'Power Construct', 'Arena Trap', 'Shadow Tag', 'Moody',
+			// Moves
+			'Baton Pass', 'Draco Meteor', 'Overheat',
+			// Items
+			'King\'s Rock',
+		],
+	},
+	{
 		name: "[Gen 8] Crazyhouse",
 		desc: `You can use Pok&eacute;mon you KO.`,
 		threads: [

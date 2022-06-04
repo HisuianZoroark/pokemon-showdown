@@ -2800,5 +2800,73 @@ export const Rulesets: {[k: string]: FormatData} = {
 		name: 'Beast Mode Rule',
 		desc: "The mod for BEA5T M0D3: ",
 	},
+	categoryswaprule: {
+		effectType: 'Rule',
+		name: 'Category Swap Rule',
+		desc: `Physical moves become Special, and vice versa.`,
+		onBegin() {
+			this.add('rule', 'Category Swap Rule: Physical moves become Special, and vice versa');
+		},
+		onModifyMove(move) {
+			if (move.category === "Physical") {
+				move.category = "Special";
+			} else if (move.category === "Special") {
+				move.category = "Physical";
+			}
+
+			switch (move.id) {
+				case 'doomdesire': {
+					move.onTry = function (source, target) {
+						if (!target.side.addSlotCondition(target, 'futuremove')) return false;
+						Object.assign(target.side.slotConditions[target.position]['futuremove'], {
+							move: 'doomdesire',
+							source: source,
+							moveData: {
+								id: 'doomdesire',
+								name: "Doom Desire",
+								accuracy: 100,
+								basePower: 140,
+								category: "Physical",
+								priority: 0,
+								flags: {},
+								effectType: 'Move',
+								isFutureMove: true,
+								type: 'Steel',
+							},
+						});
+						this.add('-start', source, 'Doom Desire');
+						return this.NOT_FAIL;
+					};
+				}
+				break;
+				case 'futuresight': {
+					move.onTry = function (source, target) {
+						if (!target.side.addSlotCondition(target, 'futuremove')) return false;
+						Object.assign(target.side.slotConditions[target.position]['futuremove'], {
+							duration: 3,
+							move: 'futuresight',
+							source: source,
+							moveData: {
+								id: 'futuresight',
+								name: "Future Sight",
+								accuracy: 100,
+								basePower: 120,
+								category: "Physical",
+								priority: 0,
+								flags: {},
+								ignoreImmunity: false,
+								effectType: 'Move',
+								isFutureMove: true,
+								type: 'Psychic',
+							},
+						});
+						this.add('-start', source, 'move: Future Sight');
+						return this.NOT_FAIL;
+					};
+				}
+				break;
+			}
+		},
+	},
 // #endregion TrashChannel Rules
 };
