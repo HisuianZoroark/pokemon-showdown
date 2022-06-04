@@ -2807,7 +2807,7 @@ export const Rulesets: {[k: string]: FormatData} = {
 		onBegin() {
 			this.add('rule', 'Category Swap Rule: Physical moves become Special, and vice versa');
 		},
-		onModifyMove(move) {
+		onModifyMove(move, pokemon, target) {
 			if (move.category === "Physical") {
 				move.category = "Special";
 			} else if (move.category === "Special") {
@@ -2863,6 +2863,26 @@ export const Rulesets: {[k: string]: FormatData} = {
 						this.add('-start', source, 'move: Future Sight');
 						return this.NOT_FAIL;
 					};
+				}
+				break;
+				// onModifyMovePriority seems unable to work here
+				case 'lightthatburnsthesky':
+				case 'photongeyser': {
+					if (pokemon.getStat('atk', false, true) > pokemon.getStat('spa', false, true)) move.category = 'Physical';
+				}
+				break;
+				case 'shellsidearm': {
+				if (!target) return;
+					const atk = pokemon.getStat('atk', false, true);
+					const spa = pokemon.getStat('spa', false, true);
+					const def = target.getStat('def', false, true);
+					const spd = target.getStat('spd', false, true);
+					const physical = Math.floor(Math.floor(Math.floor(Math.floor(2 * pokemon.level / 5 + 2) * 90 * atk) / def) / 50);
+					const special = Math.floor(Math.floor(Math.floor(Math.floor(2 * pokemon.level / 5 + 2) * 90 * spa) / spd) / 50);
+					if (physical > special || (physical === special && this.random(2) === 0)) {
+						move.category = 'Physical';
+						move.flags.contact = 1;
+					}
 				}
 				break;
 			}
