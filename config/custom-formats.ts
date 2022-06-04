@@ -1173,7 +1173,8 @@ export const Formats: FormatList = [
 			'Sleep Powder', 'Spore', 'Thousand Arrows', 'V-create', 'Wicked Blow',
 		],
 	},
-	{
+	// Currently in formats.ts
+	/*{
 		name: "[Gen 8] Inverse",
 		desc: `The type chart is inverted. Normal is super effective against Ghost, and vice versa, etc.`,
 		threads: [
@@ -1189,7 +1190,7 @@ export const Formats: FormatList = [
 			'Pheromosa', 'Porygon-Z', 'Power Construct', 'Rayquaza', 'Regieleki', 'Reshiram', 'Rillaboom', 'Shadow Tag', 'Solgaleo', 'Spectrier',
 			'Urshifu-Base', 'Xerneas', 'Yveltal', 'Zacian', 'Zacian-Crowned', 'Zamazenta-Base', 'Zekrom',
 		],
-	},
+	},*/
 	{
 		name: "[Gen 7] Almost Any Ability",
 		desc: `Pok&eacute;mon can use any ability, barring the few that are restricted to their natural users.`,
