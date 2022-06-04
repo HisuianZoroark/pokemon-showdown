@@ -1838,7 +1838,7 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 	},
 	libero: {
 		onPrepareHit(source, target, move) {
-			if (move.hasBounced || move.sourceEffect === 'snatch') return;
+			if (move.hasBounced || move.isFutureMove || move.sourceEffect === 'snatch') return;
 			const type = move.type;
 			if (type && type !== '???' && source.getTypes().join() !== type) {
 				if (!source.setType(type)) return;
@@ -2751,6 +2751,9 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 		num: 38,
 	},
 	poisontouch: {
+		// Only needed for Multiple Abilities: Activate after Sheer Force to make interaction determistic.
+		// The ordering for this ability is an arbitary decision, but is modelled on Stench cart behaviour.
+		onModifyMovePriority: -1,
 		// upokecenter says this is implemented as an added secondary effect
 		onModifyMove(move) {
 			if (!move?.flags['contact'] || move.target === 'self') return;
@@ -2904,7 +2907,7 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 	},
 	protean: {
 		onPrepareHit(source, target, move) {
-			if (move.hasBounced || move.sourceEffect === 'snatch') return;
+			if (move.hasBounced || move.isFutureMove || move.sourceEffect === 'snatch') return;
 			const type = move.type;
 			if (type && type !== '???' && source.getTypes().join() !== type) {
 				if (!source.setType(type)) return;

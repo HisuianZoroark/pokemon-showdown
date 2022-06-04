@@ -1,6 +1,7 @@
 ﻿// Note: These are the rules that formats use
 
 import {Utils} from "../lib";
+import {Pokemon} from "../sim/pokemon";
 
 // The list of formats is stored in config/formats.js
 
@@ -450,7 +451,8 @@ export const Rulesets: {[k: string]: FormatData} = {
 			this.add('clearpoke');
 			for (const pokemon of this.getAllPokemon()) {
 				const details = pokemon.details.replace(', shiny', '')
-					.replace(/(Arceus|Gourgeist|Pumpkaboo|Xerneas|Silvally|Zacian|Zamazenta|Urshifu)(-[a-zA-Z?-]+)?/g, '$1-*');
+					.replace(/(Arceus|Gourgeist|Pumpkaboo|Xerneas|Silvally|Urshifu)(-[a-zA-Z?-]+)?/g, '$1-*')
+					.replace(/(Zacian|Zamazenta)(?!-Crowned)/g, '$1-*'); // Hacked-in Crowned formes will be revealed
 				this.add('poke', pokemon.side.id, details, '');
 			}
 			this.makeRequest('teampreview');
@@ -676,7 +678,7 @@ export const Rulesets: {[k: string]: FormatData} = {
 		name: 'Gravity Sleep Clause',
 		desc: "Bans sleep moves below 100% accuracy, in conjunction with Gravity or Gigantamax Orbeetle",
 		banlist: [
-			'Gravity ++ Grass Whistle', 'Gravity ++ Hypnosis', 'Gravity ++ Lovely Kiss', 'Gravity ++ Sing', 'Gravity ++ Sleep Powder',
+			'Gravity ++ Dark Void', 'Gravity ++ Grass Whistle', 'Gravity ++ Hypnosis', 'Gravity ++ Lovely Kiss', 'Gravity ++ Sing', 'Gravity ++ Sleep Powder',
 		],
 		onValidateTeam(team) {
 			let hasOrbeetle = false;
@@ -1176,11 +1178,7 @@ export const Rulesets: {[k: string]: FormatData} = {
 									if (prevo.evos.includes(formeName)) continue;
 								}
 								const forme = dex.species.get(formeName);
-								if (
-									forme.changesFrom === originalForme.name && !forme.battleOnly &&
-									// Temporary workaround
-									forme.forme !== 'Crowned'
-								) {
+								if (forme.changesFrom === originalForme.name && !forme.battleOnly) {
 									speciesTypes.push(...forme.types);
 								}
 							}
@@ -1635,23 +1633,24 @@ export const Rulesets: {[k: string]: FormatData} = {
 			pokemon.trapped = true;
 		},
 	},
-	crazyhousemod: {
+	crazyhouserule: {
 		effectType: 'Rule',
-		name: 'Crazyhouse Mod',
-		desc: "You obtain the pokemon you KO.",
-		onBegin() {
-			this.add('rule', "Crazyhouse Mod: You obtain the pokemon you KO.");
-		},
+		name: 'Crazyhouse Rule',
+		desc: "Pok\u00e9mon you KO are added to your team and removed from the opponent's, and vice versa.",
 		onValidateRule(value) {
+			if (this.format.gameType === 'doubles' || this.format.gameType === 'triples') {
+				throw new Error(`Crazyhouse Rule currently does not support ${this.format.gameType} battles.`);
+			}
 			const ruleTable = this.ruleTable;
 			const maxTeamSize = ruleTable.pickedTeamSize || ruleTable.maxTeamSize;
-			const maxTeamSizeBlame = ruleTable.pickedTeamSize ? ruleTable.blame('pickedteamsize') : ruleTable.blame('maxteamsize');
 			const numPlayers = (this.format.gameType === 'freeforall' || this.format.gameType === 'multi') ? 4 : 2;
 			const potentialMaxTeamSize = maxTeamSize * numPlayers;
 			if (potentialMaxTeamSize > 24) {
-				throw new Error(`${maxTeamSizeBlame} cannot be added because a team can potentially have ${potentialMaxTeamSize} Pokemon on one team, which is more than the server limit of 24.`);
+				throw new Error(`Crazyhouse Rule cannot be added because a team can potentially have ${potentialMaxTeamSize} Pokemon on one team, which is more than the server limit of 24.`);
 			}
 		},
+		// In order to prevent a case of the clones, housekeeping is needed.
+		// This is especially needed to make sure one side doesn't end up with too many Pokemon.
 		onBeforeSwitchIn(pokemon) {
 			if (this.turn < 1 || !pokemon.side.faintedThisTurn) return;
 			pokemon.side.pokemon = pokemon.side.pokemon.filter(x => !(x.fainted && !x.m.outofplay));
@@ -1666,8 +1665,6 @@ export const Rulesets: {[k: string]: FormatData} = {
 			target.m.numSwaps++;
 			if (effect && effect.effectType === 'Move' && source.side.pokemon.length < 24 &&
                 source.side !== target.side && target.m.numSwaps < 4) {
-				const Pokemon: typeof import('../sim/pokemon').Pokemon =
-                    require('../sim/pokemon').Pokemon;
 				const hpCost = this.clampIntRange(Math.floor((target.baseMaxhp * target.m.numSwaps) / 4), 1);
 				// Just in case(tm) and for Shedinja
 				if (hpCost === target.baseMaxhp) {
@@ -1677,27 +1674,24 @@ export const Rulesets: {[k: string]: FormatData} = {
 				source.side.pokemonLeft++;
 				source.side.pokemon.length++;
 
+				// A new Pokemon is created and stuff gets aside akin to a deep clone.
+				// This is because deepClone crashes when side is called recursively.
+				// Until a refactor is made to prevent it, this is the best option to prevent crashes.
 				const newPoke = new Pokemon(target.set, source.side);
 				const newPos = source.side.pokemon.length - 1;
 
-				// If there is a better way please tell me
 				const doNotCarryOver = [
 					'fullname', 'side', 'fainted', 'status', 'hp', 'illusion',
 					'transformed', 'position', 'isActive', 'faintQueued',
 					'subFainted', 'getHealth', 'getDetails', 'moveSlots', 'ability',
-					'maxhp',
 				];
 				for (const [key, value] of Object.entries(target)) {
 					if (doNotCarryOver.includes(key)) continue;
 					// @ts-ignore
 					newPoke[key] = value;
 				}
+				newPoke.maxhp = newPoke.baseMaxhp; // for dynamax
 				newPoke.hp = newPoke.baseMaxhp - hpCost;
-				for (const [j, moveSlot] of newPoke.moveSlots.entries()) {
-					moveSlot.pp = Math.floor(
-						moveSlot.maxpp * (target.moveSlots[j] ? (target.moveSlots[j].pp / target.moveSlots[j].maxpp) : 1)
-					);
-				}
 				newPoke.clearVolatile();
 				newPoke.position = newPos;
 				source.side.pokemon[newPos] = newPoke;
@@ -1867,25 +1861,17 @@ export const Rulesets: {[k: string]: FormatData} = {
 		desc: "Allows the simulator to recognize that Pok&eacute;mon may have multiple abilities active simulataneously.",
 		// Implemented mainly in sim and data
 		onSwitchOut(pokemon) {
-			if (!pokemon.m.pseudoAbilities) return;
-
 			// Necessary to end e.g. primal weather pseudoAbilities
-			for (const pseudoAbility of pokemon.m.pseudoAbilities) {
-				const volatileName = 'ability:' + pseudoAbility;
-				const volatile = pokemon.getVolatile(volatileName);
-				if (!volatile) continue;
-				this.singleEvent('End', this.dex.abilities.get(pseudoAbility), pokemon.abilityState, pokemon);
+			for (const pseudoAbility of Object.keys(pokemon.volatiles).filter(i => i.startsWith('ability:'))) {
+				const pseudoAbilityEffect = this.dex.conditions.get(pseudoAbility) as Effect;
+				this.singleEvent('End', pseudoAbilityEffect, null, pokemon);
 			}
 		},
 		onFaint(pokemon) {
-			if (!pokemon.m.pseudoAbilities) return;
-
 			// Necessary to end e.g. primal weather pseudoAbilities
-			for (const pseudoAbility of pokemon.m.pseudoAbilities) {
-				const volatileName = 'ability:' + pseudoAbility;
-				const volatile = pokemon.getVolatile(volatileName);
-				if (!volatile) continue;
-				this.singleEvent('End', this.dex.abilities.get(pseudoAbility), pokemon.abilityState, pokemon);
+			for (const pseudoAbility of Object.keys(pokemon.volatiles).filter(i => i.startsWith('ability:'))) {
+				const pseudoAbilityEffect = this.dex.conditions.get(pseudoAbility) as Effect;
+				this.singleEvent('End', pseudoAbilityEffect, null, pokemon);
 			}
 		},
 	},
@@ -1929,13 +1915,27 @@ export const Rulesets: {[k: string]: FormatData} = {
 				pokemon.m.pseudoAbilities = [...new Set(pokemon.m.pokebilitiesPseudoAbilities.concat(existingPseudoAbilities))];
 			}
 		},
+		onBeforeSwitchIn(pokemon) {
+			// Abilities that must be applied before both sides trigger onSwitchIn to correctly
+			// handle switch-in ability-to-ability interactions, e.g. Intimidate counters
+			const neededBeforeSwitchInIDs = [
+				'clearbody', 'competitive', 'contrary', 'defiant', 'fullmetalbody', 'hypercutter', 'innerfocus',
+				'mirrorarmor', 'oblivious', 'owntempo', 'rattled', 'scrappy', 'simple', 'whitesmoke',
+			];
+			if (pokemon.m.pseudoabilities) {
+				for (const pseudoAbility of pokemon.m.pseudoabilities) {
+					if (!neededBeforeSwitchInIDs.includes(pseudoAbility)) continue;
+					if (pokemon.hasAbility(pseudoAbility)) continue;
+					pokemon.addVolatile("ability:" + pseudoAbility, pokemon);
+				}
+			}
+		},
 		onSwitchInPriority: 3,
 		onSwitchIn(pokemon) {
 			if (pokemon.m.pseudoAbilities) {
 				for (const pseudoAbility of pokemon.m.pseudoAbilities) {
-					const volatileName = 'ability:' + pseudoAbility;
-					if (pokemon.getVolatile(volatileName)) continue;
-					pokemon.addVolatile(volatileName, pokemon);
+					if (pokemon.hasAbility(pseudoAbility)) continue;
+					pokemon.addVolatile("ability:" + pseudoAbility, pokemon);
 				}
 			}
 		},
