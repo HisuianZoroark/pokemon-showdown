@@ -2865,7 +2865,7 @@ export const Rulesets: {[k: string]: FormatData} = {
 					};
 				}
 				break;
-				// onModifyMovePriority seems unable to work here
+				// Moves with dynamic categories will always be physical if not special-cased
 				case 'lightthatburnsthesky':
 				case 'photongeyser': {
 					move.category = 'Special';
