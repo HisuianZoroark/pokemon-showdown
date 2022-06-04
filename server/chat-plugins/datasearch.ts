@@ -97,35 +97,17 @@ export const commands: Chat.ChatCommands = {
 		const targetGen = parseInt(cmd[cmd.length - 1]);
 		if (targetGen) target += `, mod=gen${targetGen}`;
 		const split = target.split(',').map(term => term.trim());
-		const index = split.findIndex(x => x.startsWith('maxgen'));
+		const index = split.findIndex(x => /^max\s*gen/i.test(x));
 		if (index >= 0) {
-			const genNum = parseInt(split[index][split[index].length - 1]);
+			const genNum = parseInt(/\d*$/.exec(split[index])?.[0] || '');
 			if (!isNaN(genNum) && !(genNum < 1 || genNum > Dex.gen)) {
 				split[index] = `mod=gen${genNum}`;
 				target = split.join(',');
 			}
 		}
-		if (targetGen === 5) {
-			const targArray = target.split(',');
-			for (const [i, arg] of targArray.entries()) {
-				if (arg.includes('|')) {
-					const orArray = arg.split('|');
-					for (const [j, a] of orArray.entries()) {
-						if (toID(a) === 'pu') {
-							orArray.splice(j, 1);
-							orArray.push('untiered');
-							continue;
-						}
-					}
-					targArray[i] = orArray.join('|');
-				} else {
-					if (toID(arg) === 'pu') {
-						targArray.splice(i, 1);
-						targArray.push('untiered');
-					}
-				}
-			}
-			target = targArray.join(',');
+		if (!target.includes('mod=')) {
+			const dex = this.extractFormat(room?.settings.defaultFormat || room?.battle?.format).dex;
+			if (dex) target += `, mod=${dex.currentMod}`;
 		}
 		if (cmd === 'nds') target += ', natdex';
 		const response = await runSearch({
@@ -281,14 +263,18 @@ export const commands: Chat.ChatCommands = {
 		target = target.slice(0, 300);
 		const targetGen = parseInt(cmd[cmd.length - 1]);
 		if (targetGen) target += `, mod=gen${targetGen}`;
-		const split = target.split(',');
-		const index = split.findIndex(x => x.startsWith('maxgen'));
+		const split = target.split(',').map(term => term.trim());
+		const index = split.findIndex(x => /^max\s*gen/i.test(x));
 		if (index >= 0) {
-			const genNum = parseInt(split[index][split[index].length - 1]);
+			const genNum = parseInt(/\d*$/.exec(split[index])?.[0] || '');
 			if (!isNaN(genNum) && !(genNum < 1 || genNum > Dex.gen)) {
 				split[index] = `mod=gen${genNum}`;
 				target = split.join(',');
 			}
+		}
+		if (!target.includes('mod=')) {
+			const dex = this.extractFormat(room?.settings.defaultFormat || room?.battle?.format).dex;
+			if (dex) target += `, mod=${dex.currentMod}`;
 		}
 		if (cmd === 'nms') target += ', natdex';
 		const response = await runSearch({
@@ -321,7 +307,7 @@ export const commands: Chat.ChatCommands = {
 			`Inequality ranges use the characters <code>></code> and <code><</code>.<br/>` +
 			`Parameters can be excluded through the use of <code>!</code>; e.g., <code>!water type</code> excludes all Water-type moves.<br/>` +
 			`<code>asc</code> or <code>desc</code> following a move property will arrange the names in ascending or descending order of that property, respectively; e.g., <code>basepower asc</code> will arrange moves in ascending order of their base powers.<br/>` +
-			`Valid flags are: authentic (bypasses substitute), bite, bullet, charge, contact, dance, defrost, gravity, mirror (reflected by mirror move), ohko, powder, priority, protect, pulse, punch, recharge, recovery, reflectable, secondary, snatch, sound, zmove, pivot, and multi-hit.<br/>` +
+			`Valid flags are: bypasssub (bypasses substitute), bite, bullet, charge, contact, dance, defrost, gravity, mirror (reflected by mirror move), ohko, powder, priority, protect, pulse, punch, recharge, recovery, reflectable, secondary, snatch, sound, zmove, pivot, and multi-hit.<br/>` +
 			`A search that includes <code>!protect</code> will show all moves that bypass protection.<br/>` +
 			`<code>protection</code> as a parameter will search protection moves like Protect, Detect, etc.<br/>` +
 			`<code>max</code> or <code>gmax</code> as parameters will search for Max Moves and G-Max moves respectively.<br/>` +
@@ -588,7 +574,7 @@ function runDexsearch(target: string, cmd: string, canAll: boolean, message: str
 		uber: 'Uber', ubers: 'Uber', ou: 'OU',
 		uubl: 'UUBL', uu: 'UU',
 		rubl: 'RUBL', ru: 'RU',
-		nubl: 'NUBL', nu: 'NU', untiered: '(NU)',
+		nubl: 'NUBL', nu: 'NU',
 		publ: 'PUBL', pu: 'PU', zu: '(PU)',
 		nfe: 'NFE',
 		lc: 'LC',
@@ -634,7 +620,7 @@ function runDexsearch(target: string, cmd: string, canAll: boolean, message: str
 	let megaSearch = null;
 	let gmaxSearch = null;
 	let tierSearch = null;
-	let capSearch = null;
+	let capSearch: boolean | null = null;
 	let nationalSearch = null;
 	let fullyEvolvedSearch = null;
 	let singleTypeSearch = null;
@@ -1018,19 +1004,9 @@ function runDexsearch(target: string, cmd: string, canAll: boolean, message: str
 
 	const dex: {[k: string]: Species} = {};
 	for (const species of mod.species.all()) {
-		const megaSearchResult = (
-			megaSearch === null || (megaSearch === true && species.isMega) ||
-			(megaSearch === false && !species.isMega)
-		);
-		const gmaxSearchResult = (
-			gmaxSearch === null || (gmaxSearch === true && species.name.endsWith('-Gmax')) ||
-			(gmaxSearch === false && !species.name.endsWith('-Gmax'))
-		);
-		const fullyEvolvedSearchResult = (
-			fullyEvolvedSearch === null ||
-			(fullyEvolvedSearch === true && !species.nfe) ||
-			(fullyEvolvedSearch === false && species.nfe)
-		);
+		const megaSearchResult = megaSearch === null || megaSearch === !!species.isMega;
+		const gmaxSearchResult = gmaxSearch === null || gmaxSearch === species.name.endsWith('-Gmax');
+		const fullyEvolvedSearchResult = fullyEvolvedSearch === null || fullyEvolvedSearch !== species.nfe;
 		if (
 			species.gen <= mod.gen &&
 			(
@@ -1080,7 +1056,7 @@ function runDexsearch(target: string, cmd: string, canAll: boolean, message: str
 
 			if (alts.tiers && Object.keys(alts.tiers).length) {
 				let tier = dex[mon].tier;
-				if (tier.startsWith('(') && tier !== '(PU)' && tier !== '(NU)') tier = tier.slice(1, -1) as TierTypes.Singles;
+				if (tier.startsWith('(') && tier !== '(PU)') tier = tier.slice(1, -1) as TierTypes.Singles;
 				// if (tier === 'New') tier = 'OU';
 				if (alts.tiers[tier]) continue;
 				if (Object.values(alts.tiers).includes(false) && alts.tiers[tier] !== false) continue;
@@ -1091,7 +1067,7 @@ function runDexsearch(target: string, cmd: string, canAll: boolean, message: str
 				if (
 					alts.tiers.LC &&
 					!dex[mon].prevo &&
-					dex[mon].evos.some(evo => mod.species.get(evo).gen <= mod.gen) &&
+					dex[mon].nfe &&
 					!Dex.formats.getRuleTable(format).isBannedSpecies(dex[mon])
 				) {
 					const lsetData = mod.species.getLearnsetData(dex[mon].id);
@@ -1259,6 +1235,15 @@ function runDexsearch(target: string, cmd: string, canAll: boolean, message: str
 		});
 	}
 
+	if (usedMod === 'gen8bdsp') {
+		results = results.filter(name => {
+			const species = mod.species.get(name);
+			if (species.id === 'pichuspikyeared') return false;
+			if (capSearch) return species.gen <= 4;
+			return species.gen <= 4 && species.num >= 1;
+		});
+	}
+
 	if (randomOutput && randomOutput < results.length) {
 		results = Utils.shuffle(results).slice(0, randomOutput);
 	}
@@ -1318,7 +1303,7 @@ function runMovesearch(target: string, cmd: string, canAll: boolean, message: st
 	const allContestTypes = ['beautiful', 'clever', 'cool', 'cute', 'tough'];
 	const allProperties = ['basePower', 'accuracy', 'priority', 'pp'];
 	const allFlags = [
-		'authentic', 'bite', 'bullet', 'charge', 'contact', 'dance', 'defrost', 'gravity', 'highcrit', 'mirror',
+		'bypasssub', 'bite', 'bullet', 'charge', 'contact', 'dance', 'defrost', 'gravity', 'highcrit', 'mirror',
 		'multihit', 'ohko', 'powder', 'protect', 'pulse', 'punch', 'recharge', 'reflectable', 'secondary',
 		'snatch', 'sound', 'zmove', 'maxmove', 'gmaxmove', 'protection',
 	];
@@ -1424,7 +1409,7 @@ function runMovesearch(target: string, cmd: string, canAll: boolean, message: st
 				}
 			}
 
-			if (target === 'bypassessubstitute') target = 'authentic';
+			if (target === 'bypassessubstitute') target = 'bypasssub';
 			if (target === 'z') target = 'zmove';
 			if (target === 'max') target = 'maxmove';
 			if (target === 'gmax') target = 'gmaxmove';
@@ -2724,7 +2709,7 @@ function runItemsearch(target: string, cmd: string, canAll: boolean, message: st
 	}
 
 	target = target.toLowerCase().replace('-', ' ').replace(/[^a-z0-9.\s/]/g, '');
-	const rawSearch = target.replace(/gen \d/g, match => toID(match)).split(' ');
+	const rawSearch = target.replace(/(max ?)?gen \d/g, match => toID(match)).split(' ');
 	const searchedWords: string[] = [];
 	let foundItems: string[] = [];
 
@@ -2976,7 +2961,7 @@ function runAbilitysearch(target: string, cmd: string, canAll: boolean, message:
 	}
 
 	target = target.toLowerCase().replace('-', ' ').replace(/[^a-z0-9.\s/]/g, '');
-	const rawSearch = target.replace(/gen \d/g, match => toID(match)).split(' ');
+	const rawSearch = target.replace(/(max ?)?gen \d/g, match => toID(match)).split(' ');
 	const searchedWords: string[] = [];
 	let foundAbilities: string[] = [];
 

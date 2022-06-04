@@ -27,8 +27,9 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		inherit: true,
 		onHit(target, source) {
 			this.add('-cureteam', source, '[from] move: Aromatherapy');
-			for (const pokemon of source.side.pokemon) {
-				pokemon.clearStatus();
+			const allies = [...target.side.pokemon, ...target.side.allySide?.pokemon || []];
+			for (const ally of allies) {
+				ally.clearStatus();
 			}
 		},
 	},
@@ -87,7 +88,8 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			duration: 1,
 			onModifyAtkPriority: -101,
 			onModifyAtk(atk, pokemon, defender, move) {
-				this.add('-activate', pokemon, 'move: Beat Up', '[of] ' + move.allies![0].name);
+				// https://www.smogon.com/forums/posts/8992145/
+				// this.add('-activate', pokemon, 'move: Beat Up', '[of] ' + move.allies![0].name);
 				this.event.modifier = 1;
 				return move.allies!.shift()!.species.baseStats.atk;
 			},
@@ -277,7 +279,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	},
 	defog: {
 		inherit: true,
-		flags: {protect: 1, mirror: 1, authentic: 1},
+		flags: {protect: 1, mirror: 1, bypasssub: 1},
 	},
 	detect: {
 		inherit: true,
@@ -305,7 +307,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	disable: {
 		inherit: true,
 		accuracy: 80,
-		flags: {protect: 1, mirror: 1, authentic: 1},
+		flags: {protect: 1, mirror: 1, bypasssub: 1},
 		volatileStatus: 'disable',
 		condition: {
 			durationCallback() {
@@ -428,7 +430,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	},
 	encore: {
 		inherit: true,
-		flags: {protect: 1, mirror: 1, authentic: 1},
+		flags: {protect: 1, mirror: 1, bypasssub: 1},
 		volatileStatus: 'encore',
 		condition: {
 			durationCallback() {
@@ -550,7 +552,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	},
 	foresight: {
 		inherit: true,
-		flags: {protect: 1, mirror: 1, authentic: 1},
+		flags: {protect: 1, mirror: 1, bypasssub: 1},
 	},
 	furycutter: {
 		inherit: true,
@@ -697,8 +699,9 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		inherit: true,
 		onHit(target, source) {
 			this.add('-activate', source, 'move: Heal Bell');
-			for (const pokemon of source.side.pokemon) {
-				if (!pokemon.hasAbility('soundproof')) pokemon.cureStatus(true);
+			const allies = [...target.side.pokemon, ...target.side.allySide?.pokemon || []];
+			for (const ally of allies) {
+				if (!ally.hasAbility('soundproof')) ally.cureStatus(true);
 			}
 		},
 	},
@@ -782,7 +785,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	},
 	imprison: {
 		inherit: true,
-		flags: {authentic: 1},
+		flags: {bypasssub: 1},
 		onTryHit(pokemon) {
 			for (const target of pokemon.foes()) {
 				for (const move of pokemon.moves) {
@@ -1034,7 +1037,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	},
 	miracleeye: {
 		inherit: true,
-		flags: {protect: 1, mirror: 1, authentic: 1},
+		flags: {protect: 1, mirror: 1, bypasssub: 1},
 	},
 	mirrormove: {
 		inherit: true,
@@ -1145,7 +1148,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	},
 	odorsleuth: {
 		inherit: true,
-		flags: {protect: 1, mirror: 1, authentic: 1},
+		flags: {protect: 1, mirror: 1, bypasssub: 1},
 	},
 	outrage: {
 		inherit: true,
@@ -1216,7 +1219,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	},
 	psychup: {
 		inherit: true,
-		flags: {snatch: 1, authentic: 1},
+		flags: {snatch: 1, bypasssub: 1},
 	},
 	pursuit: {
 		inherit: true,
@@ -1322,7 +1325,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	},
 	roar: {
 		inherit: true,
-		flags: {protect: 1, mirror: 1, sound: 1, authentic: 1},
+		flags: {protect: 1, mirror: 1, sound: 1, bypasssub: 1},
 	},
 	rockblast: {
 		inherit: true,
@@ -1432,13 +1435,34 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			return !pokemon.volatiles['choicelock'] && !pokemon.volatiles['encore'];
 		},
 	},
+	snatch: {
+		inherit: true,
+		condition: {
+			duration: 1,
+			onStart(pokemon) {
+				this.add('-singleturn', pokemon, 'Snatch');
+			},
+			onAnyPrepareHitPriority: -1,
+			onAnyPrepareHit(source, target, move) {
+				const snatchUser = this.effectState.source;
+				if (snatchUser.isSkyDropped()) return;
+				if (!move || move.isZ || move.isMax || !move.flags['snatch']) {
+					return;
+				}
+				snatchUser.removeVolatile('snatch');
+				this.add('-activate', snatchUser, 'move: Snatch', '[of] ' + source);
+				this.actions.useMove(move.id, snatchUser);
+				return null;
+			},
+		},
+	},
 	spikes: {
 		inherit: true,
 		flags: {},
 	},
 	spite: {
 		inherit: true,
-		flags: {protect: 1, mirror: 1, authentic: 1},
+		flags: {protect: 1, mirror: 1, bypasssub: 1},
 	},
 	stealthrock: {
 		inherit: true,
@@ -1460,7 +1484,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			},
 			onTryPrimaryHitPriority: -1,
 			onTryPrimaryHit(target, source, move) {
-				if (target === source || move.flags['authentic']) {
+				if (target === source || move.flags['bypasssub']) {
 					return;
 				}
 				let damage = this.actions.getDamage(source, target, move);
@@ -1564,7 +1588,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	},
 	taunt: {
 		inherit: true,
-		flags: {protect: 1, mirror: 1, authentic: 1},
+		flags: {protect: 1, mirror: 1, bypasssub: 1},
 		condition: {
 			durationCallback() {
 				return this.random(3, 6);
@@ -1601,7 +1625,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	},
 	torment: {
 		inherit: true,
-		flags: {protect: 1, mirror: 1, authentic: 1},
+		flags: {protect: 1, mirror: 1, bypasssub: 1},
 	},
 	toxic: {
 		inherit: true,
@@ -1638,7 +1662,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	},
 	transform: {
 		inherit: true,
-		flags: {authentic: 1},
+		flags: {bypasssub: 1},
 	},
 	trick: {
 		inherit: true,
@@ -1674,9 +1698,10 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		inherit: true,
 		basePower: 50,
 		condition: {
-			duration: 3,
 			onStart(target) {
 				this.add('-start', target, 'Uproar');
+				// 3-6 turns
+				this.effectState.duration = this.random(3, 7);
 			},
 			onResidual(target) {
 				if (target.volatiles['throatchop']) {
@@ -1731,7 +1756,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	},
 	whirlwind: {
 		inherit: true,
-		flags: {protect: 1, mirror: 1, authentic: 1},
+		flags: {protect: 1, mirror: 1, bypasssub: 1},
 	},
 	wish: {
 		inherit: true,

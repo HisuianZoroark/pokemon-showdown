@@ -41,6 +41,7 @@ function getItemData(pokemon: Pokemon, itemName: string): ItemData | undefined {
 }
 
 export const Items: {[k: string]: ModdedItemData} = {
+// #region Max Berries
 	chilanberry: {
 		inherit: true,
 		onSourceModifyDamage(damage, source, target, move) {
@@ -455,4 +456,5 @@ export const Items: {[k: string]: ModdedItemData} = {
 			if (itemData) itemData.onDamagingHit?.call(this, damage, target, source, move);
 		},
 	},
+// #endregion Max Berries
 };

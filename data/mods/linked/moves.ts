@@ -25,7 +25,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 				];
 				// Mod-specific: Me First copies the first move in the link
 				// @ts-ignore
-				const move = this.dex.getActiveMove(action.linked ? action.linked[0] : action.move);
+				const move = this.dex.getActiveMove(action.linked?.[0] || action.move);
 				if (move.category !== 'Status' && !noMeFirst.includes(move.id)) {
 					pokemon.addVolatile('mefirst');
 					this.actions.useMove(move, pokemon, target);
@@ -129,7 +129,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			if (!lastMove || target.volatiles['dynamax']) return false;
 			const moveIndex = target.moves.indexOf(lastMove.id);
 			const noInstruct = [
-				'assist', 'beakblast', 'bide', 'celebrate', 'copycat', 'dynamaxcannon', 'focuspunch', 'iceball', 'instruct', 'kingsshield', 'mefirst', 'metronome', 'mimic', 'mirrormove', 'naturepower', 'outrage', 'petaldance', 'rollout', 'shelltrap', 'sketch', 'sleeptalk', 'thrash', 'transform',
+				'assist', 'beakblast', 'belch', 'bide', 'celebrate', 'copycat', 'dynamaxcannon', 'focuspunch', 'iceball', 'instruct', 'kingsshield', 'mefirst', 'metronome', 'mimic', 'mirrormove', 'naturepower', 'obstruct', 'outrage', 'petaldance', 'rollout', 'shelltrap', 'sketch', 'sleeptalk', 'struggle', 'thrash', 'transform', 'uproar',
 			];
 			if (
 				noInstruct.includes(lastMove.id) || lastMove.isZ || lastMove.isMax ||
@@ -140,8 +140,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 				return false;
 			}
 			this.add('-singleturn', target, 'move: Instruct', '[of] ' + source);
-			// @ts-ignore
-			this.runMove(lastMove.id, target, target.lastMoveTargetLoc);
+			this.actions.runMove(lastMove.id, target, target.lastMoveTargetLoc!);
 		},
 	},
 	mirrormove: {

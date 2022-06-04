@@ -28,11 +28,13 @@ import type {Punishment} from './punishments';
 import type {PartialModlogEntry} from './modlog';
 import {FriendsDatabase, PM} from './friends';
 import {SQL, Repl, FS, Utils} from '../lib';
+import * as Artemis from './artemis';
 import {Dex} from '../sim';
 import {resolve} from 'path';
+import * as JSX from './chat-jsx';
 
 export type PageHandler = (this: PageContext, query: string[], user: User, connection: Connection)
-=> Promise<string | null | void> | string | null | void;
+=> Promise<string | null | void | JSX.VNode> | string | null | void | JSX.VNode;
 export interface PageTable {
 	[k: string]: PageHandler | PageTable;
 }
@@ -64,12 +66,21 @@ export interface AnnotatedChatCommands {
 	[k: string]: AnnotatedChatHandler | string | string[] | AnnotatedChatCommands;
 }
 
-export interface Handlers {
-	onRoomClose?: (id: string, user: User, connection: Connection, page: boolean) => any;
-	onRenameRoom?: (oldId: RoomID, newID: RoomID, room: BasicRoom) => void;
-	onBattleStart?: (user: User, room: GameRoom) => void;
-	onBattleLeave?: (user: User, room: GameRoom) => void;
-	onDisconnect?: (user: User) => void;
+export type HandlerTable = {[key in keyof Handlers]?: Handlers[key]};
+
+interface Handlers {
+	onRoomClose: (id: string, user: User, connection: Connection, page: boolean) => any;
+	onRenameRoom: (oldId: RoomID, newID: RoomID, room: BasicRoom) => void;
+	onBattleStart: (user: User, room: GameRoom) => void;
+	onBattleLeave: (user: User, room: GameRoom) => void;
+	onRoomJoin: (room: BasicRoom, user: User, connection: Connection) => void;
+	onDisconnect: (user: User) => void;
+	onRoomDestroy: (roomid: RoomID) => void;
+	onBattleEnd: (battle: RoomBattle, winner: ID, players: ID[]) => void;
+	onLadderSearch: (user: User, connection: Connection, format: ID) => void;
+	onBattleRanked: (
+		battle: Rooms.RoomBattle, winner: ID, ratings: (AnyObject | null | undefined)[], players: ID[]
+	) => void;
 }
 
 export interface ChatPlugin {
@@ -108,7 +119,7 @@ export type ChatFilter = ((
 	connection: Connection,
 	targetUser: User | null,
 	originalMessage: string
-) => string | false | null | undefined) & {priority?: number};
+) => string | false | null | undefined | void) & {priority?: number};
 
 export type NameFilter = (name: string, user: User) => string;
 export type NicknameFilter = (name: string, user: User) => string | false;
@@ -139,6 +150,7 @@ const BROADCAST_TOKEN = '!';
 
 const PLUGIN_DATABASE_PATH = './databases/chat-plugins.db';
 const MAX_PLUGIN_LOADING_DEPTH = 3;
+const VALID_PLUGIN_ENDINGS = ['.jsx', '.tsx', '.js', '.ts'];
 
 import {formatText, linkRegex, stripFormatting} from './chat-formatter';
 
@@ -442,7 +454,7 @@ export class PageContext extends MessageContext {
 			if (typeof handler === 'function') {
 				break;
 			}
-			handler = handler[parts.shift() || 'default'];
+			handler = handler[parts.shift() || 'default'] || handler[''];
 		}
 
 		this.args = parts;
@@ -451,7 +463,7 @@ export class PageContext extends MessageContext {
 		try {
 			if (typeof handler !== 'function') this.pageDoesNotExist();
 			res = await handler.call(this, parts, this.user, this.connection);
-		} catch (err) {
+		} catch (err: any) {
 			if (err.name?.endsWith('ErrorMessage')) {
 				if (err.message) this.errorReply(err.message);
 				return;
@@ -470,6 +482,7 @@ export class PageContext extends MessageContext {
 				`</div></div>`
 			);
 		}
+		if (typeof res === 'object' && res) res = JSX.render(res);
 		if (typeof res === 'string') {
 			this.setHTML(res);
 			res = undefined;
@@ -499,6 +512,7 @@ export class CommandContext extends MessageContext {
 	handler: AnnotatedChatHandler | null;
 
 	isQuiet: boolean;
+	bypassRoomCheck?: boolean;
 	broadcasting: boolean;
 	broadcastToRoom: boolean;
 	/** Used only by !rebroadcast */
@@ -507,7 +521,7 @@ export class CommandContext extends MessageContext {
 	constructor(options: {
 		message: string, user: User, connection: Connection,
 		room?: Room | null, pmTarget?: User | null, cmd?: string, cmdToken?: string, target?: string, fullCmd?: string,
-		recursionDepth?: number, isQuiet?: boolean, broadcastPrefix?: string,
+		recursionDepth?: number, isQuiet?: boolean, broadcastPrefix?: string, bypassRoomCheck?: boolean,
 	}) {
 		super(
 			options.user, options.room && options.room.settings.language ?
@@ -529,6 +543,7 @@ export class CommandContext extends MessageContext {
 		this.fullCmd = options.fullCmd || '';
 		this.handler = null;
 		this.isQuiet = options.isQuiet || false;
+		this.bypassRoomCheck = options.bypassRoomCheck || false;
 
 		// broadcast context
 		this.broadcasting = false;
@@ -538,7 +553,10 @@ export class CommandContext extends MessageContext {
 	}
 
 	// TODO: return should be void | boolean | Promise<void | boolean>
-	parse(msg?: string, options: {isQuiet?: boolean, broadcastPrefix?: string} = {}): any {
+	parse(
+		msg?: string,
+		options: Partial<{isQuiet: boolean, broadcastPrefix: string, bypassRoomCheck: boolean}> = {}
+	): any {
 		if (typeof msg === 'string') {
 			// spawn subcontext
 			const subcontext = new CommandContext({
@@ -548,6 +566,7 @@ export class CommandContext extends MessageContext {
 				room: this.room,
 				pmTarget: this.pmTarget,
 				recursionDepth: this.recursionDepth + 1,
+				bypassRoomCheck: this.bypassRoomCheck,
 				...options,
 			});
 			if (subcontext.recursionDepth > MAX_PARSE_RECURSION) {
@@ -566,7 +585,7 @@ export class CommandContext extends MessageContext {
 			this.handler = parsedCommand.handler;
 		}
 
-		if (this.room && !(this.user.id in this.room.users)) {
+		if (!this.bypassRoomCheck && this.room && !(this.user.id in this.room.users)) {
 			return this.popupReply(`You tried to send "${message}" to the room "${this.room.roomid}" but it failed because you were not in that room.`);
 		}
 
@@ -598,7 +617,7 @@ export class CommandContext extends MessageContext {
 
 				message = this.checkChat(message);
 			}
-		} catch (err) {
+		} catch (err: any) {
 			if (err.name?.endsWith('ErrorMessage')) {
 				this.errorReply(err.message);
 				this.update();
@@ -673,7 +692,7 @@ export class CommandContext extends MessageContext {
 			}
 			Chat.sendPM(message, this.user, this.pmTarget);
 		} else if (this.room) {
-			this.room.add(`|c|${this.user.getIdentity(this.room.roomid)}|${message}`);
+			this.room.add(`|c|${this.user.getIdentity(this.room)}|${message}`);
 			if (this.room.game && this.room.game.onLogMessage) {
 				this.room.game.onLogMessage(message, this.user);
 			}
@@ -804,12 +823,19 @@ export class CommandContext extends MessageContext {
 		}
 	}
 	errorReply(message: string) {
+		if (this.bypassRoomCheck) { // if they're not in the room, we still want a good error message for them
+			return this.popupReply(
+				`|html|<strong class="message-error">${message.replace(/\n/ig, '<br />')}</strong>`
+			);
+		}
 		this.sendReply(`|error|` + message.replace(/\n/g, `\n|error|`));
 	}
-	addBox(htmlContent: string) {
+	addBox(htmlContent: string | JSX.VNode) {
+		if (typeof htmlContent !== 'string') htmlContent = JSX.render(htmlContent);
 		this.add(`|html|<div class="infobox">${htmlContent}</div>`);
 	}
-	sendReplyBox(htmlContent: string) {
+	sendReplyBox(htmlContent: string | JSX.VNode) {
+		if (typeof htmlContent !== 'string') htmlContent = JSX.render(htmlContent);
 		this.sendReply(`|c|${this.room && this.broadcasting ? this.user.getIdentity() : '~'}|/raw <div class="infobox">${htmlContent}</div>`);
 	}
 	popupReply(message: string) {
@@ -854,6 +880,9 @@ export class CommandContext extends MessageContext {
 				this.room.addByUser(this.user, `(${msg})`);
 			} else {
 				this.room.sendModsByUser(this.user, `(${msg})`);
+				// roomlogging in staff causes a duplicate log message, since we do addByUser
+				// and roomlogging in pms has no effect, so we can _just_ call this here
+				this.roomlog(`(${msg})`);
 			}
 		} else {
 			const data = this.pmTransform(`|modaction|${msg}`);
@@ -862,7 +891,6 @@ export class CommandContext extends MessageContext {
 				this.pmTarget.send(data);
 			}
 		}
-		this.roomlog(`(${msg})`);
 	}
 	globalModlog(action: string, user: string | User | null = null, note: string | null = null, ip?: string) {
 		const entry: PartialModlogEntry = {
@@ -1034,7 +1062,7 @@ export class CommandContext extends MessageContext {
 		if (this.pmTarget) {
 			this.sendReply(`|c~|${message}`);
 		} else {
-			this.sendReply(`|c|${this.user.getIdentity(this.room ? this.room.roomid : '')}|${message}`);
+			this.sendReply(`|c|${this.user.getIdentity(this.room)}|${message}`);
 		}
 		if (this.room) {
 			// We don't want broadcasted messages in a room to be translated
@@ -1074,7 +1102,18 @@ export class CommandContext extends MessageContext {
 			if (room) {
 				if (lockType && !room.settings.isHelp) {
 					this.sendReply(`|html|<a href="view-help-request--appeal" class="button">${this.tr`Get help with this`}</a>`);
-					throw new Chat.ErrorMessage(this.tr`You are ${lockType} and can't talk in chat. ${lockExpiration}`);
+					if (user.locked === '#hostfilter') {
+						throw new Chat.ErrorMessage(this.tr`You are locked due to your proxy / VPN and can't talk in chat.`);
+					} else {
+						throw new Chat.ErrorMessage(this.tr`You are ${lockType} and can't talk in chat. ${lockExpiration}`);
+					}
+				}
+				if (!room.persist && !room.roomid.startsWith('help-') && !(user.registered || user.autoconfirmed)) {
+					this.sendReply(
+						this.tr`|html|<div class="message-error">You must be registered to chat in temporary rooms (like battles).</div>` +
+						this.tr`You may register in the <button name="openOptions"><i class="fa fa-cog"></i> Options</button> menu.`
+					);
+					throw new Chat.Interruption();
 				}
 				if (room.isMuted(user)) {
 					throw new Chat.ErrorMessage(this.tr`You are muted and cannot talk in this room.`);
@@ -1096,15 +1135,30 @@ export class CommandContext extends MessageContext {
 						this.tr`Because moderated chat is set, you must be of rank ${groupName} or higher to speak in this room.`
 					);
 				}
-				if (!(user.id in room.users)) {
+				if (!this.bypassRoomCheck && !(user.id in room.users)) {
 					connection.popup(`You can't send a message to this room without being in it.`);
 					return null;
 				}
 			}
 			if (targetUser) {
+				// this accounts for users who are autoconfirmed on another alt, but not registered
+				if (!(user.registered || user.autoconfirmed)) {
+					this.sendReply(
+						this.tr`|html|<div class="message-error">You must be registered to send private messages.</div>` +
+						this.tr`You may register in the <button name="openOptions"><i class="fa fa-cog"></i> Options</button> menu.`
+					);
+					throw new Chat.Interruption();
+				}
+				if (targetUser.id !== user.id && !(targetUser.registered || targetUser.autoconfirmed)) {
+					throw new Chat.ErrorMessage(this.tr`That user is unregistered and cannot be PMed.`);
+				}
 				if (lockType && !targetUser.can('lock')) {
 					this.sendReply(`|html|<a href="view-help-request--appeal" class="button">${this.tr`Get help with this`}</a>`);
-					throw new Chat.ErrorMessage(this.tr`You are ${lockType} and can only private message members of the global moderation team. ${lockExpiration}`);
+					if (user.locked === '#hostfilter') {
+						throw new Chat.ErrorMessage(this.tr`You are locked due to your proxy / VPN and can only private message members of the global moderation team.`);
+					} else {
+						throw new Chat.ErrorMessage(this.tr`You are ${lockType} and can only private message members of the global moderation team. ${lockExpiration}`);
+					}
 				}
 				if (targetUser.locked && !user.can('lock')) {
 					throw new Chat.ErrorMessage(this.tr`The user "${targetUser.name}" is locked and cannot be PMed.`);
@@ -1182,6 +1236,14 @@ export class CommandContext extends MessageContext {
 			throw new Chat.ErrorMessage(gameFilter);
 		}
 
+		if (room?.settings.highTraffic &&
+			toID(message).replace(/[^a-z]+/, '').length < 2 &&
+			!user.can('show', null, room)) {
+			throw new Chat.ErrorMessage(
+				this.tr`Due to this room being a high traffic room, your message must contain at least two letters.`
+			);
+		}
+
 		if (room) {
 			const normalized = message.trim();
 			if (
@@ -1194,14 +1256,6 @@ export class CommandContext extends MessageContext {
 			user.lastMessageTime = Date.now();
 		}
 
-		if (room?.settings.highTraffic &&
-			toID(message).replace(/[^a-z]+/, '').length < 2 &&
-			!user.can('show', null, room)) {
-			throw new Chat.ErrorMessage(
-				this.tr`Due to this room being a high traffic room, your message must contain at least two letters.`
-			);
-		}
-
 		if (Chat.filters.length) {
 			return this.filter(message);
 		}
@@ -1210,6 +1264,7 @@ export class CommandContext extends MessageContext {
 	}
 	checkCanPM(targetUser: User, user?: User) {
 		if (!user) user = this.user;
+		if (user.id === targetUser.id) return true; // lol.
 		const setting = targetUser.settings.blockPMs;
 		if (user.can('lock') || !setting) return true;
 		if (setting === true && !user.can('lock')) return false; // this is to appease TS
@@ -1378,8 +1433,19 @@ export class CommandContext extends MessageContext {
 		return this.room;
 	}
 	// eslint-disable-next-line @typescript-eslint/type-annotation-spacing
-	requireGame<T extends RoomGame>(constructor: new (...args: any[]) => T) {
+	requireGame<T extends RoomGame>(constructor: new (...args: any[]) => T, subGame = false) {
 		const room = this.requireRoom();
+		if (subGame) {
+			if (!room.subGame) {
+				throw new Chat.ErrorMessage(`This command requires a sub-game of ${constructor.name} (this room has no sub-game).`);
+			}
+			const game = room.getGame(constructor, subGame);
+			// must be a different game
+			if (!game) {
+				throw new Chat.ErrorMessage(`This command requires a sub-game of ${constructor.name} (this sub-game is ${room.subGame.title}).`);
+			}
+			return game;
+		}
 		if (!room.game) {
 			throw new Chat.ErrorMessage(`This command requires a game of ${constructor.name} (this room has no game).`);
 		}
@@ -1415,6 +1481,17 @@ export class CommandContext extends MessageContext {
 			this.parse(`/join view-${pageid}`);
 		}
 	}
+	closePage(pageid: string) {
+		for (const connection of this.user.connections) {
+			if (connection.openPages?.has(pageid)) {
+				connection.send(`>view-${pageid}\n|deinit`);
+				connection.openPages.delete(pageid);
+				if (!connection.openPages.size) {
+					connection.openPages = null;
+				}
+			}
+		}
+	}
 }
 
 export const Chat = new class {
@@ -1442,7 +1519,7 @@ export const Chat = new class {
 	commands!: AnnotatedChatCommands;
 	basePages!: PageTable;
 	pages!: PageTable;
-	readonly destroyHandlers: (() => void)[] = [];
+	readonly destroyHandlers: (() => void)[] = [Artemis.destroy];
 	readonly crqHandlers: {[k: string]: CRQHandler} = {};
 	readonly handlers: {[k: string]: ((...args: any) => any)[]} = Object.create(null);
 	/** The key is the name of the plugin. */
@@ -1651,15 +1728,14 @@ export const Chat = new class {
 		// If strings is an array (normally the case), combine before translating.
 		const trString = typeof strings === 'string' ? strings : strings.join('${}');
 
-		if (!Chat.translations.has(language)) {
-			if (!Chat.translationsLoaded) return trString;
+		if (Chat.translationsLoaded && !Chat.translations.has(language)) {
 			throw new Error(`Trying to translate to a nonexistent language: ${language}`);
 		}
 		if (!strings.length) {
 			return ((fStrings: TemplateStringsArray | string, ...fKeys: any) => Chat.tr(language, fStrings, ...fKeys));
 		}
 
-		const entry = Chat.translations.get(language)!.get(trString);
+		const entry = Chat.translations.get(language)?.get(trString);
 		let [translated, keyLabels, valLabels] = entry || ["", [], []];
 		if (!translated) translated = trString;
 
@@ -1692,7 +1768,10 @@ export const Chat = new class {
 	 * All chat plugins share one database.
 	 * Chat.databaseReadyPromise will be truthy if the database is not yet ready.
 	 */
-	database = SQL(module, {file: ('Config' in global && Config.nofswriting) ? ':memory:' : PLUGIN_DATABASE_PATH});
+	database = SQL(module, {
+		file: ('Config' in global && Config.nofswriting) ? ':memory:' : PLUGIN_DATABASE_PATH,
+		processes: global.Config?.chatdbprocesses || 1,
+	});
 	databaseReadyPromise: Promise<void> | null = null;
 
 	async prepareDatabase() {
@@ -1731,6 +1810,13 @@ export const Chat = new class {
 	readonly PageContext = PageContext;
 	readonly ErrorMessage = ErrorMessage;
 	readonly Interruption = Interruption;
+
+	// JSX handling
+	readonly JSX = JSX;
+	readonly html = JSX.html;
+	readonly h = JSX.h;
+	readonly Fragment = JSX.Fragment;
+
 	/**
 	 * Command parser
 	 *
@@ -1805,6 +1891,12 @@ export const Chat = new class {
 
 	packageData: AnyObject = {};
 
+	loadPluginFile(file: string) {
+		if (!VALID_PLUGIN_ENDINGS.some(ext => file.endsWith(ext))) return;
+		const filename = file.split('/').pop() || "";
+		this.loadPlugin(require(file), filename.slice(0, filename.lastIndexOf('.')) || file);
+	}
+
 	loadPluginDirectory(dir: string, depth = 0) {
 		for (const file of FS(dir).readdirSync()) {
 			const path = resolve(dir, file);
@@ -1814,22 +1906,13 @@ export const Chat = new class {
 				this.loadPluginDirectory(path, depth);
 			} else {
 				try {
-					this.loadPlugin(path);
+					this.loadPluginFile(path);
 				} catch (e) {
 					Monitor.crashlog(e, "A loading chat plugin");
 					continue;
 				}
 			}
 		}
-	}
-	loadPlugin(file: string) {
-		let plugin;
-		if (file.endsWith('.ts') || file.endsWith('.js')) {
-			plugin = require(file.slice(0, -3));
-		} else {
-			return;
-		}
-		this.loadPluginData(plugin, file.split('/').pop()?.slice(0, -3) || file);
 	}
 	annotateCommands(commandTable: AnyObject, namespace = ''): AnnotatedChatCommands {
 		for (const cmd in commandTable) {
@@ -1873,7 +1956,7 @@ export const Chat = new class {
 		}
 		return commandTable;
 	}
-	loadPluginData(plugin: AnyObject, name: string) {
+	loadPlugin(plugin: AnyObject, name: string) {
 		if (plugin.commands) {
 			Object.assign(Chat.commands, this.annotateCommands(plugin.commands));
 		}
@@ -1899,18 +1982,17 @@ export const Chat = new class {
 		if (plugin.nicknamefilter) Chat.nicknamefilters.push(plugin.nicknamefilter);
 		if (plugin.statusfilter) Chat.statusfilters.push(plugin.statusfilter);
 		if (plugin.onRenameRoom) {
-			if (!Chat.handlers['RenameRoom']) Chat.handlers['RenameRoom'] = [];
-			Chat.handlers['RenameRoom'].push(plugin.onRenameRoom);
+			if (!Chat.handlers['onRenameRoom']) Chat.handlers['onRenameRoom'] = [];
+			Chat.handlers['onRenameRoom'].push(plugin.onRenameRoom);
 		}
 		if (plugin.onRoomClose) {
-			if (!Chat.handlers['RoomClose']) Chat.handlers['RoomClose'] = [];
-			Chat.handlers['RoomClose'].push(plugin.onRoomClose);
+			if (!Chat.handlers['onRoomClose']) Chat.handlers['onRoomClose'] = [];
+			Chat.handlers['onRoomClose'].push(plugin.onRoomClose);
 		}
 		if (plugin.handlers) {
-			for (const k in plugin.handlers) {
-				const handlerName = k.slice(2);
+			for (const handlerName in plugin.handlers) {
 				if (!Chat.handlers[handlerName]) Chat.handlers[handlerName] = [];
-				Chat.handlers[handlerName].push(plugin.handlers[k]);
+				Chat.handlers[handlerName].push(plugin.handlers[handlerName]);
 			}
 		}
 		Chat.plugins[name] = plugin;
@@ -1935,8 +2017,8 @@ export const Chat = new class {
 		Chat.pages = Object.assign(Object.create(null), Chat.basePages);
 
 		// Load filters from Config
-		this.loadPluginData(Config, 'config');
-		this.loadPluginData(Tournaments, 'tournaments');
+		this.loadPlugin(Config, 'config');
+		this.loadPlugin(Tournaments, 'tournaments');
 
 		this.loadPluginDirectory('server/chat-plugins');
 		Chat.oldPlugins = {};
@@ -1950,7 +2032,7 @@ export const Chat = new class {
 		}
 	}
 
-	runHandlers(name: string, ...args: any) {
+	runHandlers(name: keyof Handlers, ...args: Parameters<Handlers[typeof name]>) {
 		const handlers = this.handlers[name];
 		if (!handlers) return;
 		for (const h of handlers) {
@@ -1959,11 +2041,11 @@ export const Chat = new class {
 	}
 
 	handleRoomRename(oldID: RoomID, newID: RoomID, room: Room) {
-		Chat.runHandlers('RoomRename', oldID, newID, room);
+		Chat.runHandlers('onRenameRoom', oldID, newID, room);
 	}
 
 	handleRoomClose(roomid: RoomID, user: User, connection: Connection) {
-		Chat.runHandlers('RoomClose', roomid, user, connection, roomid.startsWith('view-'));
+		Chat.runHandlers('onRoomClose', roomid, user, connection, roomid.startsWith('view-'));
 	}
 
 	/**
@@ -2005,6 +2087,7 @@ export const Chat = new class {
 		let curCommands: AnnotatedChatCommands = Chat.commands;
 		let commandHandler;
 		let fullCmd = cmd;
+		let prevCmdName = '';
 
 		do {
 			if (cmd in curCommands) {
@@ -2022,13 +2105,17 @@ export const Chat = new class {
 				[cmd, target] = Utils.splitFirst(target, ' ');
 				cmd = cmd.toLowerCase();
 
+				prevCmdName = fullCmd;
 				fullCmd += ' ' + cmd;
 				curCommands = commandHandler as AnnotatedChatCommands;
 			}
 		} while (commandHandler && typeof commandHandler === 'object');
 
-		if (!commandHandler && curCommands.default) {
-			commandHandler = curCommands.default;
+		if (!commandHandler && (curCommands.default || curCommands[''])) {
+			commandHandler = curCommands.default || curCommands[''];
+			fullCmd = prevCmdName;
+			target = `${cmd}${target ? ` ${target}` : ''}`;
+			cmd = fullCmd.split(' ').shift()!;
 			if (typeof commandHandler === 'string') {
 				commandHandler = curCommands[commandHandler];
 			}
@@ -2097,7 +2184,7 @@ export const Chat = new class {
 		try {
 			// eslint-disable-next-line no-new
 			new RegExp(word);
-		} catch (e) {
+		} catch (e: any) {
 			throw new Chat.ErrorMessage(
 				e.message.startsWith('Invalid regular expression: ') ?
 					e.message :
@@ -2222,11 +2309,11 @@ export const Chat = new class {
 	/**
 	 * Takes an array and turns it into a sentence string by adding commas and the word "and"
 	 */
-	toListString(arr: string[]) {
+	toListString(arr: string[], conjunction = "and") {
 		if (!arr.length) return '';
 		if (arr.length === 1) return arr[0];
-		if (arr.length === 2) return `${arr[0]} and ${arr[1]}`;
-		return `${arr.slice(0, -1).join(", ")}, and ${arr.slice(-1)[0]}`;
+		if (arr.length === 2) return `${arr[0]} ${conjunction.trim()} ${arr[1]}`;
+		return `${arr.slice(0, -1).join(", ")}, ${conjunction.trim()} ${arr.slice(-1)[0]}`;
 	}
 
 	/**
@@ -2371,6 +2458,20 @@ export const Chat = new class {
 		return probe(url);
 	}
 
+	parseArguments(str: string, delim = ',', paramDelim = '=', useIDs = true) {
+		const result: Record<string, string[]> = {};
+		for (const part of str.split(delim)) {
+			let [key, val] = Utils.splitFirst(part, paramDelim).map(f => f.trim());
+			if (useIDs) key = toID(key);
+			if (!toID(key) || !toID(val)) {
+				throw new Chat.ErrorMessage(`Invalid option ${part}. Must be in [key]${paramDelim}[value] format.`);
+			}
+			if (!result[key]) result[key] = [];
+			result[key].push(val);
+		}
+		return result;
+	}
+
 	/**
 	 * Normalize a message for the purposes of applying chat filters.
 	 *
@@ -2400,6 +2501,29 @@ export const Chat = new class {
 		const ratio = Math.min(maxHeight / height, maxWidth / width);
 
 		return [Math.round(width * ratio), Math.round(height * ratio), true];
+	}
+
+	refreshPageFor(
+		pageid: string,
+		roomid: Room | RoomID,
+		checkPrefix = false,
+		ignoreUsers: ID[] | null = null
+	) {
+		const room = Rooms.get(roomid);
+		if (!room) return false;
+		for (const id in room.users) {
+			if (ignoreUsers?.includes(id as ID)) continue;
+			const u = room.users[id];
+			for (const conn of u.connections) {
+				if (conn.openPages) {
+					for (const page of conn.openPages) {
+						if ((checkPrefix ? page.startsWith(pageid) : page === pageid)) {
+							void this.parse(`/j view-${page}`, room, u, conn);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -2445,7 +2569,6 @@ export const Chat = new class {
 // backwards compatibility; don't actually use these
 // they're just there so forks have time to slowly transition
 (Chat as any).escapeHTML = Utils.escapeHTML;
-(Chat as any).html = Utils.html;
 (Chat as any).splitFirst = Utils.splitFirst;
 (CommandContext.prototype as any).can = CommandContext.prototype.checkCan;
 (CommandContext.prototype as any).canTalk = CommandContext.prototype.checkChat;

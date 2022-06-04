@@ -76,7 +76,7 @@ export const Items: {[itemid: string]: ItemData} = {
 			if (target.boosts['spe'] === 6 || noAtkChange || noContraryAtkChange) {
 				return;
 			}
-			if (effect.name === "Intimidate") {
+			if (effect.name === 'Intimidate') {
 				target.useItem();
 			}
 		},
@@ -316,7 +316,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Steel' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 
 				if (target.eatItem()) {
@@ -711,7 +711,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Rock' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 
 				if (target.eatItem()) {
@@ -785,7 +785,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		onSourceModifyDamage(damage, source, target, move) {
 			if (
 				move.type === 'Normal' &&
-				(!target.volatiles['substitute'] || move.flags['authentic'] || (move.infiltrates && this.gen >= 6))
+				(!target.volatiles['substitute'] || move.flags['bypasssub'] || (move.infiltrates && this.gen >= 6))
 			) {
 				if (target.eatItem()) {
 					this.debug('-50% reduction');
@@ -903,7 +903,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Fighting' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 
 				if (target.eatItem()) {
@@ -946,7 +946,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Flying' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 
 				if (target.eatItem()) {
@@ -970,7 +970,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Dark' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 
 				if (target.eatItem()) {
@@ -1274,7 +1274,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		fling: {
 			basePower: 30,
 		},
-		num: 250,
+		num: 235,
 		gen: 2,
 	},
 	dragoniumz: {
@@ -2288,7 +2288,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Dragon' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 
 				if (target.eatItem()) {
@@ -2585,7 +2585,7 @@ export const Items: {[itemid: string]: ItemData} = {
 			type: "Dragon",
 		},
 		onDamagingHit(damage, target, source, move) {
-			if (move.category === 'Physical' && source.hp && source.isActive) {
+			if (move.category === 'Physical' && source.hp && source.isActive && !source.hasAbility('magicguard')) {
 				if (target.eatItem()) {
 					this.damage(source.baseMaxhp / (target.hasAbility('ripen') ? 4 : 8), source, target);
 				}
@@ -2615,7 +2615,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Ghost' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 
 				if (target.eatItem()) {
@@ -2639,7 +2639,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Poison' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 
 				if (target.eatItem()) {
@@ -3179,7 +3179,7 @@ export const Items: {[itemid: string]: ItemData} = {
 			if (!this.activeMove) return false;
 			if (this.activeMove.id !== 'knockoff' && this.activeMove.id !== 'thief' && this.activeMove.id !== 'covet') return false;
 		},
-		num: 0,
+		num: 137,
 		gen: 2,
 		isNonstandard: "Past",
 	},
@@ -3684,7 +3684,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Fire' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 
 				if (target.eatItem()) {
@@ -3784,7 +3784,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Water' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 
 				if (target.eatItem()) {
@@ -3808,7 +3808,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Psychic' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 
 				if (target.eatItem()) {
@@ -4473,7 +4473,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Grass' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 
 				if (target.eatItem()) {
@@ -4620,7 +4620,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Fairy' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 
 				if (target.eatItem()) {
@@ -4643,7 +4643,7 @@ export const Items: {[itemid: string]: ItemData} = {
 			type: "Dark",
 		},
 		onDamagingHit(damage, target, source, move) {
-			if (move.category === 'Special' && source.hp && source.isActive) {
+			if (move.category === 'Special' && source.hp && source.isActive && !source.hasAbility('magicguard')) {
 				if (target.eatItem()) {
 					this.damage(source.baseMaxhp / (target.hasAbility('ripen') ? 4 : 8), source, target);
 				}
@@ -4918,7 +4918,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Ground' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 
 				if (target.eatItem()) {
@@ -5405,7 +5405,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Bug' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 
 				if (target.eatItem()) {
@@ -6523,7 +6523,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Electric' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 				if (target.eatItem()) {
 					this.debug('-50% reduction');
@@ -6759,7 +6759,7 @@ export const Items: {[itemid: string]: ItemData} = {
 		},
 		onSourceModifyDamage(damage, source, target, move) {
 			if (move.type === 'Ice' && target.getMoveHitData(move).typeMod > 0) {
-				const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+				const hitSub = target.volatiles['substitute'] && !move.flags['bypasssub'] && !(move.infiltrates && this.gen >= 6);
 				if (hitSub) return;
 
 				if (target.eatItem()) {
@@ -7107,4 +7107,178 @@ export const Items: {[itemid: string]: ItemData} = {
 		gen: 6,
 		isNonstandard: "CAP",
 	},
+	vilevial: {
+		name: "Vile Vial",
+		spritenum: 752,
+		fling: {
+			basePower: 60,
+		},
+		onBasePowerPriority: 15,
+		onBasePower(basePower, user, target, move) {
+			if (user.baseSpecies.num === -66 && ['Poison', 'Flying'].includes(move.type)) {
+				return this.chainModify([4915, 4096]);
+			}
+		},
+		onTakeItem(item, pokemon, source) {
+			if (source?.baseSpecies.num === -66 || pokemon.baseSpecies.num === -66) {
+				return false;
+			}
+			return true;
+		},
+		forcedForme: "Venomicon-Epilogue",
+		itemUser: ["Venomicon-Epilogue"],
+		num: -2,
+		gen: 8,
+		isNonstandard: "CAP",
+	},
+// #region TrashChannel: Mix and Meta
+	// Hack custom items to enable OMs to be banned/unbanned (Showdown validator seems to use the base dex data)
+	gen8350cup: {
+		name: "[Gen 8] 350 Cup",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8almostanyability: {
+		name: "[Gen 8] Almost Any Ability",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8alphabetcup: {
+		name: "[Gen 8] Alphabet Cup",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8balancedhackmons: {
+		name: "Gen 8] Balanced Hackmons",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8bonustype: {
+		name: "[Gen 8] Bonus Type",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8camomons: {
+		name: "[Gen 8] Camomons",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8crossevolution: {
+		name: "[Gen 8] Cross Evolution",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8flipped: {
+		name: "[Gen 8] Flipped",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8inheritance: {
+		name: "[Gen 8] Inheritance",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8maxberries: {
+		name: "[Gen 8] Max Berries",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8mixandmega: {
+		name: "[Gen 8] Mix and Mega",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8natureswap: {
+		name: "[Gen 8] Nature Swap",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8nfe: {
+		name: "[Gen 8] NFE",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8pokebilities: {
+		name: "[Gen 8] Pokebilities",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8purehackmons: {
+		name: "[Gen 8] Pure Hackmons",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8scalemons: {
+		name: "[Gen 8] Scalemons",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8sharedpower: {
+		name: "[Gen 8] Shared Power",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8sketchmons: {
+		name: "[Gen 8] Sketchmons",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8stabmons: {
+		name: "[Gen 8] STABmons",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8tiershift: {
+		name: "[Gen 8] Tier Shift",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+	gen8trademarked: {
+		name: "[Gen 8] Trademarked",
+		itemUser: ["Nonexistent Pokemon"],
+		onTakeItem(item, source) { return false; },
+		gen: 777,
+		isNonstandard: "Custom",
+	},
+// #endregion TrashChannel: Mix and Meta
 };
