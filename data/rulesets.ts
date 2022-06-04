@@ -2868,11 +2868,13 @@ export const Rulesets: {[k: string]: FormatData} = {
 				// onModifyMovePriority seems unable to work here
 				case 'lightthatburnsthesky':
 				case 'photongeyser': {
+					move.category = 'Special';
 					if (pokemon.getStat('atk', false, true) > pokemon.getStat('spa', false, true)) move.category = 'Physical';
 				}
 				break;
 				case 'shellsidearm': {
-				if (!target) return;
+					if (!target) return;
+					move.category = 'Special';
 					const atk = pokemon.getStat('atk', false, true);
 					const spa = pokemon.getStat('spa', false, true);
 					const def = target.getStat('def', false, true);
