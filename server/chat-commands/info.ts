@@ -877,6 +877,7 @@ export const commands: Chat.ChatCommands = {
 		const type1 = dex.types.get(targets[0]);
 		const type2 = dex.types.get(targets[1]);
 		const type3 = dex.types.get(targets[2]);
+		const type4 = dex.types.get(targets[3]);
 
 		if (species.exists) {
 			target = species.name;
@@ -889,6 +890,9 @@ export const commands: Chat.ChatCommands = {
 				}
 				if (type3.exists && type3 !== type1 && type3 !== type2) {
 					types.push(type3.name);
+				}
+				if (type4.exists && type4 !== type1 && type4 !== type2 && type4 !== type3) {
+					types.push(type4.name);
 				}
 			}
 
