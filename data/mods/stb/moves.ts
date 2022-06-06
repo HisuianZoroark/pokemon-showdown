@@ -1,6 +1,6 @@
 import {getName} from './conditions';
 import {changeSet, changeMoves} from "./abilities";
-import {ssbSets} from "./random-teams";
+import {stbSets} from "./random-teams";
 
 export const Moves: {[k: string]: ModdedMoveData} = {
 	/*
@@ -62,6 +62,29 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		},
 		target: "allAdjacentFoes",
 		type: "Water",
+	},
+	// ABR
+	thunderwavefists: {
+		accuracy: 100,
+		basePower: 120,
+		category: "Physical",
+		desc: "Has a 30% chance to paralyze the target.",
+		shortDesc: "30% chance to paralyze the target.",
+		name: "Thunderwave Fists",
+		gen: 8,
+		pp: 12,
+		noPPBoosts: true,
+		priority: 0,
+		flags: {protect: 1, mirror: 1},
+		onPrepareHit(target, source, move) {
+			this.attrLastMove('[anim] Plasma Fists');
+		},
+		secondary: {
+			chance: 30,
+			status: 'par',
+		},
+		target: "normal",
+		type: "Electric",
 	},
 	// BKC
 	angryrant: {
@@ -238,7 +261,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	sleepwalk: {
 		accuracy: 100,
 		basePower: 120,
-		category: "Special",
+		category: "Physical",
 		desc: "Can only be selected while user is asleep. 50% chance to be dark type and 50% chance to be normal type. Lowers target defense 100%.",
 		shortDesc: "50% Dark/Normal. Must be asleep. 100% -1 Def.",
 		name: "Sleep Walk",

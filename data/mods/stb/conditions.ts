@@ -51,6 +51,18 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('ABR')}|East > West`);
 		},
 	},
+	bushtush: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Bushtush')}|YO RUN THOSE POCKETS`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Bushtush')}|Ill be back for my money`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Bushtush')}|Oh man Oh man not again`);
+		},
+	},
 	bkc: {
 		noCopy: true,
 		onStart() {

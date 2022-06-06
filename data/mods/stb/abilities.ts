@@ -1,4 +1,4 @@
-import {SSBSet, ssbSets} from "./random-teams";
+import {STBSet, stbSets} from "./random-teams";
 import {getName} from './conditions';
 
 // Used in many abilities, placed here to reduce the number of updates needed and to reduce the chance of errors
@@ -9,7 +9,7 @@ const STRONG_WEATHERS = ['desolateland', 'primordialsea', 'deltastream', 'heavyh
  * @param pokemon the Pokemon to assign the set to
  * @param newSet the SSBSet to assign
  */
-export function changeSet(context: Battle, pokemon: Pokemon, newSet: SSBSet, changeAbility = false) {
+export function changeSet(context: Battle, pokemon: Pokemon, newSet: STBSet, changeAbility = false) {
 	if (pokemon.transformed) return;
 	const evs: StatsTable = {
 		hp: newSet.evs?.hp || 0,
