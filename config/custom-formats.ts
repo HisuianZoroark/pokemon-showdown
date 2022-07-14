@@ -39,6 +39,7 @@ export const Formats: FormatList = [
 			}
 		},
 	},
+	/*
 	{
 		name: "[Gen 8] Partners in Crime: Hackmons Cup",
 		desc: `Randomized teams of level-balanced Pok&eacute;mon where both active ally Pok&eacute;mon share dumb abilities and moves.`,
@@ -114,6 +115,7 @@ export const Formats: FormatList = [
 			},
 		},
 	},
+	*/
 	{
 		name: "[Gen 8] Pokebilities: Random Battle",
 		desc: `Randomized teams of level-balanced Pok&eacute;mon with all of their released Abilities simultaneously.`,
@@ -877,40 +879,65 @@ export const Formats: FormatList = [
 	{
 		name: "[Gen 8] Partners in Crime",
 		desc: `Doubles-based metagame where both active ally Pok&eacute;mon share abilities and moves.`,
+		threads: [
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3664347/">Partners in Crime</a>`,
+		],
 
-		mod: 'pic',
+		mod: 'partnersincrime',
 		gameType: 'doubles',
+		ruleset: ['[Gen 8] Doubles OU'],
 		ruleset: ['[Gen 8] Doubles OU', 'Sleep Clause Mod'],
 		banlist: [
-			'Huge Power', 'Pure Power', 'Wonder Guard', 'Normalize', 'Trace', 'Imposter', 'Transform',
-			'Arctovish', 'Arctozolt', 'Dracovish', 'Dracozolt',
+			'Arctovish', 'Arctozolt', 'Dracovish', 'Dracozolt', 'Golisopod', 'Wimpod',
+			'Huge Power', 'Normalize', 'Pure Power', 'Wonder Guard',
 		],
-		onBeforeSwitchIn(pokemon) {
-			for (const side of this.sides) {
-				if (side.active.every(ally => ally && !ally.fainted)) {
-					let pokeA = side.active[0], pokeB = side.active[1];
-					if (pokeA.ability !== pokeB.ability) {
-						const pokeAInnate = 'ability:' + pokeB.ability;
-						pokeA.volatiles[pokeAInnate] = {id: toID(pokeAInnate), target: pokeA};
-						const pokeBInnate = 'ability:' + pokeA.ability;
-						pokeB.volatiles[pokeBInnate] = {id: toID(pokeBInnate), target: pokeB};
-					}
+		onBegin() {
+			let x = 0;
+			for (const pokemon of this.getAllPokemon()) {
+				pokemon.m.value = x;
+				for (const moveSlot of pokemon.moveSlots) {
+					if (!moveSlot.originalPoke) moveSlot.originalPoke = pokemon.m.value;
 				}
+				for (const moveSlot of pokemon.baseMoveSlots) {
+					if (!moveSlot.originalPoke) moveSlot.originalPoke = pokemon.m.value;
+				}
+				x++;
 			}
 		},
 		onSwitchInPriority: 2,
 		onSwitchIn(pokemon) {
-			let ally = pokemon.side.active.find(ally => ally && ally !== pokemon && !ally.fainted);
+			// I don't know what this code does, but it seems superfluous
+			/*for (const side of this.sides) {
+			if (side.allies().every(ally => ally && !ally.fainted)) {
+					const a = side.active[0];
+					const b = side.active[1];
+
+					if (a.ability === b.ability) continue;
+					const aInnate = 'ability:' + b.ability;
+					a.volatiles[aInnate] = {id: aInnate, target: a};
+					const bInnate = 'ability:' + a.ability;
+					b.volatiles[bInnate] = {id: bInnate, target: b};
+				}
+			}*/
+			let ngas = false;
+			for (const poke of this.getAllActive()) {
+				if (['neutralizinggas'].includes(this.toID(poke.ability))) {
+					ngas = true;
+					break;
+				}
+			}
+			const BAD_ABILITIES = ['trace', 'imposter', 'neutralizinggas'];
+			const ally = pokemon.side.active.find(mon => mon && mon !== pokemon && !mon.fainted);
 			if (ally && ally.ability !== pokemon.ability) {
-				if (!pokemon.m.innate) {
+				if (!pokemon.m.innate && !BAD_ABILITIES.includes(this.toID(ally.ability))) {
 					pokemon.m.innate = 'ability:' + ally.ability;
 					delete pokemon.volatiles[pokemon.m.innate];
-					pokemon.addVolatile(pokemon.m.innate);
+					if (!ngas || ally.getAbility().isPermanent) pokemon.addVolatile(pokemon.m.innate);
 				}
-				if (!ally.m.innate) {
+				if (!ally.m.innate && !BAD_ABILITIES.includes(this.toID(pokemon.ability))) {
 					ally.m.innate = 'ability:' + pokemon.ability;
 					delete ally.volatiles[ally.m.innate];
-					ally.addVolatile(ally.m.innate);
+					if (!ngas || pokemon.getAbility().isPermanent) ally.addVolatile(ally.m.innate);
 				}
 			}
 		},
@@ -919,7 +946,7 @@ export const Formats: FormatList = [
 				pokemon.removeVolatile(pokemon.m.innate);
 				delete pokemon.m.innate;
 			}
-			let ally = pokemon.side.active.find(ally => ally && ally !== pokemon && !ally.fainted);
+			const ally = pokemon.side.active.find(mon => mon && mon !== pokemon && !mon.fainted);
 			if (ally && ally.m.innate) {
 				ally.removeVolatile(ally.m.innate);
 				delete ally.m.innate;
@@ -930,23 +957,11 @@ export const Formats: FormatList = [
 				pokemon.removeVolatile(pokemon.m.innate);
 				delete pokemon.m.innate;
 			}
-			let ally = pokemon.side.active.find(ally => ally && ally !== pokemon && !ally.fainted);
+			const ally = pokemon.side.active.find(mon => mon && mon !== pokemon && !mon.fainted);
 			if (ally && ally.m.innate) {
 				ally.removeVolatile(ally.m.innate);
 				delete ally.m.innate;
 			}
-		},
-		field: {
-			suppressingWeather() {
-				for (const side of this.battle.sides) {
-					for (const pokemon of side.active) {
-						if (pokemon && !pokemon.ignoringAbility() && pokemon.hasAbility('Cloud Nine')) {
-							return true;
-						}
-					}
-				}
-				return false;
-			},
 		},
 	},
 	// Currently in formats.ts
