@@ -885,7 +885,7 @@ export const Formats: FormatList = [
 
 		mod: 'partnersincrime',
 		gameType: 'doubles',
-		ruleset: ['[Gen 8] Doubles OU'],
+		ruleset: ['[Gen 8] Doubles OU', 'Sleep Clause Mod'],
 		banlist: [
 			'Arctovish', 'Arctozolt', 'Dracovish', 'Dracozolt', 'Golisopod', 'Wimpod',
 			'Huge Power', 'Normalize', 'Pure Power', 'Wonder Guard',
