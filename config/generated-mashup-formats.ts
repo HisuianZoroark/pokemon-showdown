@@ -7,27 +7,30 @@ export const Formats: FormatList = [
 		column: 1,
 	},
 	{
-		name: "[Gen 8] Camomons Mix and Mega",
+		name: "[Gen 8] Ultra Mix",
 		desc: `(No description)`,
 		threads: [
-			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[Gen 8] Camomons Mix and Mega Resources</a>`,
+			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[Gen 8] Ultra Mix Resources</a>`,
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3656469/">Vanilla Mix and Mega</a>`,
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3659028/">Vanilla M&amp;M Resources</a>`
 		],
 
 		mod: 'mixandmega',
 		ruleset: [
-			'Standard', 'Overflow Stat Mod', 'Dynamax Clause', 'Mix and Mega Standard Package', 'Camomons Mod',
+			'Standard', 'Overflow Stat Mod', 'Dynamax Clause', 'Mix and Mega Standard Package', 'Alphabet Cup Move Legality', 'Camomons Mod', 'Scalemons Mod', 'Tier Shift Mod',
+			'2 Ability Clause', 'AAA Restricted Abilities', '!Obtainable Abilities',
 		],
 		banlist: [
-			'Calyrex-Shadow', 'Kyogre', 'Shedinja', 'Zacian', 'Moody', 'Shadow Tag', 'Beedrillite', 'Blazikenite',
-			'Gengarite', 'Kangaskhanite', 'Mawilite', 'Medichamite', 'Pidgeotite', 'Baton Pass', 'Electrify',
+			'Comatose ++ Sleep Talk', 'Abra', 'Darumaka', 'Gastly', 'Pikachu', 'Shedinja', 'Arena Trap', 'Contrary',
+			'Fluffy', 'Fur Coat', 'Gorilla Tactics', 'Huge Power', 'Ice Scales', 'Illusion', 'Innards Out', 'Intrepid Sword',
+			'Libero', 'Moody', 'Neutralizing Gas', 'Parental Bond', 'Protean', 'Pure Power', 'Shadow Tag', 'Simple',
+			'Speed Boost', 'Water Bubble', 'Wonder Guard', 'Beedrillite', 'Blazikenite', 'Damp Rock', 'Eviolite', 'Gengarite',
+			'Heat Rock', 'Kangaskhanite', 'Light Ball', 'Mawilite', 'Medichamite', 'Pidgeotite', 'Baton Pass',
 		],
 		restricted: [
-			'Calyrex-Ice', 'Dialga', 'Gengar', 'Giratina', 'Groudon', 'Ho-Oh', 'Kyurem-Black', 'Kyurem-White',
-			'Lugia', 'Lunala', 'Marshadow', 'Melmetal', 'Mew', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings',
-			'Necrozma-Dusk-Mane', 'Palkia', 'Pheromosa', 'Rayquaza', 'Regigigas', 'Reshiram', 'Urshifu-Base', 'Xerneas',
-			'Yveltal', 'Zekrom', 'Zygarde-Base', 'Zygarde-Complete',
+			'Chansey', 'Raichu', 'Sneasel', 'Imposter', 'Bolt Beak', 'Double Iron Bash', 'Electrify', 'Extreme Speed',
+			'Fishious Rend', 'Geomancy', 'Lovely Kiss', 'Shell Smash', 'Shift Gear', 'Sleep Powder', 'Spore', 'Surging Strikes',
+			'Thousand Arrows',
 		],
 	},
 
@@ -114,8 +117,8 @@ export const Formats: FormatList = [
 		],
 		restricted: [
 			'Acupressure', 'Astral Barrage', 'Belly Drum', 'Bolt Beak', 'Clangorous Soul', 'Double Iron Bash', 'Dragon Ascent', 'Dragon Energy',
-			'Eruption', 'Extreme Speed', 'Fishious Rend', 'Geomancy', 'Glacial Lance', 'No Retreat', 'Oblivion Wing', 'Shell Smash',
-			'Shift Gear', 'Thousand Arrows', 'Transform', 'V-create', 'Water Spout', 'Wicked Blow',
+			'Eruption', 'Extreme Speed', 'Final Gambit', 'Fishious Rend', 'Geomancy', 'Glacial Lance', 'No Retreat', 'Oblivion Wing',
+			'Shell Smash', 'Shift Gear', 'Thousand Arrows', 'Transform', 'V-create', 'Water Spout', 'Wicked Blow',
 		],
 	},
 	{
@@ -183,12 +186,12 @@ export const Formats: FormatList = [
 		],
 		banlist: [
 			'Absol', 'Archeops', 'Arctovish', 'Bellossom', 'Calyrex-Ice', 'Calyrex-Shadow', 'Eternatus', 'Guzzlord',
-			'Marowak-Base', 'Marshadow', 'Mewtwo', 'Naganadel', 'Necrozma-Dusk-Mane', 'Pheromosa', 'Rayquaza', 'Regigigas',
-			'Shedinja', 'Sneasel', 'Talonflame', 'Xerneas', 'Zacian', 'Zekrom', 'Arena Trap', 'Comatose',
-			'Contrary', 'Fluffy', 'Fur Coat', 'Gorilla Tactics', 'Huge Power', 'Ice Scales', 'Illusion', 'Imposter',
-			'Innards Out', 'Intrepid Sword', 'Libero', 'Magnet Pull', 'Moody', 'Neutralizing Gas', 'Parental Bond', 'Poison Heal',
-			'Protean', 'Pure Power', 'Shadow Tag', 'Simple', 'Speed Boost', 'Stakeout', 'Tinted Lens', 'Water Bubble',
-			'Wonder Guard', 'Damp Rock', 'Eviolite', 'Heat Rock', 'King\'s Rock', 'Light Ball', 'Baton Pass',
+			'Kommo-o', 'Marowak-Base', 'Marshadow', 'Mewtwo', 'Naganadel', 'Necrozma-Dusk-Mane', 'Pheromosa', 'Rayquaza',
+			'Regigigas', 'Shedinja', 'Sneasel', 'Talonflame', 'Xerneas', 'Zacian', 'Zekrom', 'Arena Trap',
+			'Comatose', 'Contrary', 'Fluffy', 'Fur Coat', 'Gorilla Tactics', 'Huge Power', 'Ice Scales', 'Illusion',
+			'Imposter', 'Innards Out', 'Intrepid Sword', 'Libero', 'Magnet Pull', 'Moody', 'Neutralizing Gas', 'Parental Bond',
+			'Poison Heal', 'Protean', 'Pure Power', 'Shadow Tag', 'Simple', 'Speed Boost', 'Stakeout', 'Tinted Lens',
+			'Water Bubble', 'Wonder Guard', 'Damp Rock', 'Eviolite', 'Heat Rock', 'King\'s Rock', 'Light Ball', 'Baton Pass',
 		],
 	},
 	{
