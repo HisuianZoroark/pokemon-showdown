@@ -39,7 +39,6 @@ export const Formats: FormatList = [
 			}
 		},
 	},
-	/*
 	{
 		name: "[Gen 8] Partners in Crime: Hackmons Cup",
 		desc: `Randomized teams of level-balanced Pok&eacute;mon where both active ally Pok&eacute;mon share dumb abilities and moves.`,
@@ -47,36 +46,75 @@ export const Formats: FormatList = [
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3618488/">Partners in Crime</a>`,
 		],
 
-		mod: 'pic',
+		mod: 'partnersincrime',
 		gameType: 'doubles',
 		team: 'randomHCPiC',
 		ruleset: ['Obtainable', 'HP Percentage Mod', 'Cancel Mod'],
+		onBegin() {
+			let x = 0;
+			for (const pokemon of this.getAllPokemon()) {
+				pokemon.m.value = x;
+				for (const moveSlot of pokemon.moveSlots) {
+					if (!moveSlot.originalPoke) moveSlot.originalPoke = pokemon.m.value;
+				}
+				for (const moveSlot of pokemon.baseMoveSlots) {
+					if (!moveSlot.originalPoke) moveSlot.originalPoke = pokemon.m.value;
+				}
+				x++;
+			}
+		},
 		onBeforeSwitchIn(pokemon) {
-			for (const side of this.sides) {
-				if (side.active.every(ally => ally && !ally.fainted)) {
-					let pokeA = side.active[0], pokeB = side.active[1];
-					if (pokeA.ability !== pokeB.ability) {
-						const pokeAInnate = 'ability:' + pokeB.ability;
-						pokeA.volatiles[pokeAInnate] = {id: toID(pokeAInnate), target: pokeA};
-						const pokeBInnate = 'ability:' + pokeA.ability;
-						pokeB.volatiles[pokeBInnate] = {id: toID(pokeBInnate), target: pokeB};
-					}
+			let ngas = false;
+			for (const poke of this.getAllActive()) {
+				if (['neutralizinggas'].includes(this.toID(poke.ability))) {
+					ngas = true;
+					break;
+				}
+			}
+			const BAD_ABILITIES = ['trace', 'imposter', 'neutralizinggas'];
+			// Abilities that must be applied before both sides trigger onSwitchIn to correctly
+			// handle switch-in ability-to-ability interactions, e.g. Intimidate counters
+			const NEEDED_BEFORE_SWITCH_IN_ABILITIES = [
+				'clearbody', 'competitive', 'contrary', 'defiant', 'fullmetalbody', 'hypercutter', 'innerfocus',
+				'mirrorarmor', 'oblivious', 'owntempo', 'rattled', 'scrappy', 'simple', 'whitesmoke',
+			];
+			const ally = pokemon.side.active.find(mon => mon && mon !== pokemon && !mon.fainted);
+			if (ally && ally.ability !== pokemon.ability) {
+				if (!pokemon.m.innate && !BAD_ABILITIES.includes(this.toID(ally.ability))
+					&& NEEDED_BEFORE_SWITCH_IN_ABILITIES.includes(this.toID(ally.ability))) {
+					pokemon.m.innate = 'ability:' + ally.ability;
+					delete pokemon.volatiles[pokemon.m.innate];
+					if (!ngas || ally.getAbility().isPermanent) pokemon.addVolatile(pokemon.m.innate);
+				}
+				if (!ally.m.innate && !BAD_ABILITIES.includes(this.toID(pokemon.ability))
+					&& NEEDED_BEFORE_SWITCH_IN_ABILITIES.includes(this.toID(pokemon.ability))) {
+					ally.m.innate = 'ability:' + pokemon.ability;
+					delete ally.volatiles[ally.m.innate];
+					if (!ngas || pokemon.getAbility().isPermanent) ally.addVolatile(ally.m.innate);
 				}
 			}
 		},
 		onSwitchInPriority: 2,
 		onSwitchIn(pokemon) {
-			let ally = pokemon.side.active.find(ally => ally && ally !== pokemon && !ally.fainted);
+			let ngas = false;
+			for (const poke of this.getAllActive()) {
+				if (['neutralizinggas'].includes(this.toID(poke.ability))) {
+					ngas = true;
+					break;
+				}
+			}
+			const BAD_ABILITIES = ['trace', 'imposter', 'neutralizinggas'];
+			const ally = pokemon.side.active.find(mon => mon && mon !== pokemon && !mon.fainted);
 			if (ally && ally.ability !== pokemon.ability) {
-				if (!pokemon.m.innate) {
+				if (!pokemon.m.innate && !BAD_ABILITIES.includes(this.toID(ally.ability))) {
 					pokemon.m.innate = 'ability:' + ally.ability;
 					delete pokemon.volatiles[pokemon.m.innate];
-					pokemon.addVolatile(pokemon.m.innate);
+					if (!ngas || ally.getAbility().isPermanent) pokemon.addVolatile(pokemon.m.innate);
 				}
-				if (!ally.m.innate) {
+				if (!ally.m.innate && !BAD_ABILITIES.includes(this.toID(pokemon.ability))) {
 					ally.m.innate = 'ability:' + pokemon.ability;
 					delete ally.volatiles[ally.m.innate];
-					ally.addVolatile(ally.m.innate);
+					if (!ngas || pokemon.getAbility().isPermanent) ally.addVolatile(ally.m.innate);
 				}
 			}
 		},
@@ -85,7 +123,7 @@ export const Formats: FormatList = [
 				pokemon.removeVolatile(pokemon.m.innate);
 				delete pokemon.m.innate;
 			}
-			let ally = pokemon.side.active.find(ally => ally && ally !== pokemon && !ally.fainted);
+			const ally = pokemon.side.active.find(mon => mon && mon !== pokemon && !mon.fainted);
 			if (ally && ally.m.innate) {
 				ally.removeVolatile(ally.m.innate);
 				delete ally.m.innate;
@@ -96,26 +134,13 @@ export const Formats: FormatList = [
 				pokemon.removeVolatile(pokemon.m.innate);
 				delete pokemon.m.innate;
 			}
-			let ally = pokemon.side.active.find(ally => ally && ally !== pokemon && !ally.fainted);
+			const ally = pokemon.side.active.find(mon => mon && mon !== pokemon && !mon.fainted);
 			if (ally && ally.m.innate) {
 				ally.removeVolatile(ally.m.innate);
 				delete ally.m.innate;
 			}
 		},
-		field: {
-			suppressingWeather() {
-				for (const side of this.battle.sides) {
-					for (const pokemon of side.active) {
-						if (pokemon && !pokemon.ignoringAbility() && pokemon.hasAbility('Cloud Nine')) {
-							return true;
-						}
-					}
-				}
-				return false;
-			},
-		},
 	},
-	*/
 	{
 		name: "[Gen 8] Pokebilities: Random Battle",
 		desc: `Randomized teams of level-balanced Pok&eacute;mon with all of their released Abilities simultaneously.`,
