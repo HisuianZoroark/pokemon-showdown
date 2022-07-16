@@ -903,21 +903,39 @@ export const Formats: FormatList = [
 				x++;
 			}
 		},
+		onBeforeSwitchIn(pokemon) {
+			let ngas = false;
+			for (const poke of this.getAllActive()) {
+				if (['neutralizinggas'].includes(this.toID(poke.ability))) {
+					ngas = true;
+					break;
+				}
+			}
+			const BAD_ABILITIES = ['trace', 'imposter', 'neutralizinggas'];
+			// Abilities that must be applied before both sides trigger onSwitchIn to correctly
+			// handle switch-in ability-to-ability interactions, e.g. Intimidate counters
+			const NEEDED_BEFORE_SWITCH_IN_ABILITIES = [
+				'clearbody', 'competitive', 'contrary', 'defiant', 'fullmetalbody', 'hypercutter', 'innerfocus',
+				'mirrorarmor', 'oblivious', 'owntempo', 'rattled', 'scrappy', 'simple', 'whitesmoke',
+			];
+			const ally = pokemon.side.active.find(mon => mon && mon !== pokemon && !mon.fainted);
+			if (ally && ally.ability !== pokemon.ability) {
+				if (!pokemon.m.innate && !BAD_ABILITIES.includes(this.toID(ally.ability))
+					&& NEEDED_BEFORE_SWITCH_IN_ABILITIES.includes(this.toID(ally.ability))) {
+					pokemon.m.innate = 'ability:' + ally.ability;
+					delete pokemon.volatiles[pokemon.m.innate];
+					if (!ngas || ally.getAbility().isPermanent) pokemon.addVolatile(pokemon.m.innate);
+				}
+				if (!ally.m.innate && !BAD_ABILITIES.includes(this.toID(pokemon.ability))
+					&& NEEDED_BEFORE_SWITCH_IN_ABILITIES.includes(this.toID(pokemon.ability))) {
+					ally.m.innate = 'ability:' + pokemon.ability;
+					delete ally.volatiles[ally.m.innate];
+					if (!ngas || pokemon.getAbility().isPermanent) ally.addVolatile(ally.m.innate);
+				}
+			}
+		},
 		onSwitchInPriority: 2,
 		onSwitchIn(pokemon) {
-			// I don't know what this code does, but it seems superfluous
-			/*for (const side of this.sides) {
-			if (side.allies().every(ally => ally && !ally.fainted)) {
-					const a = side.active[0];
-					const b = side.active[1];
-
-					if (a.ability === b.ability) continue;
-					const aInnate = 'ability:' + b.ability;
-					a.volatiles[aInnate] = {id: aInnate, target: a};
-					const bInnate = 'ability:' + a.ability;
-					b.volatiles[bInnate] = {id: bInnate, target: b};
-				}
-			}*/
 			let ngas = false;
 			for (const poke of this.getAllActive()) {
 				if (['neutralizinggas'].includes(this.toID(poke.ability))) {
