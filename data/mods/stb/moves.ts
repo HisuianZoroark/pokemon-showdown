@@ -137,8 +137,8 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		accuracy: 100,
 		basePower: 60,
 		category: "Special",
-		desc: "Has a 50% chance to burn the target.",
-		shortDesc: "50% chance to burn the target.",
+		desc: "If an opposing Pokemon switches out this turn, this move hits that Pokemon before it leaves the field, even if it was not the original target. If the user moves after an opponent using Flip Turn, Parting Shot, Teleport, U-turn, or Volt Switch, but not Baton Pass, it will hit that opponent before it leaves the field. The move hits twice and no accuracy check is done if the user hits an opponent switching out and if the opponent does not attack, and the user's turn is over; if an opponent faints from this, the replacement Pokemon does not become active until the end of the turn. The opposing Pokemon cannot is trapped and cannot switch out, even through the use of a move like Volt Switch.",
+		shortDesc: "If a foe is switching out, hits 2x. Traps foe.",
 		name: "Hot Pursuit",
 		gen: 8,
 		pp: 15,
@@ -164,12 +164,8 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		onModifyMove(move, source, target) {
 			if (target?.beingCalledBack || target?.switchFlag) {
 				move.accuracy = true;
-				move.multihit = 2;
-				move.multihitType = 'hotpursuit';
-			} else {
-				if (this.queue.willMove(target)) {
+				if (target.beingCalledBack || this.queue.willMove(target)) {
 					move.multihit = 2;
-					move.multihitType = 'hotpursuit';
 				}
 			}
 		},
@@ -178,10 +174,15 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		},
 		condition: {
 			duration: 1,
+			onUpdate(pokemon) {
+				if (pokemon.switchFlag) pokemon.switchFlag = false;
+				if (pokemon.forceSwitchFlag) pokemon.forceSwitchFlag = false;
+			},
 			onBeforeSwitchOut(pokemon) {
 				this.debug('Pursuit start');
 				let alreadyAdded = false;
 				pokemon.removeVolatile('destinybond');
+				pokemon.switchFlag = false;
 				for (const source of this.effectState.sources) {
 					if (!this.queue.cancelMove(source) || !source.hp) continue;
 					if (!alreadyAdded) {
