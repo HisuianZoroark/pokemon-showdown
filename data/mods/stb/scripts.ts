@@ -186,8 +186,9 @@ export const Scripts: ModdedBattleScriptsData = {
 				target = targets[targets.length - 1]; // in case of redirection
 			}
 
+			const pursuitClones = ['pursuit', 'shadowend', 'hotpursuit'];
 			const callerMoveForPressure = sourceEffect && (sourceEffect as ActiveMove).pp ? sourceEffect as ActiveMove : null;
-			if (!sourceEffect || callerMoveForPressure || sourceEffect.id === 'pursuit' || sourceEffect.id === 'shadowend') {
+			if (!sourceEffect || callerMoveForPressure || pursuitClones.includes(sourceEffect.id)) {
 				let extraPP = 0;
 				for (const source of pressureTargets) {
 					const ppDrop = this.battle.runEvent('DeductPP', source, pokemon, move);

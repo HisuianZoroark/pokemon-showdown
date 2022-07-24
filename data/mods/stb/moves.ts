@@ -63,7 +63,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		target: "allAdjacentFoes",
 		type: "Water",
 	},
-	// ABR
+	// Bushtush
 	thunderwavefists: {
 		accuracy: 100,
 		basePower: 120,
@@ -130,6 +130,81 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		},
 		secondary: null,
 		target: "self",
+		type: "Fire",
+	},
+	// Earthworm
+	hotpursuit: {
+		accuracy: 100,
+		basePower: 60,
+		category: "Special",
+		desc: "Has a 50% chance to burn the target.",
+		shortDesc: "50% chance to burn the target.",
+		name: "Hot Pursuit",
+		gen: 8,
+		pp: 15,
+		priority: 1,
+		onPrepareHit(target, source, move) {
+			this.attrLastMove('[anim] Pursuit');
+		},
+		onHit(target, source, move) {
+			if (source.isActive) target.addVolatile('supertrapped', source, move, 'trapper');
+		},
+		flags: {protect: 1, mirror: 1},
+		beforeTurnCallback(pokemon) {
+			for (const side of this.sides) {
+				if (side.hasAlly(pokemon)) continue;
+				side.addSideCondition('hotpursuit', pokemon);
+				const data = side.getSideConditionData('hotpursuit');
+				if (!data.sources) {
+					data.sources = [];
+				}
+				data.sources.push(pokemon);
+			}
+		},
+		onModifyMove(move, source, target) {
+			if (target?.beingCalledBack || target?.switchFlag) {
+				move.accuracy = true;
+				move.multihit = 2;
+				move.multihitType = 'hotpursuit';
+			} else {
+				if (this.queue.willMove(target)) {
+					move.multihit = 2;
+					move.multihitType = 'hotpursuit';
+				}
+			}
+		},
+		onTryHit(target, pokemon) {
+			target.side.removeSideCondition('hotpursuit');
+		},
+		condition: {
+			duration: 1,
+			onBeforeSwitchOut(pokemon) {
+				this.debug('Pursuit start');
+				let alreadyAdded = false;
+				pokemon.removeVolatile('destinybond');
+				for (const source of this.effectState.sources) {
+					if (!this.queue.cancelMove(source) || !source.hp) continue;
+					if (!alreadyAdded) {
+						this.add('-activate', pokemon, 'move: Hot Pursuit');
+						alreadyAdded = true;
+					}
+					// Run through each action in queue to check if the Pursuit user is supposed to Mega Evolve this turn.
+					// If it is, then Mega Evolve before moving.
+					if (source.canMegaEvo || source.canUltraBurst) {
+						for (const [actionIndex, action] of this.queue.entries()) {
+							if (action.pokemon === source && action.choice === 'megaEvo') {
+								this.actions.runMegaEvo(source);
+								this.queue.list.splice(actionIndex, 1);
+								break;
+							}
+						}
+					}
+					this.actions.runMove('hotpursuit', source, source.getLocOf(pokemon));
+				}
+			},
+		},
+		secondary: null,
+		target: "normal",
 		type: "Fire",
 	},
 	// Empo

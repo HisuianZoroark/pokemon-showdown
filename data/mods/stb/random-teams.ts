@@ -53,6 +53,12 @@ export const stbSets: STBSets = {
 		signatureMove: 'Thunderwave Fists',
 		evs: {atk: 252, def: 4, spe: 252}, nature: 'Jolly', shiny: true,
 	},
+	Earthworm: {
+		species: 'Heatran', ability: 'Flash Fire', item: 'Leftovers', gender: 'M',
+		moves: ['Magma Storm', 'Earth Power', 'Taunt'],
+		signatureMove: 'Hot Pursuit',
+		evs: {spa: 252, spd: 4, spe: 252}, nature: 'Timid',
+	},
 	Empo: {
 		species: 'Grovyle', ability: 'Time Tripper', item: 'Eviolite', gender: 'M',
 		moves: ['Swords Dance', 'Leaf Blade', 'Close Combat'],
