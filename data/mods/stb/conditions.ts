@@ -111,6 +111,30 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Heroic Troller')}|I see`);
 		},
 	},
+	heroictroller: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Heroic Troller')}|Ratio`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Heroic Troller')}|Not yet`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Heroic Troller')}|I see`);
+		},
+	},
+	instructuser: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Instruct')}|woo yeah dragalge`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Instruct')}|man, i love dragalge`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Instruct')}|NOOOOO DRAGALGE`);
+		},
+	},
 	punny: {
 		noCopy: true,
 		onStart() {

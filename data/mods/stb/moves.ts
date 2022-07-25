@@ -304,6 +304,52 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		target: "normal",
 		type: "Ghost",
 	},
+	// Instruct
+	norineurotoxin: {
+		accuracy: 100,
+		basePower: 75,
+		category: "Special",
+		desc: "If this move is successful and the user has not fainted, the user switches out even if it is trapped and is replaced immediately by a selected party member. The user's replacement gets Adaptability on top of their existing ability, and cannot be ignored or suppressed. The user does not switch out if there are no unfainted party members, or if the target switched out using an Eject Button or through the effect of the Emergency Exit or Wimp Out Abilities.",
+		shortDesc: "User switches out. Replacement gets Adaptability.",
+		name: "Nori Neurotoxin",
+		gen: 8,
+		pp: 20,
+		priority: 0,
+		flags: {protect: 1, mirror: 1},
+		onPrepareHit(target, source, move) {
+			this.attrLastMove('[anim] Sludge Wave');
+			this.attrLastMove('[anim] Parting Shot');
+		},
+		self: {
+			sideCondition: 'norineurotoxin',
+		},
+		condition: {
+			duration: 1,
+			onSideStart(side, source) {
+				this.debug('Nori Neurotoxin started on ' + side.name);
+				this.effectState.positions = [];
+				for (const i of side.active.keys()) {
+					this.effectState.positions[i] = false;
+				}
+				this.effectState.positions[source.position] = true;
+			},
+			onSideRestart(side, source) {
+				this.effectState.positions[source.position] = true;
+			},
+			onSwitchInPriority: 1,
+			onSwitchIn(target) {
+				this.add('-activate', target, 'move: Nori Neurotoxin');
+				if (target.addVolatile('ability:adaptability')) {
+					this.add('-start', target, 'adaptability', '[silent]');
+					this.add('-message', `${target.name} has innate adaptability!`);
+				}
+			},
+		},
+		selfSwitch: true,
+		secondary: null,
+		target: "normal",
+		type: "Poison",
+	},
 	// Punny
 	fairypower: {
 		accuracy: 100,

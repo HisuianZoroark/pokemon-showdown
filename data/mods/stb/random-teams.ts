@@ -71,6 +71,12 @@ export const stbSets: STBSets = {
 		signatureMove: 'Shadow End',
 		evs: {hp: 248, atk: 252, spd: 8}, nature: 'Adamant',
 	},
+	Instruct: {
+		species: 'Dragalge', ability: 'Regenerator', item: 'Assault Vest', gender: 'M',
+		moves: ['Core Enforcer', 'Clear Smog', 'Knock Off'],
+		signatureMove: 'Nori Neurotoxin',
+		evs: {hp: 252, def: 4, spd: 252}, ivs: {spe: 0}, nature: 'Sassy',
+	},
 	Punny: {
 		species: 'Clefable', ability: 'Magic Guard', item: 'Leftovers', gender: 'M',
 		moves: ['Soft Boiled', 'Quiver Dance', 'Lava Plume'],
