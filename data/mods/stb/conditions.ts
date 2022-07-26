@@ -111,16 +111,16 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Heroic Troller')}|I see`);
 		},
 	},
-	heroictroller: {
+	lax: {
 		noCopy: true,
 		onStart() {
-			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Heroic Troller')}|Ratio`);
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('lax')}|@Astamatitos and I would love to manage a team together`);
 		},
 		onSwitchOut() {
-			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Heroic Troller')}|Not yet`);
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('lax')}|We will be subbing ima out for blarghfarghl @FlamingVictini`);
 		},
 		onFaint() {
-			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Heroic Troller')}|I see`);
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('lax')}|ya ok dogshit game`);
 		},
 	},
 	instructuser: {
@@ -145,6 +145,18 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 		},
 		onFaint() {
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Punny')}|Gasp..`);
+		},
+	},
+	tj: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('TJ')}|Plus 6, knock 'em out, even if they Sassy`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('TJ')}|B-B-B-B-B-Beatdown and I'm out`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('TJ')}|pop smoke`);
 		},
 	},
 	z0mog: {

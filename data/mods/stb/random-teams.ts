@@ -77,11 +77,23 @@ export const stbSets: STBSets = {
 		signatureMove: 'Nori Neurotoxin',
 		evs: {hp: 252, def: 4, spd: 252}, ivs: {spe: 0}, nature: 'Sassy',
 	},
+	lax: {
+		species: 'Munchlax', ability: 'Protean', item: 'Eviolite', gender: 'M',
+		moves: ['Mega Kick', 'Fishious Rend', 'Precipice Blades'],
+		signatureMove: 'Whine and Dine',
+		evs: {hp: 128, atk: 128, spe: 252}, nature: 'Jolly',
+	},
 	Punny: {
 		species: 'Clefable', ability: 'Magic Guard', item: 'Leftovers', gender: 'M',
 		moves: ['Soft Boiled', 'Quiver Dance', 'Lava Plume'],
 		signatureMove: 'Fairy Power',
 		evs: {hp: 252, def: 252, spe: 4}, nature: 'Bold',
+	},
+	TJ: {
+		species: 'Throh', ability: 'Huge Power', item: 'Choice Band', gender: 'M',
+		moves: ['U-turn', 'Ice Punch', 'Earthquake'],
+		signatureMove: 'Ninja Punch',
+		evs: {hp: 252, spd: 4, spe: 252}, nature: 'Adamant',
 	},
 	z0mOG: {
 		species: 'Obstagoon', ability: 'Comatose', item: 'Choice Band', gender: 'M',

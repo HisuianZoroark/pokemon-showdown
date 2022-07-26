@@ -350,6 +350,31 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		target: "normal",
 		type: "Poison",
 	},
+	// lax
+	whineanddine: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		desc: "Raises the user's Speed by 6 stages and its Attack and Accuracy by 2 stages.",
+		shortDesc: "Raises the user's Spe by 6 and Atk/Acc by 2.",
+		name: "Whine and Dine",
+		gen: 8,
+		pp: 4,
+		noPPBoosts: true,
+		priority: 2,
+		flags: {snatch: 1},
+		onPrepareHit(target, source, move) {
+			this.attrLastMove('[anim] Stockpile');
+		},
+		boosts: {
+			atk: 2,
+			accuracy: 2,
+			spe: 6,
+		},
+		secondary: null,
+		target: "self",
+		type: "Ghost",
+	},
 	// Punny
 	fairypower: {
 		accuracy: 100,
@@ -378,6 +403,28 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		},
 		target: "normal",
 		type: "Fairy",
+	},
+	// TJ
+	ninjapunch: {
+		accuracy: 100,
+		basePower: 150,
+		category: "Physical",
+		desc: "This move is always a critical hit unless the target is under the effect of Lucky Chant or has the Battle Armor or Shell Armor Abilities. This move can hit Ghost-type Pokemon.",
+		shortDesc: "Always results in a critical hit. Hits Ghost.",
+		name: "Ninja Punch",
+		gen: 8,
+		pp: 4,
+		noPPBoosts: true,
+		priority: 2,
+		flags: {protect: 1, mirror: 1},
+		onPrepareHit(target, source, move) {
+			this.attrLastMove('[anim] Mach Punch');
+		},
+		willCrit: true,
+		ignoreImmunity: true,
+		secondary: null,
+		target: "normal",
+		type: "Fighting",
 	},
 	// z0mOG
 	sleepwalk: {
