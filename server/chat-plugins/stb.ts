@@ -396,7 +396,7 @@ function STBSets(target: string) {
 	return buf;
 }
 export const commands: Chat.ChatCommands = {
-  stb(target, room, user) {
+	stb(target, room, user) {
 		if (!this.runBroadcast()) return;
 		if (!target) return this.parse(`/help stb`);
 		const set = STBSets(target);
