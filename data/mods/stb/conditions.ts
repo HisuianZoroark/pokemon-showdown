@@ -171,21 +171,4 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('z0mOG')}|https://youtube.com/z0mmm shameless plug`);
 		},
 	},
-	// For Hot Pursuit
-	supertrapped: {
-		noCopy: true,
-		onTrapPokemon(pokemon) {
-			pokemon.trapped = true;
-		},
-		onSwitchOut() {
-			return false;
-		},
-		onUpdate(pokemon) {
-			if (pokemon.switchFlag) pokemon.switchFlag = false;
-			if (pokemon.forceSwitchFlag) pokemon.forceSwitchFlag = false;
-		},
-		onStart(target) {
-			this.add('-activate', target, 'trapped');
-		},
-	},
 };

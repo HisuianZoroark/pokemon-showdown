@@ -48,7 +48,7 @@ export const stbSets: STBSets = {
 		evs: {atk: 252, def: 4, spe: 252}, nature: 'Adamant',
 	},
 	Bushtush: {
-		species: 'Electivire', ability: 'Huge Power', item: 'Leftovers', gender: 'M',
+		species: 'Electivire', ability: 'Intrepid Sword', item: 'Leftovers', gender: 'M',
 		moves: ['Dragon Dance', 'Close Combat', 'Glacial Lance'],
 		signatureMove: 'Thunderwave Fists',
 		evs: {atk: 252, def: 4, spe: 252}, nature: 'Jolly', shiny: true,

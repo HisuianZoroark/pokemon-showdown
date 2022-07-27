@@ -75,7 +75,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		pp: 12,
 		noPPBoosts: true,
 		priority: 0,
-		flags: {protect: 1, mirror: 1},
+		flags: {contact: 1, protect: 1, punch: 1, mirror: 1},
 		onPrepareHit(target, source, move) {
 			this.attrLastMove('[anim] Plasma Fists');
 		},
@@ -137,17 +137,14 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		accuracy: 100,
 		basePower: 60,
 		category: "Special",
-		desc: "If an opposing Pokemon switches out this turn, this move hits that Pokemon before it leaves the field, even if it was not the original target. If the user moves after an opponent using Flip Turn, Parting Shot, Teleport, U-turn, or Volt Switch, but not Baton Pass, it will hit that opponent before it leaves the field. The move hits twice and no accuracy check is done if the user hits an opponent switching out and if the opponent does not attack, and the user's turn is over; if an opponent faints from this, the replacement Pokemon does not become active until the end of the turn. The opposing Pokemon cannot is trapped and cannot switch out, even through the use of a move like Volt Switch.",
-		shortDesc: "If a foe is switching out, hits 2x. Traps foe.",
+		desc: "If an opposing Pokemon switches out this turn, this move hits that Pokemon before it leaves the field, even if it was not the original target. If the user moves after an opponent using Flip Turn, Parting Shot, Teleport, U-turn, or Volt Switch, but not Baton Pass, it will hit that opponent before it leaves the field. The move hits twice and no accuracy check is done if the user hits an opponent switching out; if an opponent faints from this, the replacement Pokemon does not become active until the end of the turn. The opposing Pokemon cannot switch out the turn this move is used, even through the use of a move like Volt Switch.",
+		shortDesc: "If a foe is switching out, hits 2x. Stops switch.",
 		name: "Hot Pursuit",
 		gen: 8,
 		pp: 15,
 		priority: 1,
 		onPrepareHit(target, source, move) {
 			this.attrLastMove('[anim] Pursuit');
-		},
-		onHit(target, source, move) {
-			if (source.isActive) target.addVolatile('supertrapped', source, move, 'trapper');
 		},
 		flags: {protect: 1, mirror: 1},
 		beforeTurnCallback(pokemon) {
@@ -177,6 +174,9 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			onUpdate(pokemon) {
 				if (pokemon.switchFlag) pokemon.switchFlag = false;
 				if (pokemon.forceSwitchFlag) pokemon.forceSwitchFlag = false;
+			},
+			onSwitchOut() {
+				return false;
 			},
 			onBeforeSwitchOut(pokemon) {
 				this.debug('Pursuit start');
@@ -309,7 +309,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		accuracy: 100,
 		basePower: 75,
 		category: "Special",
-		desc: "If this move is successful and the user has not fainted, the user switches out even if it is trapped and is replaced immediately by a selected party member. The user's replacement gets Adaptability on top of their existing ability, and cannot be ignored or suppressed. The user does not switch out if there are no unfainted party members, or if the target switched out using an Eject Button or through the effect of the Emergency Exit or Wimp Out Abilities.",
+		desc: "If this move is successful and the user has not fainted, the user switches out even if it is trapped and is replaced immediately by a selected party member. The user's replacement gets Adaptability on top of their existing ability if the replacement doesn't have Adaptability already, and cannot be ignored or suppressed. The user does not switch out if there are no unfainted party members, or if the target switched out using an Eject Button or through the effect of the Emergency Exit or Wimp Out Abilities.",
 		shortDesc: "User switches out. Replacement gets Adaptability.",
 		name: "Nori Neurotoxin",
 		gen: 8,
@@ -338,6 +338,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			},
 			onSwitchInPriority: 1,
 			onSwitchIn(target) {
+				if (target.hasAbility('adaptability')) return;
 				this.add('-activate', target, 'move: Nori Neurotoxin');
 				if (target.addVolatile('ability:adaptability')) {
 					this.add('-start', target, 'adaptability', '[silent]');
@@ -355,13 +356,12 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		accuracy: true,
 		basePower: 0,
 		category: "Status",
-		desc: "Raises the user's Speed by 6 stages and its Attack and Accuracy by 2 stages.",
-		shortDesc: "Raises the user's Spe by 6 and Atk/Acc by 2.",
+		desc: "Raises the user's Speed by 3 stages and its Attack and Accuracy by 2 stages.",
+		shortDesc: "Raises the user's Spe by 3 and Atk/Acc by 2.",
 		name: "Whine and Dine",
 		gen: 8,
-		pp: 4,
-		noPPBoosts: true,
-		priority: 2,
+		pp: 5,
+		priority: 1,
 		flags: {snatch: 1},
 		onPrepareHit(target, source, move) {
 			this.attrLastMove('[anim] Stockpile');
@@ -369,7 +369,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		boosts: {
 			atk: 2,
 			accuracy: 2,
-			spe: 6,
+			spe: 3,
 		},
 		secondary: null,
 		target: "self",
@@ -384,7 +384,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		},
 		category: "Special",
 		desc: "Power is equal to 30+(X*20), where X is the user's total stat stage changes that are greater than 0. Has an 100% chance to raise the user's Defense by 1 stage.",
-		shortDesc: "+20 BP each user's stat boosts. 100% chance user's Def +1.",
+		shortDesc: "+20 BP each user's boosts. 100% user's Def +1.",
 		name: "Fairy Power",
 		gen: 8,
 		pp: 15,
@@ -407,16 +407,15 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	// TJ
 	ninjapunch: {
 		accuracy: 100,
-		basePower: 150,
+		basePower: 75,
 		category: "Physical",
 		desc: "This move is always a critical hit unless the target is under the effect of Lucky Chant or has the Battle Armor or Shell Armor Abilities. This move can hit Ghost-type Pokemon.",
 		shortDesc: "Always results in a critical hit. Hits Ghost.",
 		name: "Ninja Punch",
 		gen: 8,
-		pp: 4,
-		noPPBoosts: true,
-		priority: 2,
-		flags: {protect: 1, mirror: 1},
+		pp: 5,
+		priority: 1,
+		flags: {contact: 1, protect: 1, punch: 1, mirror: 1},
 		onPrepareHit(target, source, move) {
 			this.attrLastMove('[anim] Mach Punch');
 		},
@@ -431,7 +430,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		accuracy: 100,
 		basePower: 120,
 		category: "Physical",
-		desc: "Can only be selected while user is asleep. 50% chance to be dark type and 50% chance to be normal type. Lowers target defense 100%.",
+		desc: "Can only be selected while user is asleep. This move 50% chance to be Dark-type and a 50% chance to be Normal-type. Has a 100% chance to lower the target's Defense by 1 stage.",
 		shortDesc: "50% Dark/Normal. Must be asleep. 100% -1 Def.",
 		name: "Sleep Walk",
 		gen: 8,
