@@ -174,9 +174,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			onUpdate(pokemon) {
 				if (pokemon.switchFlag) pokemon.switchFlag = false;
 				if (pokemon.forceSwitchFlag) pokemon.forceSwitchFlag = false;
-			},
-			onSwitchOut() {
-				return false;
+				pokemon.addVolatile('preventswitch');
 			},
 			onBeforeSwitchOut(pokemon) {
 				this.debug('Pursuit start');
@@ -374,6 +372,55 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		secondary: null,
 		target: "self",
 		type: "Ghost",
+	},
+	// McMeghan
+	flycare: {
+		accuracy: 100,
+		basePower: 50,
+		category: "Special",
+		desc: "This Pokemon heals 1/3rd of its maximum HP, rounded down, if target wasn't already damaged this turn. If this move is successful and the user has not fainted, the user switches out even if it is trapped and is replaced immediately by a selected party member. The user's replacement gets their Attack and Special Attack raised by 1 stage. The user does not switch out if there are no unfainted party members, or if the target switched out using an Eject Button or through the effect of the Emergency Exit or Wimp Out Abilities.",
+		shortDesc: "Switches.Heals 1/3 if foe isn't hurt.+1 Atk/SpA to replacement.",
+		name: "Flycare",
+		gen: 8,
+		pp: 10,
+		priority: 0,
+		flags: {protect: 1, mirror: 1},
+		onPrepareHit(target, source, move) {
+			this.attrLastMove('[anim] U-turn');
+		},
+		onModifyMove(move, pokemon, target) {
+			if (!target.hurtThisTurn) {
+				move.self.onHit = function(source, t, m) {
+					this.heal(source.baseMaxhp / 3, source, source, m);
+				};
+			}
+		},
+		self: {
+			sideCondition: 'flycare',
+		},
+		condition: {
+			duration: 1,
+			onSideStart(side, source) {
+				this.debug('Flycare started on ' + side.name);
+				this.effectState.positions = [];
+				for (const i of side.active.keys()) {
+					this.effectState.positions[i] = false;
+				}
+				this.effectState.positions[source.position] = true;
+			},
+			onSideRestart(side, source) {
+				this.effectState.positions[source.position] = true;
+			},
+			onSwitchInPriority: 1,
+			onSwitchIn(target) {
+				this.add('-activate', target, 'move: Flycare');
+				this.boost({atk: 1, spa: 1}, target, null, this.dex.getActiveMove('flycare'));
+			},
+		},
+		selfSwitch: true,
+		secondary: null,
+		target: "normal",
+		type: "Flying",
 	},
 	// Punny
 	fairypower: {

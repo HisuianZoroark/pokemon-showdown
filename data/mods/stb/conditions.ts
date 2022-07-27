@@ -123,6 +123,18 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('lax')}|ya ok dogshit game`);
 		},
 	},
+	mcmeghan: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('McMeghan')}|wassup`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('McMeghan')}|gone`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('McMeghan')}|Dreamcatcher`);
+		},
+	},
 	instructuser: {
 		noCopy: true,
 		onStart() {
@@ -169,6 +181,15 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 		},
 		onFaint() {
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('z0mOG')}|https://youtube.com/z0mmm shameless plug`);
+		},
+	},
+	// Custom Move effects start Here
+	// Hot Pursuit switch cancelling
+	preventswitch: {
+		noCopy: true,
+		duration: 1,
+		onSwitchOut() {
+			return false;
 		},
 	},
 };

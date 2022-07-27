@@ -83,6 +83,12 @@ export const stbSets: STBSets = {
 		signatureMove: 'Whine and Dine',
 		evs: {hp: 128, atk: 128, spe: 252}, nature: 'Jolly',
 	},
+	McMeghan: {
+		species: 'Zapdos', ability: 'Iron Barbs', item: 'Heavy-Duty Boots', gender: 'N',
+		moves: ['Discharge', 'Roost', 'Heat Wave'],
+		signatureMove: 'Flycare',
+		evs: {hp: 248, def: 220, spe: 40}, nature: 'Timid',
+	},
 	Punny: {
 		species: 'Clefable', ability: 'Magic Guard', item: 'Leftovers', gender: 'M',
 		moves: ['Soft Boiled', 'Quiver Dance', 'Lava Plume'],
