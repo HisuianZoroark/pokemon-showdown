@@ -91,7 +91,7 @@ export const stbSets: STBSets = {
 	},
 	Punny: {
 		species: 'Clefable', ability: 'Magic Guard', item: 'Leftovers', gender: 'M',
-		moves: ['Soft Boiled', 'Quiver Dance', 'Lava Plume'],
+		moves: ['Soft Boiled', 'Calm Mind', 'Lava Plume'],
 		signatureMove: 'Fairy Power',
 		evs: {hp: 252, def: 252, spe: 4}, nature: 'Bold',
 	},

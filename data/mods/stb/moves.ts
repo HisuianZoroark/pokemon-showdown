@@ -137,12 +137,12 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		accuracy: 100,
 		basePower: 60,
 		category: "Special",
-		desc: "If an opposing Pokemon switches out this turn, this move hits that Pokemon before it leaves the field, even if it was not the original target. If the user moves after an opponent using Flip Turn, Parting Shot, Teleport, U-turn, or Volt Switch, but not Baton Pass, it will hit that opponent before it leaves the field. The move hits twice and no accuracy check is done if the user hits an opponent switching out; if an opponent faints from this, the replacement Pokemon does not become active until the end of the turn. The opposing Pokemon cannot switch out the turn this move is used, even through the use of a move like Volt Switch.",
+		desc: "If an opposing Pokemon switches out this turn, this move hits that Pokemon before it leaves the field, even if it was not the original target. If the user moves after an opponent using Flip Turn, Parting Shot, Teleport, U-turn, or Volt Switch, but not Baton Pass, it will hit that opponent before it leaves the field. The move hits twice if the user hits an opponent switching out; if an opponent faints from this, the replacement Pokemon does not become active until the end of the turn. The opposing Pokemon cannot switch out the turn this move is used, even through the use of a move like Volt Switch.",
 		shortDesc: "If a foe is switching out, hits 2x. Stops switch.",
 		name: "Hot Pursuit",
 		gen: 8,
 		pp: 15,
-		priority: 1,
+		priority: 0,
 		onPrepareHit(target, source, move) {
 			this.attrLastMove('[anim] Pursuit');
 		},
@@ -160,10 +160,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		},
 		onModifyMove(move, source, target) {
 			if (target?.beingCalledBack || target?.switchFlag) {
-				move.accuracy = true;
-				if (target.beingCalledBack || this.queue.willMove(target)) {
-					move.multihit = 2;
-				}
+				move.multihit = 2;
 			}
 		},
 		onTryHit(target, pokemon) {
@@ -177,7 +174,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 				pokemon.addVolatile('preventswitch');
 			},
 			onBeforeSwitchOut(pokemon) {
-				this.debug('Pursuit start');
+				this.debug('Hot Pursuit start');
 				let alreadyAdded = false;
 				pokemon.removeVolatile('destinybond');
 				pokemon.switchFlag = false;
@@ -233,18 +230,18 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	// Heroic Troller
 	shadowend: {
 		accuracy: 100,
-		basePower: 110,
+		basePower: 95,
 		basePowerCallback(pokemon, target, move) {
 			// You can't get here unless the pursuit succeeds
 			if (target.beingCalledBack || target.switchFlag) {
 				this.debug('Pursuit damage boost');
-				return move.basePower + 60;
+				return move.basePower + 40;
 			}
 			return move.basePower;
 		},
 		category: "Physical",
-		desc: "This move can hit Normal-type Pokemon. If an opposing Pokemon switches out this turn, this move hits that Pokemon before it leaves the field, even if it was not the original target. If the user moves after an opponent using Flip Turn, Parting Shot, Teleport, U-turn, or Volt Switch, but not Baton Pass, it will hit that opponent before it leaves the field. Power increases by 60 and no accuracy check is done if the user hits an opponent switching out, and the user's turn is over; if an opponent faints from this, the replacement Pokemon does not become active until the end of the turn.",
-		shortDesc: "If a foe is switching out, +60 BP. Hits Normal.",
+		desc: "This move can hit Normal-type Pokemon. If an opposing Pokemon switches out this turn, this move hits that Pokemon before it leaves the field, even if it was not the original target. If the user moves after an opponent using Flip Turn, Parting Shot, Teleport, U-turn, or Volt Switch, but not Baton Pass, it will hit that opponent before it leaves the field. Power increases by 40 and no accuracy check is done if the user hits an opponent switching out, and the user's turn is over; if an opponent faints from this, the replacement Pokemon does not become active until the end of the turn.",
+		shortDesc: "If a foe is switching out, +40 BP. Hits Normal.",
 		name: "Shadow End",
 		gen: 8,
 		pp: 5,
@@ -359,7 +356,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		name: "Whine and Dine",
 		gen: 8,
 		pp: 5,
-		priority: 1,
+		priority: 0,
 		flags: {snatch: 1},
 		onPrepareHit(target, source, move) {
 			this.attrLastMove('[anim] Stockpile');
@@ -379,7 +376,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		basePower: 50,
 		category: "Special",
 		desc: "This Pokemon heals 1/3rd of its maximum HP, rounded down, if target wasn't already damaged this turn. If this move is successful and the user has not fainted, the user switches out even if it is trapped and is replaced immediately by a selected party member. The user's replacement gets their Attack and Special Attack raised by 1 stage. The user does not switch out if there are no unfainted party members, or if the target switched out using an Eject Button or through the effect of the Emergency Exit or Wimp Out Abilities.",
-		shortDesc: "Switches.Heals 1/3 if foe isn't hurt.+1 Atk/SpA to replacement.",
+		shortDesc: "Recovers 1/3, switches, +1 Atk/Spa to switch-in.",
 		name: "Flycare",
 		gen: 8,
 		pp: 10,
@@ -454,10 +451,10 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	// TJ
 	ninjapunch: {
 		accuracy: 100,
-		basePower: 75,
+		basePower: 80,
 		category: "Physical",
-		desc: "This move is always a critical hit unless the target is under the effect of Lucky Chant or has the Battle Armor or Shell Armor Abilities. This move can hit Ghost-type Pokemon.",
-		shortDesc: "Always results in a critical hit. Hits Ghost.",
+		desc: "Has a higher chance for a critical hit. This move can hit Ghost-type Pokemon.",
+		shortDesc: "High critical hit ratio. Hits Ghost.",
 		name: "Ninja Punch",
 		gen: 8,
 		pp: 5,
@@ -466,7 +463,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		onPrepareHit(target, source, move) {
 			this.attrLastMove('[anim] Mach Punch');
 		},
-		willCrit: true,
+		critRatio: 2,
 		ignoreImmunity: true,
 		secondary: null,
 		target: "normal",
