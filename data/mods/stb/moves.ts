@@ -169,8 +169,14 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		condition: {
 			duration: 1,
 			onUpdate(pokemon) {
-				if (pokemon.switchFlag) pokemon.switchFlag = false;
-				if (pokemon.forceSwitchFlag) pokemon.forceSwitchFlag = false;
+				if (pokemon.switchFlag) {
+					pokemon.switchFlag = false;
+					this.hint('Hot Pursuit prevented the switch from going through.');
+				}
+				if (pokemon.forceSwitchFlag) {
+					pokemon.forceSwitchFlag = false;
+					this.hint('Hot Pursuit prevented the switch from going through.');
+				}
 				pokemon.addVolatile('preventswitch');
 			},
 			onBeforeSwitchOut(pokemon) {

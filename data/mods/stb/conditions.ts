@@ -213,12 +213,18 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 		noCopy: true,
 		duration: 1,
 		onSwitchOut() {
-			this.hint('Hot Pursuit prevented the switch from going through.')
+			this.hint('Hot Pursuit prevented the switch from going through.');
 			return false;
 		},
 		onUpdate(pokemon) {
-			if (pokemon.switchFlag) pokemon.switchFlag = false;
-			if (pokemon.forceSwitchFlag) pokemon.forceSwitchFlag = false;
+			if (pokemon.switchFlag) {
+				pokemon.switchFlag = false;
+				this.hint('Hot Pursuit prevented the switch from going through.');
+			}
+			if (pokemon.forceSwitchFlag) {
+				pokemon.forceSwitchFlag = false;
+				this.hint('Hot Pursuit prevented the switch from going through.');
+			}
 		},
 	},
 };
