@@ -66,7 +66,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	// Bushtush
 	thunderwavefists: {
 		accuracy: 100,
-		basePower: 120,
+		basePower: 110,
 		category: "Physical",
 		desc: "Has a 30% chance to paralyze the target.",
 		shortDesc: "30% chance to paralyze the target.",
@@ -208,8 +208,8 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		accuracy: 100,
 		basePower: 0,
 		category: "Status",
-		desc: "Freezes the target. Sets Sticky Web.",
-		shortDesc: "Freezes the target. Sets Sticky Web.",
+		desc: "Freezes the target. Sets Tailwind.",
+		shortDesc: "Freezes the target. Sets Tailwind.",
 		name: "Time Stopper",
 		gen: 8,
 		pp: 1,
@@ -220,12 +220,32 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			this.attrLastMove('[anim] Sheer Cold');
 		},
 		onHit(target, source, move) {
-			source.side.foe.addSideCondition('stickyweb');
+			source.side.addSideCondition('tailwind');
 			target.trySetStatus('frz', source, move);
 		},
 		secondary: null,
 		target: "normal",
 		type: "Ice",
+	},
+	// Finchinator
+	aftermaths: {
+		accuracy: 100,
+		basePower: 30,
+		category: "Physical",
+		desc: "Hits two to five times. Has a 35% chance to hit two or three times and a 15% chance to hit four or five times. If one of the hits breaks the target's substitute, it will take damage for the remaining hits. If the user has the Skill Link Ability, this move will always hit five times.",
+		shortDesc: "Hits 2-5 times in one turn.",
+		name: "Aftermaths",
+		gen: 8,
+		pp: 10,
+		priority: 0,
+		flags: {protect: 1, mirror: 1},
+		onPrepareHit(target, source, move) {
+			this.attrLastMove('[anim] Earthquake');
+		},
+		multihit: [2, 5],
+		secondary: null,
+		target: "normal",
+		type: "Ground",
 	},
 	// Heroic Troller
 	shadowend: {
@@ -240,8 +260,8 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			return move.basePower;
 		},
 		category: "Physical",
-		desc: "This move can hit Normal-type Pokemon. If an opposing Pokemon switches out this turn, this move hits that Pokemon before it leaves the field, even if it was not the original target. If the user moves after an opponent using Flip Turn, Parting Shot, Teleport, U-turn, or Volt Switch, but not Baton Pass, it will hit that opponent before it leaves the field. Power increases by 40 and no accuracy check is done if the user hits an opponent switching out, and the user's turn is over; if an opponent faints from this, the replacement Pokemon does not become active until the end of the turn.",
-		shortDesc: "If a foe is switching out, +40 BP. Hits Normal.",
+		desc: "If an opposing Pokemon switches out this turn, this move hits that Pokemon before it leaves the field, even if it was not the original target. If the user moves after an opponent using Flip Turn, Parting Shot, Teleport, U-turn, or Volt Switch, but not Baton Pass, it will hit that opponent before it leaves the field. Power increases by 40 if the user hits an opponent switching out, and the user's turn is over; if an opponent faints from this, the replacement Pokemon does not become active until the end of the turn.",
+		shortDesc: "If a foe is switching out, +40 BP.",
 		name: "Shadow End",
 		gen: 8,
 		pp: 5,
@@ -451,10 +471,10 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	// TJ
 	ninjapunch: {
 		accuracy: 100,
-		basePower: 80,
+		basePower: 65,
 		category: "Physical",
-		desc: "Has a higher chance for a critical hit. This move can hit Ghost-type Pokemon.",
-		shortDesc: "High critical hit ratio. Hits Ghost.",
+		desc: "Has a higher chance for a critical hit.",
+		shortDesc: "High critical hit ratio.",
 		name: "Ninja Punch",
 		gen: 8,
 		pp: 5,
@@ -464,7 +484,29 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			this.attrLastMove('[anim] Mach Punch');
 		},
 		critRatio: 2,
-		ignoreImmunity: true,
+		secondary: null,
+		target: "normal",
+		type: "Fighting",
+	},
+	// Welli0u
+	supermanpunch: {
+		accuracy: 100,
+		basePower: 60,
+		category: "Physical",
+		desc: "Raises the user's Attack, Defense, Special Attack, Special Defense, and Speed by 1 if this move knocks out the target.",
+		shortDesc: "Raises all stats by 1 if this KOes the target.",
+		name: "SuperManPunch",
+		gen: 8,
+		pp: 10,
+		flags: {contact: 1, protect: 1, punch: 1, mirror: 1},
+		onPrepareHit(target, source, move) {
+			this.attrLastMove('[anim] Dynamic Punch');
+		},
+		onAfterMoveSecondarySelf(pokemon, target, move) {
+			if (!target || target.fainted || target.hp <= 0) {
+				this.boost({atk: 1, def: 1, spa: 1, spd: 1, spe: 1}, pokemon, pokemon, move);
+			}
+		},
 		secondary: null,
 		target: "normal",
 		type: "Fighting",

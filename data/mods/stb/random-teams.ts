@@ -49,7 +49,7 @@ export const stbSets: STBSets = {
 	},
 	Bushtush: {
 		species: 'Electivire', ability: 'Intrepid Sword', item: 'Leftovers', gender: 'M',
-		moves: ['Dragon Dance', 'Close Combat', 'Glacial Lance'],
+		moves: ['Dragon Dance', 'Close Combat', 'Icicle Crash'],
 		signatureMove: 'Thunderwave Fists',
 		evs: {atk: 252, def: 4, spe: 252}, nature: 'Jolly', shiny: true,
 	},
@@ -64,6 +64,12 @@ export const stbSets: STBSets = {
 		moves: ['Swords Dance', 'Leaf Blade', 'Close Combat'],
 		signatureMove: 'Time Stopper',
 		evs: {atk: 252, def: 4, spe: 252}, nature: 'Adamant',
+	},
+	Finchinator: {
+		species: 'Garchomp', ability: 'Skill Link', item: 'Life Orb', gender: '',
+		moves: ['Swords Dance', 'Scale Shot', 'Aqua Tail'],
+		signatureMove: 'Aftermaths',
+		evs: {atk: 252, spd: 4, spe: 252}, nature: 'Jolly',
 	},
 	'Heroic Troller': {
 		species: 'Dusknoir', ability: 'Timeline Reversal', item: 'Choice Band', gender: 'M',
@@ -100,6 +106,12 @@ export const stbSets: STBSets = {
 		moves: ['U-turn', 'Ice Punch', 'Earthquake'],
 		signatureMove: 'Ninja Punch',
 		evs: {hp: 252, spd: 4, spe: 252}, nature: 'Adamant',
+	},
+	Welli0u: {
+		species: 'Kommo-o', ability: 'Technician', item: 'Leftovers', gender: '',
+		moves: ['Swords Dance', 'Scale Shot', 'Poison Jab'],
+		signatureMove: 'SuperManPunch',
+		evs: {atk: 252, spd: 4, spe: 252}, nature: 'Adamant',
 	},
 	z0mOG: {
 		species: 'Obstagoon', ability: 'Comatose', item: 'Choice Band', gender: 'M',

@@ -99,6 +99,18 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Empo')}|Grovyle was revived! ...thought it was the right one... looking closer this is... not a Reviver Seed but a Reviser Seed!`);
 		},
 	},
+	finchinator: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Finchinator')}|FINCHTOUR`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Finchinator')}|FINCHTOUR`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Finchinator')}|FINCHTOUR`);
+		},
+	},
 	heroictroller: {
 		noCopy: true,
 		onStart() {
@@ -169,6 +181,18 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 		},
 		onFaint() {
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('TJ')}|pop smoke`);
+		},
+	},
+	welli0u: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Welli0u')}|ACKNOWLEDGE MEEEE`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Welli0u')}|My swag is off the charts.`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Welli0u')}|I SAID I WOULD DO IT AND I DID`);
 		},
 	},
 	z0mog: {
