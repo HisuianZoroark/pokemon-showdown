@@ -1,6 +1,7 @@
 ﻿// Note: These are the rules that formats use
 
 import {Utils} from "../lib";
+import {Pokemon} from "../sim/pokemon";
 
 // The list of formats is stored in config/formats.js
 export const Rulesets: {[k: string]: FormatData} = {
@@ -398,6 +399,29 @@ export const Rulesets: {[k: string]: FormatData} = {
 			}
 		},
 	},
+	forceselect: {
+		effectType: 'ValidatorRule',
+		name: 'Force Select',
+		desc: `Forces a Pokemon to be on the team and selected at Team Preview. Usage: Force Select = [Pokemon], e.g. "Force Select = Magikarp"`,
+		hasValue: true,
+		onValidateRule(value) {
+			if (!this.dex.species.get(value).exists) throw new Error(`Misspelled Pokemon "${value}"`);
+		},
+		onValidateTeam(team) {
+			let hasSelection = false;
+			const species = this.dex.species.get(this.ruleTable.valueRules.get('forceselect'));
+			for (const set of team) {
+				if (species.name === set.species) {
+					hasSelection = true;
+					break;
+				}
+			}
+			if (!hasSelection) {
+				return [`Your team must contain ${species.name}.`];
+			}
+		},
+		// hardcoded in sim/side
+	},
 	evlimits: {
 		effectType: 'ValidatorRule',
 		name: 'EV Limits',
@@ -445,7 +469,8 @@ export const Rulesets: {[k: string]: FormatData} = {
 			this.add('clearpoke');
 			for (const pokemon of this.getAllPokemon()) {
 				const details = pokemon.details.replace(', shiny', '')
-					.replace(/(Arceus|Gourgeist|Pumpkaboo|Xerneas|Silvally|Zacian|Zamazenta|Urshifu)(-[a-zA-Z?-]+)?/g, '$1-*');
+					.replace(/(Arceus|Gourgeist|Pumpkaboo|Xerneas|Silvally|Urshifu)(-[a-zA-Z?-]+)?/g, '$1-*')
+					.replace(/(Zacian|Zamazenta)(?!-Crowned)/g, '$1-*'); // Hacked-in Crowned formes will be revealed
 				this.add('poke', pokemon.side.id, details, '');
 			}
 			this.makeRequest('teampreview');
@@ -1145,11 +1170,7 @@ export const Rulesets: {[k: string]: FormatData} = {
 									if (prevo.evos.includes(formeName)) continue;
 								}
 								const forme = dex.species.get(formeName);
-								if (
-									forme.changesFrom === originalForme.name && !forme.battleOnly &&
-									// Temporary workaround
-									forme.forme !== 'Crowned'
-								) {
+								if (forme.changesFrom === originalForme.name && !forme.battleOnly) {
 									speciesTypes.push(...forme.types);
 								}
 							}
@@ -1261,6 +1282,19 @@ export const Rulesets: {[k: string]: FormatData} = {
 			if (species.nfe) {
 				if (this.ruleTable.has(`+pokemon:${species.id}`)) return;
 				return [`${set.species} is banned due to NFE Clause.`];
+			}
+		},
+	},
+	gemsclause: {
+		effectType: 'ValidatorRule',
+		name: 'Gems Clause',
+		desc: "Bans all Gems",
+		onValidateSet(set) {
+			if (!set.item) return;
+			const item = this.dex.items.get(set.item);
+			if (item.isGem) {
+				if (this.ruleTable.has(`+item:${item.id}`)) return;
+				return [`${item.name} is banned due to Gems Clause.`];
 			}
 		},
 	},
@@ -1587,6 +1621,12 @@ export const Rulesets: {[k: string]: FormatData} = {
 		desc: "Prevents Pok\u00e9mon from having moves that would only be obtainable in Pok\u00e9mon Crystal.",
 		// Implemented in mods/gen2/rulesets.ts
 	},
+	aptclause: {
+		effectType: 'ValidatorRule',
+		name: 'APT Clause',
+		desc: "Bans the combination of Agility and partial trapping moves like Wrap.",
+		banlist: ['Agility + Wrap', 'Agility + Fire Spin', 'Agility + Bind', 'Agility + Clamp'],
+	},
 	nintendocup1997movelegality: {
 		effectType: 'ValidatorRule',
 		name: "Nintendo Cup 1997 Move Legality",
@@ -1602,6 +1642,75 @@ export const Rulesets: {[k: string]: FormatData} = {
 		},
 		onTrapPokemon(pokemon) {
 			pokemon.trapped = true;
+		},
+	},
+	crazyhouserule: {
+		effectType: 'Rule',
+		name: 'Crazyhouse Rule',
+		desc: "Pok\u00e9mon you KO are added to your team and removed from the opponent's, and vice versa.",
+		onValidateRule(value) {
+			if (this.format.gameType === 'doubles' || this.format.gameType === 'triples') {
+				throw new Error(`Crazyhouse Rule currently does not support ${this.format.gameType} battles.`);
+			}
+			const ruleTable = this.ruleTable;
+			const maxTeamSize = ruleTable.pickedTeamSize || ruleTable.maxTeamSize;
+			const numPlayers = (this.format.gameType === 'freeforall' || this.format.gameType === 'multi') ? 4 : 2;
+			const potentialMaxTeamSize = maxTeamSize * numPlayers;
+			if (potentialMaxTeamSize > 24) {
+				throw new Error(`Crazyhouse Rule cannot be added because a team can potentially have ${potentialMaxTeamSize} Pokemon on one team, which is more than the server limit of 24.`);
+			}
+		},
+		// In order to prevent a case of the clones, housekeeping is needed.
+		// This is especially needed to make sure one side doesn't end up with too many Pokemon.
+		onBeforeSwitchIn(pokemon) {
+			if (this.turn < 1 || !pokemon.side.faintedThisTurn) return;
+			pokemon.side.pokemon = pokemon.side.pokemon.filter(x => !(x.fainted && !x.m.outofplay));
+			for (let i = 0; i < pokemon.side.pokemon.length && i < 24; i++) {
+				pokemon.side.pokemon[i].position = i;
+			}
+		},
+		onFaint(target, source, effect) {
+			if (!target.m.numSwaps) {
+				target.m.numSwaps = 0;
+			}
+			target.m.numSwaps++;
+			if (effect && effect.effectType === 'Move' && source.side.pokemon.length < 24 &&
+                source.side !== target.side && target.m.numSwaps < 4) {
+				const hpCost = this.clampIntRange(Math.floor((target.baseMaxhp * target.m.numSwaps) / 4), 1);
+				// Just in case(tm) and for Shedinja
+				if (hpCost === target.baseMaxhp) {
+					target.m.outofplay = true;
+					return;
+				}
+				source.side.pokemonLeft++;
+				source.side.pokemon.length++;
+
+				// A new Pokemon is created and stuff gets aside akin to a deep clone.
+				// This is because deepClone crashes when side is called recursively.
+				// Until a refactor is made to prevent it, this is the best option to prevent crashes.
+				const newPoke = new Pokemon(target.set, source.side);
+				const newPos = source.side.pokemon.length - 1;
+
+				const doNotCarryOver = [
+					'fullname', 'side', 'fainted', 'status', 'hp', 'illusion',
+					'transformed', 'position', 'isActive', 'faintQueued',
+					'subFainted', 'getHealth', 'getDetails', 'moveSlots', 'ability',
+				];
+				for (const [key, value] of Object.entries(target)) {
+					if (doNotCarryOver.includes(key)) continue;
+					// @ts-ignore
+					newPoke[key] = value;
+				}
+				newPoke.maxhp = newPoke.baseMaxhp; // for dynamax
+				newPoke.hp = newPoke.baseMaxhp - hpCost;
+				newPoke.clearVolatile();
+				newPoke.position = newPos;
+				source.side.pokemon[newPos] = newPoke;
+				this.add('poke', source.side.pokemon[newPos].side.id, source.side.pokemon[newPos].details, '');
+				this.add('-message', `${target.name} was captured by ${newPoke.side.name}!`);
+			} else {
+				target.m.outofplay = true;
+			}
 		},
 	},
 	chimera1v1rule: {
@@ -1755,6 +1864,28 @@ export const Rulesets: {[k: string]: FormatData} = {
 				if (!this.dex.types.isName(type)) continue;
 				if (pokemon.moveSlots[i] && move.id === pokemon.moveSlots[i].id) move.type = type;
 			}
+		},
+	},
+	reevolutionmod: {
+		effectType: "Rule",
+		name: "Re-Evolution Mod",
+		desc: "Pok&eacute;mon gain the boosts they would gain from evolving again",
+		ruleset: ['Overflow Stat Mod'],
+		onBegin() {
+			this.add('rule', 'Re-Evolution Mod: Pok\u00e9mon gain the boosts they would gain from evolving again');
+		},
+		onModifySpecies(species, target) {
+			const newSpecies = this.dex.deepClone(species);
+			if (!newSpecies.prevo) return;
+			const prevoSpecies = this.dex.species.get(newSpecies.prevo);
+			let statid: StatID;
+			newSpecies.bst = 0;
+			for (statid in prevoSpecies.baseStats) {
+				const change = newSpecies.baseStats[statid] - prevoSpecies.baseStats[statid];
+				newSpecies.baseStats[statid] = this.clampIntRange(newSpecies.baseStats[statid] + change, 1, 255);
+				newSpecies.bst += newSpecies.baseStats[statid];
+			}
+			return newSpecies;
 		},
 	},
 };

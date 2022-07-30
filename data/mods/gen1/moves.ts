@@ -38,7 +38,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		condition: {
 			duration: 2,
 			durationCallback(target, source, effect) {
-				return this.random(3, 4);
+				return this.random(3, 5);
 			},
 			onStart(pokemon) {
 				this.effectState.totalDamage = 0;
@@ -425,17 +425,13 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	highjumpkick: {
 		inherit: true,
 		onMoveFail(target, source, move) {
-			if (!target.types.includes('Ghost')) {
-				this.directDamage(1, source, target);
-			}
+			this.directDamage(1, source, target);
 		},
 	},
 	jumpkick: {
 		inherit: true,
 		onMoveFail(target, source, move) {
-			if (!target.types.includes('Ghost')) {
-				this.directDamage(1, source, target);
-			}
+			this.directDamage(1, source, target);
 		},
 	},
 	karatechop: {
@@ -500,9 +496,6 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	metronome: {
 		inherit: true,
 		noMetronome: ["Metronome", "Struggle"],
-		secondary: null,
-		target: "self",
-		type: "Normal",
 	},
 	mimic: {
 		inherit: true,
@@ -553,7 +546,9 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 							showMsg = true;
 						}
 					}
-					if (showMsg) this.add('-activate', target, 'move: Mist');
+					if (showMsg && !(effect as ActiveMove).secondaries) {
+						this.add('-activate', target, 'move: Mist');
+					}
 				}
 			},
 		},
@@ -769,7 +764,6 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			}
 			// We only prevent when hp is less than one quarter.
 			// If you use substitute at exactly one quarter, you faint.
-			if (target.hp === target.maxhp / 4) target.faint();
 			if (target.hp < target.maxhp / 4) {
 				this.add('-fail', target, 'move: Substitute', '[weak]');
 				return null;
