@@ -3,7 +3,7 @@ import RandomTeams from '../../random-teams';
 export interface STBSet {
 	species: string;
 	ability: string | string[];
-	item: string | string[];
+	item?: string | string[];
 	gender: GenderName;
 	moves: (string | string[])[];
 	signatureMove: string;
@@ -48,10 +48,16 @@ export const stbSets: STBSets = {
 		evs: {atk: 252, def: 4, spe: 252}, nature: 'Adamant',
 	},
 	Bushtush: {
-		species: 'Electivire', ability: 'Huge Power', item: 'Leftovers', gender: 'M',
-		moves: ['Dragon Dance', 'Close Combat', 'Glacial Lance'],
+		species: 'Electivire', ability: 'Intrepid Sword', item: 'Leftovers', gender: 'M',
+		moves: ['Dragon Dance', 'Close Combat', 'Icicle Crash'],
 		signatureMove: 'Thunderwave Fists',
 		evs: {atk: 252, def: 4, spe: 252}, nature: 'Jolly', shiny: true,
+	},
+	Earthworm: {
+		species: 'Heatran', ability: 'Flash Fire', item: 'Leftovers', gender: 'M',
+		moves: ['Magma Storm', 'Earth Power', 'Taunt'],
+		signatureMove: 'Hot Pursuit',
+		evs: {spa: 252, spd: 4, spe: 252}, nature: 'Timid',
 	},
 	Empo: {
 		species: 'Grovyle', ability: 'Time Tripper', item: 'Eviolite', gender: 'M',
@@ -59,17 +65,65 @@ export const stbSets: STBSets = {
 		signatureMove: 'Time Stopper',
 		evs: {atk: 252, def: 4, spe: 252}, nature: 'Adamant',
 	},
+	Finchinator: {
+		species: 'Garchomp', ability: 'Skill Link', item: 'Life Orb', gender: '',
+		moves: ['Swords Dance', 'Scale Shot', 'Aqua Tail'],
+		signatureMove: 'Aftermaths',
+		evs: {atk: 252, spd: 4, spe: 252}, nature: 'Jolly',
+	},
 	'Heroic Troller': {
 		species: 'Dusknoir', ability: 'Timeline Reversal', item: 'Choice Band', gender: 'M',
 		moves: ['Shadow Sneak', 'Close Combat', 'Glacial Lance'],
 		signatureMove: 'Shadow End',
 		evs: {hp: 248, atk: 252, spd: 8}, nature: 'Adamant',
 	},
+	Instruct: {
+		species: 'Dragalge', ability: 'Regenerator', item: 'Assault Vest', gender: 'M',
+		moves: ['Core Enforcer', 'Clear Smog', 'Rapid Spin'],
+		signatureMove: 'Nori Neurotoxin',
+		evs: {hp: 252, def: 4, spd: 252}, ivs: {spe: 0}, nature: 'Sassy',
+	},
+	lax: {
+		species: 'Munchlax', ability: 'Protean', item: 'Eviolite', gender: 'M',
+		moves: ['Mega Kick', 'Fishious Rend', 'Precipice Blades'],
+		signatureMove: 'Whine and Dine',
+		evs: {hp: 128, atk: 128, spe: 252}, nature: 'Jolly',
+	},
+	Luthier: {
+		species: 'Galvantula', ability: 'Magician', gender: 'M',
+		moves: ['Wild Charge', 'Sucker Punch', 'Sticky Web'],
+		signatureMove: 'Web Designer',
+		evs: {atk: 252, spe: 252}, nature: 'Jolly', shiny: true,
+	},
+	McMeghan: {
+		species: 'Zapdos', ability: 'Iron Barbs', item: 'Heavy-Duty Boots', gender: 'N',
+		moves: ['Discharge', 'Roost', 'Heat Wave'],
+		signatureMove: 'Flycare',
+		evs: {hp: 248, def: 220, spe: 40}, nature: 'Timid',
+	},
 	Punny: {
 		species: 'Clefable', ability: 'Magic Guard', item: 'Leftovers', gender: 'M',
-		moves: ['Soft Boiled', 'Quiver Dance', 'Lava Plume'],
+		moves: ['Soft Boiled', 'Calm Mind', 'Lava Plume'],
 		signatureMove: 'Fairy Power',
 		evs: {hp: 252, def: 252, spe: 4}, nature: 'Bold',
+	},
+	TJ: {
+		species: 'Throh', ability: 'Huge Power', item: 'Choice Band', gender: 'M',
+		moves: ['U-turn', 'Ice Punch', 'Earthquake'],
+		signatureMove: 'Ninja Punch',
+		evs: {hp: 252, spd: 4, spe: 252}, nature: 'Adamant',
+	},
+	Welli0u: {
+		species: 'Kommo-o', ability: 'Technician', item: 'Leftovers', gender: '',
+		moves: ['Swords Dance', 'Scale Shot', 'Poison Jab'],
+		signatureMove: 'SuperManPunch',
+		evs: {atk: 252, spd: 4, spe: 252}, nature: 'Adamant',
+	},
+	zee: {
+		species: 'Weavile', ability: 'Defiant', item: 'Heavy-Duty Boots', gender: 'F',
+		moves: ['Swords Dance', 'Knock Off', 'Ice Shard'],
+		signatureMove: 'Frost Slash',
+		evs: {hp: 4, atk: 252, spe: 252}, nature: 'Jolly',
 	},
 	z0mOG: {
 		species: 'Obstagoon', ability: 'Comatose', item: 'Choice Band', gender: 'M',
@@ -136,7 +190,7 @@ export class RandomStaffBrosTeams extends RandomTeams {
 			const set: PokemonSet = {
 				name: name,
 				species: stbSet.species,
-				item: Array.isArray(stbSet.item) ? this.sampleNoReplace(stbSet.item) : stbSet.item,
+				item: stbSet.item ? Array.isArray(stbSet.item) ? this.sampleNoReplace(stbSet.item) : stbSet.item : '',
 				ability: Array.isArray(stbSet.ability) ? this.sampleNoReplace(stbSet.ability) : stbSet.ability,
 				moves: [],
 				nature: stbSet.nature ? Array.isArray(stbSet.nature) ? this.sampleNoReplace(stbSet.nature) : stbSet.nature : 'Serious',

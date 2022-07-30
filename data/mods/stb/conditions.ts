@@ -75,6 +75,18 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('BKC')}|2010 o how i yearn for thou`);
 		},
 	},
+	earthworm: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Earthworm')}|land ahoy!`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Earthworm')}|set sail!`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Earthworm')}|parlay!`);
+		},
+	},
 	empo: {
 		noCopy: true,
 		onStart() {
@@ -85,6 +97,18 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 		},
 		onFaint() {
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Empo')}|Grovyle was revived! ...thought it was the right one... looking closer this is... not a Reviver Seed but a Reviser Seed!`);
+		},
+	},
+	finchinator: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Finchinator')}|FINCHTOUR`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Finchinator')}|FINCHTOUR`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Finchinator')}|FINCHTOUR`);
 		},
 	},
 	heroictroller: {
@@ -99,6 +123,54 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Heroic Troller')}|I see`);
 		},
 	},
+	lax: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('lax')}|@Astamatitos and I would love to manage a team together`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('lax')}|We will be subbing ima out for blarghfarghl @FlamingVictini`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('lax')}|ya ok dogshit game`);
+		},
+	},
+	luthier: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Luthier')}|I've got my eyes on you...`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Luthier')}|I spend too much time on the web.`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Luthier')}|You've spun a web of lies.`);
+		},
+	},
+	mcmeghan: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('McMeghan')}|wassup`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('McMeghan')}|gone`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('McMeghan')}|Dreamcatcher`);
+		},
+	},
+	instructuser: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Instruct')}|woo yeah dragalge`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Instruct')}|man, i love dragalge`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Instruct')}|NOOOOO DRAGALGE`);
+		},
+	},
 	punny: {
 		noCopy: true,
 		onStart() {
@@ -111,6 +183,42 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Punny')}|Gasp..`);
 		},
 	},
+	tj: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('TJ')}|Plus 6, knock 'em out, even if they Sassy`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('TJ')}|B-B-B-B-B-Beatdown and I'm out`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('TJ')}|pop smoke`);
+		},
+	},
+	welli0u: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Welli0u')}|ACKNOWLEDGE MEEEE`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Welli0u')}|My swag is off the charts.`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Welli0u')}|I SAID I WOULD DO IT AND I DID`);
+		},
+	},
+	zee: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('zee')}|gaming`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('zee')}|*ghosts you*`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('zee')}|LOLLLL BYE`);
+		},
+	},
 	z0mog: {
 		noCopy: true,
 		onStart() {
@@ -121,6 +229,26 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 		},
 		onFaint() {
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('z0mOG')}|https://youtube.com/z0mmm shameless plug`);
+		},
+	},
+	// Custom Move effects start Here
+	// Hot Pursuit switch cancelling
+	preventswitch: {
+		noCopy: true,
+		duration: 1,
+		onSwitchOut() {
+			this.hint('Hot Pursuit prevented the switch from going through.');
+			return false;
+		},
+		onUpdate(pokemon) {
+			if (pokemon.switchFlag) {
+				pokemon.switchFlag = false;
+				this.hint('Hot Pursuit prevented the switch from going through.');
+			}
+			if (pokemon.forceSwitchFlag) {
+				pokemon.forceSwitchFlag = false;
+				this.hint('Hot Pursuit prevented the switch from going through.');
+			}
 		},
 	},
 };
