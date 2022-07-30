@@ -135,6 +135,18 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('lax')}|ya ok dogshit game`);
 		},
 	},
+	luthier: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Luthier')}|I've got my eyes on you...`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Luthier')}|I spend too much time on the web.`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Luthier')}|You've spun a web of lies.`);
+		},
+	},
 	mcmeghan: {
 		noCopy: true,
 		onStart() {
@@ -193,6 +205,18 @@ export const Conditions: {[k: string]: ModdedConditionData & {innateName?: strin
 		},
 		onFaint() {
 			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('Welli0u')}|I SAID I WOULD DO IT AND I DID`);
+		},
+	},
+	zee: {
+		noCopy: true,
+		onStart() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('zee')}|gaming`);
+		},
+		onSwitchOut() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('zee')}|*ghosts you*`);
+		},
+		onFaint() {
+			this.add(`c:|${Math.floor(Date.now() / 1000)}|${getName('zee')}|LOLLLL BYE`);
 		},
 	},
 	z0mog: {

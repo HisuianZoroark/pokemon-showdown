@@ -3,7 +3,7 @@ import RandomTeams from '../../random-teams';
 export interface STBSet {
 	species: string;
 	ability: string | string[];
-	item: string | string[];
+	item?: string | string[];
 	gender: GenderName;
 	moves: (string | string[])[];
 	signatureMove: string;
@@ -89,6 +89,12 @@ export const stbSets: STBSets = {
 		signatureMove: 'Whine and Dine',
 		evs: {hp: 128, atk: 128, spe: 252}, nature: 'Jolly',
 	},
+	Luthier: {
+		species: 'Galvantula', ability: 'Magician', gender: 'M',
+		moves: ['Wild Charge', 'Sucker Punch', 'Sticky Web'],
+		signatureMove: 'Web Designer',
+		evs: {atk: 252, spe: 252}, nature: 'Jolly', shiny: true,
+	},
 	McMeghan: {
 		species: 'Zapdos', ability: 'Iron Barbs', item: 'Heavy-Duty Boots', gender: 'N',
 		moves: ['Discharge', 'Roost', 'Heat Wave'],
@@ -112,6 +118,12 @@ export const stbSets: STBSets = {
 		moves: ['Swords Dance', 'Scale Shot', 'Poison Jab'],
 		signatureMove: 'SuperManPunch',
 		evs: {atk: 252, spd: 4, spe: 252}, nature: 'Adamant',
+	},
+	zee: {
+		species: 'Weavile', ability: 'Defiant', item: 'Heavy-Duty Boots', gender: 'F',
+		moves: ['Swords Dance', 'Knock Off', 'Ice Shard'],
+		signatureMove: 'Frost Slash',
+		evs: {hp: 4, atk: 252, spe: 252}, nature: 'Jolly',
 	},
 	z0mOG: {
 		species: 'Obstagoon', ability: 'Comatose', item: 'Choice Band', gender: 'M',
@@ -178,7 +190,7 @@ export class RandomStaffBrosTeams extends RandomTeams {
 			const set: PokemonSet = {
 				name: name,
 				species: stbSet.species,
-				item: Array.isArray(stbSet.item) ? this.sampleNoReplace(stbSet.item) : stbSet.item,
+				item: stbSet.item ? Array.isArray(stbSet.item) ? this.sampleNoReplace(stbSet.item) : stbSet.item : '',
 				ability: Array.isArray(stbSet.ability) ? this.sampleNoReplace(stbSet.ability) : stbSet.ability,
 				moves: [],
 				nature: stbSet.nature ? Array.isArray(stbSet.nature) ? this.sampleNoReplace(stbSet.nature) : stbSet.nature : 'Serious',

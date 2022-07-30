@@ -396,6 +396,57 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		target: "self",
 		type: "Ghost",
 	},
+	// Luthier
+	webdesigner: {
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		desc: "If the user has Sticky Webs up, the first time this move is used, the user sets 2 layers of Toxic Spikes. The second use, the user sets 3 layers of spikes. The 3rd and on subsequent uses, the user summons Gravity. This resets when Sticky Web changes positioning or gets removed. This move fails if Sticky Web isn't on the opponent's side.",
+		shortDesc: "Sticky Web: sets Toxic Spikes/Spikes/Gravity.",
+		name: "Web Designer",
+		gen: 8,
+		pp: 20,
+		priority: 1,
+		flags: {reflectable: 1},
+		onPrepareHit(target, source, move) {
+			this.attrLastMove('[anim] Savage Spin-Out');
+		},
+		self: {
+			onHit(source) {
+				const targetSide = source.side.foe;
+				if (!targetSide.getSideCondition('stickyweb')) {
+					this.add('-fail', source, 'move: Web Developer');
+					return false;
+				}
+				if (!targetSide.getSideCondition('stickyweb').weblayers) {
+					targetSide.getSideCondition('stickyweb').weblayers = 0;
+				}
+				switch (targetSide.getSideCondition('stickyweb').weblayers) {
+				case 0:
+					targetSide.addSideCondition('toxicspikes');
+					targetSide.addSideCondition('toxicspikes');
+					break;
+				case 1:
+					targetSide.addSideCondition('spikes');
+					targetSide.addSideCondition('spikes');
+					targetSide.addSideCondition('spikes');
+					break;
+				case 2:
+					this.field.addPseudoWeather('gravity');
+					break;
+				default:
+					this.field.addPseudoWeather('gravity');
+					break;
+				}
+				if (targetSide.getSideCondition('stickyweb').weblayers < 2) {
+					targetSide.getSideCondition('stickyweb').weblayers++;
+				}
+			},
+		},
+		secondary: null,
+		target: "foeSide",
+		type: "Bug",
+	},
 	// McMeghan
 	flycare: {
 		accuracy: 100,
@@ -413,7 +464,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		},
 		onModifyMove(move, pokemon, target) {
 			if (!target.hurtThisTurn) {
-				move.self.onHit = function(source, t, m) {
+				move.self.onHit = function (source, t, m) {
 					this.heal(source.baseMaxhp / 3, source, source, m);
 				};
 			}
@@ -516,6 +567,34 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		secondary: null,
 		target: "normal",
 		type: "Fighting",
+	},
+	// zee
+	frostslash: {
+		accuracy: 100,
+		basePower: 90,
+		category: "Physical",
+		desc: "Has a higher chance for a critical hit. Has a 30% chance to raise the user's Attack by 1 stage.",
+		shortDesc: "High crit ratio. 30% chance to raise user's Atk by 1.",
+		name: "Frost Slash",
+		gen: 8,
+		pp: 10,
+		priority: 0,
+		flags: {contact: 1, protect: 1, mirror: 1},
+		onPrepareHit(target, source, move) {
+			this.attrLastMove('[anim] Night Slash');
+		},
+		secondary: {
+			chance: 30,
+			self: {
+				boosts: {
+					atk: 1,
+				},
+			},
+		},
+		critRatio: 2,
+		secondary: null,
+		target: "normal",
+		type: "Ice",
 	},
 	// z0mOG
 	sleepwalk: {

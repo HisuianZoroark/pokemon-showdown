@@ -44,7 +44,7 @@ function generateSTBSet(set: STBSet, dex: ModdedDex, baseDex: ModdedDex) {
 	}
 	let buf = ``;
 	buf += `<details><summary>Set</summary>`;
-	buf += `<ul style="list-style-type:none;"><li>${set.species}${set.gender !== '' ? ` (${set.gender})` : ``} @ ${Array.isArray(set.item) ? set.item.map(x => dex.items.get(x).name).join(' / ') : dex.items.get(set.item).name}</li>`;
+	buf += `<ul style="list-style-type:none;"><li>${set.species}${set.gender !== '' ? ` (${set.gender})` : ``}${set.item ? ` @ ${Array.isArray(set.item) ? set.item.map(x => dex.items.get(x).name).join(' / ') : dex.items.get(set.item).name}` : ''}</li>`;
 	buf += `<li>Ability: ${Array.isArray(set.ability) ? set.ability.map(x => dex.abilities.get(x).name).join(' / ') : dex.abilities.get(set.ability).name}</li>`;
 	if (set.shiny) buf += `<li>Shiny: ${typeof set.shiny === 'number' ? `Sometimes` : `Yes`}</li>`;
 	if (set.evs) {
@@ -169,7 +169,7 @@ function generateSSBMoveInfo(sigMove: Move, dex: ModdedDex) {
 
 function generateSSBItemInfo(set: STBSet, dex: ModdedDex, baseDex: ModdedDex) {
 	let buf = ``;
-	if (!Array.isArray(set.item)) {
+	if (set.item && !Array.isArray(set.item)) {
 		const baseItem = baseDex.items.get(set.item);
 		const sigItem = dex.items.get(set.item);
 		if (!baseItem.exists || (baseItem.desc || baseItem.shortDesc) !== (sigItem.desc || sigItem.shortDesc)) {
@@ -352,7 +352,7 @@ function STBSets(target: string) {
 	const baseDex = Dex;
 	const dex = Dex.forFormat('gen8supertourbros');
 	if (!Object.keys(stbSets).map(toID).includes(toID(target))) {
-		return {e: `Error: ${target.trim()} doesn't have a [Gen 8] Super Staff Bros 4 set.`};
+		return {e: `Error: ${target.trim()} doesn't have a [Gen 8] Super Smogtour Bros set.`};
 	}
 	let displayName = '';
 	const names = [];
@@ -406,6 +406,6 @@ export const commands: Chat.ChatCommands = {
 		return this.sendReplyBox(set);
 	},
 	stbhelp: [
-		`/ssb [staff member] - Displays a staff member's Super Tournament Bros. set and custom features.`,
+		`/stb [username] - Displays a Smogon Tournament's Super Smogtour Bros. set and custom features.`,
 	],
 };
