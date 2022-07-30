@@ -401,7 +401,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		accuracy: true,
 		basePower: 0,
 		category: "Status",
-		desc: "If the user has Sticky Webs up, the first time this move is used, the user sets 2 layers of Toxic Spikes. The second use, the user sets 3 layers of spikes. The 3rd and on subsequent uses, the user summons Gravity. This resets when Sticky Web changes positioning or gets removed. This move fails if Sticky Web isn't on the opponent's side.",
+		desc: "If Sticky Web is up, the user sets 2 layers of Toxic Spikes as an added layer of Sticky Web. If the Sticky Web has 2 layers, the user sets 3 layers of spikes. If the Sticky Web has 3 or more layers, the user summons Gravity. This resets when Sticky Web changes positioning or gets removed. This move fails if Sticky Web is not on the opponent's side.",
 		shortDesc: "Sticky Web: sets Toxic Spikes/Spikes/Gravity.",
 		name: "Web Designer",
 		gen: 8,
@@ -416,22 +416,23 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 				const targetSide = source.side.foe;
 				if (!targetSide.getSideCondition('stickyweb')) {
 					this.add('-fail', source, 'move: Web Developer');
+					this.hint('Sticky Web needs to be up before Web Developer can work.');
 					return false;
 				}
 				if (!targetSide.getSideCondition('stickyweb').weblayers) {
-					targetSide.getSideCondition('stickyweb').weblayers = 0;
+					targetSide.getSideCondition('stickyweb').weblayers = 1;
 				}
 				switch (targetSide.getSideCondition('stickyweb').weblayers) {
-				case 0:
-					targetSide.addSideCondition('toxicspikes');
-					targetSide.addSideCondition('toxicspikes');
-					break;
 				case 1:
-					targetSide.addSideCondition('spikes');
-					targetSide.addSideCondition('spikes');
-					targetSide.addSideCondition('spikes');
+					targetSide.addSideCondition('toxicspikes');
+					targetSide.addSideCondition('toxicspikes');
 					break;
 				case 2:
+					targetSide.addSideCondition('spikes');
+					targetSide.addSideCondition('spikes');
+					targetSide.addSideCondition('spikes');
+					break;
+				case 3:
 					this.field.addPseudoWeather('gravity');
 					break;
 				default:
