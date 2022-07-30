@@ -79,7 +79,7 @@ export const stbSets: STBSets = {
 	},
 	Instruct: {
 		species: 'Dragalge', ability: 'Regenerator', item: 'Assault Vest', gender: 'M',
-		moves: ['Core Enforcer', 'Clear Smog', 'Knock Off'],
+		moves: ['Core Enforcer', 'Clear Smog', 'Rapid Spin'],
 		signatureMove: 'Nori Neurotoxin',
 		evs: {hp: 252, def: 4, spd: 252}, ivs: {spe: 0}, nature: 'Sassy',
 	},

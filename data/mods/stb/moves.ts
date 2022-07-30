@@ -214,8 +214,8 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		accuracy: 100,
 		basePower: 0,
 		category: "Status",
-		desc: "Freezes the target. Sets Tailwind.",
-		shortDesc: "Freezes the target. Sets Tailwind.",
+		desc: "Freezes the target. Sets Sticky Web.",
+		shortDesc: "Freezes the target. Sets Sticky Web.",
 		name: "Time Stopper",
 		gen: 8,
 		pp: 1,
@@ -226,7 +226,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			this.attrLastMove('[anim] Sheer Cold');
 		},
 		onHit(target, source, move) {
-			source.side.addSideCondition('tailwind');
+			source.side.foe.addSideCondition('stickyweb');
 			target.trySetStatus('frz', source, move);
 		},
 		secondary: null,
