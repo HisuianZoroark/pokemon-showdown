@@ -350,7 +350,7 @@ function generateSSBInnateInfo(name: string, dex: ModdedDex, baseDex: ModdedDex)
 
 function STBSets(target: string) {
 	const baseDex = Dex;
-	const dex = Dex.forFormat('gen8supertourbros');
+	const dex = Dex.forFormat('gen8supersmogtourbros');
 	if (!Object.keys(stbSets).map(toID).includes(toID(target))) {
 		return {e: `Error: ${target.trim()} doesn't have a [Gen 8] Super Smogtour Bros set.`};
 	}
