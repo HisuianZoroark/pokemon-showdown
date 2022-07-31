@@ -2174,45 +2174,18 @@ export const Rulesets: {[k: string]: FormatData} = {
 		effectType: 'Rule',
 		name: 'Camomons Triple Typing Rule',
 		desc: "The battle effect rule for Camomons Triple Typing: Pok&eacute;mon change type to match their first three moves.",
+		onModifySpeciesPriority: 2,
 		onModifySpecies(species, target, source, effect) {
-			//console.log('camomonstripletypingrule: onModifySpecies');
 			if (!target) return; // Chat command
-			//console.log('passed target');
 			if (effect && ['imposter', 'transform'].includes(effect.id)) return;
-			let types = [...new Set(target.baseMoveSlots.slice(0, 3).map(move => this.dex.moves.get(move.id).type))];
-			//console.log(types);
-			var addedType = '';
-			if(3 === types.length) {
-				addedType = types[2];
-				types = types.slice(0, 2);
-			}
-			return {...species, types: types, addedType:addedType};
+			const types = [...new Set(target.baseMoveSlots.slice(0, 3).map(move => this.dex.moves.get(move.id).type))];
+			return {...species, types: types};
 		},
-		onSwitchIn: function (pokemon) {
-			//console.log('camomonstripletypingrule: onSwitchIn');
-			var types = (pokemon.illusion || pokemon).getTypes(true);
-			//console.log(types);
-			var addedType = pokemon.addedType;
-			if('' === addedType) {
-				this.add('-start', pokemon, 'typechange', types.join('/'), '[silent]');
-			}
-			else {
-				this.add('-start', pokemon, 'typechange', types.slice(0, 2).join('/'), '[silent]');
-				this.add('-start', pokemon, 'typeadd', addedType, '[silent]');
-			}
+		onSwitchIn(pokemon) {
+			this.add('-start', pokemon, 'typechange', (pokemon.illusion || pokemon).getTypes(true).join('/'), '[silent]');
 		},
-		onAfterMega: function (pokemon) {
-			//console.log('camomonstripletypingrule: onAfterMega');
-			var types = (pokemon.illusion || pokemon).getTypes(true);
-			//console.log(types);
-			var addedType = pokemon.addedType;
-			if('' === addedType) {
-				this.add('-start', pokemon, 'typechange', types.join('/'), '[silent]');
-			}
-			else {
-				this.add('-start', pokemon, 'typechange', types.slice(0, 2).join('/'), '[silent]');
-				this.add('-start', pokemon, 'typeadd', addedType, '[silent]');
-			}
+		onAfterMega(pokemon) {
+			this.add('-start', pokemon, 'typechange', (pokemon.illusion || pokemon).getTypes(true).join('/'), '[silent]');
 		},
 	},
 	crabmonsmovelegality: {
