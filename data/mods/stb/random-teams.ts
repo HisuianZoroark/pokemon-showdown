@@ -108,7 +108,7 @@ export const stbSets: STBSets = {
 		evs: {hp: 252, def: 252, spe: 4}, nature: 'Bold',
 	},
 	TJ: {
-		species: 'Throh', ability: 'Huge Power', item: 'Choice Band', gender: 'M',
+		species: 'Throh', ability: 'Gorilla Tactics', item: 'Choice Band', gender: 'M',
 		moves: ['U-turn', 'Ice Punch', 'Earthquake'],
 		signatureMove: 'Ninja Punch',
 		evs: {hp: 252, spd: 4, spe: 252}, nature: 'Adamant',
