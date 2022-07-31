@@ -70,7 +70,7 @@ Description: If an opposing Pokemon switches out this turn, this move hits that 
 ### Empo
 Grovyle (M) @ Eviolite
 
-Ability: Time Tripper: This Pokemon's damaging moves become multi-hit moves that hit twice. Does not affect multi-hit moves or moves that have multiple targets.
+Ability: Time Tripper: This Pokemon's damaging moves become multi-hit moves that hit twice. The second hit has its damage halved. Does not affect multi-hit moves or moves that have multiple targets.
 
 EVs: 252 Atk / 4 Def / 252 Spe
 
@@ -194,7 +194,7 @@ Description: Power is equal to 30+(X*20), where X is the user's total stat stage
 ### TJ
 Throh (M) @ Choice Band
 
-Ability: Huge Power
+Ability: Gorilla Tactics
 
 EVs: 252 HP / 4 SpD / 252 Spe
 
