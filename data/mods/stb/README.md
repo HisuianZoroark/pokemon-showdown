@@ -35,7 +35,6 @@ Adamant Nature
 
 Description: Raises the user's Speed by 2 stages. The target's next attack will be a critical hit.
 
-
 ### Bushtush
 Electivire (M) @ Leftovers
 
@@ -72,7 +71,6 @@ Description: If an opposing Pokemon switches out this turn, this move hits that 
 Grovyle (M) @ Eviolite
 
 Ability: Time Tripper: This Pokemon's damaging moves become multi-hit moves that hit twice. Does not affect multi-hit moves or moves that have multiple targets.
-
 
 EVs: 252 Atk / 4 Def / 252 Spe
 
