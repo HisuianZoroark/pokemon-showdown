@@ -527,6 +527,7 @@ namespace RandomTeamsTypes {
 		shiny: boolean;
 		nature?: string;
 		happiness?: number;
+		dynamaxLevel?: number;
 		gigantamax?: boolean;
 	}
 	export interface RandomFactorySet {
@@ -542,6 +543,7 @@ namespace RandomTeamsTypes {
 		ivs: SparseStatsTable;
 		nature: string;
 		moves: string[];
+		dynamaxLevel?: number;
 		gigantamax?: boolean;
 	}
 }
