@@ -1895,6 +1895,41 @@ export const Formats: FormatList = [
 		column: 3,
 	},
 	{
+		name: "[Gen 8] Super Smogtour Bros",
+		desc: "Battle with a random team of pokemon created by the prominent tournament players!",
+
+		mod: 'stb',
+		team: 'randomStaffBros',
+		ruleset: ['Dynamax Clause', 'HP Percentage Mod', 'Cancel Mod', 'Sleep Clause Mod'],
+		onBegin() { // TODO look into making an event to put this right after turn|1
+			// https://discordapp.com/channels/630837856075513856/630845310033330206/716126469528485909
+			// Requires client change
+			this.add(`raw|<div class='broadcast-green'><b>Wondering what all these custom moves, abilities, and items do?<br />Check out the <a href="https://github.com/WeWuzNidokangz/TrashChannel-Limited/tree/master/data/mods/stb/README.md" target="_blank">Super Smogtour Bros Roster</a> or use /stb to find out!</b></div>`);
+
+			this.add('message', [
+				'THE BATTLE FOR SURVIVAL BEGINS!', 'WHO WILL SURVIVE?', 'GET READY TO KEEP UP!', 'GET READY!', 'DARE TO BELIEVE YOU CAN SURVIVE!', 'THERE CAN BE ONLY ONE WINNER!', 'GET READY FOR THE FIGHT OF YOUR LIFE!', 'WHO WILL PREVAIL?', 'ONLY ONE TEAM WILL BE LEFT STANDING!', 'BATTLE WITHOUT LIMITS!',
+			][this.random(10)]);
+			this.add('message', 'FIGHT!');
+		},
+		onSwitchInPriority: 100,
+		onSwitchIn(pokemon) {
+			let name: string = this.toID(pokemon.illusion ? pokemon.illusion.name : pokemon.name);
+			if (this.dex.species.get(name).exists || this.dex.moves.get(name).exists || this.dex.abilities.get(name).exists) {
+				// Certain pokemon have volatiles named after their id
+				// To prevent overwriting those, and to prevent accidentaly leaking
+				// that a pokemon is on a team through the onStart even triggering
+				// at the start of a match, users with pokemon names will need their
+				// statuses to end in "user".
+				name = name + 'user';
+			}
+			// Add the mon's status effect to it as a volatile.
+			const status = this.dex.conditions.get(name);
+			if (status?.exists) {
+				pokemon.addVolatile(name, pokemon);
+			}
+		},
+	},
+	{
 		name: "[Gen 8] Ultimate Mix and Meta",
 		onDesc() {
 			let descString = `<b>EveryOM is here!</b> <br>Bring together your dream team of Pok&eacute;mon from over 20 different OMs! ` +
@@ -2837,41 +2872,6 @@ export const Formats: FormatList = [
 		onSwitchIn(pokemon) {
 			// @ts-ignore
 			pokemon.addVolatile('perishsong', pokemon);
-		},
-	},
-	{
-		name: "[Gen 8] Super Smogtour Bros",
-		desc: "Battle with a random team of pokemon created by the prominent tournament players!",
-
-		mod: 'stb',
-		team: 'randomStaffBros',
-		ruleset: ['Dynamax Clause', 'HP Percentage Mod', 'Cancel Mod', 'Sleep Clause Mod'],
-		onBegin() { // TODO look into making an event to put this right after turn|1
-			// https://discordapp.com/channels/630837856075513856/630845310033330206/716126469528485909
-			// Requires client change
-			this.add(`raw|<div class='broadcast-green'><b>Wondering what all these custom moves, abilities, and items do?<br />Check out the <a href="https://github.com/WeWuzNidokangz/TrashChannel-Limited/tree/master/data/mods/stb/README.md" target="_blank">Super Smogtour Bros Roster</a> or use /stb to find out!</b></div>`);
-
-			this.add('message', [
-				'THE BATTLE FOR SURVIVAL BEGINS!', 'WHO WILL SURVIVE?', 'GET READY TO KEEP UP!', 'GET READY!', 'DARE TO BELIEVE YOU CAN SURVIVE!', 'THERE CAN BE ONLY ONE WINNER!', 'GET READY FOR THE FIGHT OF YOUR LIFE!', 'WHO WILL PREVAIL?', 'ONLY ONE TEAM WILL BE LEFT STANDING!', 'BATTLE WITHOUT LIMITS!',
-			][this.random(10)]);
-			this.add('message', 'FIGHT!');
-		},
-		onSwitchInPriority: 100,
-		onSwitchIn(pokemon) {
-			let name: string = this.toID(pokemon.illusion ? pokemon.illusion.name : pokemon.name);
-			if (this.dex.species.get(name).exists || this.dex.moves.get(name).exists || this.dex.abilities.get(name).exists) {
-				// Certain pokemon have volatiles named after their id
-				// To prevent overwriting those, and to prevent accidentaly leaking
-				// that a pokemon is on a team through the onStart even triggering
-				// at the start of a match, users with pokemon names will need their
-				// statuses to end in "user".
-				name = name + 'user';
-			}
-			// Add the mon's status effect to it as a volatile.
-			const status = this.dex.conditions.get(name);
-			if (status?.exists) {
-				pokemon.addVolatile(name, pokemon);
-			}
 		},
 	},
 
