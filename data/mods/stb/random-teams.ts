@@ -66,7 +66,7 @@ export const stbSets: STBSets = {
 		evs: {atk: 252, def: 4, spe: 252}, nature: 'Adamant',
 	},
 	Finchinator: {
-		species: 'Garchomp', ability: 'Skill Link', item: 'Life Orb', gender: '',
+		species: 'Garchomp', ability: 'Skill Link', item: 'Life Orb', gender: 'M',
 		moves: ['Swords Dance', 'Scale Shot', 'Aqua Tail'],
 		signatureMove: 'Aftermaths',
 		evs: {atk: 252, spd: 4, spe: 252}, nature: 'Jolly',
