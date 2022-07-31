@@ -7,30 +7,24 @@ export const Formats: FormatList = [
 		column: 1,
 	},
 	{
-		name: "[Gen 8] Ultra Mix",
+		name: "[Gen 8] Re-Evolution AAA",
 		desc: `(No description)`,
 		threads: [
-			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[Gen 8] Ultra Mix Resources</a>`,
-			`&bullet; <a href="https://www.smogon.com/forums/threads/3656469/">Vanilla Mix and Mega</a>`,
-			`&bullet; <a href="https://www.smogon.com/forums/threads/3659028/">Vanilla M&amp;M Resources</a>`
+			`&bullet; <a href="https://www.smogon.com/forums/threads/om-mashup-megathread.3657159/#post-8299984">[Gen 8] Re-Evolution AAA Resources</a>`,
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3656414/">Vanilla Almost Any Ability</a>`,
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3682690/">Vanilla AAA Resources</a>`
 		],
 
-		mod: 'mixandmega',
+		mod: 'gen8',
 		ruleset: [
-			'Standard', 'Overflow Stat Mod', 'Dynamax Clause', 'Mix and Mega Standard Package', 'Alphabet Cup Move Legality', 'Camomons Mod', 'Scalemons Mod', 'Tier Shift Mod',
-			'2 Ability Clause', 'AAA Restricted Abilities', '!Obtainable Abilities',
+			'Standard', '2 Ability Clause', 'Dynamax Clause', 'Sleep Moves Clause', 'Re-Evolution Mod', '!Obtainable Abilities', '!Sleep Clause Mod',
 		],
 		banlist: [
-			'Comatose ++ Sleep Talk', 'Abra', 'Darumaka', 'Gastly', 'Pikachu', 'Shedinja', 'Arena Trap', 'Contrary',
-			'Fluffy', 'Fur Coat', 'Gorilla Tactics', 'Huge Power', 'Ice Scales', 'Illusion', 'Innards Out', 'Intrepid Sword',
-			'Libero', 'Moody', 'Neutralizing Gas', 'Parental Bond', 'Protean', 'Pure Power', 'Shadow Tag', 'Simple',
-			'Speed Boost', 'Water Bubble', 'Wonder Guard', 'Beedrillite', 'Blazikenite', 'Damp Rock', 'Eviolite', 'Gengarite',
-			'Heat Rock', 'Kangaskhanite', 'Light Ball', 'Mawilite', 'Medichamite', 'Pidgeotite', 'Baton Pass',
-		],
-		restricted: [
-			'Chansey', 'Raichu', 'Sneasel', 'Imposter', 'Bolt Beak', 'Double Iron Bash', 'Electrify', 'Extreme Speed',
-			'Fishious Rend', 'Geomancy', 'Lovely Kiss', 'Shell Smash', 'Shift Gear', 'Sleep Powder', 'Spore', 'Surging Strikes',
-			'Thousand Arrows',
+			'Golisopod', 'Gyarados', 'Lunala', 'Milotic', 'Naganadel', 'Noivern', 'Shedinja', 'Solgaleo',
+			'Urshifu-Base', 'Volcarona', 'Arena Trap', 'Comatose', 'Contrary', 'Fluffy', 'Fur Coat', 'Gorilla Tactics',
+			'Huge Power', 'Ice Scales', 'Illusion', 'Imposter', 'Innards Out', 'Intrepid Sword', 'Libero', 'Magnet Pull',
+			'Moody', 'Neutralizing Gas', 'Parental Bond', 'Poison Heal', 'Protean', 'Pure Power', 'Shadow Tag', 'Simple',
+			'Speed Boost', 'Stakeout', 'Water Bubble', 'Wonder Guard', 'King\'s Rock', 'Baton Pass',
 		],
 	},
 
