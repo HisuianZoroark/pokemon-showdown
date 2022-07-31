@@ -439,7 +439,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 					this.field.addPseudoWeather('gravity');
 					break;
 				}
-				if (targetSide.getSideCondition('stickyweb').weblayers < 2) {
+				if (targetSide.getSideCondition('stickyweb').weblayers < 3) {
 					targetSide.getSideCondition('stickyweb').weblayers++;
 				}
 			},
