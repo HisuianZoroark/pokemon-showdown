@@ -107,7 +107,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		// For more examples, see https://github.com/smogon/pokemon-showdown/blob/master/data/abilities.js
 	},
 	*/
-	// Please keep abilites organized alphabetically based on staff member name!
+	// Please keep abilities organized alphabetically based on staff member name!
 	// Aelita
 	scyphozoa: {
 		desc: "On switch-in, this Pokemon removes all field conditions, entry hazards, and stat boosts on both sides, gaining one random boost for every field condition, entry hazard, or boosted stat that gets cleared. This Pokemon's moves ignore abilities. If this Pokemon is a Zygarde in its 10% or 50% Forme, it changes to Complete Forme when it has 1/2 or less of its maximum HP at the end of the turn.",

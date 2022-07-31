@@ -2841,7 +2841,7 @@ export const Formats: FormatList = [
 	},
 	{
 		name: "[Gen 8] Super Smogtour Bros",
-		desc: "Battle with a random team of pokemon created by the promninent tournament players!",
+		desc: "Battle with a random team of pokemon created by the prominent tournament players!",
 
 		mod: 'stb',
 		team: 'randomStaffBros',
