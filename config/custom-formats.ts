@@ -2792,7 +2792,7 @@ export const Formats: FormatList = [
 		onBegin() { // TODO look into making an event to put this right after turn|1
 			// https://discordapp.com/channels/630837856075513856/630845310033330206/716126469528485909
 			// Requires client change
-			this.add(`raw|<div class='broadcast-green'><b>Wondering what all these custom moves, abilities, and items do?<br />Check out the <a href="TODO" target="_blank">Super Smogtour Bros Guide</a> or use /stb to find out!</b></div>`);
+			this.add(`raw|<div class='broadcast-green'><b>Wondering what all these custom moves, abilities, and items do?<br />Check out the <a href="https://github.com/WeWuzNidokangz/TrashChannel-Limited/tree/master/data/mods/stb/README.md" target="_blank">Super Smogtour Bros Roster</a> or use /stb to find out!</b></div>`);
 
 			this.add('message', [
 				'THE BATTLE FOR SURVIVAL BEGINS!', 'WHO WILL SURVIVE?', 'GET READY TO KEEP UP!', 'GET READY!', 'DARE TO BELIEVE YOU CAN SURVIVE!', 'THERE CAN BE ONLY ONE WINNER!', 'GET READY FOR THE FIGHT OF YOUR LIFE!', 'WHO WILL PREVAIL?', 'ONLY ONE TEAM WILL BE LEFT STANDING!', 'BATTLE WITHOUT LIMITS!',
