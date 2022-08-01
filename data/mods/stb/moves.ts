@@ -414,15 +414,15 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		self: {
 			onHit(source) {
 				const targetSide = source.side.foe;
-				if (!targetSide.getSideCondition('stickyweb')) {
+				if (!targetSide.sideConditions['stickyweb']) {
 					this.add('-fail', source, 'move: Web Developer');
 					this.hint('Sticky Web needs to be up before Web Developer can work.');
 					return false;
 				}
-				if (!targetSide.getSideCondition('stickyweb').weblayers) {
-					targetSide.getSideCondition('stickyweb').weblayers = 1;
+				if (!targetSide.sideConditions['stickyweb'].weblayers) {
+					targetSide.sideConditions['stickyweb'].weblayers = 1;
 				}
-				switch (targetSide.getSideCondition('stickyweb').weblayers) {
+				switch (targetSide.sideConditions['stickyweb'].weblayers) {
 				case 1:
 					targetSide.addSideCondition('toxicspikes');
 					targetSide.addSideCondition('toxicspikes');
@@ -439,8 +439,8 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 					this.field.addPseudoWeather('gravity');
 					break;
 				}
-				if (targetSide.getSideCondition('stickyweb').weblayers < 3) {
-					targetSide.getSideCondition('stickyweb').weblayers++;
+				if (targetSide.sideConditions['stickyweb'].weblayers < 3) {
+					targetSide.sideConditions['stickyweb'].weblayers++;
 				}
 			},
 		},
