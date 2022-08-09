@@ -43,7 +43,7 @@ export const Formats: FormatList = [
 		name: "[Gen 8] Partners in Crime: Hackmons Cup",
 		desc: `Randomized teams of level-balanced Pok&eacute;mon where both active ally Pok&eacute;mon share dumb abilities and moves.`,
 		threads: [
-			`&bullet; <a href="https://www.smogon.com/forums/threads/3618488/">Partners in Crime</a>`,
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3706080/">Partners in Crime</a>`,
 		],
 
 		mod: 'partnersincrime',
@@ -768,15 +768,19 @@ export const Formats: FormatList = [
 		name: "[Gen 8] Partners in Crime",
 		desc: `Doubles-based metagame where both active ally Pok&eacute;mon share abilities and moves.`,
 		threads: [
-			`&bullet; <a href="https://www.smogon.com/forums/threads/3664347/">Partners in Crime</a>`,
+			`&bullet; <a href="https://www.smogon.com/forums/threads/3706080/">Partners in Crime</a>`,
 		],
 
 		mod: 'partnersincrime',
 		gameType: 'doubles',
-		ruleset: ['[Gen 8] Doubles OU', 'Sleep Clause Mod'],
+		ruleset: ['Standard Doubles', 'Dynamax Clause'],
 		banlist: [
-			'Arctovish', 'Arctozolt', 'Dracovish', 'Dracozolt', 'Golisopod', 'Wimpod',
-			'Huge Power', 'Normalize', 'Pure Power', 'Wonder Guard',
+			'Calyrex-Ice', 'Calyrex-Shadow', 'Dialga', 'Eternatus', 'Giratina', 'Giratina-Origin',
+			'Groudon', 'Ho-Oh', 'Jirachi', 'Kyogre', 'Kyurem-White', 'Lugia', 'Lunala', 'Magearna',
+			'Marshadow', 'Melmetal', 'Mewtwo', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia',
+			'Rayquaza', 'Reshiram', 'Solgaleo', 'Urshifu-Base', 'Xerneas', 'Yveltal', 'Zacian', 'Zacian-Crowned',
+			'Zamazenta', 'Zamazenta-Crowned', 'Zekrom', 'Bolt Beak', 'Fishious Rend', 'Emergency Exit',
+			'Huge Power', 'Moody', 'Power Construct', 'Shadow Tag', 'Wimp Out', 'Wonder Guard',
 		],
 		onBegin() {
 			let x = 0;
