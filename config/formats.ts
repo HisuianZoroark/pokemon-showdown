@@ -1028,12 +1028,13 @@ export const Formats: FormatList = [
 		searchShow: false,
 		ruleset: ['Standard Doubles', 'Dynamax Clause'],
 		banlist: ['Koraidon', 'Miraidon', 'Huge Power', 'Moody', 'Pure Power', 'Shadow Tag', 'Ally Switch', 'Swagger'],
-		onBeforeSwitchIn(pokemon) {
-			if (!pokemon.m.trackPP) pokemon.m.trackPP = new Map<string, number>();
-			pokemon.m.curMoves = this.dex.deepClone(pokemon.moves);
+		onBegin() {
+			for (const pokemon of this.getAllPokemon()) {
+				pokemon.m.trackPP = new Map<string, number>();
+			}
 		},
-		onSwitchInPriority: 2,
-		onSwitchIn(pokemon) {
+		onBeforeSwitchIn(pokemon) {
+			pokemon.m.curMoves = this.dex.deepClone(pokemon.moves);
 			let ngas = false;
 			for (const poke of this.getAllActive()) {
 				if (this.toID(poke.ability) === ('neutralizinggas' as ID)) {
@@ -1041,7 +1042,7 @@ export const Formats: FormatList = [
 					break;
 				}
 			}
-			const BAD_ABILITIES = ['trace', 'imposter', 'neutralizinggas', 'illusion', 'wanderingspirit'];
+			const BAD_ABILITIES = ['trace', 'imposter', 'neutralizinggas', 'wanderingspirit'];
 			const ally = pokemon.side.active.find(mon => mon && mon !== pokemon && !mon.fainted);
 			if (ally && ally.ability !== pokemon.ability) {
 				if (!pokemon.m.innate && !BAD_ABILITIES.includes(this.toID(ally.ability))) {
