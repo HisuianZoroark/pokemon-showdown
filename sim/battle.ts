@@ -117,12 +117,12 @@ export class Battle {
 	readonly strictChoices: boolean;
 	readonly format: Format;
 	readonly formatData: EffectState;
-	readonly gameType: GameType;
+	gameType: GameType;
 	/**
 	 * The number of active pokemon per half-field.
 	 * See header comment in side.ts for details.
 	 */
-	readonly activePerHalf: 1 | 2 | 3;
+	activePerHalf: 1 | 2 | 3;
 	readonly field: Field;
 	readonly sides: [Side, Side] | [Side, Side, Side, Side];
 	readonly prngSeed: PRNGSeed;
