@@ -34,10 +34,8 @@ export const Scripts: ModdedBattleScriptsData = {
 			if (moddedDex.data.Scripts.actions) Object.assign(this.actions, moddedDex.data.Scripts.actions);
 
 			if (moddedDex.data.Scripts.pokemon) {
-				for (const side of this.sides) {
-					for (const poke of side.pokemon) {
-						Object.assign(poke, moddedDex.data.Scripts.pokemon);
-					}
+				for (const pokemon of this.getAllPokemon()) {
+					Object.assign(pokemon, moddedDex.data.Scripts.pokemon);
 				}
 			}
 
@@ -72,10 +70,8 @@ export const Scripts: ModdedBattleScriptsData = {
 
 		if (this.teamGenerator.factoryTier === 'Godly Gift') {
 			// Reapplies Godly Gift Mod because it gets lost
-			for (const side of this.sides) {
-				for (const poke of side.pokemon) {
-					poke.species = poke.setSpecies(this.dex.species.get(poke.species));
-				}
+			for (const pokemon of this.getAllPokemon()) {
+				pokemon.species = pokemon.setSpecies(this.dex.species.get(pokemon.species));
 			}
 		}
 
