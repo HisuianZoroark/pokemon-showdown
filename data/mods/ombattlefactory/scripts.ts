@@ -1,6 +1,7 @@
 export const Scripts: ModdedBattleScriptsData = {
 	gen: 9,
 	start() {
+		// eslint-disable-next-line max-len
 		const om = Dex.formats.get(`gen9${this.toID(this.teamGenerator.factoryTier)}@@@${(this.format.customRules || []).join(',')}`);
 		this.ruleTable = this.dex.formats.getRuleTable(om);
 		if (this.teamGenerator.factoryTier === 'Partners in Crime') {
@@ -17,6 +18,7 @@ export const Scripts: ModdedBattleScriptsData = {
 			}
 		}
 		for (const entry in om) {
+			// @ts-ignore suuuuuuuuuper hacky
 			if (typeof om[entry] === 'function') this.format[entry] = om[entry];
 		}
 		if (om.mod !== 'gen9') {
@@ -56,7 +58,7 @@ export const Scripts: ModdedBattleScriptsData = {
 		if (this.teamGenerator.factoryTier === 'Godly Gift') {
 			// Reapplies Godly Gift Mod because it gets lost
 			for (const side of this.sides) {
-				for (let poke of side.pokemon) {
+				for (const poke of side.pokemon) {
 					poke.species = poke.setSpecies(this.dex.species.get(poke.species));
 				}
 			}
