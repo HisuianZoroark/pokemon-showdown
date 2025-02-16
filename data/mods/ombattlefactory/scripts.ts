@@ -20,6 +20,7 @@ export const Scripts: ModdedBattleScriptsData = {
 			if (typeof om[entry] === 'function') this.format[entry] = om[entry];
 		}
 		if (om.mod !== 'gen9') {
+			// Ensures data from OMs gets carried here
 			const moddedDex = Dex.dexes[om.mod];
 			for (const i in moddedDex.data.Scripts) {
 				const entry = moddedDex.data.Scripts[i];
@@ -49,6 +50,15 @@ export const Scripts: ModdedBattleScriptsData = {
 					].includes(val)
 				);
 				if (hasEventHandler) this.field.addPseudoWeather(rule);
+			}
+		}
+
+		if (this.teamGenerator.factoryTier === 'Godly Gift') {
+			// Reapplies Godly Gift Mod because it gets lost
+			for (const side of this.sides) {
+				for (let poke of side.pokemon) {
+					poke.species = poke.setSpecies(this.dex.species.get(poke.species));
+				}
 			}
 		}
 
