@@ -292,8 +292,6 @@ export class Battle {
 		}
 		this.inputLog.push(`>start ` + JSON.stringify(inputOptions));
 
-		this.add('gametype', this.gameType);
-
 		// timing is early enough to hook into ModifySpecies event
 		for (const rule of this.ruleTable.keys()) {
 			if ('+*-!'.includes(rule.charAt(0))) continue;
@@ -1822,6 +1820,7 @@ export class Battle {
 	}
 
 	start() {
+		this.add('gametype', this.gameType);
 		// Deserialized games should use restart()
 		if (this.deserialized) return;
 		// need all players to start

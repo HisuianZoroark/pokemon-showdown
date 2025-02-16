@@ -1,12 +1,12 @@
 export const Scripts: ModdedBattleScriptsData = {
 	gen: 9,
-  start() {
-    this.gameType = this.randomChance(1, 2) ? 'doubles' : 'singles';
-    this.add('gametype', this.gameType);
+	start() {
+		this.gameType = this.randomChance(1, 2) ? 'doubles' : 'singles';
+		this.add('gametype', this.gameType);
 		this.activePerHalf = this.gameType === 'triples' ? 3 :
 			(this.format.playerCount > 2 || this.gameType === 'doubles') ? 2 :
 			1;
-    this.speedOrder = [];
+		this.speedOrder = [];
 		for (let i = 0; i < this.activePerHalf * 2; i++) {
 			this.speedOrder.push(i);
 		}
@@ -90,5 +90,5 @@ export const Scripts: ModdedBattleScriptsData = {
 		this.queue.addChoice({choice: 'start'});
 		this.midTurn = true;
 		if (!this.requestState) this.turnLoop();
-  },
+	},
 };
