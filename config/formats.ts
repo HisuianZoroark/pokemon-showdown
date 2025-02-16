@@ -2537,6 +2537,13 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		column: 3,
 	},
 	{
+		name: "[Gen 9] Other Metagames Battle Factory",
+		desc: `Randomized teams of Pok&eacute;mon for a generated Other Metagame with sets that are competitively viable.`,
+		mod: 'ombattlefactory',
+		team: 'random',
+		ruleset: ['Standard'],
+	},
+	{
 		name: "[Gen 9] Random Roulette",
 		desc: `Random Battles in a random generation! [Gen 1] Random Battle - [Gen 9] Random Battle.`,
 		mod: 'randomroulette',
