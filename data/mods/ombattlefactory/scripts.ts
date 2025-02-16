@@ -17,10 +17,12 @@ export const Scripts: ModdedBattleScriptsData = {
 				for (let i = 0; i < side.active.length; i++) side.slotConditions[i] = {};
 			}
 		}
+
 		for (const entry in om) {
 			// @ts-ignore suuuuuuuuuper hacky
 			if (typeof om[entry] === 'function') this.format[entry] = om[entry];
 		}
+
 		if (om.mod !== 'gen9') {
 			// Ensures data from OMs gets carried here
 			const moddedDex = Dex.dexes[om.mod];
@@ -28,12 +30,25 @@ export const Scripts: ModdedBattleScriptsData = {
 				const entry = moddedDex.data.Scripts[i];
 				if (typeof entry === 'function') (this as any)[i] = entry;
 			}
+
+			if (moddedDex.data.Scripts.actions) Object.assign(this.actions, moddedDex.data.Scripts.actions);
+
+			if (moddedDex.data.Scripts.pokemon) {
+				for (const side of this.sides) {
+					for (const poke of side.pokemon) {
+						Object.assign(poke, moddedDex.data.Scripts.pokemon);
+					}
+				}
+			}
+
 			for (const i in moddedDex.data.Moves) {
 				(this as any)[i] = moddedDex.data.Moves[i];
 			}
+
 			for (const i in moddedDex.data.Abilities) {
 				(this as any)[i] = moddedDex.data.Abilities[i];
 			}
+
 			for (const i in moddedDex.data.Items) {
 				(this as any)[i] = moddedDex.data.Items[i];
 			}
