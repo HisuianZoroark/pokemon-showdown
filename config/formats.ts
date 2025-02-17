@@ -2537,7 +2537,7 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		column: 3,
 	},
 	{
-		name: "[Gen 9] Other Metagames Battle Factory",
+		name: "[Gen 9] OM Battle Factory",
 		desc: `Randomized teams of Pok&eacute;mon for a generated Other Metagame with sets that are competitively viable.`,
 		mod: 'ombattlefactory',
 		team: 'random',
