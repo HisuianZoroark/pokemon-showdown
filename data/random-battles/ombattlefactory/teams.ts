@@ -1,7 +1,19 @@
-import {RandomTeams, BattleFactorySet} from '../gen9/teams';
+import {RandomTeams, TeamData} from '../gen9/teams';
 import {PRNG, PRNGSeed} from '../../../sim/prng';
 
-interface OMBattleFactorySet extends BattleFactorySet {
+interface OMBattleFactorySet {
+	species: string;
+	weight: number;
+	item: string[];
+	ability: string[];
+	nature: string[];
+	moves: string[][];
+	teraType: string[];
+	gender?: string;
+	wantsTera?: boolean;
+	evs?: Partial<StatsTable>;
+	ivs?: Partial<StatsTable>;
+	shiny?: boolean;
 	improofs?: string[]; // BH
 	inheritedFrom?: string; // Inh
 	slot?: string[]; // GG

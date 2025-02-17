@@ -24,7 +24,7 @@ export interface BattleFactorySpecies {
 	sets: BattleFactorySet[];
 	weight: number;
 }
-export interface BattleFactorySet {
+interface BattleFactorySet {
 	species: string;
 	weight: number;
 	item: string[];
