@@ -20,6 +20,7 @@ const OM_TIERS: {[k: string]: string} = {
 	'Inheritance': 'inh',
 	'Mix and Mega': 'mnm',
 	'Partners in Crime': 'pic',
+	'Shared Power': 'sp',
 	'STABmons': 'stab',
 };
 
