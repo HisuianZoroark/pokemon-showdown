@@ -20,7 +20,7 @@ const OM_TIERS: {[k: string]: string} = {
 	'Inheritance': 'inh',
 	'Mix and Mega': 'mnm',
 	'Partners in Crime': 'pic',
-	'STABmons': 'stab'
+	'STABmons': 'stab',
 };
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
