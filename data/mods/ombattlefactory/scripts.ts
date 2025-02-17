@@ -129,6 +129,8 @@ export const Scripts: ModdedBattleScriptsData = {
 
 		if (this.teamGenerator.factoryTier === 'Mix and Mega') {
 			for (const pokemon of this.getAllPokemon()) {
+				// Reapplies being able to mega evolve
+				pokemon.canMegaEvo = this.actions.canMegaEvo(pokemon);
 				const item = pokemon.getItem();
 				if (item.forcedForme && !item.zMove && item.forcedForme !== pokemon.species.name) {
 					const rawSpecies = (this.actions as any).getMixedSpecies(pokemon.m.originalSpecies, item.forcedForme, pokemon);
