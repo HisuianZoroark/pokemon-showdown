@@ -1,21 +1,23 @@
 import {RandomTeams, TeamData} from '../gen9/teams';
 import {PRNG, PRNGSeed} from '../../../sim/prng';
+import {Dex, toID} from '../../../sim/dex';
 
 interface OMBattleFactorySet {
 	species: string;
 	weight: number;
-	item: string[];
-	ability: string[];
-	nature: string[];
-	moves: string[][];
-	teraType: string[];
+	ability: string | string[];
+	item: string | string[];
+	nature: string | string[];
+	moves: (string | string[])[];
+	teraType?: string | string[];
 	gender?: string;
 	wantsTera?: boolean;
 	evs?: Partial<StatsTable>;
 	ivs?: Partial<StatsTable>;
 	shiny?: boolean;
 	improofs?: string[]; // BH
-	inheritedFrom?: string; // Inh
+	improofedBy?: string[]; // BH
+	donor?: string; // Inh
 	slot?: string[]; // GG
 	isGod?: boolean; // GG
 }
