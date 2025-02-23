@@ -1,0 +1,1001 @@
+{
+	"mnm": {
+		"arcaninehisui": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Arcanine-Hisui",
+					"item": "Altarianite",
+					"ability": "Intimidate",
+					"nature": "Adamant",
+					"evs": {"hp": 248, "atk": 252, "spd": 8},
+					"moves": ["Extreme Speed", "Flare Blitz", ["Stealth Rock", "Stone Edge", "Howl"], "Morning Sun"],
+					"weight": 65
+				},
+				{
+					"species": "Arcanine-Hisui",
+					"item": "Pinsirite",
+					"ability": "Intimidate",
+					"nature": "Adamant",
+					"evs": {"hp": 160, "atk": 252, "spe": 96},
+					"moves": ["Extreme Speed", "Flare Blitz", ["Double-Edge", "Close Combat"], "Howl"],
+					"weight": 35
+				}
+			]
+		},
+		"arceus": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "Arceus",
+					"item": ["Leftovers", "Lum Berry", "Life Orb"],
+					"ability": "Multitype",
+					"nature": "Adamant",
+					"evs": {"hp": 236, "atk": 252, "spe": 20},
+					"moves": ["Extreme Speed", ["Flare Blitz", "Shadow Claw"], "Swords Dance", "Recover"],
+					"weight": 100
+				}
+			]
+		},
+		"arceusfairy": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Arceus-Fairy",
+					"item": "Pixie Plate",
+					"ability": "Multitype",
+					"nature": "Bold",
+					"evs": {"hp": 248, "def": 252, "spa": 8},
+					"ivs": {"atk": 0},
+					"moves": ["Judgment", ["Thunderbolt", "Power Gem", "Will-O-Wisp"], "Calm Mind", "Recover"],
+					"weight": 100
+				}
+			]
+		},
+		"arceusghost": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Arceus-Ghost",
+					"item": "Spooky Plate",
+					"ability": "Multitype",
+					"nature": "Timid",
+					"evs": {"hp": 252, "spa": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Judgment", ["Substitute", "Will-O-Wisp", "Taunt"], "Calm Mind", "Recover"],
+					"weight": 40
+				},
+				{
+					"species": "Arceus-Ghost",
+					"item": "Spooky Plate",
+					"ability": "Multitype",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 156, "spe": 100},
+					"ivs": {"atk": 0},
+					"moves": ["Judgment", ["Substitute", "Will-O-Wisp"], "Calm Mind", "Recover"],
+					"weight": 60
+				}
+			]
+		},
+		"arceusground": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Arceus-Ground",
+					"item": "Earth Plate",
+					"ability": "Multitype",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 184, "spe": 72},
+					"ivs": {"atk": 0},
+					"moves": ["Judgment", ["Ice Beam", "Power Gem", "Gravity"], "Calm Mind", "Recover"],
+					"weight": 70
+				},
+				{
+					"species": "Arceus-Ground",
+					"item": "Earth Plate",
+					"ability": "Multitype",
+					"nature": "Adamant",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Earthquake", ["Gravity", "Stone Edge"], "Dragon Dance", ["Recover", "Flare Blitz"]],
+					"weight": 30
+				}
+			]
+		},
+		"arceuspoison": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Arceus-Poison",
+					"item": "Toxic Plate",
+					"ability": "Multitype",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 156, "spe": 100},
+					"ivs": {"atk": 0},
+					"moves": ["Calm Mind", "Sludge Bomb", "Recover", "Surf"],
+					"weight": 100
+				}
+			]
+		},
+		"arceuswater": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Arceus-Water",
+					"item": "Splash Plate",
+					"ability": "Multitype",
+					"nature": "Bold",
+					"evs": {"hp": 248, "def": 252, "spd": 8},
+					"moves": ["Judgment", "Ice Beam", "Calm Mind", "Recover"],
+					"weight": 40
+				},
+				{
+					"species": "Arceus-Water",
+					"item": "Splash Plate",
+					"ability": "Multitype",
+					"nature": "Bold",
+					"evs": {"hp": 248, "def": 160, "spe": 100},
+					"moves": ["Judgment", "Ice Beam", "Calm Mind", "Recover"],
+					"weight": 60
+				}
+			]
+		},
+		"baxcalibur": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Baxcalibur",
+					"item": "Heracronite",
+					"ability": "Thermal Exchange",
+					"nature": "Adamant",
+					"evs": {"hp": 144, "atk": 252, "spe": 108},
+					"moves": ["Icicle Spear", "Scale Shot", ["Earthquake", "Ice Shard"], "Swords Dance"],
+					"weight": 100
+				}
+			]
+		},
+		"ceruledge": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "Ceruledge",
+					"item": ["Lucarionite", "Latiosite"],
+					"ability": "Flash Fire",
+					"nature": "Adamant",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Bitter Blade", "Poltergeist", "Shadow Sneak", "Swords Dance"],
+					"weight": 100
+				}
+			]
+		},
+		"clodsire": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Clodsire",
+					"item": "Gyaradosite",
+					"ability": "Water Absorb",
+					"nature": "Careful",
+					"evs": {"hp": 248, "def": 8, "spd": 252},
+					"moves": ["Earthquake", "Recover", "Toxic", ["Spikes", "Stealth Rock"]],
+					"weight": 1
+				}
+			]
+		},
+		"corviknight": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Corviknight",
+					"item": "Sablenite",
+					"ability": "Pressure",
+					"nature": "Relaxed",
+					"evs": {"hp": 248, "def": 252, "spd": 8},
+					"ivs": {"spe": 0},
+					"moves": [["Brave Bird", "Body Press"], "U-turn", "Roost", "Defog"],
+					"weight": 65
+				},
+				{
+					"species": "Corviknight",
+					"item": "Sablenite",
+					"ability": "Pressure",
+					"nature": "Relaxed",
+					"evs": {"hp": 248, "def": 252, "spd": 8},
+					"ivs": {"spe": 0},
+					"moves": ["Body Press", ["Iron Defense", "Bulk Up"], ["U-turn", "Defog"], "Roost"],
+					"weight": 10
+				},
+				{
+					"species": "Corviknight",
+					"item": "Sablenite",
+					"ability": "Pressure",
+					"nature": "Relaxed",
+					"evs": {"hp": 248, "def": 252, "spd": 8},
+					"ivs": {"spe": 0},
+					"moves": ["Brave Bird", "Bulk Up", ["U-turn", "Defog"], "Roost"],
+					"weight": 15
+				},
+				{
+					"species": "Corviknight",
+					"item": "Venusaurite",
+					"ability": "Pressure",
+					"nature": "Careful",
+					"evs": {"hp": 248, "def": 8, "spd": 252},
+					"moves": ["Bulk Up", "Brave Bird", "Roost", "Defog"],
+					"weight": 10
+				}
+			]
+		},
+		"darkrai": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Darkrai",
+					"item": "Diancite",
+					"ability": "Bad Dreams",
+					"nature": "Modest",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Dark Pulse", "Ice Beam", ["Sludge Bomb", "Thunder"], ["Nasty Plot", "Psychic"]],
+					"weight": 100
+				}
+			]
+		},
+		"dragonite": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Dragonite",
+					"item": "Altarianite",
+					"ability": "Multiscale",
+					"nature": "Adamant",
+					"evs": {"hp": 252, "atk": 148, "spe": 108},
+					"moves": ["Extreme Speed", ["Fire Punch", "Earthquake", "Thunder Punch"], "Roost", "Dragon Dance"],
+					"weight": 70
+				},
+				{
+					"species": "Dragonite",
+					"item": ["Pinsirite", "Salamencite"],
+					"ability": "Multiscale",
+					"nature": "Adamant",
+					"evs": {"hp": 148, "atk": 240, "spe": 120},
+					"moves": ["Extreme Speed", "Earthquake", ["Roost", "Fire Punch"], "Dragon Dance"],
+					"weight": 30
+				}
+			]
+		},
+		"eternatus": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Eternatus",
+					"item": ["Rocky Helmet", "Black Sludge", "Heavy Duty Boots"],
+					"ability": "Pressure",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"atk": 0},
+					"moves": ["Dynamax Cannon", "Flamethrower", ["Sludge Bomb", "Toxic"], "Recover"],
+					"weight": 35
+				},
+				{
+					"species": "Eternatus",
+					"item": ["Rocky Helmet", "Black Sludge", "Heavy Duty Boots"],
+					"ability": "Pressure",
+					"nature": "Timid",
+					"evs": {"hp": 248, "def": 228, "spe": 32},
+					"ivs": {"atk": 0},
+					"moves": ["Recover", "Toxic", ["Dynamax Cannon", "Sludge Bomb"], "Flamethrower"],
+					"weight": 30
+				},
+				{
+					"species": "Eternatus",
+					"item": "Life Orb",
+					"ability": "Pressure",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Dynamax Cannon", "Sludge Bomb", "Fire Blast", "Recover"],
+					"weight": 20
+				},
+				{
+					"species": "Eternatus",
+					"item": "Power Herb",
+					"ability": "Pressure",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Meteor Beam", "Dynamax Cannon", "Sludge Bomb", "Fire Blast"],
+					"weight": 15
+				}
+			]
+		},
+		"excadrill": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Excadrill",
+					"item": "Metagrossite",
+					"ability": "Mold Breaker",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["High Horsepower", "Iron Head", "Stealth Rock", "Rapid Spin"],
+					"weight": 100
+				}
+			]
+		},
+		"garganacl": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Garganacl",
+					"item": "Pinsirite",
+					"ability": "Purifying Salt",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "atk": 4, "def": 252},
+					"moves": ["Salt Cure", "Body Slam", ["Stealth Rock", "Curse"], "Recover"],
+					"weight": 15
+				},
+				{
+					"species": "Garganacl",
+					"item": ["Sablenite", "Latiasite"],
+					"ability": "Purifying Salt",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"spe": 0},
+					"moves": ["Salt Cure", ["Body Press", "Curse"], "Stealth Rock", "Recover"],
+					"weight": 50
+				},
+				{
+					"species": "Garganacl",
+					"item": ["Sablenite", "Tyranitarite"],
+					"ability": "Purifying Salt",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "def": 4, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": ["Salt Cure", ["Earthquake", "Stealth Rock"], "Curse", "Recover"],
+					"weight": 35
+				}
+			]
+		},
+		"greattusk": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Great Tusk",
+					"item": "Pinsirite",
+					"ability": "Protosynthesis",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Headlong Rush", "Body Slam", "Rapid Spin", ["Smack Down", "Bulk Up"]],
+					"weight": 30
+				},
+				{
+					"species": "Great Tusk",
+					"item": "Pinsirite",
+					"ability": "Protosynthesis",
+					"nature": "Adamant",
+					"evs": {"hp": 176, "atk": 128, "spe": 204},
+					"moves": ["Headlong Rush", "Body Slam", "Rapid Spin", ["Bulk Up", "Smack Down"]],
+					"weight": 30
+				},
+				{
+					"species": "Great Tusk",
+					"item": "Hearthflame Mask",
+					"ability": "Protosynthesis",
+					"nature": "Adamant",
+					"evs": {"hp": 104, "atk": 252, "def": 152},
+					"moves": ["Stealth Rock", "Headlong Rush", ["Stone Edge", "Knock Off"], ["Rapid Spin", "Temper Flare"]],
+					"weight": 15
+				},
+				{
+					"species": "Great Tusk",
+					"item": "Hearthflame Mask",
+					"ability": "Protosynthesis",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "def": 4, "spe": 252},
+					"moves": ["Stealth Rock", "Headlong Rush", "Knock Off", "Rapid Spin"],
+					"weight": 10
+				},
+				{
+					"species": "Great Tusk",
+					"item": "Metagrossite",
+					"ability": "Protosynthesis",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Headlong Rush", "Close Combat", "Ice Spinner", "Rapid Spin"],
+					"weight": 15
+				}
+			]
+		},
+		"groudon": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Groudon",
+					"item": "Leftovers",
+					"ability": "Drought",
+					"nature": "Adamant",
+					"evs": {"hp": 252, "atk": 252, "spd": 4},
+					"moves": ["Precipice Blades", "Heat Crash", ["Stone Edge", "Rock Slide"], ["Swords Dance", "Spikes"]],
+					"weight": 100
+				}
+			]
+		},
+		"hippowdon": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "Hippowdon",
+					"item": ["Sablenite", "Venusaurite"],
+					"ability": "Sand Stream",
+					"nature": "Careful",
+					"evs": {"hp": 252, "def": 84, "spd": 172},
+					"moves": ["Earthquake", ["Whirlwind", "Stone Edge"], "Stealth Rock", "Slack Off"],
+					"weight": 100
+				}
+			]
+		},
+		"hooh": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Ho-Oh",
+					"item": "Heavy-Duty Boots",
+					"ability": "Regenerator",
+					"nature": "Careful",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"moves": ["Sacred Fire", ["Earthquake", "Brave Bird"], "Recover", "Whirlwind"],
+					"weight": 100
+				}
+			]
+		},
+		"ironboulder": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "ironboulder",
+					"item": "Pinsirite",
+					"ability": "Quark Drive",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Double-Edge", "Mighty Cleave", "Earthquake", "Swords Dance"],
+					"weight": 30
+				},
+				{
+					"species": "ironboulder",
+					"item": "Lopunnite",
+					"ability": "Quark Drive",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Mighty Cleave", "Close Combat", "Earthquake", "Swords Dance"],
+					"weight": 35
+				},
+				{
+					"species": "ironboulder",
+					"item": "Metagrossite",
+					"ability": "Quark Drive",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Mighty Cleave", "Close Combat", "Zen Headbutt", "Swords Dance"],
+					"weight": 35
+				}
+			]
+		},
+		"ironcrown": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "ironcrown",
+					"item": ["Lucarionite", "Absolite"],
+					"ability": "Quark Drive",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"ivs": {"atk": 20},
+					"moves": ["Tachyon Cutter", "Psychic Noise", "Volt Switch", ["Calm Mind", "Future Sight"]],
+					"weight": 100
+				}
+			]
+		},
+		"ironmoth": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Iron Moth",
+					"item": "Latiasite",
+					"ability": "Quark Drive",
+					"nature": "Modest",
+					"evs": {"hp": 24, "spa": 252, "spe": 232},
+					"ivs": {"atk": 0},
+					"moves": [["Fiery Dance", "Flamethrower"], "Toxic", "Morning Sun", "Psychic"],
+					"weight": 100
+				}
+			]
+		},
+		"irontreads": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Iron Treads",
+					"item": "Manectite",
+					"ability": "Quark Drive",
+					"nature": "Timid",
+					"evs": {"def": 4, "spa": 252, "spe": 252},
+					"moves": ["Earth Power", "Flash Cannon", "Volt Switch", "Rapid Spin"],
+					"weight": 100
+				}
+			]
+		},
+		"kilowattrel": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Kilowattrel",
+					"item": "Blue Orb",
+					"ability": "Competitive",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Thunder", "Hurricane", "Weather Ball", ["U-turn", "Volt Switch", "Endeavor"]],
+					"weight": 60
+				},
+				{
+					"species": "Kilowattrel",
+					"item": "Lucarionite",
+					"ability": "Volt Absorb",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"moves": ["Hurricane", "Thunderbolt", ["U-turn", "Volt Switch"], "Endeavor"],
+					"weight": 40
+				}
+			]
+		},
+		"kingambit": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Kingambit",
+					"item": ["Aerodactylite", "Latiosite"],
+					"ability": "Defiant",
+					"nature": "Adamant",
+					"evs": {"hp": 252, "atk": 252, "def": 4},
+					"moves": ["Sucker Punch", "Kowtow Cleave", "Iron Head", "Swords Dance"],
+					"weight": 100
+				}
+			]
+		},
+		"lunala": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Lunala",
+					"item": "Power Herb",
+					"ability": "Shadow Shield",
+					"nature": "Modest",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Meteor Beam", "Moongeist Beam", ["Moonblast", "Ice Beam"], ["Agility", "Moonlight"]],
+					"weight": 25
+				},
+				{
+					"species": "Lunala",
+					"item": ["Heavy-Duty Boots", "Rocky Helmet"],
+					"ability": "Shadow Shield",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spe": 4},
+					"ivs": {"atk": 0},
+					"moves": ["Moongeist Beam", ["Ice Beam", "Moonblast"], ["Calm Mind", "Teleport"], "Moonlight"],
+					"weight": 75
+				}
+			]
+		},
+		"magearna": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Magearna",
+					"item": "Pinsirite",
+					"ability": "Soul-Heart",
+					"nature": "Adamant",
+					"evs": {"hp": 80, "atk": 252, "spe": 176},
+					"moves": ["Body Slam", "Shift Gear", "Pain Split", ["Iron Head", "Encore"]],
+					"weight": 10
+				},
+				{
+					"species": "Magearna",
+					"item": ["Latiasite", "Manectite"],
+					"ability": "Soul-Heart",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"moves": [["Ice Beam", "Fleur Cannon"], "Volt Switch", "Pain Split", ["Spikes", "Encore"]],
+					"weight": 45
+				},
+				{
+					"species": "Magearna",
+					"item": ["Latiasite", "Manectite"],
+					"ability": "Soul-Heart",
+					"nature": "Calm",
+					"evs": {"hp": 252, "def": 4, "spd": 252},
+					"moves": [["Ice Beam", "Fleur Cannon"], "Volt Switch", "Pain Split", ["Spikes", "Encore"]],
+					"weight": 45
+				}
+			]
+		},
+		"mandibuzz": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Mandibuzz",
+					"item": "Gyaradosite",
+					"ability": "Overcoat",
+					"gender": "F",
+					"nature": "Impish",
+					"evs": {"hp": 248, "def": 252, "spd": 8},
+					"moves": ["Foul Play", "Toxic", "Roost", "Defog"],
+					"weight": 65
+				},
+				{
+					"species": "Mandibuzz",
+					"item": "Sablenite",
+					"ability": "Overcoat",
+					"gender": "F",
+					"nature": "Impish",
+					"evs": {"hp": 248, "def": 252, "spd": 8},
+					"moves": ["Foul Play", "U-turn", "Roost", "Defog"],
+					"weight": 35
+				}
+			]
+		},
+		"milotic": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Milotic",
+					"item": "Sablenite",
+					"ability": "Competitive",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"spe": 0},
+					"moves": ["Scald", "Flip Turn", "Recover", ["Ice Beam", "Haze"]],
+					"weight": 60
+				},
+				{
+					"species": "Milotic",
+					"item": "Audinite",
+					"ability": "Competitive",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"spe": 0},
+					"moves": ["Scald", "Flip Turn", "Recover", ["Alluring Voice", "Haze"]],
+					"weight": 40
+				}
+			]
+		},
+		"necrozmaduskmane": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Necrozma-Dusk-Mane",
+					"item": ["Rocky Helmet", "Covert Cloak"],
+					"ability": "Prism Armor",
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"moves": ["Sunsteel Strike", ["Knock Off", "Stone Edge"], "Stealth Rock", "Morning Sun"],
+					"weight": 60
+				},
+				{
+					"species": "Necrozma-Dusk-Mane",
+					"item": ["Leftovers", "Covert Cloak", "Weakness Policy"],
+					"ability": "Prism Armor",
+					"nature": "Adamant",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Sunsteel Strike", "Photon Geyser", "Stone Edge", "Dragon Dance"],
+					"weight": 40
+				}
+			]
+		},
+		"pecharunt": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "pecharunt",
+					"item": "Latiasite",
+					"ability": "Poison Puppeteer",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 136, "spd": 120},
+					"ivs": {"atk": 0},
+					"moves": ["Malignant Chain", "Recover", "Parting Shot", ["Hex", "Shadow Ball"]],
+					"weight": 45
+				},
+				{
+					"species": "pecharunt",
+					"item": "Sablenite",
+					"ability": "Poison Puppeteer",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"atk": 0},
+					"moves": ["Malignant Chain", "Recover", "Parting Shot", ["Hex", "Shadow Ball"]],
+					"weight": 25
+				},
+				{
+					"species": "pecharunt",
+					"item": "Gyaradosite",
+					"ability": "Poison Puppeteer",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"atk": 0},
+					"moves": ["Toxic", "Foul Play", "Recover", ["Parting Shot", "Malignant Chain", "Night Shade"]],
+					"weight": 15
+				},
+				{
+					"species": "pecharunt",
+					"item": "Gyaradosite",
+					"ability": "Poison Puppeteer",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"atk": 0},
+					"moves": ["Malignant Chain", "Foul Play", "Recover", ["Parting Shot", "Night Shade"]],
+					"weight": 15
+				}
+			]
+		},
+		"ragingbolt": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "ragingbolt",
+					"item": "Lucarionite",
+					"ability": "Protosynthesis",
+					"nature": "Modest",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"ivs": {"atk": 20},
+					"moves": [["Draco Meteor", "Dragon Pulse"], "Thunderbolt", "Thunderclap", ["Calm Mind", "Volt Switch"]],
+					"weight": 100
+				}
+			]
+		},
+		"regieleki": {
+			"weight": 9,
+			"sets": [
+				{
+					"species": "Regieleki",
+					"item": "Altarianite",
+					"ability": "Transistor",
+					"nature": "Naughty",
+					"evs": {"atk": 252, "def": 68, "spe": 188},
+					"moves": ["Extreme Speed", "Volt Switch", "Rapid Spin", ["Explosion", "Supercell Slam"]],
+					"weight": 90
+				},
+				{
+					"species": "Regieleki",
+					"item": "Glalitite",
+					"ability": "Transistor",
+					"nature": "Naughty",
+					"evs": {"atk": 252, "spa": 160, "spe": 96},
+					"moves": ["Extreme Speed", "Supercell Slam", "Volt Switch", ["Rapid Spin", "Explosion"]],
+					"weight": 10
+				}
+			]
+		},
+		"samurotthisui": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "Samurott-Hisui",
+					"item": "Metagrossite",
+					"ability": "Sharpness",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Ceaseless Edge", "Liquidation", ["Swords Dance", "Flip Turn"], ["Sucker Punch", "Encore"]],
+					"weight": 100
+				}
+			]
+		},
+		"sandyshocks": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "Sandy Shocks",
+					"item": ["Manectite", "Lucarionite"],
+					"ability": "Protosynthesis",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Thunderbolt", "Volt Switch", "Earth Power", ["Spikes", "Tri Attack"]],
+					"weight": 65
+				},
+				{
+					"species": "Sandy Shocks",
+					"item": "Glalitite",
+					"ability": "Protosynthesis",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Thunderbolt", "Tri Attack", "Earth Power", ["Spikes", "Stealth Rock"]],
+					"weight": 35
+				}
+			]
+		},
+		"screamtail": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Scream Tail",
+					"item": "Gardevoirite",
+					"ability": "Protosynthesis",
+					"nature": "Timid",
+					"evs": {"def": 4, "spa": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Boomburst", "Calm Mind", "Wish", "Protect"],
+					"weight": 100
+				}
+			]
+		},
+		"slowking": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Slowking",
+					"item": "Sablenite",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "def": 4, "spd": 252},
+					"ivs": {"atk": 0, "spe": 0},
+					"moves": ["Scald", "Slack Off", "Chilly Reception", ["Future Sight", "Psychic Noise"]],
+					"weight": 100
+				}
+			]
+		},
+		"slowkinggalar": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "Slowking-Galar",
+					"item": "Latiasite",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "def": 60, "spd": 196},
+					"ivs": {"atk": 0, "spe": 0},
+					"moves": [["Future Sight", "Toxic"], ["Sludge Bomb", "Psychic Noise"], "Slack Off", "Chilly Reception"],
+					"weight": 100
+				}
+			]
+		},
+		"spectrier": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "Spectrier",
+					"item": ["Manectite", "Audinite"],
+					"ability": "Grim Neigh",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Shadow Ball", "Draining Kiss", "Nasty Plot", "Substitute"],
+					"weight": 100
+				}
+			]
+		},
+		"swampert": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Swampert",
+					"item": "Sablenite",
+					"ability": "Torrent",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"spe": 0},
+					"moves": ["Flip Turn", "Earthquake", "Stealth Rock", ["Ice Beam", "Roar"]],
+					"weight": 100
+				}
+			]
+		},
+		"urshifurapidstrike": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Urshifu-Rapid-Strike",
+					"item": "Metagrossite",
+					"ability": "Unseen Fist",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Surging Strikes", "Close Combat", "Ice Spinner", ["U-turn", "Swords Dance"]],
+					"weight": 70
+				},
+				{
+					"species": "Urshifu-Rapid-Strike",
+					"item": "Aerodactylite",
+					"ability": "Unseen Fist",
+					"nature": "Adamant",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Surging Strikes", "Close Combat", "Ice Spinner", ["U-turn", "Swords Dance"]],
+					"weight": 30
+				}
+			]
+		},
+		"walkingwake": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Walking Wake",
+					"item": ["Lucarionite", "Diancite"],
+					"ability": "Protosynthesis",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"moves": ["Hydro Pump", "Draco Meteor", "Flip Turn", ["Scald", "Surf"]],
+					"weight": 60
+				},
+				{
+					"species": "Walking Wake",
+					"item": ["Lucarionite", "Diancite"],
+					"ability": "Protosynthesis",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"moves": ["Surf", "Draco Meteor", "Flip Turn", ["Scald", "Hydro Pump", "Dragon Pulse"]],
+					"weight": 40
+				}
+			]
+		},
+		"zamazenta": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "Zamazenta",
+					"item": "Aggronite",
+					"ability": "Dauntless Shield",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "def": 4, "spe": 252},
+					"moves": ["Iron Defense", "Body Press", "Crunch", ["Iron Head", "Stone Edge"]],
+					"weight": 75
+				},
+				{
+					"species": "Zamazenta",
+					"item": "Metagrossite",
+					"ability": "Dauntless Shield",
+					"nature": "Adamant",
+					"evs": {"atk": 252, "def": 4, "spe": 252},
+					"moves": ["Close Combat", ["Ice Fang", "Psychic Fangs"], "Crunch", ["Howl", "Stone Edge"]],
+					"weight": 25
+				}
+			]
+		},
+		"zapdos": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Zapdos",
+					"item": "Lucarionite",
+					"ability": "Pressure",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Hurricane", "Thunderbolt", "Volt Switch", "Roost"],
+					"weight": 60
+				},
+				{
+					"species": "Zapdos",
+					"item": "Blue Orb",
+					"ability": "Pressure",
+					"nature": "Modest",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Thunder", "Hurricane", "Weather Ball", "Roost"],
+					"weight": 40
+				}
+			]
+		},
+		"zapdosgalar": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Zapdos-Galar",
+					"item": "Metagrossite",
+					"ability": "Defiant",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Close Combat", "Brave Bird", "Thunderous Kick", "U-turn"],
+					"weight": 100
+				}
+			]
+		}
+	}
+}
