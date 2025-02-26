@@ -1,4 +1,2455 @@
 {
+	"inh": {
+		"annihilape": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Annihilape",
+					"item": "Heavy-Duty Boots",
+					"ability": "Purifying Salt",
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"moves": ["Recover", ["Stealth Rock", "Iron Defense"], "Body Press", "Salt Cure"],
+					"donor": "Naclstack",
+					"weight": 40
+				},
+				{
+					"species": "Annihilape",
+					"item": ["Sticky Barb", "Leftovers"],
+					"ability": "Magic Guard",
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 252},
+					"moves": ["Moonlight", "Stealth Rock", "Drain Punch", "Knock Off"],
+					"donor": "Clefairy",
+					"weight": 25
+				},
+				{
+					"species": "Annihilape",
+					"item": "Heavy-Duty Boots",
+					"ability": "Water Absorb",
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 240, "spe": 16},
+					"ivs": {"atk": 0},
+					"moves": [["Spikes", "Stealth Rock"], ["Toxic", "Toxic Spikes"], "Body Press", "Recover"],
+					"donor": "Quagsire",
+					"weight": 10
+				},
+				{
+					"species": "Annihilape",
+					"item": "Life Orb",
+					"ability": "Flash Fire",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Swords Dance", "Poltergeist", ["Bitter Blade", "Shadow Sneak"], "Close Combat"],
+					"donor": "Ceruledge",
+					"weight": 15
+				},
+				{
+					"species": "Annihilape",
+					"item": ["Life Orb", "White Herb"],
+					"ability": "Weak Armor",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Swords Dance", "Poltergeist", ["Bitter Blade", "Shadow Sneak"], "Close Combat"],
+					"donor": "Ceruledge",
+					"weight": 10
+				}
+			]
+		},
+		"azelf": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Azelf",
+					"item": "Choice Scarf",
+					"ability": "Psychic Surge",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Trick", "Expanding Force", "Dazzling Gleam", "Healing Wish"],
+					"donor": "Indeedee",
+					"weight": 1
+				}
+			]
+		},
+		"barraskewda": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Barraskewda",
+					"item": ["Choice Band", "Heavy-Duty Boots"],
+					"ability": "Protean",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["U-turn", "Knock Off", "Triple Axel", "Flower Trick"],
+					"donor": "Meowscarada",
+					"weight": 25
+				},
+				{
+					"species": "Barraskewda",
+					"item": "Choice Band",
+					"ability": "Libero",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["U-turn", "Pyro Ball", "Gunk Shot", ["High Jump Kick", "Sucker Punch"]],
+					"donor": "Cinderace",
+					"weight": 25
+				},
+				{
+					"species": "Barraskewda",
+					"item": "Heavy-Duty Boots",
+					"ability": "Libero",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["U-turn", "Pyro Ball", ["Gunk Shot", "Super Fang", "Sucker Punch"], ["Court Change", "Will-O-Wisp"]],
+					"donor": "Cinderace",
+					"weight": 20
+				},
+				{
+					"species": "Barraskewda",
+					"item": "Heavy-Duty Boots",
+					"ability": "Libero",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["U-turn", "Pyro Ball", ["Gunk Shot", "Sucker Punch"], "Super Fang"],
+					"donor": "Cinderace",
+					"weight": 10
+				},
+				{
+					"species": "Barraskewda",
+					"item": "Choice Band",
+					"ability": "Adaptability",
+					"nature": ["Adamant", "Jolly"],
+					"evs": {"atk": 252, "def": 4, "spe": 252},
+					"moves": ["Flip Turn", ["Liquidation", "Aqua Jet"], "Wave Crash", "Psychic Fangs"],
+					"donor": "Basculin",
+					"weight": 20
+				}
+			]
+		},
+		"baxcalibur": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Baxcalibur",
+					"item": ["Heavy-Duty Boots", "Loaded Dice", "Protective Pads"],
+					"ability": "Technician",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Tidy Up", ["Knock Off", "Rock Blast"], "Triple Axel", "Bullet Seed"],
+					"donor": "Cinccino",
+					"weight": 80
+				},
+				{
+					"species": "Baxcalibur",
+					"item": "Heavy-Duty Boots",
+					"ability": "Technician",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Rapid Spin", "Triple Axel", "Earthquake", "Thief"],
+					"donor": "Hitmontop",
+					"weight": 20
+				}
+			]
+		},
+		"blissey": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Blissey",
+					"item": "Heavy-Duty Boots",
+					"ability": "Prankster",
+					"gender": "F",
+					"nature": "Sassy",
+					"evs": {"hp": 4, "def": 252, "spd": 252},
+					"moves": ["Roost", "Encore", "Seismic Toss", ["U-turn", "Thunder Wave"]],
+					"donor": "Volbeat",
+					"weight": 1
+				}
+			]
+		},
+		"chansey": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Chansey",
+					"item": "Eviolite",
+					"ability": "Prankster",
+					"gender": "F",
+					"nature": "Relaxed",
+					"evs": {"hp": 248, "def": 252, "spd": 8},
+					"ivs": {"spe": 0},
+					"moves": ["Roost", "Encore", "Seismic Toss", "U-Turn"],
+					"donor": "Volbeat",
+					"weight": 40
+				},
+				{
+					"species": "Chansey",
+					"item": "Eviolite",
+					"ability": "Magic Guard",
+					"gender": "F",
+					"nature": "Impish",
+					"evs": {"hp": 248, "atk": 8, "def": 252},
+					"moves": ["Moonlight", "Stealth Rock", "Night Shade", ["Knock Off", "Thunder Wave", "Wish"]],
+					"donor": "Clefairy",
+					"weight": 25
+				},
+				{
+					"species": "Chansey",
+					"item": "Eviolite",
+					"ability": "Unaware",
+					"gender": "F",
+					"nature": "Impish",
+					"evs": {"hp": 248, "atk": 8, "def": 252},
+					"moves": ["Moonlight", "Stealth Rock", "Night Shade", ["Knock Off", "Thunder Wave", "Wish"]],
+					"donor": "Clefable",
+					"weight": 15
+				},
+				{
+					"species": "Chansey",
+					"item": "Eviolite",
+					"ability": "Magic Guard",
+					"gender": "F",
+					"nature": "Impish",
+					"evs": {"hp": 248, "atk": 8, "def": 252},
+					"moves": ["Wish", "Stealth Rock", "Night Shade", "Protect"],
+					"donor": "Clefairy",
+					"weight": 5
+				},
+				{
+					"species": "Chansey",
+					"item": "Eviolite",
+					"ability": "Unaware",
+					"gender": "F",
+					"nature": "Impish",
+					"evs": {"hp": 248, "atk": 8, "def": 252},
+					"moves": ["Wish", "Stealth Rock", "Night Shade", "Protect"],
+					"donor": "Clefable",
+					"weight": 5
+				},
+				{
+					"species": "Chansey",
+					"item": "Eviolite",
+					"ability": "Unaware",
+					"gender": "F",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Slack Off", "Will-O-Wisp", "Night Shade", "Roar"],
+					"donor": "Skeledirge",
+					"weight": 10
+				}
+			]
+		},
+		"corviknight": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Corviknight",
+					"item": ["Leftovers", "Rocky Helmet"],
+					"ability": "Flame Body",
+					"nature": "Impish",
+					"evs": {"hp": 248, "atk": 8, "def": 252},
+					"moves": ["Roost", "Defog", "Brave Bird", ["U-turn", "Will-O-Wisp"]],
+					"donor": "Fletchinder",
+					"weight": 60
+				},
+				{
+					"species": "Corviknight",
+					"item": ["Leftovers", "Rocky Helmet"],
+					"ability": "Intimidate",
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"moves": ["Morning Sun", ["Stealth Rock", "Roar"], "Iron Head", "Will-O-Wisp"],
+					"donor": "Growlithe-Hisui",
+					"weight": 12
+				},
+				{
+					"species": "Corviknight",
+					"item": ["Rocky Helmet", "Leftovers"],
+					"ability": "Intimidate",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "atk": 4, "def": 252},
+					"ivs": {"spe": 0},
+					"moves": ["Taunt", "Roost", "Brave Bird", "Parting Shot"],
+					"donor": "Squawkabilly",
+					"weight": 9
+				},
+				{
+					"species": "Corviknight",
+					"item": "Red Card",
+					"ability": "Aftermath",
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"moves": ["Defog", "Strength Sap", "Acrobatics", "Will-O-Wisp"],
+					"donor": "Drifblim",
+					"weight": 7
+				},
+				{
+					"species": "Corviknight",
+					"item": ["Leftovers", "Rocky Helmet"],
+					"ability": "Unaware",
+					"nature": "Impish",
+					"evs": {"hp": 252, "atk": 4, "def": 252},
+					"moves": [["Spikes", "Stealth Rock"], "Recover", "Iron Head", "Toxic"],
+					"donor": "Wooper",
+					"weight": 12
+				}
+			]
+		},
+		"darkrai": {
+			"weight": 9,
+			"sets": [
+				{
+					"species": "Darkrai",
+					"item": "Choice Specs",
+					"ability": "Mega Launcher",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"moves": ["U-turn", "Dark Pulse", "Aura Sphere", ["Sludge Bomb", "Flash Cannon"]],
+					"donor": "Clawitzer",
+					"weight": 1
+				}
+			]
+		},
+		"deoxysspeed": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Deoxys-Speed",
+					"item": ["Expert Belt", "Life Orb"],
+					"ability": "Contrary",
+					"nature": "Lonely",
+					"evs": {"atk": 252, "spa": 204, "spe": 52},
+					"moves": ["Knock Off", "Superpower", "Flamethrower", ["Psychic Noise", "Psychic"]],
+					"donor": "Inkay",
+					"weight": 30
+				},
+				{
+					"species": "Deoxys-Speed",
+					"item": "Choice Specs",
+					"ability": "Psychic Surge",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Trick", "Dazzling Gleam", "Expanding Force", ["Healing Wish", "Psyshock"]],
+					"donor": "Indeedee",
+					"weight": 50
+				},
+				{
+					"species": "Deoxys-Speed",
+					"item": ["Focus Sash", "Red Card"],
+					"ability": "Insomnia",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 4, "spe": 252},
+					"moves": ["Sticky Web", "Taunt", ["Memento", "Knock Off", "Circle Throw"], "Spikes"],
+					"donor": "Spidops",
+					"weight": 10
+				},
+				{
+					"species": "Deoxys-Speed",
+					"item": "Light Clay",
+					"ability": "Trace",
+					"nature": "Timid",
+					"evs": {"hp": 248, "spd": 8, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Reflect", "Light Screen", "Taunt", ["Healing Wish", "Memento"]],
+					"donor": "Gardevoir",
+					"weight": 6
+				},
+				{
+					"species": "Deoxys-Speed",
+					"item": "Light Clay",
+					"ability": "Snow Warning",
+					"nature": "Timid",
+					"evs": {"hp": 252, "spa": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Aurora Veil", "Psyshock", "Foul Play", "Encore"],
+					"donor": "Ninetales-Alola",
+					"weight": 4
+				}
+			]
+		},
+		"enamorus": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Enamorus",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"gender": "F",
+					"nature": "Naive",
+					"evs": {"atk": 4, "spa": 252, "spe": 252},
+					"moves": ["Psyshock", ["Fire Blast", "Flamethrower"], "Moonblast", ["Focus Punch", "Knock Off"]],
+					"donor": "Clefairy",
+					"weight": 70
+				},
+				{
+					"species": "Enamorus",
+					"item": ["Pixie Plate", "Heavy-Duty Boots"],
+					"ability": "Tinted Lens",
+					"gender": "F",
+					"nature": "Modest",
+					"evs": {"hp": 112, "def": 16, "spa": 252, "spe": 128},
+					"ivs": {"atk": 0},
+					"moves": ["Nasty Plot", "Moonblast", "Roost", "Agility"],
+					"donor": "Noctowl",
+					"weight": 30
+				}
+			]
+		},
+		"enamorustherian": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Enamorus-Therian",
+					"item": ["Rocky Helmet", "Leftovers"],
+					"ability": "Magic Guard",
+					"gender": "F",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spe": 4},
+					"moves": ["Moonlight", "Stealth Rock", "Moonblast", ["Knock Off", "Thunder Wave", "Flamethrower", ""]],
+					"donor": "Clefairy",
+					"weight": 40
+				},
+				{
+					"species": "Enamorus-Therian",
+					"item": ["Leftovers", "Life Orb"],
+					"ability": "Magic Guard",
+					"gender": "F",
+					"nature": "Bold",
+					"evs": {"hp": 248, "def": 252, "spe": 8},
+					"moves": ["Moonlight", "Calm Mind", "Moonblast", ["Stored Power", "Flamethrower"]],
+					"donor": "Clefairy",
+					"weight": 30
+				},
+				{
+					"species": "Enamorus-Therian",
+					"item": "Heavy-Duty Boots",
+					"ability": "Natural Cure",
+					"gender": "F",
+					"nature": "Bold",
+					"evs": {"hp": 248, "def": 252, "spd": 8},
+					"ivs": {"atk": 0},
+					"moves": ["Roost", "Defog", "Moonblast", "Will-O-Wisp"],
+					"donor": "Altaria",
+					"weight": 20
+				},
+				{
+					"species": "Enamorus-Therian",
+					"item": "Choice Specs",
+					"ability": "Triage",
+					"gender": "F",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spe": 4},
+					"moves": ["Trick", "U-turn", "Draining Kiss", "Giga Drain"],
+					"donor": "Enamorus-Therian",
+					"weight": 10
+				}
+			]
+		},
+		"excadrill": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Excadrill",
+					"item": "Sitrus Berry",
+					"ability": ["Thick Fat", "Guts"],
+					"nature": "Adamant",
+					"evs": {"hp": 132, "atk": 252, "spe": 124},
+					"moves": ["Belly Drum", "Bullet Punch", "Headlong Rush", "Ice Punch"],
+					"donor": "Hariyama",
+					"weight": 50
+				},
+				{
+					"species": "Excadrill",
+					"item": "Flame Orb",
+					"ability": "Guts",
+					"nature": "Adamant",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Bullet Punch", "Ice Punch", "Knock Off", "Headlong Rush"],
+					"donor": "Hariyama",
+					"weight": 50
+				}
+			]
+		},
+		"fezandipiti": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "fezandipiti",
+					"item": "Black Sludge",
+					"ability": "Levitate",
+					"nature": "Calm",
+					"evs": {"hp": 252, "spd": 252, "spe": 4},
+					"moves": ["Dazzling Gleam", ["Calm Mind", "Knock Off"], "Recover", ["Taunt", "Thunder Wave"]],
+					"donor": "Chimecho",
+					"weight": 1
+				}
+			]
+		},
+
+		"garchomp": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Garchomp",
+					"item": "Choice Band",
+					"ability": "Dragon's Maw",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Scale Shot", "Outrage", "Earthquake", "Thunder Fang"],
+					"donor": "Regidrago",
+					"weight": 50
+				},
+				{
+					"species": "Garchomp",
+					"item": "Leftovers",
+					"ability": "Thermal Exchange",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Dragon Dance", "Glaive Rush", "Earthquake", ["Icicle Crash", "Substitute"]],
+					"donor": "Baxcalibur",
+					"weight": 50
+				}
+			]
+		},
+		"gengar": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Gengar",
+					"item": ["Choice Specs", "Choice Scarf"],
+					"ability": "Adaptability",
+					"nature": "Modest",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"moves": ["Flip Turn", "Focus Blast", "Shadow Ball", "Sludge Bomb"],
+					"donor": "Dragalge",
+					"weight": 1
+				}
+			]
+		},
+		"gholdengo": {
+			"weight": 10,
+			"sets": [
+				{
+					"species": "Gholdengo",
+					"item": ["Colbur Berry", "Air Balloon", "Leftovers"],
+					"ability": "Unaware",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 160, "spe": 96},
+					"ivs": {"atk": 0},
+					"moves": ["Slack Off", "Will-O-Wisp", "Torch Song", ["Hex", "Shadow Ball"]],
+					"donor": "Skeledirge",
+					"weight": 25
+				},
+				{
+					"species": "Gholdengo",
+					"item": ["Colbur Berry", "Leftovers", "Heavy-Duty Boots"],
+					"ability": "Infiltrator",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 156, "spe": 100},
+					"moves": ["Strength Sap", "Spikes", "Shadow Ball", "Rapid Spin"],
+					"donor": "Bramblin",
+					"weight": 30
+				},
+				{
+					"species": "Gholdengo",
+					"item": ["Colbur Berry", "Leftovers"],
+					"ability": "Levitate",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spa": 4},
+					"moves": ["Recover", "Knock Off", "Shadow Ball", ["Dazzling Gleam", "Thunder Wave", "Heal Bell"]],
+					"donor": "Chimecho",
+					"weight": 20
+				},
+				{
+					"species": "Gholdengo",
+					"item": ["Colbur Berry", "Leftovers"],
+					"ability": "Levitate",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spa": 4},
+					"ivs": {"atk": 0},
+					"moves": ["Recover", "Calm Mind", "Shadow Ball", ["Alluring Voice", "Aura Sphere"]],
+					"donor": "Latias",
+					"weight": 20
+				},
+				{
+					"species": "Gholdengo",
+					"item": ["Colbur Berry", "Leftovers"],
+					"ability": "Levitate",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spa": 4},
+					"ivs": {"atk": 0},
+					"moves": ["Recover", "Calm Mind", "Shadow Ball", ["Taunt", "Psychic Noise"]],
+					"donor": "Chimecho",
+					"weight": 5
+				}
+			]
+		},
+		"gliscor": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Gliscor",
+					"item": ["Leftovers", "Rocky Helmet"],
+					"ability": "Flame Body",
+					"nature": "Impish",
+					"evs": {"hp": 248, "def": 252, "spd": 8},
+					"moves": ["Roost", "Defog", "Brave Bird", ["U-turn", "Will-O-Wisp"]],
+					"donor": "Fletchinder",
+					"weight": 25
+				},
+				{
+					"species": "Gliscor",
+					"item": ["Leftovers", "Rocky Helmet"],
+					"ability": "Purifying Salt",
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"moves": ["Recover", ["Stealth Rock", "Protect"], "Earthquake", "Salt Cure"],
+					"donor": "Naclstack",
+					"weight": 25
+				},
+				{
+					"species": "Gliscor",
+					"item": "Rocky Helmet",
+					"ability": "Intimidate",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"spe": 0},
+					"moves": ["Taunt", "Roost", "Brave Bird", "Parting Shot"],
+					"donor": "Squawkabilly",
+					"weight": 10
+				},
+				{
+					"species": "Gliscor",
+					"item": ["Leftovers", "Rocky Helmet"],
+					"ability": "Flame Body",
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 252, "spe": 4},
+					"moves": ["Recover", "Stealth Rock", "Earthquake", "Will-O-Wisp"],
+					"donor": "Slugma",
+					"weight": 20
+				},
+				{
+					"species": "Gliscor",
+					"item": "Leftovers",
+					"ability": ["Water Absorb", "Unaware"],
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 252, "spe": 4},
+					"moves": ["Recover", ["Stealth Rock", "Spikes", "Toxic Spikes"], "Earthquake", "Toxic"],
+					"donor": "Quagsire",
+					"weight": 10
+				},
+				{
+					"species": "Gliscor",
+					"item": "Red Card",
+					"ability": "Regenerator",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"spe": 0},
+					"moves": ["U-turn", "Knock Off", "Acrobatics", "Dragon Tail"],
+					"donor": "Cyclizar",
+					"weight": 10
+				}
+			]
+		},
+		"goodra": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Goodra",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "def": 4, "spd": 252},
+					"moves": ["Rapid Spin", "U-turn", "Knock Off", ["Dragon Tail", "Draco Meteor", "Overheat"]],
+					"donor": "Cyclizar",
+					"weight": 1
+				}
+			]
+		},
+		"goodrahisui": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Goodra-Hisui",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Quiet",
+					"evs": {"hp": 252, "spa": 252, "spd": 4},
+					"ivs": {"spe": 0},
+					"moves": ["Rapid Spin", "U-turn", ["Knock Off", "Draco Meteor", "Dragon Tail"], "Overheat"],
+					"donor": "Cyclizar",
+					"weight": 2
+				},
+				{
+					"species": "Goodra-Hisui",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Quiet",
+					"evs": {"hp": 252, "spa": 252, "spd": 4},
+					"ivs": {"spe": 0},
+					"moves": ["Rapid Spin", "U-turn", ["Knock Off", "Dragon Tail"], "Draco Meteor"],
+					"donor": "Cyclizar",
+					"weight": 1
+				}
+			]
+		},
+		"gougingfire": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "gougingfire",
+					"item": "Heavy-Duty Boots",
+					"ability": "Dragon's Maw",
+					"nature": "Adamant",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Dragon Dance", "Fire Fang", "Outrage", ["Thunder Fang", "Earthquake"]],
+					"donor": "Regidrago",
+					"weight": 40
+				},
+				{
+					"species": "gougingfire",
+					"item": "Heavy-Duty Boots",
+					"ability": "Intimidate",
+					"nature": "Impish",
+					"evs": {"hp": 252, "atk": 4, "def": 252},
+					"moves": ["Morning Sun", "Stealth Rock", "Heat Crash", ["Roar", "Will-O-Wisp"]],
+					"donor": "Arcanine-Hisui",
+					"weight": 20
+				},
+				{
+					"species": "gougingfire",
+					"item": "Leftovers",
+					"ability": "Corrosion",
+					"nature": "Impish",
+					"evs": {"hp": 248, "def": 40, "spe": 220},
+					"moves": ["Substitute", "Dragon Dance", "Fire Lash", "Toxic"],
+					"donor": "Salazzle",
+					"weight": 15
+				},
+				{
+					"species": "gougingfire",
+					"item": "Heavy-Duty Boots",
+					"ability": "Regenerator",
+					"nature": "Impish",
+					"evs": {"hp": 248, "def": 212, "spe": 48},
+					"moves": ["Taunt", "Rapid Spin", "Temper Flare", "Dragon Tail"],
+					"donor": "Cyclizar",
+					"weight": 25
+				}
+			]
+		},
+		"greattusk": {
+			"weight": 9,
+			"sets": [
+				{
+					"species": "Great Tusk",
+					"item": ["Rocky Helmet", "Leftovers"],
+					"ability": "Intimidate",
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 252, "spe": 4},
+					"moves": ["Morning Sun", "Stealth Rock", "Close Combat", "Will-O-Wisp"],
+					"donor": "Growlithe-Hisui",
+					"weight": 20
+				},
+				{
+					"species": "Great Tusk",
+					"item": "Flame Orb",
+					"ability": "Guts",
+					"nature": ["Adamant", "Jolly"],
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Ice Punch", ["Knock Off", "Stone Edge"], "Close Combat", "Headlong Rush"],
+					"donor": "Hariyama",
+					"weight": 10
+				},
+				{
+					"species": "Great Tusk",
+					"item": "Flame Orb",
+					"ability": "Guts",
+					"nature": ["Adamant", "Jolly"],
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Swords Dance", ["Knock Off", "Ice Punch"], "Close Combat", "Earthquake"],
+					"donor": "Heracross",
+					"weight": 10
+				},
+				{
+					"species": "Great Tusk",
+					"item": "Flame Orb",
+					"ability": "Guts",
+					"nature": "Adamant",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Trailblaze", "Ice Punch", "Close Combat", "Earthquake"],
+					"donor": "Ursaring",
+					"weight": 10
+				},
+				{
+					"species": "Great Tusk",
+					"item": ["Heavy-Duty Boots", "Rocky Helmet", "Leftovers"],
+					"ability": "Unaware",
+					"nature": "Impish",
+					"evs": {"hp": 252, "atk": 4, "def": 252},
+					"moves": ["Recover", ["Stealth Rock", "Spikes"], ["Earthquake", "Body Press"], "Toxic"],
+					"donor": "Quagsire",
+					"weight": 20
+				},
+				{
+					"species": "Great Tusk",
+					"item": "Rocky Helmet",
+					"ability": "Regenerator",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "atk": 4, "def": 252},
+					"ivs": {"spe": 0},
+					"moves": ["Slack Off", "Toxic", ["Earthquake", "Body Press"], "Chilly Reception"],
+					"donor": "Slowking-Galar",
+					"weight": 10
+				},
+				{
+					"species": "Great Tusk",
+					"item": "Leftovers",
+					"ability": "Scrappy",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "def": 4, "spe": 252},
+					"moves": ["Swords Dance", "Triple Arrows", ["Knock Off", "Taunt", "Sucker Punch"], "Roost"],
+					"donor": "Decidueye-Hisui",
+					"weight": 20
+				}
+			]
+		},
+		"greninja": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "Greninja",
+					"item": ["Life Orb", "Heavy-Duty Boots"],
+					"ability": "Adaptability",
+					"nature": "Hasty",
+					"evs": {"atk": 252, "spa": 4, "spe": 252},
+					"moves": ["Knock Off", "Dark Pulse", "Hydro Pump", ["Crabhammer", "Sludge Bomb"]],
+					"donor": "Crawdaunt",
+					"weight": 1
+				}
+			]
+		},
+		"gyarados": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Gyarados",
+					"item": "Heavy-Duty Boots",
+					"ability": "Intimidate",
+					"nature": "Impish",
+					"evs": {"hp": 200, "def": 252, "spe": 56},
+					"moves": ["Taunt", "Roost", "Brave Bird", "Parting Shot"],
+					"donor": "Squakabilly",
+					"weight": 50
+				},
+				{
+					"species": "Gyarados",
+					"item": ["Leftovers", "Heavy-duty Boots"],
+					"ability": "Moxie",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Swords Dance", "Aqua Step", "Brave Bird", ["Taunt", "Roost"]],
+					"donor": "Quaquaval",
+					"weight": 50
+				}
+			]
+		},
+		"hatterene": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Hatterene",
+					"item": "Life Orb",
+					"ability": "Triage",
+					"gender": "F",
+					"nature": "Modest",
+					"evs": {"hp": 252, "spa": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Synthesis", "Calm Mind", "Stored Power", "Draining Kiss"],
+					"donor": "Comfey",
+					"weight": 1
+				}
+			]
+		},
+		"heatran": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Heatran",
+					"item": "Leftovers",
+					"ability": "Unaware",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 104, "spe": 152},
+					"ivs": {"atk": 0},
+					"moves": ["Slack Off", ["Substitute", "Will-O-Wisp"], "Earth Power", "Torch Song"],
+					"donor": "Skeledirge",
+					"weight": 1
+				}
+			]
+		},
+		"ironboulder": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "ironboulder",
+					"item": "Life Orb",
+					"ability": "Tough Claws",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Swords Dance", "Stone Edge", "Psychic Fangs", ["Sucker Punch", "Crunch", "Close Combat"]],
+					"donor": "Lycanroc-Dusk",
+					"weight": 30
+				},
+				{
+					"species": "ironboulder",
+					"item": "Life Orb",
+					"ability": "Supreme Overlord",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Swords Dance", "Low Kick", "Stone Edge", "Zen Headbutt"],
+					"donor": "Kingambit",
+					"weight": 10
+				},
+				{
+					"species": "ironboulder",
+					"item": ["Life Orb", "Focus Sash"],
+					"ability": "Sharpness",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Swords Dance", "Stone Axe", "Close Combat", "Night Slash"],
+					"donor": "Kleavor",
+					"weight": 20
+				},
+				{
+					"species": "ironboulder",
+					"item": "Life Orb",
+					"ability": "Rock Head",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": [
+						["Morning Sun", "Stealth Rock", "Extremespeed", "Close Combat"],
+						"Head Smash",
+						"Flare Blitz",
+						"Psychic Fangs"
+					],
+					"donor": "Arcanine-Hisui",
+					"weight": 12
+				},
+				{
+					"species": "ironboulder",
+					"item": "Choice Band",
+					"ability": "Rock Head",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": [["Stealth Rock", "Extremespeed", "Close Combat"], "Head Smash", "Flare Blitz", "Psychic Fangs"],
+					"donor": "Arcanine-Hisui",
+					"weight": 13
+				},
+				{
+					"species": "ironboulder",
+					"item": ["Choice Band", "Choice Scarf"],
+					"ability": "Rock Head",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Flip Turn", "Wave Crash", "Head Smash", "Psychic Fangs"],
+					"donor": "Basculin-Blue-Striped",
+					"weight": 15
+				}
+			]
+		},
+		"ironcrown": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "ironcrown",
+					"item": ["Leftovers", "Covert Cloak"],
+					"ability": "Levitate",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spa": 4},
+					"ivs": {"atk": 0},
+					"moves": ["Psychic Noise", "Calm Mind", "Recover", ["Ice Beam", "Aura Sphere"]],
+					"donor": "Latios",
+					"weight": 2
+				},
+				{
+					"species": "ironcrown",
+					"item": ["Leftovers", "Covert Cloak"],
+					"ability": "Levitate",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spa": 4},
+					"ivs": {"atk": 0},
+					"moves": ["Psychic Noise", "Calm Mind", "Recover", "Dazzling Gleam"],
+					"donor": "Chimecho",
+					"weight": 1
+				}
+			]
+		},
+		"ironhands": {
+			"weight": 9,
+			"sets": [
+				{
+					"species": "Iron Hands",
+					"item": ["Rocky Helmet", "Heavy-Duty Boots"],
+					"ability": "Intimidate",
+					"nature": "Impish",
+					"evs": {"hp": 248, "atk": 8, "def": 252},
+					"moves": ["Morning Sun", "Stealth Rock", "Close Combat", "Will-O-Wisp"],
+					"donor": "Growlithe-Hisui",
+					"weight": 35
+				},
+				{
+					"species": "Iron Hands",
+					"item": ["Heavy-Duty Boots", "Rocky Helmet"],
+					"ability": "Prankster",
+					"nature": "Sassy",
+					"evs": {"hp": 248, "def": 112, "spd": 148},
+					"ivs": {"spe": 0},
+					"moves": ["Roost", "Encore", ["Seismic Toss", "Brick Break"], ["U-turn", "Thunder Wave"]],
+					"donor": "Volbeat",
+					"weight": 25
+				},
+				{
+					"species": "Iron Hands",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 248, "atk": 8, "spd": 252},
+					"moves": ["Rapid Spin", "U-turn", ["Knock Off", "Wild Charge"], "Dragon Tail"],
+					"donor": "Cyclizar",
+					"weight": 15
+				},
+				{
+					"species": "Iron Hands",
+					"item": ["Rocky Helmet", "Leftovers"],
+					"ability": "Unaware",
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 252, "spe": 4},
+					"moves": ["Moonlight", "Stealth Rock", ["Drain Punch", "Thunder Punch"], ["Ice Punch", "Knock Off"]],
+					"donor": "Clefable",
+					"weight": 10
+				},
+				{
+					"species": "Iron Hands",
+					"item": ["Rocky Helmet", "Leftovers"],
+					"ability": "Magic Guard",
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 252, "spe": 4},
+					"moves": ["Moonlight", "Stealth Rock", ["Drain Punch", "Thunder Punch"], ["Ice Punch", "Knock Off"]],
+					"donor": "Clefairy",
+					"weight": 15
+				}
+			]
+		},
+		"ironleaves": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Iron Leaves",
+					"item": "Choice Scarf",
+					"ability": "Protean",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["U-turn", "Knock Off", "Triple Axel", "Flower Trick"],
+					"donor": "Meowscarada",
+					"weight": 1
+				}
+			]
+		},
+		"ironmoth": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Iron Moth",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Timid",
+					"evs": {"atk": 4, "spa": 252, "spe": 252},
+					"moves": [["Flamethrower", "Fire Blast"], ["Ice Beam", "Moonblast"], ["Thunderbolt", "Moonlight"], "Knock Off"],
+					"donor": "Clefairy",
+					"weight": 15
+				},
+				{
+					"species": "Iron Moth",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Timid",
+					"evs": {"atk": 4, "spa": 252, "spe": 252},
+					"moves": [
+						["Flamethrower", "Fire Blast"],
+						["Ice Beam", "Moonblast"],
+						["Thunderbolt", "Knock Off", "Moonlight"],
+						"Calm Mind"
+					],
+					"donor": "Clefairy",
+					"weight": 15
+				},
+				{
+					"species": "Iron Moth",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Hasty",
+					"evs": {"atk": 4, "spa": 252, "spe": 252},
+					"moves": [["Flamethrower", "Fire Blast"], "Focus Blast", ["Thunderbolt", "Moonlight", "Ice Beam"], "Knock Off"],
+					"donor": "Clefable",
+					"weight": 15
+				},
+				{
+					"species": "Iron Moth",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Timid",
+					"evs": {"atk": 4, "spa": 252, "spe": 252},
+					"moves": [
+						["Flamethrower", "Fire Blast"],
+						"Focus Blast",
+						["Thunderbolt", "Knock Off", "Moonlight", "Ice Beam"],
+						"Calm Mind"
+					],
+					"donor": "Clefable",
+					"weight": 15
+				},
+				{
+					"species": "Iron Moth",
+					"item": "Heavy-Duty Boots",
+					"ability": "Regenerator",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Nasty Plot", ["Fire Blast", "Flamethrower"], "Sludge Bomb", "Chilly Reception"],
+					"donor": "Slowking-Galar",
+					"weight": 10
+				},
+				{
+					"species": "Iron Moth",
+					"item": "Heavy-Duty Boots",
+					"ability": "Unaware",
+					"nature": "Timid",
+					"evs": {"def": 4, "spa": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Slack Off", ["Will-O-Wisp", "Substitute"], "Torch Song", "Earth Power"],
+					"donor": "Skeledirge",
+					"weight": 20
+				},
+				{
+					"species": "Iron Moth",
+					"item": "Heavy-Duty Boots",
+					"ability": "Regenerator",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"moves": ["Nasty Plot", "Heat Wave", "Sludge Bomb", ["Focus Blast", "Knock Off", "U-Turn"]],
+					"donor": "Tornadus-Therian",
+					"weight": 10
+				}
+			]
+		},
+		"keldeo": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Keldeo",
+					"item": ["Choice Specs", "Choice Scarf"],
+					"ability": "Adaptability",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"moves": ["Flip Turn", ["Thunderbolt", "Sludge Bomb", "Scald"], "Hydro Pump", "Focus Blast"],
+					"donor": "Dragalge",
+					"weight": 1
+				}
+			]
+		},
+		"kingambit": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Kingambit",
+					"item": ["Black Glasses", "Leftovers"],
+					"ability": "Tinted Lens",
+					"nature": "Adamant",
+					"evs": {"hp": 112, "atk": 252, "spe": 144},
+					"moves": [["Taunt", "Substitute", "U-Turn"], "Swords Dance", "Knock Off", "Sucker Punch"],
+					"donor": "Lokix",
+					"weight": 1
+				}
+			]
+		},
+		"landorus": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Landorus",
+					"item": "Leftovers",
+					"ability": "Toxic Debris",
+					"gender": "M",
+					"nature": "Timid",
+					"evs": {"hp": 252, "spa": 4, "spe": 252},
+					"moves": ["Spikes", ["Stealth Rock", "Spiky Shield"], "Mortal Spin", "Earth Power"],
+					"donor": "Glimmora",
+					"weight": 1
+				}
+			]
+		},
+		"landorustherian": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Landorus-Therian",
+					"item": "Leftovers",
+					"ability": "Purifying Salt",
+					"gender": "M",
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 252, "spe": 4},
+					"moves": ["Recover", ["Stealth Rock", "Protect"], "Earthquake", "Salt Cure"],
+					"donor": "Naclstack",
+					"weight": 20
+				},
+				{
+					"species": "Landorus-Therian",
+					"item": ["Leftovers", "Rocky Helmet"],
+					"ability": "Flame Body",
+					"nature": "Impish",
+					"evs": {"hp": 248, "def": 252, "spd": 8},
+					"moves": ["Roost", "Defog", "Brave Bird", ["U-turn", "Will-O-Wisp"]],
+					"donor": "Fletchinder",
+					"weight": 20
+				},
+				{
+					"species": "Landorus-Therian",
+					"item": "Leftovers",
+					"ability": "Natural Cure",
+					"gender": "M",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Dragon Dance", "Brave Bird", "Earthquake", "Roost"],
+					"donor": "Altaria",
+					"weight": 15
+				},
+				{
+					"species": "Landorus-Therian",
+					"item": "Leftovers",
+					"ability": "Libero",
+					"gender": "M",
+					"nature": "Adamant",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Court Change", "U-turn", "Pyro Ball", ["Sucker Punch", "Gunk Shot"]],
+					"donor": "Cinderace",
+					"weight": 25
+				},
+				{
+					"species": "Landorus-Therian",
+					"item": "Red Card",
+					"ability": "Regenerator",
+					"gender": "M",
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 212, "spe": 44},
+					"moves": ["Rapid Spin", ["U-turn", "Taunt"], ["Knock Off", "Temper Flare"], "Acrobatics"],
+					"donor": "Cyclizar",
+					"weight": 10
+				},
+                                {
+					"species": "Landorus-Therian",
+					"item": "Choice Band",
+					"ability": "Adaptability",
+					"gender": "M",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Earthquake", "Ice Punch", ["Knock Off", "Fire Punch"], "U-turn"],
+                                        "donor": "Gumshoos",
+					"weight": 10
+				}
+			]
+		},
+		"mamoswine": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Mamoswine",
+					"item": ["Heavy-Duty Boots", "Never-Melt Ice", "Leftovers"],
+					"ability": "Technician",
+					"nature": ["Adamant", "Jolly"],
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": [["Rapid Spin", "Sucker Punch"], "Triple Axel", ["Earthquake", "Bulldoze"], ["Thief", "Bulk Up"]],
+					"donor": "Hitmontop",
+					"weight": 30
+				},
+				{
+					"species": "Mamoswine",
+					"item": "Choice Band",
+					"ability": "Technician",
+					"nature": ["Adamant", "Jolly"],
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Rapid Spin", "Triple Axel", "Earthquake", ["Thief", "Sucker Punch"]],
+					"donor": "Hitmontop",
+					"weight": 30
+				},
+				{
+					"species": "Mamoswine",
+					"item": "Sitrus Berry",
+					"ability": "Thick Fat",
+					"nature": "Adamant",
+					"evs": {"hp": 92, "atk": 252, "spe": 164},
+					"moves": ["Ice Shard", "Earthquake", ["Icicle Crash", "Knock Off"], "Belly Drum"],
+					"donor": "Cetoddle",
+					"weight": 40
+				}
+			]
+		},
+		"manaphy": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Manaphy",
+					"item": "Leftovers",
+					"ability": "Contrary",
+					"nature": "Careful",
+					"evs": {"hp": 252, "spd": 100, "spe": 156},
+					"moves": ["Taunt", "Substitute", "Superpower", "Liquidation"],
+					"donor": "Inkay",
+					"weight": 60
+				},
+				{
+					"species": "Manaphy",
+					"item": "Sitrus Berry",
+					"ability": "Sap Sipper",
+					"nature": "Adamant",
+					"evs": {"hp": 4, "atk": 252, "spe": 252},
+					"moves": ["Belly Drum", "Aqua Jet", "Liquidation", ["Superpower", "Knock Off", "Trailblaze"]],
+					"donor": "Marill",
+					"weight": 40
+				}
+			]
+		},
+		"mandibuzz": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Mandibuzz",
+					"item": "Heavy-Duty Boots",
+					"ability": "Fur Coat",
+					"gender": "F",
+					"nature": "Relaxed",
+					"evs": {"hp": 248, "def": 252, "spd": 8},
+					"ivs": {"atk": 0, "spe": 0},
+					"moves": ["Rest", "Sleep Talk", "Parting Shot", "Foul Play"],
+					"donor": "Persian-Alola",
+					"weight": 1
+				}
+			]
+		},
+		"meloetta": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Meloetta",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "spa": 4, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": ["Rapid Spin", "U-turn", ["Knock Off", "Overheat", "Hyper Voice"], "Dragon Tail"],
+					"donor": "Cyclizar",
+					"weight": 1
+				}
+			]
+		},
+		"meowscarada": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "Meowscarada",
+					"item": ["Heavy-Duty Boots", "Black Glasses", "Protective Pads"],
+					"ability": "Tinted Lens",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["U-turn", "Knock Off", "Sucker Punch", "Swords Dance"],
+					"donor": "Lokix",
+					"weight": 35
+				},
+				{
+					"species": "Meowscarada",
+					"item": "Choice Band",
+					"ability": "Tinted Lens",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["U-turn", "Knock Off", ["Sucker Punch", "First Impression"], "Axe Kick"],
+					"donor": "Lokix",
+					"weight": 35
+				},
+				{
+					"species": "Meowscarada",
+					"item": "Choice Band",
+					"ability": "Grassy Surge",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["U-turn", "Knock Off", "Wood Hammer", "Grassy Glide"],
+					"donor": "Grookey",
+					"weight": 30
+				}
+			]
+		},
+		"metagross": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Metagross",
+					"item": ["Weakness Policy", "Life Orb", "Lum Berry", "Heavy-Duty Boots"],
+					"ability": "Prism Armor",
+					"nature": "Naive",
+					"evs": {"atk": 252, "spa": 4, "spe": 252},
+					"moves": ["Dragon Dance", "Photon Geyser", "Earthquake", "Iron Head"],
+					"donor": "Necrozma",
+					"weight": 1
+				}
+			]
+		},
+		"moltres": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Moltres",
+					"item": "Heavy-Duty Boots",
+					"ability": "Flame Body",
+					"nature": "Bold",
+					"evs": {"hp": 248, "def": 252, "spe": 8},
+					"moves": ["Roost", "Defog", "Flamethrower", ["U-turn", "Will-O-Wisp"]],
+					"donor": "Fletchinder",
+					"weight": 35
+				},
+				{
+					"species": "Moltres",
+					"item": "Heavy-Duty Boots",
+					"ability": "Unaware",
+					"nature": "Bold",
+					"evs": {"hp": 248, "def": 252, "spe": 8},
+					"ivs": {"atk": 0},
+					"moves": ["Slack Off", ["Substitute", "Will-O-Wisp"], "Torch Song", "Earth Power"],
+					"donor": "Skeledirge",
+					"weight": 35
+				},
+				{
+					"species": "Moltres",
+					"item": ["Life Orb", "Leftovers"],
+					"ability": "Magic Guard",
+					"nature": "Modest",
+					"evs": {"hp": 252, "def": 240, "spa": 16},
+					"moves": ["Flamethrower", ["Psyshock", "Moonblast", "Ice Beam"], ["Calm Mind", "Knock Off"], "Moonlight"],
+					"donor": "Clefairy",
+					"weight": 30
+				}
+			]
+		},
+		"mukalola": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "Muk-Alola",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 128, "atk": 128, "spd": 252},
+					"moves": ["Rapid Spin", "U-turn", "Knock Off", "Dragon Tail"],
+					"donor": "Cyclizar",
+					"weight": 35
+				},
+				{
+					"species": "Muk-Alola",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 128, "atk": 128, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": ["Poison Jab", "Knock Off", "U-turn", ["Low Kick", "Fake Out"]],
+					"donor": "Mienshao",
+					"weight": 65
+				}
+			]
+		},
+		"ogerponhearthflame": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "ogerponhearthflame",
+					"item": "Hearthflame Mask",
+					"ability": "Mold Breaker",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": [["Power Whip", "Horn Leech"], "Ivy Cudgel", ["Stomping Tantrum", "Play Rough"], "Swords Dance"],
+					"donor": "ogerponhearthflame",
+					"weight": 1
+				}
+			]
+		},
+		"ogerponwellspring": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "ogerponwellspring",
+					"item": "Wellspring Mask",
+					"ability": "Sharpness",
+					"gender": "F",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Swords Dance", "Leaf Blade", "Aqua Cutter", "Sacred Sword"],
+					"donor": "Gallade",
+					"weight": 75
+				},
+				{
+					"species": "ogerponwellspring",
+					"item": "Wellspring Mask",
+					"ability": "Technician",
+					"gender": "F",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Tidy Up", "Aqua Tail", "Bullet Seed", "Triple Axel"],
+					"donor": "Cinccino",
+					"weight": 25
+				}
+			]
+		},
+		"okidogi": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "okidogi",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"gender": "M",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "def": 4, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [["Fake Out", "Knock Off"], "U-turn", "Poison Jab", ["Close Combat", "Drain Punch"]],
+					"donor": "Mienshao",
+					"weight": 35
+				},
+				{
+					"species": "Okidogi",
+					"item": "Choice Scarf",
+					"ability": "Regenerator",
+					"gender": "M",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "def": 4, "spe": 252},
+					"moves": ["Close Combat", ["Poison Jab", "Ice Spinner", "Triple Axel"], "Knock Off", "U-Turn"],
+					"donor": "Mienshao",
+					"weight": 65
+				}
+
+			]
+		},
+		"palafin": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Palafin",
+					"item": "Choice Band",
+					"ability": "Zero to Hero",
+					"nature": ["Jolly", "Adamant"],
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Flip Turn", "Jet Punch", "Wave Crash", ["Close Combat", "Ice Punch", "Zen Headbutt"]],
+					"donor": "Palafin",
+					"weight": 1
+				}
+			]
+		},
+		"palossand": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Palossand",
+					"item": "Colbur Berry",
+					"ability": "Water Absorb",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"atk": 0},
+					"moves": ["Spikes", "Recover", "Earth Power", "Ice Beam"],
+					"donor": "Quagsire",
+					"weight": 1
+				}
+			]
+		},
+		"primarina": {
+			"weight": 9,
+			"sets": [
+				{
+					"species": "Primarina",
+					"item": "Leftovers",
+					"ability": "Triage",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 196, "spe": 60},
+					"ivs": {"atk": 0},
+					"moves": ["Substitute", "Calm Mind", "Draining Kiss", "Stored Power"],
+					"donor": "Comfey",
+					"weight": 15
+				},
+				{
+					"species": "Primarina",
+					"item": ["Leftovers", "Life Orb"],
+					"ability": "Triage",
+					"nature": "Modest",
+					"evs": {"hp": 196, "spa": 252, "spe": 60},
+					"ivs": {"atk": 0},
+					"moves": ["Draining Kiss", "Stored Power", "Calm Mind", ["Substitute", "Synthesis"]],
+					"shiny": true,
+					"donor": "Comfey",
+					"weight": 15
+				},
+				{
+					"species": "Primarina",
+					"item": "Leftovers",
+					"ability": "Magic Guard",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"moves": ["Moonlight", ["Stealth Rock", "Calm Mind"], "Moonblast", ["Knock Off", "Flamethrower"]],
+					"donor": "Clefairy",
+					"weight": 40
+				},
+				{
+					"species": "Primarina",
+					"item": "Heavy-Duty Boots",
+					"ability": "Lightning Rod",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 200, "spe": 56},
+					"ivs": {"atk": 0},
+					"moves": ["Spikes", "Recover", "Discharge", "Scald"],
+					"donor": "Pincurchin",
+					"weight": 15
+				},
+				{
+					"species": "Primarina",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "def": 4, "spd": 252},
+					"moves": ["Flip Turn", "Scald", "Alluring Voice", "Mirror Coat"],
+					"donor": "Alomomola",
+					"weight": 15
+				}
+			]
+		},
+		"ragingbolt": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "ragingbolt",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Modest",
+					"evs": {"hp": 112, "def": 4, "spa": 252, "spe": 140},
+					"ivs": {"atk": 1},
+					"moves": ["Calm Mind", "Thunderbolt", "Ice Beam", "Moonlight"],
+					"donor": "Clefairy",
+					"weight": 60
+				},
+				{
+					"species": "Ragingbolt",
+					"item": ["Choice Specs"],
+					"ability": "Adaptability",
+					"nature": ["Modest", "Timid"],
+					"evs": {"def": 4, "spa": 252, "spe": 252},
+					"moves": ["Draco Meteor", "Thunderbolt", "Flip Turn", ["Focus Blast", "Toxic Spikes"]],
+					"donor": "Dragalge",
+					"weight": 20
+				},
+				{
+					"species": "Ragingbolt",
+					"item": ["Choice Scarf"],
+					"ability": "Adaptability",
+					"nature": ["Timid"],
+					"evs": {"def": 4, "spa": 252, "spe": 252},
+					"moves": ["Draco Meteor", "Thunderbolt", "Flip Turn", ["Focus Blast", "Toxic Spikes"]],
+					"donor": "Dragalge",
+					"weight": 20
+				}
+			]
+		},
+		"registeel": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Registeel",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"spe": 0},
+					"moves": ["Rapid Spin", "U-turn", "Knock Off", "Dragon Tail"],
+					"donor": "Cyclizar",
+					"weight": 1
+				}
+			]
+		},
+		"sinistcha": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "sinistcha",
+					"item": "Colbur Berry",
+					"ability": "Infiltrator",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spa": 4},
+					"moves": ["Spikes", "Strength Sap", "Shadow Ball", "Rapid Spin"],
+					"donor": "Bramblin",
+					"weight": 1
+				}
+			]
+		},
+		"skarmory": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Skarmory",
+					"item": ["Rocky Helmet", "Leftovers"],
+					"ability": "Unaware",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spe": 4},
+					"ivs": {"atk": 0},
+					"moves": ["Recover", ["Stealth Rock", "Spikes"], "Body Press", "Toxic"],
+					"donor": "Skarmory",
+					"weight": 1
+				}
+			]
+		},
+		"slitherwing": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Slither Wing",
+					"item": "Choice Band",
+					"ability": "Tinted Lens",
+					"nature": "Adamant",
+					"evs": {"hp": 136, "atk": 252, "spe": 120},
+					"moves": ["U-turn", "First Impression", "Leech Life", ["Axe Kick", "Low Kick"]],
+					"donor": "Lokix",
+					"weight": 8
+				},
+				{
+					"species": "Slither Wing",
+					"item": ["Protective Pads", "Insect Plate", "Heavy-Duty Boots"],
+					"ability": "Tinted Lens",
+					"nature": "Adamant",
+					"evs": {"hp": 136, "atk": 252, "spe": 120},
+					"moves": ["Taunt", "U-turn", ["Leech Life", "Axe Kick"], "First Impression"],
+					"donor": "Lokix",
+					"weight": 2
+				}
+			]
+		},
+		"sneasler": {
+			"weight": 9,
+			"sets": [
+				{
+					"species": "Sneasler",
+					"item": "Choice Band",
+					"ability": "Tough Claws",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["U-turn", "Knock Off", "Gunk Shot", "Close Combat"],
+					"donor": "Perrserker",
+					"weight": 40
+				},
+				{
+					"species": "Sneasler",
+					"item": "Life Orb",
+					"ability": "Tough Claws",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Swords Dance", "Knock Off", "Gunk Shot", "Close Combat"],
+					"donor": "Perrserker",
+					"weight": 10
+				},
+				{
+					"species": "Sneasler",
+					"item": "Flame Orb",
+					"ability": "Guts",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Swords Dance", "Close Combat", ["Knock Off", "Ice Punch"], "Earthquake"],
+					"donor": "Heracross",
+					"weight": 10
+				},
+				{
+					"species": "Sneasler",
+					"item": "Flame Orb",
+					"ability": "Guts",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Swords Dance", "Close Combat", "Gunk Shot", ["Earthquake", "Crunch"]],
+					"donor": "Ursaring",
+					"weight": 10
+				},
+				{
+					"species": "Sneasler",
+					"item": ["Choice Band", "Choice Scarf"],
+					"ability": "Scrappy",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["U-turn", "Knock Off", "Triple Arrows", ["Brave Bird", "Sucker Punch"]],
+					"donor": "Decidueye-Hisui",
+					"weight": 30
+				}
+			]
+		},
+		"snorlax": {
+			"weight": 10,
+			"sets": [
+				{
+					"species": "Snorlax",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 4, "atk": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": ["U-turn", "Rapid Spin", "Dragon Tail", ["Knock Off", "Body Slam"]],
+					"donor": "Cyclizar",
+					"weight": 20
+				},
+				{
+					"species": "Snorlax",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 4, "atk": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": ["U-turn", "Rapid Spin", "Body Slam", "Dragon Tail"],
+					"donor": "Cyclizar",
+					"weight": 10
+				},
+				{
+					"species": "Snorlax",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Brave",
+					"evs": {"hp": 252, "atk": 252, "spd": 4},
+					"ivs": {"spe": 0},
+					"moves": ["Fake Out", "U-turn", "Knock Off", ["Facade", "Poison Jab"]],
+					"donor": "Mienshao",
+					"weight": 50
+				},
+				{
+					"species": "Snorlax",
+					"item": "Heavy-Duty Boots",
+					"ability": "Multiscale",
+					"nature": "Adamant",
+					"evs": {"atk": 252, "def": 252, "spd": 4},
+					"moves": ["Roost", "Dragon Dance", "Extreme Speed", ["Fire Punch", "Earthquake"]],
+					"donor": "Dragonite",
+					"weight": 10
+				},
+				{
+					"species": "Snorlax",
+					"item": "Silk Scarf",
+					"ability": "Inner Focus",
+					"nature": "Adamant",
+					"evs": {"hp": 252, "atk": 252, "spd": 4},
+					"moves": ["Swords Dance", "Extreme Speed", "Crunch", ["Close Combat", "Fire Punch", "Earthquake"]],
+					"donor": "Lucario",
+					"weight": 10
+				}
+			]
+		},
+		"spiritomb": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Spiritomb",
+					"item": "Heavy-Duty Boots",
+					"ability": "Fur Coat",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"atk": 0},
+					"moves": ["Rest", "Sleep Talk", "Parting Shot", "Foul Play"],
+					"donor": "Persian-Alola",
+					"weight": 1
+				}
+			]
+		},
+		"staraptor": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Staraptor",
+					"item": "Flame Orb",
+					"ability": "Guts",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Dragon Dance", "Facade", "Crunch", "Taunt"],
+					"donor": "Larvitar",
+					"weight": 1
+				}
+			]
+		},
+		"suicune": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Suicune",
+					"item": "Heavy-Duty Boots",
+					"ability": "Prankster",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"moves": ["Roost", "Encore", "Seismic Toss", "U-turn"],
+					"donor": "Volbeat",
+					"weight": 4
+				},
+				{
+					"species": "Suicune",
+					"item": ["Heavy-Duty Boots", "Leftovers"],
+					"ability": "Unaware",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"atk": 0},
+					"moves": [["Spikes", "Stealth Rock", "Body Press"], "Recover", ["Ice Beam", "Surf"], ["Toxic", "Toxic Spikes"]],
+					"donor": "Quagsire",
+					"weight": 6
+				}
+			]
+		},
+		"swampert": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Swampert",
+					"item": "Leftovers",
+					"ability": "Unaware",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"moves": ["Recover", ["Stealth Rock", "Spikes"], "Earthquake", ["Ice Beam", "Toxic"]],
+					"donor": "Wooper",
+					"weight": 65
+				},
+				{
+					"species": "Swampert",
+					"item": "Leftovers",
+					"ability": "Purifying Salt",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "atk": 4, "spd": 252},
+					"ivs": {"spe": 1},
+					"moves": ["Recover", "Stealth Rock", "Earthquake", "Salt Cure"],
+					"donor": "Naclstack",
+					"weight": 35
+				}
+			]
+		},
+		"sylveon": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Sylveon",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "def": 4, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": ["Rapid Spin", "U-turn", ["Knock Off", "Overheat"], "Dragon Tail"],
+					"donor": "Cyclizar",
+					"weight": 6
+				},
+				{
+					"species": "Sylveon",
+					"item": "Heavy-Duty Boots",
+					"ability": "Regenerator",
+					"nature": "Calm",
+					"evs": {"hp": 252, "spa": 4, "spd": 252},
+					"moves": ["Wish", "Protect", "Alluring Voice", "Flip Turn"],
+					"donor": "Alomomola",
+					"weight": 4
+				}
+			]
+		},
+		"terrakion": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Terrakion",
+					"item": "Life Orb",
+					"ability": "Supreme Overlord",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Swords Dance", "Stone Edge", "Close Combat", ["Sucker Punch", "Knock Off"]],
+					"donor": "Terrakion",
+					"weight": 5
+				},
+				{
+					"species": "Terrakion",
+					"item": ["Life Orb", "Focus Sash"],
+					"ability": "Sharpness",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Swords Dance", "Stone Axe", "Close Combat", "Night Slash"],
+					"donor": "Kleavor",
+					"weight": 20
+				},
+				{
+					"species": "Terrakion",
+					"item": "Choice Band",
+					"ability": "No Guard",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Trick", "Knock Off", "Stone Edge", "Dynamic Punch"],
+					"donor": "Golurk",
+					"weight": 15
+				},
+				{
+					"species": "Terrakion",
+					"item": "Choice Band",
+					"ability": "Rock Head",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Extreme Speed", "Head Smash", "Flare Blitz", "Close Combat"],
+					"donor": "Arcanine-Hisui",
+					"weight": 30
+				},
+				{
+					"species": "Terrakion",
+					"item": "Choice Scarf",
+					"ability": "Sharpness",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["U-turn", "Stone Axe", "Close Combat", "Night Slash"],
+					"donor": "Kleavor",
+					"weight": 30
+				}
+			]
+		},
+		"thundurus": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Thundurus",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"gender": "M",
+					"nature": "Naive",
+					"evs": {"atk": 4, "spa": 252, "spe": 252},
+					"moves": [["Ice Beam", "Moonblast"], "Thunderbolt", "Focus Punch", ["Knock Off", "Flamethrower"]],
+					"donor": "Clefairy",
+					"weight": 1
+				}
+			]
+		},
+		"thundurustherian": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Thundurus-Therian",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"gender": "M",
+					"nature": "Naive",
+					"evs": {"atk": 4, "spa": 252, "spe": 252},
+					"moves": ["Knock Off", ["Ice Beam", "Moonblast"], "Thunderbolt", "Focus Blast"],
+					"donor": "Clefable",
+					"weight": 1
+				}
+			]
+		},
+		"tinglu": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Ting-Lu",
+					"item": "Heavy-Duty Boots",
+					"ability": "Unaware",
+					"nature": "Impish",
+					"evs": {"hp": 252, "atk": 4, "def": 252},
+					"moves": ["Recover", ["Stealth Rock", "Spikes"], "Earthquake", ["Toxic", "Ice Punch"]],
+					"donor": "Quagsire",
+					"weight": 15
+				},
+				{
+					"species": "Ting-Lu",
+					"item": ["Heavy-Duty Boots", "Leftovers"],
+					"ability": "Unaware",
+					"nature": "Careful",
+					"evs": {"hp": 252, "atk": 4, "spd": 252},
+					"moves": ["Moonlight", "Stealth Rock", "Knock Off", ["Thunder Wave", "Ice Punch"]],
+					"donor": "Clefable",
+					"weight": 15
+				},
+				{
+					"species": "Ting-Lu",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Careful",
+					"evs": {"hp": 252, "atk": 4, "spd": 252},
+					"moves": ["Rapid Spin", "U-turn", "Knock Off", "Dragon Tail"],
+					"donor": "Cyclizar",
+					"weight": 30
+				},
+				{
+					"species": "Ting-Lu",
+					"item": "Leftovers",
+					"ability": "Bulletproof",
+					"nature": "Impish",
+					"evs": {"hp": 252, "atk": 4, "def": 252},
+					"moves": ["Knock Off", "Spikes", "Synthesis", ["Leech Seed", "Earthquake", "Super Fang"]],
+					"donor": "Chesnaught",
+					"weight": 15
+				},
+				{
+					"species": "Ting-Lu",
+					"item": "Leftovers",
+					"ability": "Purifying Salt",
+					"nature": "Impish",
+					"evs": {"hp": 252, "atk": 4, "def": 252},
+					"moves": ["Recover", "Stealth Rock", "Earthquake", "Salt Cure"],
+					"donor": "Naclstack",
+					"weight": 15
+				},
+				{
+					"species": "Ting-Lu",
+					"item": ["Heavy-Duty Boots", "Rocky Helmet", "Leftovers"],
+					"ability": "Fur Coat",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"spe": 0},
+					"moves": ["Rest", "Sleep Talk", "Parting Shot", ["Foul Play", "Knock Off"]],
+					"donor": "Persian-Alola",
+					"weight": 5
+				},
+				{
+					"species": "Ting-Lu",
+					"item": "Leftovers",
+					"ability": "Fur Coat",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"spe": 0},
+					"moves": ["Knock Off", ["Thunder Wave", "Roar"], "Parting Shot", "Foul Play"],
+					"donor": "Persian-Alola",
+					"weight": 5
+				}
+			]
+		},
+		"toxapex": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Toxapex",
+					"item": ["Heavy-Duty Boots", "Rocky Helmet"],
+					"ability": "Prankster",
+					"nature": "Relaxed",
+					"evs": {"hp": 248, "def": 252, "spd": 8},
+					"ivs": {"spe": 0},
+					"moves": ["Roost", "Encore", "Seismic Toss", "U-turn"],
+					"donor": "Volbeat",
+					"weight": 50
+				},
+				{
+					"species": "Toxapex",
+					"item": "Black Sludge",
+					"ability": "Unaware",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"atk": 0},
+					"moves": [["Spikes", "Stealth Rock"], "Recover", "Body Press", "Toxic"],
+					"donor": "Quagsire",
+					"weight": 50
+				}
+			]
+		},
+		"ursaring": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Ursaring",
+					"item": "Eviolite",
+					"ability": "Multiscale",
+					"nature": "Adamant",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Roost", "Dragon Dance", "Extreme Speed", "Fire Punch"],
+					"donor": "Dragonite",
+					"weight": 1
+				}
+			]
+		},
+		"urshifurapidstrike": {
+			"weight": 9,
+			"sets": [
+				{
+					"species": "Urshifu-Rapid-Strike",
+					"item": ["Lum Berry", "Life Orb", "Heavy-Duty Boots"],
+					"ability": "Adaptability",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": [["Swords Dance", "Dragon Dance"], ["Aqua Jet", "Knock Off"], "Close Combat", "Crabhammer"],
+					"donor": "Crawdaunt",
+					"weight": 40
+				},
+				{
+					"species": "Urshifu-Rapid-Strike",
+					"item": "Choice Band",
+					"ability": "Adaptability",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Switcheroo", ["Aqua Jet", "Swords Dance"], "Close Combat", "Crabhammer"],
+					"donor": "Crawdaunt",
+					"weight": 20
+				},
+				{
+					"species": "Urshifu-Rapid-Strike",
+					"item": "Leftovers",
+					"ability": "Contrary",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Taunt", "Substitute", "Superpower", "Liquidation"],
+					"donor": "Inkay",
+					"weight": 30
+				}
+			]
+		},
+		"virizion": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Virizion",
+					"item": "Assault Vest",
+					"ability": "Contrary",
+					"nature": "Hasty",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Knock Off", "Poison Jab", "Superpower", "Leaf Storm"],
+					"donor": "Lurantis",
+					"weight": 1
+				}
+			]
+		},
+		"volcanion": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Volcanion",
+					"item": "Heavy-Duty Boots",
+					"ability": "Regenerator",
+					"nature": "Quiet",
+					"evs": {"hp": 252, "atk": 168, "spa": 88},
+					"ivs": {"spe": 0},
+					"moves": ["Scald", "Fire Blast", "Earthquake", "Chilly Reception"],
+					"donor": "Slowking",
+					"weight": 1
+				}
+			]
+		},
+		"walkingwake": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Walking Wake",
+					"item": ["Choice Scarf", "Choice Specs"],
+					"ability": "Adaptability",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"moves": ["Flip Turn", "Hydro Pump", ["Sludge Bomb", "Dragon Pulse", "Surf"], "Draco Meteor"],
+					"donor": "Dragalge",
+					"weight": 1
+				}
+			]
+		},
+		"zapdos": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Zapdos",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Timid",
+					"evs": {"spa": 252, "spd": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Moonlight", "Calm Mind", "Thunderbolt", ["Ice Beam", "Moonblast"]],
+					"donor": "Clefairy",
+					"weight": 30
+				},
+				{
+					"species": "Zapdos",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spa": 4},
+					"ivs": {"atk": 0},
+					"moves": ["Calm Mind", "Thunderbolt", ["Ice Beam", "Moonblast"], "Moonlight"],
+					"donor": "Clefairy",
+					"weight": 30
+				},
+				{
+					"species": "Zapdos",
+					"item": "Heavy-Duty Boots",
+					"ability": "Flame Body",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"ivs": {"atk": 0},
+					"moves": ["Roost", "Defog", "Hurricane", ["Will-O-Wisp", "Flamethrower", "U-Turn"]],
+					"donor": "Fletchinder",
+					"weight": 20
+				},
+				{
+					"species": "Zapdos",
+					"item": "Leftovers",
+					"ability": "Fur Coat",
+					"nature": "Timid",
+					"evs": {"def": 4, "spa": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Nasty Plot", "Substitute", "Thunderbolt", ["Icy Wind", "Chilling Water"]],
+					"donor": "Persian-Alola",
+					"weight": 20
+				}
+			]
+		},
+		"zapdosgalar": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Zapdos-Galar",
+					"item": "Choice Scarf",
+					"ability": "Scrappy",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["U-turn", "Knock Off", "Triple Arrows", "Brave Bird"],
+					"donor": "Decidueye-Hisui",
+					"weight": 15
+				},
+				{
+					"species": "Zapdos-Galar",
+					"item": "Choice Band",
+					"ability": "Scrappy",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["U-turn", ["Knock Off", "Sucker Punch"], "Triple Arrows", "Brave Bird"],
+					"donor": "Decidueye-Hisui",
+					"weight": 15
+				},
+				{
+					"species": "Zapdos-Galar",
+					"item": "Leftovers",
+					"ability": "Scrappy",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "def": 4, "spe": 252},
+					"moves": ["Substitute", ["Swords Dance", "Bulk Up"], "Triple Arrows", ["Brave Bird", "Roost", "Taunt"]],
+					"donor": "Decidueye-Hisui",
+					"weight": 15
+				},
+				{
+					"species": "Zapdos-Galar",
+					"item": "Leftovers",
+					"ability": "Scrappy",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "def": 4, "spe": 252},
+					"moves": ["Roost", ["Swords Dance", "Bulk Up"], "Triple Arrows", ["Brave Bird", "Taunt"]],
+					"donor": "Decidueye-Hisui",
+					"weight": 15
+				},
+				{
+					"species": "Zapdos-Galar",
+					"item": "Leftovers",
+					"ability": "Scrappy",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "def": 4, "spe": 252},
+					"moves": ["Taunt", ["Swords Dance", "Bulk Up"], "Triple Arrows", "Brave Bird"],
+					"donor": "Decidueye-Hisui",
+					"weight": 10
+				},
+				{
+				"species": "Zapdosgalar",
+					"item": "Choice Scarf",
+					"ability": "Tinted Lens",
+					"nature": ["Jolly"],
+					"evs": {"atk": 252, "def": 4, "spe": 252},
+					"moves": ["Brave Bird", "Close Combat", "U-Turn", ["Dual Wingbeat", "Defog"]],
+					"donor": "Braviary-Hisui",
+					"weight": 15
+				},
+				{
+				"species": "Zapdosgalar",
+					"item": "Choice Band",
+					"ability": "Tinted Lens",
+					"nature": ["Adamant", "Jolly"],
+					"evs": {"atk": 252, "def": 4, "spe": 252},
+					"moves": ["Brave Bird", "Close Combat", "U-Turn", ["Dual Wingbeat", "Defog"]],
+					"donor": "Braviary-Hisui",
+					"weight": 15
+				}
+			]
+		},
+		"zarude": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "Zarude",
+					"item": ["Heavy-Duty Boots", "Black Glasses"],
+					"ability": "Tinted Lens",
+					"nature": ["Adamant", "Jolly"],
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Knock Off", "Sucker Punch", ["U-turn", "Taunt"], "Swords Dance"],
+					"donor": "Lokix",
+					"weight": 40
+				},
+				{
+					"species": "Zarude",
+					"item": "Choice Band",
+					"ability": "Grassy Surge",
+					"nature": "Adamant",
+					"evs": {"hp": 112, "atk": 144, "spd": 252},
+					"moves": ["U-turn", "Knock Off", "Wood Hammer", "Grassy Glide"],
+					"donor": "Grookey",
+					"weight": 35
+				},
+				{
+					"species": "Zarude",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Adamant",
+					"evs": {"hp": 112, "atk": 144, "spd": 252},
+					"moves": ["Rapid Spin", "U-turn", "Knock Off", ["Power Whip", "Dragon Tail"]],
+					"donor": "Cyclizar",
+					"weight": 25
+				}
+			]
+		},
+		"zoroarkhisui": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Zoroark-Hisui",
+					"item": "Heavy-Duty Boots",
+					"ability": "Punk Rock",
+					"nature": "Timid",
+					"evs": {"def": 4, "spa": 252, "spe": 252},
+					"moves": ["Boomburst", "Volt Switch", "Hex", ["Nuzzle", "Shift Gear"]],
+					"donor": "Toxtricity",
+					"weight": 60
+				},
+				{
+					"species": "Zoroark-Hisui",
+					"item": "Focus Sash",
+					"ability": "Insomnia",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 4, "spe": 252},
+					"moves": ["Sticky Web", "Taunt", ["Memento", "Knock Off", "Circle Throw"], ["Spikes", "Circle Throw"]],
+					"donor": "Spidops",
+					"weight": 10
+				},
+				{
+					"species": "Zoroark-Hisui",
+					"item": ["Mental Herb", "Red Card"],
+					"ability": "Sturdy",
+					"nature": "Timid",
+					"evs": {"hp": 252, "spa": 4, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Steel Beam", "Spikes", "Stealth Rock", "Taunt"],
+					"donor": "Skarmory",
+					"weight": 10
+				},
+				{
+					"species": "Zoroark-Hisui",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Hasty",
+					"evs": {"atk": 4, "spa": 252, "spe": 252},
+					"moves": ["Double-Edge", ["Fire Blast", "Knock Off"], "Shadow Ball", "Focus Blast"],
+					"donor": "Clefable",
+					"weight": 20
+				}
+			]
+		}
+	},
 	"mnm": {
 		"arcaninehisui": {
 			"weight": 6,

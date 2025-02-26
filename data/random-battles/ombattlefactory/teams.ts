@@ -38,7 +38,7 @@ const OM_TIERS: {[k: string]: string} = {
 	'STABmons': 'stab',
 };
 
-const debug = 'Mix and Mega';
+const debug = 'Inheritance';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
 	randomOMFactorySets: {[format: string]: {[species: string]: OMBattleFactorySpecies}} = require('./factory-sets.json');
@@ -200,8 +200,12 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 
 			const ability = this.dex.abilities.get(set.ability);
-			if (abilitiesLimited[ability.id] || sac) {
+			if (abilitiesLimited[ability.id]) {
 				teamData.has[abilitiesLimited[ability.id]] = 1;
+			}
+
+			if (sac) {
+				teamData.has[ability.id] = 1;
 			}
 
 			const item = this.dex.items.get(set.item);
@@ -211,6 +215,19 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					item.isPrimalOrb || item.name.startsWith('Rusted'))) {
 					teamData.has[item.id] = 1;
 					}
+			}
+
+			// donor clause
+			if (jsonFactoryTier === 'inh') {
+				// @ts-ignore
+				let donorSpecies = Dex.species.get(set.pokeball.split('0')[1]);
+				teamData.has['donor:' + donorSpecies.id] = 1;
+				while (donorSpecies.prevo) {
+					const prevoSpecies = Dex.species.get(donorSpecies.prevo);
+					if (prevoSpecies.evos.length > 1) break;
+					teamData.has['donor:' + prevoSpecies.id] = 1;
+					donorSpecies = prevoSpecies;
+				}
 			}
 
 			for (const typeName of this.dex.types.names()) {
@@ -239,9 +256,14 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				if (teamData.weaknesses[type] >= 3 * limitFactor) return this.randomFactoryTeam(side, ++depth);
 			}
 			// Try to force a hazard and/or removal on certain teams in certain tiers
-			if (!teamData.has['stealthRock'] && !teamData.has['hazardClear'] && jsonFactoryTier !== 'pic') {
-				return this.randomFactoryTeam(side, ++depth);
+			let badHazardStandards = false;
+			if (!teamData.has['stealthRock'] && jsonFactoryTier !== 'pic') {
+				badHazardStandards = true;
 			}
+			if (!teamData.has['hazardClear'] && (jsonFactoryTier === 'bh' || jsonFactoryTier === 'inh')) {
+				badHazardStandards = true;
+			}
+			if (badHazardStandards) return this.randomFactoryTeam(side, ++depth);
 		}
 		return pokemon;
 	}
@@ -291,8 +313,25 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			if (set.wantsTera && teamData.wantsTeraCount) {
 				continue;
 			}
-			const allowedItems: string[] = [];
 
+			if (tier === 'inh') {
+				let donorSpecies = Dex.species.get(set.donor);
+				if (teamData.has['donor:' + donorSpecies.id]) {
+					reject = true;
+					break;
+				}
+				while (donorSpecies.prevo) {
+					const prevoSpecies = Dex.species.get(donorSpecies.prevo);
+					if (prevoSpecies.evos.length > 1) break;
+					if (teamData.has['donor:' + prevoSpecies.id]) {
+						reject = true;
+						break;
+					}
+					donorSpecies = prevoSpecies;
+				}
+			}
+
+			const allowedItems: string[] = [];
 			if (Array.isArray(set.item)) {
 				for (const itemString of set.item) {
 					const itemId = toID(itemString);
@@ -313,6 +352,11 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 			const abilityId = toID(this.sampleIfArray(set.ability));
 			if (abilitiesLimited[abilityId] && teamData.has[abilitiesLimited[abilityId]]) continue;
+
+			if (tier === 'aaa' || tier === 'inh') {
+				// SAC
+				if (teamData.has[abilityId]) continue;
+			}
 
 			const moves: string[] = [];
 			for (const move of set.moves) {
@@ -381,6 +425,8 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			ivs: {hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31, ...setData.set.ivs},
 			nature: this.sampleIfArray(setData.set.nature) || "Serious",
 			moves,
+			// @ts-ignore inh uses pokeball for donor data
+			pokeball: (tier === 'inh') ? '0' + setData.set.donor  : '',
 			wantsTera: setData.set.wantsTera || false,
 		};
 	}
