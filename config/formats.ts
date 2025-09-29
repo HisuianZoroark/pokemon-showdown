@@ -840,6 +840,24 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		},
 	},
 	{
+		name: "[Gen 9] Bio Mech Mons",
+		desc: `Sacrifice your Pok&eacute;mon's ability for a status move that activates on switch-in.`,
+		mod: 'biomechmons',
+		searchShow: false,
+		ruleset: ['Standard OMs', 'Sleep Moves Clause'],
+		banlist: [
+		],
+		onBegin() {
+			for (const pokemon of this.getAllPokemon()) {
+				// @ts-ignore
+				pokemon.getItem().onBioMechMons?.call(this.battle, pokemon);
+			}
+		},
+		validateSet(set, teamHas) {
+			return null;
+		},
+	},
+	{
 		name: "[Gen 9] Camomons",
 		desc: `Pok&eacute;mon have their types set to match their first two moves.`,
 		mod: 'gen9',
