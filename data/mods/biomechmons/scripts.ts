@@ -40,7 +40,7 @@ export const Scripts: ModdedBattleScriptsData = {
           id: ability.id,
           name: ability.name,
           fullname: 'item: ability' + ability.name,
-          effectType: "Item",
+          effectType: "Ability",
           toString() {
             return ability.name;
   				},
@@ -57,6 +57,51 @@ export const Scripts: ModdedBattleScriptsData = {
       return this.battle.dex.items.getByID(this.item);
     },
     getAbility() {
+      if (this.battle.dex.moves.getByID(this.ability)?.exists) {
+        let move = this.battle.dex.moves.getByID(this.ability);
+        // @ts-ignore
+        return {
+          id: move.id,
+          name: move.name,
+          fullname: 'ability: move' + move.name,
+          effectType: "Ability",
+          toString() {
+  					return move.name;
+  				},
+          onBioMechMons(this: Battle, pokemon: Pokemon) {
+            const sketchedMove = {
+      				move: move.name,
+      				id: move.id,
+      				pp: move.pp,
+      				maxpp: move.pp,
+      				target: move.target,
+      				disabled: false,
+      				used: false,
+      			};
+            pokemon.moveSlots.push(sketchedMove);
+          },
+        } as Ability;
+      } else if (this.battle.dex.items.getByID(this.ability)?.exists) {
+        let item = this.battle.dex.items.getByID(this.ability);
+        // @ts-ignore
+        let abilItem = {
+          id: item.id,
+          name: item.name,
+          fullname: 'ability: item' + item.name,
+          effectType: "Item",
+          toString() {
+            return item.name;
+  				},
+        } as Ability;
+        for (const prop of Object.keys(item)) {
+          // @ts-ignore
+          if (typeof ability[prop] ==='function') {
+            // @ts-ignore
+            abilItem[prop] = ability[prop];
+          }
+        }
+        return abilItem;
+      }
   		return this.battle.dex.abilities.getByID(this.ability);
     },
   }
