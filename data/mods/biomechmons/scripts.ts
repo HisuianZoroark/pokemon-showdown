@@ -15,8 +15,9 @@ export const Scripts: ModdedBattleScriptsData = {
         return {
           id: move.id,
           name: move.name,
-          fullname: 'item: move' + move.name,
+          fullname: 'item: ' + move.name,
           effectType: "Item",
+          flags: {},
           toString() {
   					return move.name;
   				},
@@ -39,15 +40,17 @@ export const Scripts: ModdedBattleScriptsData = {
         let abilItem = {
           id: ability.id,
           name: ability.name,
-          fullname: 'item: ability' + ability.name,
-          effectType: "Ability",
+          fullname: 'item: ' + ability.name,
+          // displays as ability
+          flags: {},
+          effectType: "Item",
           toString() {
             return ability.name;
   				},
         } as Item;
         for (const prop of Object.keys(ability)) {
           // @ts-ignore
-          if (typeof ability[prop] ==='function') {
+          if (typeof ability[prop] ==='function' || prop.toLowerCase().endsWith('priority')) {
             // @ts-ignore
             abilItem[prop] = ability[prop];
           }
@@ -63,7 +66,8 @@ export const Scripts: ModdedBattleScriptsData = {
         return {
           id: move.id,
           name: move.name,
-          fullname: 'ability: move' + move.name,
+          flags: {},
+          fullname: 'ability: ' + move.name,
           effectType: "Ability",
           toString() {
   					return move.name;
@@ -87,17 +91,18 @@ export const Scripts: ModdedBattleScriptsData = {
         let abilItem = {
           id: item.id,
           name: item.name,
-          fullname: 'ability: item' + item.name,
-          effectType: "Item",
+          fullname: 'ability: ' + item.name,
+          effectType: "Ability",
+          flags: {},
           toString() {
             return item.name;
   				},
         } as Ability;
         for (const prop of Object.keys(item)) {
           // @ts-ignore
-          if (typeof ability[prop] ==='function') {
+          if (typeof item[prop] ==='function' || prop.toLowerCase().endsWith('priority')) {
             // @ts-ignore
-            abilItem[prop] = ability[prop];
+            abilItem[prop] = item[prop];
           }
         }
         return abilItem;
