@@ -105,7 +105,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		inherit: true,
 		basePower: 60,
 		onModifyMove(move, pokemon) {
-			if (pokemon.species.name !== 'Chatot') delete move.secondaries;
+			if (pokemon.species.name !== 'Chatot') {
+				const confusion = move.secondaries?.find(secondary => secondary.volatileStatus === 'confusion');
+				if (confusion) confusion.chance = 0; // boosted by Sheer Force
+			}
 		},
 		secondary: {
 			chance: 10,
@@ -352,8 +355,13 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 	},
 	healpulse: {
 		inherit: true,
-		heal: [1, 2],
-		onHit() {},
+		onHit(target, source) {
+			const success = !!this.heal(Math.ceil(target.baseMaxhp * 0.5));
+			if (success && !target.isAlly(source)) {
+				target.staleness = 'external';
+			}
+			return success;
+		},
 	},
 	heatwave: {
 		inherit: true,
@@ -545,6 +553,7 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 				newMove.hasBounced = true;
 				newMove.pranksterBoosted = false;
 				this.actions.useMove(newMove, this.effectState.target, { target: source });
+				move.hasBounced = true; // only bounce once in free-for-all battles
 				return null;
 			},
 		},
@@ -590,6 +599,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		inherit: true,
 		type: "Normal",
 	},
+	muddywater: {
+		inherit: true,
+		basePower: 95,
+	},
 	mudsport: {
 		inherit: true,
 		pseudoWeather: undefined,
@@ -607,10 +620,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 				}
 			},
 		},
-	},
-	muddywater: {
-		inherit: true,
-		basePower: 95,
 	},
 	naturepower: {
 		inherit: true,
@@ -652,6 +661,10 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 		inherit: true,
 		basePower: 70,
 	},
+	psychoshift: {
+		inherit: true,
+		accuracy: 90,
+	},
 	psychup: {
 		inherit: true,
 		onHit(target, source) {
@@ -661,10 +674,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 			}
 			this.add('-copyboost', source, target, '[from] move: Psych Up');
 		},
-	},
-	psychoshift: {
-		inherit: true,
-		accuracy: 90,
 	},
 	psywave: {
 		inherit: true,
@@ -900,10 +909,6 @@ export const Moves: import('../../../sim/dex-moves').ModdedMoveDataTable = {
 					this.add('-fail', source);
 					this.attrLastMove('[still]');
 					return null;
-				}
-				damage = this.runEvent('SubDamage', target, source, move, damage);
-				if (!damage) {
-					return damage;
 				}
 				if (damage > target.volatiles['substitute'].hp) {
 					damage = target.volatiles['substitute'].hp as number;
