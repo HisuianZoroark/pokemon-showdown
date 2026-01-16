@@ -48,7 +48,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		this.factoryTier = debug || this.sample(Object.keys(OM_TIERS));
 	}
 
-	randomFactoryTeam(side: PlayerOptions, depth = 0): RandomTeamsTypes.RandomFactorySet[] {
+	override randomFactoryTeam(side: PlayerOptions, depth = 0): RandomTeamsTypes.RandomFactorySet[] {
 		this.enforceNoDirectCustomBanlistChanges();
 
 		const forceResult = depth >= 12;
@@ -414,7 +414,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		return {
 			name: species.baseSpecies,
 			species: (typeof species.battleOnly === 'string') ? species.battleOnly : species.name,
-			teraType: setData.set.teraType ? this.sampleIfArray(setData.set.teraType) : species.forceTeraType || species.types[0],
+			teraType: setData.set.teraType ? this.sampleIfArray(setData.set.teraType) : species.requiredTeraType || species.types[0],
 			gender:	setData.set.gender || species.gender,
 			item,
 			ability: this.sampleIfArray(setData.set.ability),
