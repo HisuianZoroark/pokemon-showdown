@@ -1,4 +1,2182 @@
 {
+	"bh": {
+		"aerodactylmega": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Aerodactyl-Mega",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [
+						"Brave Bird",
+						["Stone Axe", "Head Smash"],
+						["Volt Tackle", "Precipice Blades", "High Jump Kick"],
+						["Strength Sap", "U-turn"]
+					],
+					"improofs": [],
+					"improofedBy": [
+						"Arceus-Fairy", "Arceus-Water", "Dondozo", "Giratina", "Melmetal", "Slowbro-Mega",
+						"Zacian"
+					],
+					"weight": 100
+				}
+			]
+		},
+		"alakazammega": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Alakazam-Mega",
+					"item": "Choice Specs",
+					"ability": "Beads of Ruin",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [
+						"Psycho Boost",
+						"Moongeist Beam",
+						"Fleur Cannon",
+						["Psystrike", "Armor Cannon", "Volt Switch"]
+					],
+					"improofs": ["Dondozo"],
+					"improofedBy": [
+						"Arceus-Ground", "Arceus-Steel", "Audino-Mega", "Dialga-Origin", "Ho-Oh", "Magearna",
+						"Registeel", "Swampert-Mega", "Ting-Lu"
+					],
+					"weight": 90
+				},
+				{
+					"species": "Alakazam-Mega",
+					"item": "Choice Specs",
+					"ability": "Psychic Surge",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ "Expanding Force", ["Moongeist Beam", "Astral Barrage"], "Fleur Cannon", "Psystrike" ],
+					"improofs": ["Dondozo"],
+					"improofedBy": [
+						"Arceus-Ground", "Arceus-Steel", "Audino-Mega", "Celesteela", "Dialga-Origin", "Ho-Oh",
+						"Magearna", "Melmetal", "Registeel", "Swampert-Mega", "Ting-Lu"
+					],
+					"weight": 10
+				}
+			]
+		},
+		"arceuselectric": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Arceus-Electric",
+					"item": "Leftovers",
+					"ability": "Fur Coat",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Thunder Cage", "Secret Sword", "Take Heart", "Strength Sap"],
+					"improofs": [
+						"Aerodactyl-Mega", "Arceus-Electric", "Dondozo", "Greninja-Ash", "Hoopa-Unbound",
+						"Koraidon", "Kyurem-Black", "Lucario-Mega", "Slowbro-Mega", "Ting-Lu", "Yveltal",
+						"Zamazenta"
+					],
+					"improofedBy": ["Arceus-Electric"],
+					"weight": 18
+				},
+				{
+					"species": "Arceus-Electric",
+					"item": "Icicle Plate",
+					"ability": "Fur Coat",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Thunder Cage", "Judgment", "Take Heart", "Strength Sap"],
+					"improofs": [
+						"Aerodactyl-Mega", "Arceus-Electric", "Dondozo", "Greninja-Ash", "Hoopa-Unbound",
+						"Koraidon", "Kyurem-Black", "Lucario-Mega", "Slowbro-Mega", "Ting-Lu", "Yveltal",
+						"Zamazenta"
+					],
+					"improofedBy": ["Arceus-Electric"],
+					"weight": 12
+				},
+				{
+					"species": "Arceus-Electric",
+					"item": "Leftovers",
+					"ability": "Ice Scales",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Thunder Cage", "Secret Sword", "Take Heart", "Strength Sap"],
+					"improofs": [
+						"Arceus-Electric", "Deoxys", "Dondozo", "Iron Valiant", "Lucario-Mega", "Necrozma-Ultra",
+						"Slowbro-Mega", "Ting-Lu", "Yveltal"
+					],
+					"improofedBy": ["Arceus-Electric"],
+					"weight": 70
+				}
+			]
+		},
+		"arceusfairy": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Arceus-Fairy",
+					"item": ["Leftovers", "Heavy-Duty Boots"],
+					"ability": "Fur Coat",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Strength Sap", "Take Heart", "Moonblast", "Thunder Cage"],
+					"improofs": [
+						"Aerodactyl-Mega", "Arceus-Fairy", "Greninja-Ash", "Koraidon", "Kyurem-Black",
+						"Slowbro-Mega", "Ting-Lu", "Yveltal", "Zamazenta"
+					],
+					"improofedBy": ["Arceus-Fairy"],
+					"weight": 75
+				},
+				{
+					"species": "Arceus-Fairy",
+					"item": ["Leftovers", "Heavy-Duty Boots"],
+					"ability": "Ice Scales",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Strength Sap", "Take Heart", "Moonblast", "Thunder Cage"],
+					"improofs": [
+						"Arceus-Fairy", "Deoxys", "Iron Valiant", "Koraidon", "Kyurem-White", "Necrozma-Ultra",
+						"Slowbro-Mega", "Ting-Lu", "Yveltal", "Zamazenta"
+					],
+					"improofedBy": ["Arceus-Fairy"],
+					"weight": 8
+				},
+				{
+					"species": "Arceus-Fairy",
+					"item": "Leftovers",
+					"ability": "Pixilate",
+					"nature": ["Rash", "Naive"],
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "Boomburst", "Extreme Speed", "Bolt Strike", ["V-create", "Collision Course"] ],
+					"improofs": ["Arceus-Fairy"],
+					"improofedBy": ["Audino-Mega", "Magearna", "Solgaleo"],
+					"weight": 5
+				},
+				{
+					"species": "Arceus-Fairy",
+					"item": "Leftovers",
+					"ability": "Pixilate",
+					"nature": ["Naive", "Rash"],
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [
+						"Boomburst",
+						["Rapid Spin", "Extreme Speed"],
+						"Thunder Cage",
+						["Burning Bulwark", "Baneful Bunker"]
+					],
+					"improofs": ["Arceus-Fairy"],
+					"improofedBy": ["Chansey", "Ho-Oh", "Registeel", "Solgaleo"],
+					"weight": 5
+				},
+				{
+					"species": "Arceus-Fairy",
+					"item": "Pixie Plate",
+					"ability": "Pixilate",
+					"nature": ["Rash", "Naive"],
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "Boomburst", "Extreme Speed", ["Knock Off", "Spikes", "Stone Axe"], "Strength Sap" ],
+					"improofs": ["Arceus-Fairy"],
+					"improofedBy": ["Audino-Mega", "Celesteela", "Solgaleo"],
+					"weight": 7
+				}
+			]
+		},
+		"arceusfighting": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Arceus-Fighting",
+					"item": ["Covert Cloak", "Leftovers", "Heavy-Duty Boots"],
+					"ability": "Fur Coat",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": ["Strength Sap", "Combat Torque", "Mortal Spin", "Knock Off"],
+					"improofs": [
+						"Celesteela", "Chansey", "Garchomp-Mega", "Greninja-Ash", "Ho-Oh", "Kyurem-Black",
+						"Swampert-Mega", "Ting-Lu"
+					],
+					"improofedBy": ["Celesteela", "Dondozo", "Eternatus", "Magearna", "Solgaleo"],
+					"weight": 65
+				},
+				{
+					"species": "Arceus-Fighting",
+					"item": ["Covert Cloak", "Leftovers"],
+					"ability": "Fur Coat",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Strength Sap", "Take Heart", "Secret Sword", "Thunder Cage"],
+					"improofs": ["Chansey", "Garchomp-Mega", "Greninja-Ash", "Kyurem-Black", "Ting-Lu"],
+					"improofedBy": ["Arceus-Fighting"],
+					"weight": 20
+				},
+				{
+					"species": "Arceus-Fighting",
+					"item": "Covert Cloak",
+					"ability": "Fur Coat",
+					"nature": "Impish",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [ "Tidy Up", ["Combat Torque", "Triple Arrows"], "Spirit Shackle", "Strength Sap" ],
+					"improofs": [
+						"Chansey", "Garchomp-Mega", "Greninja-Ash", "Ho-Oh", "Kyurem-Black", "Swampert-Mega",
+						"Ting-Lu"
+					],
+					"improofedBy": ["Arceus-Fighting"],
+					"weight": 15
+				}
+			]
+		},
+		"arceusghost": {
+			"weight": 9,
+			"sets": [
+				{
+					"species": "Arceus-Ghost",
+					"item": "Spooky Plate",
+					"ability": "Magic Guard",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Shore Up", "Judgment", "Knock Off", "Spikes"],
+					"improofs": ["Arceus-Ghost", "Celesteela", "Dondozo", "Koraidon", "Slowbro-Mega", "Zamazenta"],
+					"improofedBy": ["Arceus-Ghost"],
+					"weight": 50
+				},
+				{
+					"species": "Arceus-Ghost",
+					"item": "Spooky Plate",
+					"ability": "Magic Guard",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ "Shore Up", "Judgment", ["Torch Song", "Knock Off"], "Rapid Spin" ],
+					"improofs": ["Arceus-Ghost", "Celesteela", "Koraidon", "Slowbro-Mega", "Zamazenta"],
+					"improofedBy": ["Arceus-Ghost"],
+					"weight": 30
+				},
+				{
+					"species": "Arceus-Ghost",
+					"item": "Spooky Plate",
+					"ability": "Fur Coat",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Shore Up", "Judgment", "Secret Sword", "Nasty Plot"],
+					"improofs": ["Aerodactyl-Mega", "Arceus-Ghost", "Garchomp-Mega", "Kyurem-Black"],
+					"improofedBy": ["Arceus-Ghost"],
+					"weight": 12
+				},
+				{
+					"species": "Arceus-Ghost",
+					"item": "Spooky Plate",
+					"ability": "Magic Bounce",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Shore Up", "Judgment", "Secret Sword", "Nasty Plot"],
+					"improofs": ["Arceus-Ghost", "Celesteela", "Dondozo", "Zacian"],
+					"improofedBy": ["Arceus-Ghost"],
+					"weight": 8
+				}
+			]
+		},
+		"arceusground": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Arceus-Ground",
+					"item": "Covert Cloak",
+					"ability": "Ice Scales",
+					"nature": "Careful",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": ["Shore Up", "Earthquake", "Spirit Shackle", "Knock Off"],
+					"improofs": [
+						"Alakazam-Mega", "Arceus-Ground", "Gardevoir-Mega", "Iron Valiant", "Miraidon",
+						"Necrozma-Ultra"
+					],
+					"improofedBy": ["Arceus-Ground"],
+					"weight": 50
+				},
+				{
+					"species": "Arceus-Ground",
+					"item": "Covert Cloak",
+					"ability": "Ice Scales",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ "Strength Sap", "Revelation Dance", "Mortal Spin", ["Thunder Cage", "Magma Storm"] ],
+					"improofs": ["Arceus-Ground", "Eternatus", "Iron Valiant", "Miraidon", "Necrozma-Ultra"],
+					"improofedBy": ["Chansey"],
+					"weight": 50
+				}
+			]
+		},
+		"arceuspoison": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Arceus-Poison",
+					"item": "Heavy-Duty Boots",
+					"ability": "Magic Bounce",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": ["Shore Up", "Shell Side Arm", "Nuzzle", "Teleport"],
+					"improofs": [
+						"Audino-Mega", "Celesteela", "Dondozo", "Flutter Mane", "Iron Valiant", "Koraidon",
+						"Magearna", "Zacian", "Zamazenta"
+					],
+					"improofedBy": [
+						"Celesteela", "Dialga-Origin", "Garchomp-Mega", "Melmetal", "Registeel", "Swampert-Mega",
+						"Ting-Lu"
+					],
+					"weight": 100
+				}
+			]
+		},
+		"arceussteel": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Arceus-Steel",
+					"item": "Fist Plate",
+					"ability": "Well-Baked Body",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Shore Up", "Nasty Plot", "Judgment", "Tachyon Cutter"],
+					"improofs": [
+						"Alakazam-Mega", "Arceus-Steel", "Gardevoir-Mega", "Ho-Oh", "Kyurem-White", "Melmetal",
+						"Necrozma-Ultra", "Yveltal"
+					],
+					"improofedBy": ["Arceus-Steel"],
+					"weight": 25
+				},
+				{
+					"species": "Arceus-Steel",
+					"item": "Fist Plate",
+					"ability": ["Levitate", "Good as Gold"],
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Shore Up", "Nasty Plot", "Judgment", "Tachyon Cutter"],
+					"improofs": [
+						"Alakazam-Mega", "Arceus-Steel", "Gardevoir-Mega", "Ho-Oh", "Kyurem-White", "Melmetal",
+						"Necrozma-Ultra", "Yveltal"
+					],
+					"improofedBy": ["Arceus-Steel"],
+					"weight": 45
+				},
+				{
+					"species": "Arceus-Steel",
+					"item": "Earth Plate",
+					"ability": "Well-Baked Body",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Shore Up", "Nasty Plot", "Judgment", "Tachyon Cutter"],
+					"improofs": [
+						"Alakazam-Mega", "Arceus-Steel", "Gardevoir-Mega", "Ho-Oh", "Kyurem-White",
+						"Necrozma-Ultra", "Yveltal"
+					],
+					"improofedBy": ["Arceus-Steel"],
+					"weight": 5
+				},
+				{
+					"species": "Arceus-Steel",
+					"item": "Earth Plate",
+					"ability": "Good as Gold",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Shore Up", "Nasty Plot", "Judgment", "Tachyon Cutter"],
+					"improofs": [
+						"Alakazam-Mega", "Arceus-Steel", "Audino-Mega", "Eternatus", "Gardevoir-Mega", "Ho-Oh",
+						"Kyurem-White", "Necrozma-Ultra", "Yveltal"
+					],
+					"improofedBy": ["Arceus-Steel"],
+					"weight": 5
+				},
+				{
+					"species": "Arceus-Steel",
+					"item": "Heavy-Duty Boots",
+					"ability": "Ice Scales",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ "Shore Up", ["Revelation Dance", "Tachyon Cutter"], "Topsy-Turvy", "Glare" ],
+					"improofs": ["Alakazam-Mega", "Arceus-Steel", "Gardevoir-Mega", "Kyurem-White", "Zacian"],
+					"improofedBy": ["Dialga-Origin", "Registeel", "Garchomp-Mega", "Blaziken-Mega"],
+					"weight": 20
+				}
+			]
+		},
+		"arceuswater": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "Arceus-Water",
+					"item": "Leftovers",
+					"ability": "Fur Coat",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Strength Sap", "Scald", "Thunder Cage", "Take Heart"],
+					"improofs": [
+						"Aerodactyl-Mega", "Blaziken-Mega", "Garchomp-Mega", "Greninja-Ash", "Koraidon",
+						"Kyurem-Black", "Lucario-Mega", "Melmetal", "Slowbro-Mega", "Ting-Lu", "Yveltal",
+						"Zamazenta"
+					],
+					"improofedBy": ["Arceus-Water"],
+					"weight": 35
+				},
+				{
+					"species": "Arceus-Water",
+					"item": "Heavy-Duty Boots",
+					"ability": "Fur Coat",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": ["Shore Up", "Scald", "Knock Off", "Salt Cure"],
+					"improofs": [
+						"Aerodactyl-Mega", "Blaziken-Mega", "Garchomp-Mega", "Greninja-Ash", "Lucario-Mega",
+						"Melmetal", "Ting-Lu", "Yveltal"
+					],
+					"improofedBy": ["Blissey", "Miraidon"],
+					"weight": 35
+				},
+				{
+					"species": "Arceus-Water",
+					"item": "Covert Cloak",
+					"ability": "Fur Coat",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Shore Up", "Revelation Dance", "Nuzzle", "Teleport"],
+					"improofs": [
+						"Aerodactyl-Mega", "Blaziken-Mega", "Garchomp-Mega", "Greninja-Ash", "Ho-Oh", "Koraidon",
+						"Lucario-Mega", "Melmetal", "Slowbro-Mega", "Solgaleo", "Swampert-Mega", "Ting-Lu",
+						"Yveltal", "Zacian"
+					],
+					"improofedBy": ["Blissey", "Dialga-Origin", "Miraidon", "Swampert-Mega"],
+					"weight": 30
+				}
+			]
+		},
+		"audinomega": {
+			"weight": 9,
+			"sets": [
+				{
+					"species": "Audino-Mega",
+					"item": ["Leftovers", "Heavy Duty Boots"],
+					"ability": "Fur Coat",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": ["Strength Sap", "Take Heart", "Moonblast", "Rapid Spin"],
+					"improofs": [
+						"Aerodactyl-Mega", "Arceus-Fighting", "Greninja-Ash", "Koraidon", "Kyurem-Black",
+						"Magearna", "Zamazenta"
+					],
+					"improofedBy": ["Arceus-Poison", "Blissey", "Chansey", "Magearna"],
+					"weight": 10
+				},
+				{
+					"species": "Audino-Mega",
+					"item": ["Rocky Helmet", "Leftovers"],
+					"ability": "Fur Coat",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"atk": 0, "spe": 0},
+					"moves": [ "Strength Sap", "Moonblast", ["Will-O-Wisp", "Glare"], "Teleport" ],
+					"improofs": ["Aerodactyl-Mega", "Greninja-Ash", "Kyurem-Black", "Ting-Lu", "Yveltal", "Zacian"],
+					"improofedBy": ["Arceus-Poison", "Blissey", "Chansey", "Celesteela", "Magearna", "Registeel"],
+					"weight": 10
+				},
+				{
+					"species": "Audino-Mega",
+					"item": ["Rocky Helmet", "Leftovers"],
+					"ability": "Fur Coat",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Synthesis", "Moonblast", "Glare", "Teleport"],
+					"improofs": ["Aerodactyl-Mega", "Blaziken-Mega", "Greninja-Ash", "Kyurem-Black", "Ting-Lu", "Yveltal"],
+					"improofedBy": [
+						"Arceus-Poison", "Celesteela", "Kyogre-Primal", "Magearna", "Melmetal", "Registeel",
+						"Solgaleo"
+					],
+					"weight": 4
+				},
+				{
+					"species": "Audino-Mega",
+					"item": "Leftovers",
+					"ability": "Ice Scales",
+					"nature": "Calm",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Shore Up", "Moonblast", "Mortal Spin", "Topsy-Turvy"],
+					"improofs": ["Alakazam-Mega", "Deoxys", "Flutter Mane", "Kyurem-White", "Sceptile-Mega"],
+					"improofedBy": [
+						"Arceus-Poison", "Chansey", "Dialga-Origin", "Eternatus", "Magearna", "Melmetal",
+						"Registeel", "Solgaleo"
+					],
+					"weight": 22
+				},
+				{
+					"species": "Audino-Mega",
+					"item": "Leftovers",
+					"ability": "Ice Scales",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"atk": 0, "spe": 0},
+					"moves": ["Shore Up", "Moonblast", "Mortal Spin", "Parting Shot"],
+					"improofs": ["Alakazam-Mega", "Deoxys", "Flutter Mane", "Kyurem-White", "Sceptile-Mega"],
+					"improofedBy": [
+						"Arceus-Poison", "Arceus-Steel", "Chansey", "Dialga-Origin", "Eternatus", "Magearna",
+						"Melmetal", "Registeel", "Solgaleo"
+					],
+					"weight": 22
+				},
+				{
+					"species": "Audino-Mega",
+					"item": "Heavy-Duty Boots",
+					"ability": "Ice Scales",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"atk": 0, "spe": 0},
+					"moves": [ "Shore Up", "Moonblast", ["Teleport", "Parting Shot"], ["Topsy-Turvy", "Haze"] ],
+					"improofs": ["Alakazam-Mega", "Deoxys", "Kyurem-White", "Sceptile-Mega"],
+					"improofedBy": [
+						"Arceus-Poison", "Celesteela", "Chansey", "Dialga-Origin", "Eternatus", "Ho-Oh",
+						"Magearna", "Melmetal", "Registeel"
+					],
+					"weight": 22
+				},
+				{
+					"species": "Audino-Mega",
+					"item": ["Covert Cloak", "Heavy Duty Boots"],
+					"ability": "Magic Bounce",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Shore Up", "Moonblast", "Knock Off", "Salt Cure"],
+					"improofs": ["Celesteela", "Dondozo", "Flutter Mane", "Magearna", "Slowbro-Mega", "Yveltal", "Zacian"],
+					"improofedBy": ["Arceus-Poison", "Celesteela", "Dialga-Origin"],
+					"weight": 10
+				}
+			]
+		},
+		"blazikenmega": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Blaziken-Mega",
+					"item": "Choice Band",
+					"ability": "Desolate Land",
+					"nature": "Adamant",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [
+						"V-create",
+						"Close Combat",
+						["Headlong Rush", "Glacial Lance"],
+						["Bolt Strike", "First Impression"]
+					],
+					"improofs": ["Celesteela", "Chansey", "Registeel"],
+					"improofedBy": ["Arceus-Water", "Dondozo", "Slowbro-Mega", "Solgaleo", "Giratina"],
+					"weight": 70
+				},
+				{
+					"species": "Blaziken-Mega",
+					"item": "Choice Scarf",
+					"ability": "Desolate Land",
+					"nature": "Lonely",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "V-create", "Close Combat", ["Blue Flare", "Trick"], ["U-turn", "Volt Switch"] ],
+					"improofs": ["Celesteela", "Chansey", "Greninja-Ash", "Registeel"],
+					"improofedBy": ["Arceus-Water", "Dondozo", "Slowbro-Mega", "Solgaleo", "Giratina"],
+					"weight": 10
+				},
+				{
+					"species": "Blaziken-Mega",
+					"item": "Life Orb",
+					"ability": "Desolate Land",
+					"nature": "Adamant",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": ["Shift Gear", "V-create", "Close Combat", "Headlong Rush"],
+					"improofs": ["Celesteela", "Chansey", "Registeel"],
+					"improofedBy": ["Arceus-Water", "Dondozo", "Giratina"],
+					"weight": 10
+				},
+				{
+					"species": "Blaziken-Mega",
+					"item": "Choice Band",
+					"ability": ["Teravolt", "Mold Breaker"],
+					"nature": "Adamant",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [ "V-create", "Close Combat", "Headlong Rush", ["Mighty Cleave", "Bolt Strike"] ],
+					"improofs": ["Celesteela", "Chansey", "Registeel"],
+					"improofedBy": ["Koraidon", "Giratina", "Slowbro-Mega"],
+					"weight": 10
+				}
+			]
+		},
+		"blissey": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Blissey",
+					"item": "Leftovers",
+					"ability": "Magic Guard",
+					"gender": "F",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"atk": 0, "spe": 0},
+					"moves": ["Shore Up", "Ruination", "Topsy-Turvy", "Teleport"],
+					"improofs": ["Arceus-Ground", "Audino-Mega", "Blissey", "Miraidon"],
+					"improofedBy": [
+						"Arceus-Fighting", "Blaziken-Mega", "Celesteela", "Dialga-Origin", "Flutter Mane",
+						"Garchomp-Mega", "Greninja-Ash", "Hoopa-Unbound", "Koraidon", "Kyogre-Primal",
+						"Kyurem-Black", "Lucario-Mega", "Registeel", "Slowbro-Mega", "Swampert-Mega", "Ting-Lu",
+						"Zamazenta"
+					],
+					"weight": 20
+				},
+				{
+					"species": "Blissey",
+					"item": "Heavy-Duty Boots",
+					"ability": "Regenerator",
+					"gender": "F",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"atk": 0, "spe": 0},
+					"moves": [ ["Teleport", "Parting Shot"], "Court Change", "Ruination", ["Knock Off", "Glare"] ],
+					"improofs": ["Blissey", "Miraidon"],
+					"improofedBy": [
+						"Arceus-Fighting", "Blaziken-Mega", "Celesteela", "Dialga-Origin", "Garchomp-Mega",
+						"Greninja-Ash", "Hoopa-Unbound", "Koraidon", "Kyogre-Primal", "Kyurem-Black",
+						"Lucario-Mega", "Registeel", "Slowbro-Mega", "Swampert-Mega", "Ting-Lu", "Zamazenta"
+					],
+					"weight": 5
+				},
+				{
+					"species": "Blissey",
+					"item": "Heavy-Duty Boots",
+					"ability": "Imposter",
+					"gender": "F",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ ["Jungle Healing", "Heal Bell"], "Topsy-Turvy", "Shore Up", "Block" ],
+					"improofs": ["Arceus-Water", "Blissey"],
+					"improofedBy": ["Blissey"],
+					"weight": 75
+				}
+			]
+		},
+		"celesteela": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Celesteela",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [ "U-turn", "Knock Off", "Stone Axe", ["Salt Cure", "Beak Blast"] ],
+					"improofs": [
+						"Arceus-Fighting", "Arceus-Poison", "Chansey", "Gardevoir-Mega", "Solgaleo",
+						"Swampert-Mega", "Zacian", "Zamazenta"
+					],
+					"improofedBy": ["Arceus-Ghost", "Blaziken-Mega", "Miraidon", "Arceus-Fighting"],
+					"weight": 50
+				},
+				{
+					"species": "Celesteela",
+					"item": ["Leftovers", "Rocky Helmet"],
+					"ability": "Fur Coat",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [ "Strength Sap", "Beak Blast", "Teleport", ["Salt Cure", "Will-O-Wisp"] ],
+					"improofs": [
+						"Aerodactyl-Mega", "Arceus-Fighting", "Greninja-Ash", "Koraidon", "Ting-Lu", "Yveltal",
+						"Zacian", "Zamazenta"
+					],
+					"improofedBy": ["Arceus-Ghost", "Arceus-Poison", "Blaziken-Mega", "Miraidon", "Slowbro-Mega"],
+					"weight": 31
+				},
+				{
+					"species": "Celesteela",
+					"item": ["Leftovers", "Covert Cloak"],
+					"ability": "Well-Baked Body",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": ["Strength Sap", "Beak Blast", "Teleport", "Glare"],
+					"improofs": ["Audino-Mega", "Ho-Oh", "Sceptile-Mega", "Ting-Lu", "Yveltal", "Zacian"],
+					"improofedBy": ["Arceus-Electric", "Arceus-Poison", "Miraidon"],
+					"weight": 19
+				}
+			]
+		},
+		"chansey": {
+			"weight": 10,
+			"sets": [
+				{
+					"species": "Chansey",
+					"item": "Eviolite",
+					"ability": "Magic Guard",
+					"gender": "F",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"atk": 0, "spe": 0},
+					"moves": [ "Shore Up", "Ruination", ["Topsy-Turvy", "Glare"], "Teleport" ],
+					"improofs": ["Arceus-Ground", "Audino-Mega", "Eternatus", "Miraidon"],
+					"improofedBy": [
+						"Arceus-Fighting", "Blaziken-Mega", "Celesteela", "Dialga-Origin", "Flutter Mane",
+						"Garchomp-Mega", "Greninja-Ash", "Hoopa-Unbound", "Koraidon", "Kyogre-Primal",
+						"Kyurem-Black", "Lucario-Mega", "Registeel", "Slowbro-Mega", "Swampert-Mega", "Ting-Lu",
+						"Zamazenta"
+					],
+					"weight": 60
+				},
+				{
+					"species": "Chansey",
+					"item": "Eviolite",
+					"ability": "Magic Guard",
+					"gender": "F",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"atk": 0, "spe": 0},
+					"moves": [ "Wish", "Ruination", "Burning Bulwark", ["Teleport", "Parting Shot"] ],
+					"improofs": ["Arceus-Ground", "Audino-Mega", "Eternatus", "Miraidon"],
+					"improofedBy": ["Hoopa-Unbound", "Garchomp-Mega", "Necrozma-Ultra", "Solgaleo"],
+					"weight": 5
+				},
+				{
+					"species": "Chansey",
+					"item": "Eviolite",
+					"ability": "Imposter",
+					"gender": "F",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ ["Jungle Healing", "Heal Bell"], "Topsy-Turvy", "Shore Up", "Block" ],
+					"improofs": ["Eternatus"],
+					"improofedBy": ["Chansey"],
+					"weight": 35
+				}
+			]
+		},
+		"deoxys": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Deoxys",
+					"item": "Life Orb",
+					"ability": "Sheer Force",
+					"nature": "Naive",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [
+						"Luster Purge",
+						"Bolt Strike",
+						"Blue Flare",
+						["Magical Torque", "Mountain Gale", "Combat Torque"]
+					],
+					"improofs": [],
+					"improofedBy": ["Arceus-Electric", "Audino-Mega", "Giratina", "Magearna", "Solgaleo", "Swampert-Mega"],
+					"weight": 100
+				}
+			]
+		},
+		"dialgaorigin": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Dialga-Origin",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [ "U-turn", "Doom Desire", "Dragon Tail", ["Knock Off", "Salt Cure"] ],
+					"improofs": [
+						"Alakazam-Mega", "Arceus-Poison", "Audino-Mega", "Chansey", "Dialga-Origin", "Dondozo",
+						"Ho-Oh", "Kyogre-Primal", "Melmetal", "Miraidon", "Slowbro-Mega", "Solgaleo"
+					],
+					"improofedBy": ["Dialga-Origin"],
+					"weight": 62
+				},
+				{
+					"species": "Dialga-Origin",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [ "U-turn", "Knock Off", "Stone Axe", ["Revelation Dance", "Salt Cure"] ],
+					"improofs": [
+						"Alakazam-Mega", "Arceus-Poison", "Audino-Mega", "Chansey", "Dialga-Origin", "Dondozo",
+						"Ho-Oh", "Kyogre-Primal", "Melmetal", "Miraidon", "Slowbro-Mega", "Solgaleo"
+					],
+					"improofedBy": ["Celesteela", "Dondozo", "Garchomp-Mega"],
+					"weight": 38
+				}
+			]
+		},
+		"dondozo": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Dondozo",
+					"item": ["Heavy-Duty Boots", "Rocky Helmet"],
+					"ability": "Fur Coat",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": ["Strength Sap", "Flip Turn", "Jungle Healing", "Knock Off"],
+					"improofs": [
+						"Aerodactyl-Mega", "Arceus-Fighting", "Blaziken-Mega", "Garchomp-Mega", "Greninja-Ash",
+						"Kyurem-Black", "Lucario-Mega", "Ting-Lu", "Zamazenta"
+					],
+					"improofedBy": [
+						"Alakazam-Mega", "Arceus-Electric", "Arceus-Ghost", "Arceus-Poison", "Dialga-Origin",
+						"Gardevoir-Mega", "Miraidon", "Sceptile-Mega"
+					],
+					"weight": 70
+				},
+				{
+					"species": "Dondozo",
+					"item": "Heavy-Duty Boots",
+					"ability": "Fur Coat",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [ "Strength Sap", "Flip Turn", ["Defog", "Court Change"], "Salt Cure" ],
+					"improofs": ["Aerodactyl-Mega", "Blaziken-Mega", "Garchomp-Mega", "Kyurem-Black", "Lucario-Mega"],
+					"improofedBy": [
+						"Alakazam-Mega", "Arceus-Poison", "Chansey", "Eternatus", "Gardevoir-Mega", "Miraidon",
+						"Sceptile-Mega"
+					],
+					"weight": 30
+				}
+			]
+		},
+		"eternatus": {
+			"weight": 9,
+			"sets": [
+				{
+					"species": "Eternatus",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Naive",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": ["Dragon Energy", "Torch Song", "Shell Side Arm", "Strength Sap"],
+					"improofs": ["Ho-Oh", "Slowbro-Mega"],
+					"improofedBy": ["Chansey", "Arceus-Ground", "Magearna", "Arceus-Steel", "Solgaleo"],
+					"weight": 40
+				},
+				{
+					"species": "Eternatus",
+					"item": "Heavy-Duty Boots",
+					"ability": ["Teravolt", "Turboblaze"],
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ "Dragon Energy", "Torch Song", ["Malignant Chain", "Secret Sword"], "Strength Sap" ],
+					"improofs": ["Arceus-Fighting", "Ho-Oh", "Kyogre-Primal", "Zamazenta"],
+					"improofedBy": ["Magearna", "Solgaleo"],
+					"weight": 10
+				},
+				{
+					"species": "Eternatus",
+					"item": "Black Sludge",
+					"ability": "Unaware",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ ["Shore Up", "Strength Sap"], "Dragon Energy", "Torch Song", "Glare" ],
+					"improofs": ["Arceus-Fighting", "Audino-Mega", "Ho-Oh", "Kyogre-Primal", "Zamazenta"],
+					"improofedBy": ["Blissey", "Chansey", "Magearna", "Ting-Lu"],
+					"weight": 5
+				},
+				{
+					"species": "Eternatus",
+					"item": "Black Sludge",
+					"ability": "Unaware",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ ["Shore Up", "Strength Sap"], "Dragon Energy", "Thunder Cage", "Sludge Bomb" ],
+					"improofs": ["Arceus-Fighting", "Audino-Mega", "Ho-Oh", "Kyogre-Primal", "Zamazenta"],
+					"improofedBy": [
+						"Blissey", "Chansey", "Dialga-Origin", "Magearna", "Registeel", "Solgaleo",
+						"Swampert-Mega", "Ting-Lu"
+					],
+					"weight": 5
+				},
+				{
+					"species": "Eternatus",
+					"item": "Heavy-Duty Boots",
+					"ability": "Regenerator",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ "Volt Switch", "Dragon Energy", "Spikes", ["Torch Song", "Sludge Bomb"] ],
+					"improofs": [
+						"Arceus-Fighting", "Audino-Mega", "Blaziken-Mega", "Celesteela", "Dondozo", "Ho-Oh",
+						"Kyogre-Primal", "Zamazenta"
+					],
+					"improofedBy": ["Alakazam-Mega", "Arceus-Ground"],
+					"weight": 15
+				},
+				{
+					"species": "Eternatus",
+					"item": "Heavy-Duty Boots",
+					"ability": "Regenerator",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [
+						["Volt Switch", "Parting Shot"],
+						"Dragon Energy",
+						"Spikes",
+						["Haze", "Topsy-Turvy", "Encore"]
+					],
+					"improofs": [
+						"Arceus-Fighting", "Audino-Mega", "Blaziken-Mega", "Celesteela", "Dondozo", "Ho-Oh",
+						"Kyogre-Primal", "Zamazenta"
+					],
+					"improofedBy": ["Alakazam-Mega", "Arceus-Ground"],
+					"weight": 15
+				},
+				{
+					"species": "Eternatus",
+					"item": ["Black Sludge", "Choice Scarf", "Choice Specs"],
+					"ability": "Regenerator",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ "Volt Switch", "Dragon Energy", "Trick", ["Glare", "Malignant Chain"] ],
+					"improofs": [
+						"Arceus-Fighting", "Audino-Mega", "Blaziken-Mega", "Celesteela", "Dondozo", "Ho-Oh",
+						"Kyogre-Primal", "Zamazenta"
+					],
+					"improofedBy": [
+						"Alakazam-Mega", "Arceus-Electric", "Blissey", "Celesteela", "Chansey", "Dialga-Origin",
+						"Magearna", "Registeel"
+					],
+					"weight": 10
+				}
+			]
+		},
+		"fluttermane": {
+			"weight": 9,
+			"sets": [
+				{
+					"species": "Flutter Mane",
+					"item": ["Heavy-Duty Boots", "Covert Cloak"],
+					"ability": ["Ice Scales", "Fur Coat"],
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [
+						"Pain Split",
+						"Moonblast",
+						"Spikes",
+						["Astral Barrage", "Encore", "Topsy-Turvy", "Knock Off"]
+					],
+					"improofs": ["Chansey", "Miraidon"],
+					"improofedBy": ["Arceus-Poison", "Audino-Mega"],
+					"weight": 20
+				},
+				{
+					"species": "Flutter Mane",
+					"item": "Heavy-Duty Boots",
+					"ability": ["Teravolt", "Turboblaze"],
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Pain Split", "Moonblast", "Spikes", "Astral Barrage"],
+					"improofs": ["Chansey", "Miraidon"],
+					"improofedBy": ["Ho-Oh"],
+					"weight": 20
+				},
+				{
+					"species": "Flutter Mane",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ "Pain Split", "Moonblast", "Spikes", ["Astral Barrage", "Moongeist Beam"] ],
+					"improofs": [
+						"Arceus-Fighting", "Arceus-Ground", "Celesteela", "Chansey", "Koraidon", "Miraidon",
+						"Slowbro-Mega", "Zamazenta"
+					],
+					"improofedBy": ["Arceus-Poison", "Audino-Mega", "Ho-Oh"],
+					"weight": 20
+				},
+				{
+					"species": "Flutter Mane",
+					"item": "Heavy-Duty Boots",
+					"ability": "Pixilate",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ "Pain Split", "Boomburst", "Spikes", ["Astral Barrage", "Moongeist Beam", "Knock Off"] ],
+					"improofs": ["Chansey", "Miraidon"],
+					"improofedBy": ["Arceus-Poison", "Audino-Mega"],
+					"weight": 20
+				},
+				{
+					"species": "Flutter Mane",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ ["U-turn", "Volt Switch"], "Moonblast", ["Knock Off", "Nuzzle"], "Astral Barrage" ],
+					"improofs": ["Chansey", "Miraidon"],
+					"improofedBy": ["Audino-Mega", "Kyogre-Primal", "Registeel"],
+					"weight": 10
+				},
+				{
+					"species": "Flutter Mane",
+					"item": "Flame Orb",
+					"ability": "Flare Boost",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ "Nasty Plot", "Moonblast", ["Moongeist Beam", "Astral Barrage"], "Pain Split" ],
+					"improofs": ["Dondozo", "Koraidon", "Slowbro-Mega"],
+					"improofedBy": ["Audino-Mega", "Blissey", "Chansey", "Ho-Oh", "Kyogre-Primal", "Registeel"],
+					"weight": 10
+				}
+			]
+		},
+		"garchompmega": {
+			"weight": 9,
+			"sets": [
+				{
+					"species": "Garchomp-Mega",
+					"item": "Choice Band",
+					"ability": "Sword of Ruin",
+					"nature": "Adamant",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [ "Glaive Rush", "Precipice Blades", "V-create", ["Sunsteel Strike", "Bolt Strike"] ],
+					"improofs": ["Arceus-Poison", "Chansey", "Magearna", "Registeel"],
+					"improofedBy": ["Arceus-Fighting", "Arceus-Water", "Dondozo", "Zamazenta"],
+					"weight": 70
+				},
+				{
+					"species": "Garchomp-Mega",
+					"item": "Choice Band",
+					"ability": "Tough Claws",
+					"nature": "Adamant",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [
+						"Glaive Rush",
+						"Headlong Rush",
+						"V-create",
+						["Sunsteel Strike", "Bolt Strike", "First Impression"]
+					],
+					"improofs": ["Arceus-Poison", "Chansey", "Magearna", "Registeel"],
+					"improofedBy": ["Arceus-Fighting", "Arceus-Water", "Dondozo", "Zamazenta"],
+					"weight": 18
+				},
+				{
+					"species": "Garchomp-Mega",
+					"item": "Life Orb",
+					"ability": "Tough Claws",
+					"nature": "Lonely",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [
+						"Shift Gear",
+						"Glaive Rush",
+						"Headlong Rush",
+						["Electro Drift", "Bolt Strike", "V-create"]
+					],
+					"improofs": ["Arceus-Poison", "Chansey", "Registeel"],
+					"improofedBy": ["Arceus-Fighting", "Zacian", "Zamazenta", "Arceus-Fairy"],
+					"weight": 12
+				}
+			]
+		},
+		"gardevoirmega": {
+			"weight": 8,
+			"sets": [
+				{
+					"species": "Gardevoir-Mega",
+					"item": "Choice Specs",
+					"ability": "Pixilate",
+					"nature": "Rash",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": ["Boomburst", "Psystrike", "Extreme Speed", "Knock Off"],
+					"improofs": ["Dondozo", "Slowbro-Mega", "Ting-Lu"],
+					"improofedBy": ["Arceus-Ground", "Arceus-Steel", "Celesteela", "Registeel", "Solgaleo"],
+					"weight": 50
+				},
+				{
+					"species": "Gardevoir-Mega",
+					"item": "Choice Specs",
+					"ability": "Pixilate",
+					"nature": "Modest",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": ["Boomburst", "Psystrike", "Armor Cannon", "Knock Off"],
+					"improofs": ["Dondozo", "Slowbro-Mega", "Ting-Lu"],
+					"improofedBy": ["Arceus-Ground", "Arceus-Steel", "Solgaleo"],
+					"weight": 50
+				}
+			]
+		},
+		"giratina": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Giratina",
+					"item": "Heavy-Duty Boots",
+					"ability": "Prankster",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ "Shore Up", "Haze", ["Glare", "Encore"], ["Parting Shot", "Destiny Bond"] ],
+					"improofs": ["Aerodactyl-Mega", "Blaziken-Mega", "Deoxys", "Lucario-Mega"],
+					"improofedBy": ["Greninja-Ash", "Hoopa-Unbound", "Ting-Lu", "Yveltal"],
+					"weight": 55
+				},
+				{
+					"species": "Giratina",
+					"item": "Griseous Core",
+					"ability": "Magic Guard",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ ["Strength Sap", "Shore Up"], "Infernal Parade", ["Glare", "Nuzzle"], "Teleport" ],
+					"improofs": [
+						"Arceus-Fighting", "Celesteela", "Dondozo", "Ho-Oh", "Kyogre-Primal", "Slowbro-Mega",
+						"Swampert-Mega", "Zamazenta"
+					],
+					"improofedBy": ["Arceus-Ground", "Garchomp-Mega", "Gardevoir-Mega", "Ting-Lu"],
+					"weight": 10
+				},
+				{
+					"species": "Giratina",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [ "U-turn", "Stone Axe", "Dragon Tail", ["Nuzzle", "Knock Off"] ],
+					"improofs": [
+						"Arceus-Poison", "Arceus-Water", "Chansey", "Deoxys", "Lucario-Mega", "Registeel",
+						"Slowbro-Mega", "Solgaleo"
+					],
+					"improofedBy": ["Arceus-Fairy", "Arceus-Ground", "Garchomp-Mega", "Gardevoir-Mega", "Miraidon"],
+					"weight": 35
+				}
+			]
+		},
+		"greninjaash": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Greninja-Ash",
+					"item": "Choice Band",
+					"ability": "Sniper",
+					"gender": "M",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [ "Wicked Blow", "Surging Strikes", ["Knock Off", "Flip Turn"], "Flower Trick" ],
+					"improofs": ["Chansey", "Giratina", "Solgaleo"],
+					"improofedBy": [
+						"Arceus-Fairy", "Arceus-Fighting", "Arceus-Water", "Dondozo", "Koraidon", "Zacian",
+						"Zamazenta"
+					],
+					"weight": 55
+				},
+				{
+					"species": "Greninja-Ash",
+					"item": "Life Orb",
+					"ability": "Sheer Force",
+					"gender": "M",
+					"nature": "Hasty",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "Steam Eruption", "Bolt Strike", "Combat Torque", ["Fiery Wrath", "Ice Beam"] ],
+					"improofs": ["Giratina"],
+					"improofedBy": ["Arceus-Electric", "Audino-Mega", "Swampert-Mega"],
+					"weight": 35
+				},
+				{
+					"species": "Greninja-Ash",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"gender": "M",
+					"nature": "Hasty",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "Water Spout", ["Fiery Wrath", "Knock Off"], "Gigaton Hammer", "High Jump Kick" ],
+					"improofs": ["Giratina"],
+					"improofedBy": [
+						"Arceus-Electric", "Arceus-Water", "Celesteela", "Koraidon", "Eternatus", "Kyogre-Primal",
+						"Miraidon", "Zacian", "Zamazenta"
+					],
+					"weight": 10
+				}
+			]
+		},
+		"hooh": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "Ho-Oh",
+					"item": "Heavy-Duty Boots",
+					"ability": "Ice Scales",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [ "Shore Up", "V-create", "Mortal Spin", ["Topsy-Turvy", "Teleport"] ],
+					"improofs": ["Alakazam-Mega", "Flutter Mane"],
+					"improofedBy": ["Dialga-Origin", "Eternatus", "Koraidon", "Magearna", "Miraidon", "Solgaleo"],
+					"weight": 70
+				},
+				{
+					"species": "Ho-Oh",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [
+						"V-create",
+						["Volt Tackle", "Brave Bird"],
+						["Precipice Blades", "Knock Off"],
+						["Shore Up", "Strength Sap"]
+					],
+					"improofs": ["Arceus-Fighting", "Arceus-Ground", "Audino-Mega", "Zamazenta"],
+					"improofedBy": [
+						"Arceus-Fairy", "Arceus-Water", "Dondozo", "Eternatus", "Giratina", "Swampert-Mega",
+						"Ting-Lu"
+					],
+					"weight": 15
+				},
+				{
+					"species": "Ho-Oh",
+					"item": "Heavy-Duty Boots",
+					"ability": "Magic Bounce",
+					"nature": "Careful",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [ "V-create", "Mortal Spin", ["Precipice Blades", "Knock Off"], "Strength Sap" ],
+					"improofs": ["Celesteela", "Flutter Mane", "Zacian"],
+					"improofedBy": ["Eternatus"],
+					"weight": 15
+				}
+			]
+		},
+		"hoopaunbound": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Hoopa-Unbound",
+					"item": "Choice Band",
+					"ability": "Hustle",
+					"nature": "Lonely",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "Hyperspace Fury", ["Psycho Boost", "V-create"], "Sunsteel Strike", "Flower Trick" ],
+					"improofs": ["Chansey", "Giratina"],
+					"improofedBy": ["Yveltal"],
+					"weight": 100
+				}
+			]
+		},
+		"ironvaliant": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Iron Valiant",
+					"item": "Life Orb",
+					"ability": "Pixilate",
+					"nature": "Lonely",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "Boomburst", "Extreme Speed", "Close Combat", ["Bolt Strike", "V-create"] ],
+					"improofs": [],
+					"improofedBy": ["Arceus-Poison", "Arceus-Electric", "Arceus-Ground", "Magearna", "Solgaleo"],
+					"weight": 70
+				},
+				{
+					"species": "Iron Valiant",
+					"item": "Wide Lens",
+					"ability": "Pixilate",
+					"nature": "Lonely",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "Population Bomb", "Boomburst", "Extreme Speed", ["Close Combat", "V-create"] ],
+					"improofs": [],
+					"improofedBy": ["Arceus-Poison", "Arceus-Electric", "Arceus-Ground", "Ho-Oh", "Magearna", "Solgaleo"],
+					"weight": 30
+				}
+			]
+		},
+		"koraidon": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Koraidon",
+					"item": ["Life Orb", "Rocky Helmet"],
+					"ability": "Magic Guard",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": ["Strength Sap", "High Jump Kick", "Dragon Darts", "Mortal Spin"],
+					"improofs": ["Chansey", "Greninja-Ash", "Ho-Oh", "Swampert-Mega", "Ting-Lu"],
+					"improofedBy": ["Arceus-Fairy", "Arceus-Ghost", "Arceus-Poison", "Arceus-Water"],
+					"weight": 25
+				},
+				{
+					"species": "Koraidon",
+					"item": ["Life Orb", "Rocky Helmet"],
+					"ability": "Magic Guard",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": ["Strength Sap", "High Jump Kick", "Dragon Darts", "Stone Axe"],
+					"improofs": ["Chansey", "Greninja-Ash", "Ho-Oh", "Swampert-Mega"],
+					"improofedBy": [
+						"Arceus-Fairy", "Arceus-Ghost", "Arceus-Poison", "Arceus-Water", "Flutter Mane",
+						"Slowbro-Mega", "Zacian"
+					],
+					"weight": 25
+				},
+				{
+					"species": "Koraidon",
+					"item": ["Life Orb", "Rocky Helmet"],
+					"ability": "Magic Guard",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [
+						["Strength Sap", "Shore Up"],
+						"High Jump Kick",
+						"Dragon Tail",
+						["Toxic Spikes", "Spikes"]
+					],
+					"improofs": ["Arceus-Ground", "Chansey", "Greninja-Ash", "Ho-Oh", "Swampert-Mega"],
+					"improofedBy": ["Arceus-Poison", "Arceus-Fighting", "Zamazenta"],
+					"weight": 15
+				},
+				{
+					"species": "Koraidon",
+					"item": ["Covert Cloak", "Leftovers", "Heavy-Duty Boots"],
+					"ability": "Fur Coat",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [ "Strength Sap", "Triple Arrows", ["Dragon Darts", "Knock Off"], "Mortal Spin" ],
+					"improofs": ["Blaziken-Mega", "Chansey", "Greninja-Ash", "Ting-Lu"],
+					"improofedBy": ["Arceus-Fairy", "Arceus-Ghost", "Arceus-Poison", "Arceus-Water"],
+					"weight": 35
+				}
+			]
+		},
+		"kyogreprimal": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Kyogre-Primal",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [ "U-turn", "Knock Off", ["Scald", "Revelation Dance"], "Mortal Spin" ],
+					"improofs": ["Chansey", "Flutter Mane", "Kyurem-White", "Melmetal", "Slowbro-Mega", "Solgaleo"],
+					"improofedBy": ["Dialga-Origin", "Eternatus", "Registeel"],
+					"weight": 28
+				},
+				{
+					"species": "Kyogre-Primal",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [ "U-turn", "Knock Off", ["Scald", "Revelation Dance"], "Stone Axe" ],
+					"improofs": ["Chansey", "Kyurem-White", "Melmetal", "Solgaleo"],
+					"improofedBy": ["Dialga-Origin", "Eternatus", "Registeel", "Arceus-Electric"],
+					"weight": 40
+				},
+				{
+					"species": "Kyogre-Primal",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Timid",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "U-turn", "Knock Off", ["Scald", "Origin Pulse"], "Mortal Spin" ],
+					"improofs": ["Chansey", "Flutter Mane", "Kyurem-White", "Melmetal", "Slowbro-Mega", "Solgaleo"],
+					"improofedBy": ["Dialga-Origin", "Eternatus", "Registeel"],
+					"weight": 7
+				},
+				{
+					"species": "Kyogre-Primal",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Timid",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "U-turn", "Knock Off", ["Scald", "Origin Pulse"], "Stone Axe" ],
+					"improofs": ["Chansey", "Kyurem-White", "Melmetal", "Solgaleo"],
+					"improofedBy": ["Dialga-Origin", "Eternatus", "Registeel", "Arceus-Electric"],
+					"weight": 5
+				},
+				{
+					"species": "Kyogre-Primal",
+					"item": "Leftovers",
+					"ability": "Fur Coat",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [
+						["Revelation Dance", "Origin Pulse"],
+						"Spikes",
+						"Take Heart",
+						["Baneful Bunker", "Burning Bulwark"]
+					],
+					"improofs": ["Slowbro-Mega"],
+					"improofedBy": ["Kyogre-Primal"],
+					"weight": 12
+				},
+				{
+					"species": "Kyogre-Primal",
+					"item": ["Leftovers", "Covert Cloak"],
+					"ability": "Unaware",
+					"nature": "Bold",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Revelation Dance", "Spirit Shackle", "Take Heart", "Shore Up"],
+					"improofs": [],
+					"improofedBy": ["Kyogre-Primal"],
+					"weight": 8
+				}
+			]
+		},
+		"kyuremblack": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Kyurem-Black",
+					"item": "Choice Band",
+					"ability": "Sword of Ruin",
+					"nature": "Adamant",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [ "Glacial Lance", "Glaive Rush", "Bolt Strike", ["V-create", "Headlong Rush"] ],
+					"improofs": ["Chansey", "Ting-Lu"],
+					"improofedBy": ["Arceus-Fairy", "Arceus-Fighting", "Dondozo", "Zacian", "Zamazenta"],
+					"weight": 80
+				},
+				{
+					"species": "Kyurem-Black",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Adamant",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [
+						"Glacial Lance",
+						"Volt Tackle",
+						["High Jump Kick", "Precipice Blades"],
+						"Sunsteel Strike"
+					],
+					"improofs": [],
+					"improofedBy": ["Arceus-Fighting", "Arceus-Water", "Dondozo", "Zacian", "Zamazenta"],
+					"weight": 20
+				}
+			]
+		},
+		"kyuremwhite": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Kyurem-White",
+					"item": "Choice Specs",
+					"ability": "Refrigerate",
+					"nature": "Rash",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "Boomburst", "Extreme Speed", ["Armor Cannon", "Electro Drift"], "Knock Off" ],
+					"improofs": [],
+					"improofedBy": ["Arceus-Steel", "Audino-Mega", "Kyogre-Primal", "Magearna", "Solgaleo"],
+					"weight": 75
+				},
+				{
+					"species": "Kyurem-White",
+					"item": "Heavy-Duty Boots",
+					"ability": "Refrigerate",
+					"nature": "Timid",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": ["Boomburst", "Rapid Spin", "Final Gambit", "Strength Sap"],
+					"improofs": [],
+					"improofedBy": [
+						"Arceus-Steel", "Arceus-Water", "Audino-Mega", "Chansey", "Ho-Oh", "Kyogre-Primal",
+						"Magearna", "Registeel", "Solgaleo"
+					],
+					"weight": 25
+				}
+			]
+		},
+		"lucariomega": {
+			"weight": 4,
+			"sets": [
+				{
+					"species": "Lucario-Mega",
+					"item": "Choice Band",
+					"ability": "Tough Claws",
+					"nature": "Adamant",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": ["Sunsteel Strike", "Close Combat", "Bolt Strike", "Headlong Rush"],
+					"improofs": ["Chansey", "Ting-Lu"],
+					"improofedBy": ["Arceus-Fighting", "Arceus-Water", "Dondozo", "Giratina", "Zamazenta"],
+					"weight": 20
+				},
+				{
+					"species": "Lucario-Mega",
+					"item": "Choice Specs",
+					"ability": "Sharpness",
+					"nature": "Mild",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "Tachyon Cutter", "Secret Sword", "Stone Axe", ["Seed Flare", "Electro Drift"] ],
+					"improofs": [],
+					"improofedBy": ["Arceus-Electric", "Giratina", "Solgaleo"],
+					"weight": 25
+				},
+				{
+					"species": "Lucario-Mega",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Lonely",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "High Jump Kick", "Steel Beam", "Dragon Energy", ["Volt Tackle", "Earth Power"] ],
+					"improofs": ["Chansey"],
+					"improofedBy": ["Arceus-Electric", "Arceus-Ground", "Arceus-Water", "Dondozo"],
+					"weight": 30
+				},
+				{
+					"species": "Lucario-Mega",
+					"item": "Choice Band",
+					"ability": ["Adaptability", "Steely Spirit"],
+					"nature": "Lonely",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": ["Gigaton Hammer", "Sunsteel Strike", "Close Combat", "Volt Switch"],
+					"improofs": ["Chansey"],
+					"improofedBy": ["Arceus-Fighting", "Arceus-Water", "Giratina", "Ho-Oh", "Slowbro-Mega", "Zamazenta"],
+					"weight": 25
+				}
+			]
+		},
+		"magearna": {
+			"weight": 3,
+			"sets": [
+				{
+					"species": "Magearna",
+					"item": ["Heavy-Duty Boots", "Covert Cloak"],
+					"ability": "Primordial Sea",
+					"nature": "Calm",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ "Shore Up", "Moonblast", "Topsy-Turvy", ["Teleport", "Spikes"] ],
+					"improofs": [
+						"Alakazam-Mega", "Arceus-Fighting", "Audino-Mega", "Deoxys", "Eternatus", "Ho-Oh",
+						"Iron Valiant", "Kyurem-White", "Sceptile-Mega", "Ting-Lu", "Yveltal", "Zamazenta"
+					],
+					"improofedBy": ["Arceus-Poison", "Garchomp-Mega"],
+					"weight": 55
+				},
+				{
+					"species": "Magearna",
+					"item": ["Heavy-Duty Boots", "Leftovers"],
+					"ability": "Ice Scales",
+					"nature": "Calm",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ "Shore Up", "Moonblast", "Topsy-Turvy", ["Teleport", "Spikes"] ],
+					"improofs": [
+						"Alakazam-Mega", "Arceus-Fighting", "Audino-Mega", "Dondozo", "Eternatus",
+						"Gardevoir-Mega", "Kyogre-Primal", "Kyurem-White", "Sceptile-Mega", "Ting-Lu", "Yveltal",
+						"Zamazenta"
+					],
+					"improofedBy": ["Arceus-Poison", "Blaziken-Mega", "Garchomp-Mega", "Ho-Oh"],
+					"weight": 30
+				},
+				{
+					"species": "Magearna",
+					"item": ["Leftovers", "Covert Cloak"],
+					"ability": "Levitate",
+					"nature": "Calm",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": [ "Shore Up", "Moonblast", "Topsy-Turvy", ["Teleport", "Spikes"] ],
+					"improofs": [
+						"Aerodactyl-Mega", "Arceus-Fighting", "Audino-Mega", "Dondozo", "Swampert-Mega", "Ting-Lu",
+						"Yveltal", "Zamazenta"
+					],
+					"improofedBy": ["Arceus-Poison", "Blaziken-Mega", "Ho-Oh"],
+					"weight": 15
+				}
+			]
+		},
+		"melmetal": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Melmetal",
+					"item": ["Rocky Helmet", "Leftovers"],
+					"ability": "Levitate",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [
+						["Shore Up", "Strength Sap"],
+						"Gigaton Hammer",
+						"Stone Axe",
+						["Dragon Tail", "Teleport"]
+					],
+					"improofs": ["Aerodactyl-Mega", "Arceus-Poison", "Audino-Mega", "Solgaleo", "Zacian"],
+					"improofedBy": [
+						"Arceus-Steel", "Arceus-Water", "Dialga-Origin", "Kyogre-Primal", "Slowbro-Mega",
+						"Swampert-Mega", "Ting-Lu"
+					],
+					"weight": 60
+				},
+				{
+					"species": "Melmetal",
+					"item": ["Rocky Helmet", "Leftovers"],
+					"ability": "Levitate",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [ "Strength Sap", "Gigaton Hammer", "Spikes", ["Dragon Tail", "Teleport"] ],
+					"improofs": ["Aerodactyl-Mega", "Arceus-Poison", "Audino-Mega", "Solgaleo", "Zacian"],
+					"improofedBy": ["Arceus-Poison"],
+					"weight": 40
+				}
+			]
+		},
+		"miraidon": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Miraidon",
+					"item": ["Heavy-Duty Boots", "Covert Cloak"],
+					"ability": "Fur Coat",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "Strength Sap", "Thunder Cage", "Dragon Energy", ["Encore", "Torch Song"] ],
+					"improofs": [
+						"Aerodactyl-Mega", "Blaziken-Mega", "Dondozo", "Greninja-Ash", "Hoopa-Unbound",
+						"Lucario-Mega", "Slowbro-Mega"
+					],
+					"improofedBy": [
+						"Arceus-Ground", "Chansey", "Dialga-Origin", "Flutter Mane", "Registeel", "Swampert-Mega",
+						"Ting-Lu"
+					],
+					"weight": 45
+				},
+				{
+					"species": "Miraidon",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "Strength Sap", "Thunder Cage", "Dragon Energy", ["Encore", "Torch Song"] ],
+					"improofs": ["Arceus-Water", "Celesteela", "Dondozo", "Ho-Oh", "Slowbro-Mega"],
+					"improofedBy": [
+						"Arceus-Ground", "Chansey", "Dialga-Origin", "Flutter Mane", "Registeel", "Swampert-Mega",
+						"Ting-Lu"
+					],
+					"weight": 55
+				}
+			]
+		},
+		"necrozmaultra": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Necrozma-Ultra",
+					"item": "Life Orb",
+					"ability": "Sheer Force",
+					"nature": "Hasty",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "Luster Purge", "Bolt Strike", "Blue Flare", ["Order Up", "Magical Torque"] ],
+					"improofs": [],
+					"improofedBy": ["Arceus-Electric", "Arceus-Ground", "Solgaleo", "Ting-Lu"],
+					"weight": 40
+				},
+				{
+					"species": "Necrozma-Ultra",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Naive",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": ["Dragon Energy", "V-create", "Steel Beam", "High Jump Kick"],
+					"improofs": [],
+					"improofedBy": ["Arceus-Electric", "Arceus-Ground", "Ho-Oh", "Solgaleo", "Swampert-Mega"],
+					"weight": 40
+				},
+				{
+					"species": "Necrozma-Ultra",
+					"item": "Life Orb",
+					"ability": "Adaptability",
+					"nature": "Naive",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": ["Glaive Rush", "V-create", "Gigaton Hammer", "Psycho Boost"],
+					"improofs": [],
+					"improofedBy": ["Magearna", "Solgaleo"],
+					"weight": 20
+				}
+			]
+		},
+		"registeel": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Registeel",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [
+						"U-turn",
+						"Rapid Spin",
+						["Ruination", "Gigaton Hammer", "Knock Off"],
+						["Nuzzle", "Salt Cure"]
+					],
+					"improofs": [
+						"Alakazam-Mega", "Arceus-Poison", "Audino-Mega", "Celesteela", "Chansey", "Flutter Mane",
+						"Gardevoir-Mega", "Kyogre-Primal", "Magearna", "Melmetal", "Miraidon", "Solgaleo",
+						"Zacian"
+					],
+					"improofedBy": ["Blaziken-Mega", "Garchomp-Mega", "Slowbro-Mega", "Swampert-Mega", "Ting-Lu"],
+					"weight": 40
+				},
+				{
+					"species": "Registeel",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [
+						"U-turn",
+						"Stone Axe",
+						["Knock Off", "Ruination", "Gigaton Hammer"],
+						["Nuzzle", "Salt Cure"]
+					],
+					"improofs": [
+						"Alakazam-Mega", "Arceus-Poison", "Audino-Mega", "Chansey", "Gardevoir-Mega",
+						"Kyogre-Primal", "Miraidon", "Solgaleo", "Zacian"
+					],
+					"improofedBy": ["Blaziken-Mega", "Garchomp-Mega", "Slowbro-Mega", "Swampert-Mega", "Ting-Lu"],
+					"weight": 40
+				},
+				{
+					"species": "Registeel",
+					"item": ["Heavy-Duty Boots", "Covert Cloak"],
+					"ability": "Well-Baked Body",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [ "Shore Up", "Glare", ["Gigaton Hammer", "Knock Off", "Salt Cure"], "Teleport" ],
+					"improofs": [
+						"Alakazam-Mega", "Audino-Mega", "Eternatus", "Gardevoir-Mega", "Ho-Oh", "Kyurem-White",
+						"Necrozma-Ultra", "Zacian"
+					],
+					"improofedBy": ["Arceus-Electric", "Garchomp-Mega", "Ting-Lu"],
+					"weight": 20
+				}
+			]
+		},
+		"sceptilemega": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Sceptile-Mega",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Timid",
+					"evs": {"hp": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Dragon Energy", "Chloroblast", "Torch Song", "Strength Sap"],
+					"improofs": ["Arceus-Ground", "Dondozo", "Kyogre-Primal", "Slowbro-Mega", "Swampert-Mega"],
+					"improofedBy": ["Arceus-Steel", "Audino-Mega", "Blissey", "Chansey", "Ho-Oh", "Magearna", "Solgaleo"],
+					"weight": 25
+				},
+				{
+					"species": "Sceptile-Mega",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Naive",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [
+						"Dragon Energy",
+						"Chloroblast",
+						"Torch Song",
+						["Gigaton Hammer", "High Jump Kick", "Volt Tackle"]
+					],
+					"improofs": ["Dondozo", "Slowbro-Mega", "Swampert-Mega"],
+					"improofedBy": ["Audino-Mega", "Magearna", "Solgaleo"],
+					"weight": 65
+				},
+				{
+					"species": "Sceptile-Mega",
+					"item": "Life Orb",
+					"ability": "Magic Guard",
+					"nature": "Naive",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": ["Dragon Energy", "Chloroblast", "Torch Song", "Stone Axe"],
+					"improofs": ["Dondozo", "Slowbro-Mega", "Swampert-Mega"],
+					"improofedBy": ["Arceus-Steel", "Audino-Mega", "Blissey", "Chansey", "Magearna", "Solgaleo"],
+					"weight": 10
+				}
+			]
+		},
+		"slowbromega": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "Slowbro-Mega",
+					"item": ["Heavy-Duty Boots", "Rocky Helmet"],
+					"ability": "Regenerator",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [ "Teleport", "Scald", "Stone Axe", ["Strength Sap", "Synthesis"] ],
+					"improofs": ["Aerodactyl-Mega", "Blaziken-Mega", "Chansey", "Melmetal", "Registeel", "Solgaleo"],
+					"improofedBy": [
+						"Arceus-Electric", "Arceus-Fairy", "Arceus-Ghost", "Arceus-Water", "Dialga-Origin",
+						"Flutter Mane", "Miraidon", "Sceptile-Mega", "Gardevoir-Mega"
+					],
+					"weight": 40
+				},
+				{
+					"species": "Slowbro-Mega",
+					"item": "Heavy-Duty Boots",
+					"ability": "Regenerator",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [ "Teleport", "Scald", "Toxic Spikes", ["Psystrike", "Dragon Tail"] ],
+					"improofs": ["Blaziken-Mega", "Chansey", "Melmetal", "Registeel", "Solgaleo"],
+					"improofedBy": ["Gardevoir-Mega", "Ho-Oh", "Miraidon", "Sceptile-Mega"],
+					"weight": 10
+				},
+				{
+					"species": "Slowbro-Mega",
+					"item": ["Heavy-Duty Boots", "Rocky Helmet"],
+					"ability": "Regenerator",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [ "Teleport", "Scald", "Mortal Spin", ["Strength Sap", "Synthesis"] ],
+					"improofs": ["Aerodactyl-Mega", "Blaziken-Mega", "Chansey", "Melmetal", "Registeel", "Solgaleo"],
+					"improofedBy": [
+						"Arceus-Ghost", "Dialga-Origin", "Gardevoir-Mega", "Miraidon", "Registeel",
+						"Sceptile-Mega"
+					],
+					"weight": 20
+				},
+				{
+					"species": "Slowbro-Mega",
+					"item": ["Heavy-Duty Boots", "Rocky Helmet"],
+					"ability": "Fur Coat",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": [
+						["Shore Up", "Synthesis"],
+						"Scald",
+						["Psystrike", "Psychic Noise"],
+						["Haze", "Topsy-Turvy", "Strength Sap"]
+					],
+					"improofs": ["Aerodactyl-Mega", "Blaziken-Mega", "Garchomp-Mega", "Kyurem-Black", "Melmetal"],
+					"improofedBy": [
+						"Arceus-Electric", "Arceus-Fairy", "Arceus-Ghost", "Arceus-Water", "Dialga-Origin",
+						"Gardevoir-Mega", "Kyogre-Primal", "Miraidon", "Sceptile-Mega"
+					],
+					"weight": 30
+				}
+			]
+		},
+		"solgaleo": {
+			"weight": 5,
+			"sets": [
+				{
+					"species": "Solgaleo",
+					"item": "Heavy-Duty Boots",
+					"ability": "Primordial Sea",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "Psychic Noise", "Gigaton Hammer", "Strength Sap", ["Flip Turn", "Teleport"] ],
+					"improofs": [
+						"Arceus-Fighting", "Blaziken-Mega", "Deoxys", "Eternatus", "Gardevoir-Mega", "Ho-Oh",
+						"Iron Valiant", "Kyurem-White", "Necrozma-Ultra", "Sceptile-Mega", "Zamazenta"
+					],
+					"improofedBy": [
+						"Celesteela", "Dialga-Origin", "Greninja-Ash", "Kyogre-Primal", "Melmetal", "Registeel",
+						"Slowbro-Mega", "Swampert-Mega", "Ting-Lu"
+					],
+					"weight": 60
+				},
+				{
+					"species": "Solgaleo",
+					"item": "Heavy-Duty Boots",
+					"ability": "Primordial Sea",
+					"nature": "Timid",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "Psychic Noise", ["Spikes", "Toxic Spikes"], "Strength Sap", ["Flip Turn", "Teleport"] ],
+					"improofs": [
+						"Arceus-Fighting", "Blaziken-Mega", "Deoxys", "Eternatus", "Ho-Oh", "Iron Valiant",
+						"Kyurem-White", "Necrozma-Ultra", "Sceptile-Mega", "Zamazenta"
+					],
+					"improofedBy": ["Ting-Lu", "Yveltal"],
+					"weight": 25
+				},
+				{
+					"species": "Solgaleo",
+					"item": "Choice Scarf",
+					"ability": "Regenerator",
+					"nature": "Careful",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [ "U-turn", "Gigaton Hammer", "Final Gambit", ["Trick", "Knock Off"] ],
+					"improofs": ["Gardevoir-Mega", "Zacian"],
+					"improofedBy": ["Arceus-Ghost", "Arceus-Steel"],
+					"weight": 15
+				}
+			]
+		},
+		"swampertmega": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Swampert-Mega",
+					"item": ["Leftovers", "Heavy Duty Boots"],
+					"ability": "Fur Coat",
+					"nature": "Impish",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": [ "Strength Sap", "Earthquake", "Knock Off", ["Stone Axe", "Spikes"] ],
+					"shiny": true,
+					"improofs": ["Aerodactyl-Mega", "Blaziken-Mega", "Garchomp-Mega", "Lucario-Mega"],
+					"improofedBy": ["Arceus-Fighting", "Koraidon", "Yveltal", "Zamazenta"],
+					"weight": 15
+				},
+				{
+					"species": "Swampert-Mega",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Careful",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 172},
+					"moves": [ "Flip Turn", ["Earthquake", "Precipice Blades"], "Salt Cure", "Mortal Spin" ],
+					"shiny": true,
+					"improofs": [
+						"Alakazam-Mega", "Arceus-Poison", "Chansey", "Deoxys", "Flutter Mane", "Melmetal",
+						"Miraidon", "Registeel", "Solgaleo", "Ting-Lu"
+					],
+					"improofedBy": ["Celesteela", "Koraidon", "Sceptile-Mega", "Yveltal"],
+					"weight": 35
+				},
+				{
+					"species": "Swampert-Mega",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Careful",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 172},
+					"moves": [ "Flip Turn", ["Earthquake", "Precipice Blades"], "Stone Axe", "Knock Off" ],
+					"shiny": true,
+					"improofs": [
+						"Alakazam-Mega", "Arceus-Poison", "Chansey", "Deoxys", "Melmetal", "Miraidon", "Registeel",
+						"Solgaleo"
+					],
+					"improofedBy": [
+						"Arceus-Fairy", "Arceus-Fighting", "Arceus-Water", "Celesteela", "Dondozo", "Koraidon",
+						"Melmetal", "Sceptile-Mega", "Slowbro-Mega", "Yveltal", "Zamazenta"
+					],
+					"weight": 30
+				},
+				{
+					"species": "Swampert-Mega",
+					"item": "Covert Cloak",
+					"ability": "Sap Sipper",
+					"nature": "Impish",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252, "spe": 252},
+					"moves": ["Salt Cure", "Earthquake", "Baneful Bunker", "Strength Sap"],
+					"shiny": true,
+					"improofs": ["Aerodactyl-Mega", "Arceus-Poison", "Ho-Oh", "Melmetal"],
+					"improofedBy": ["Swampert-Mega"],
+					"weight": 20
+				}
+			]
+		},
+		"tinglu": {
+			"weight": 7,
+			"sets": [
+				{
+					"species": "Ting-Lu",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": ["U-turn", "Knock Off", "Stone Axe", "Rapid Spin"],
+					"improofs": [
+						"Alakazam-Mega", "Arceus-Poison", "Chansey", "Giratina", "Melmetal", "Miraidon",
+						"Registeel", "Solgaleo"
+					],
+					"improofedBy": [
+						"Arceus-Fairy", "Arceus-Fighting", "Arceus-Water", "Audino-Mega", "Gardevoir-Mega",
+						"Celesteela", "Dondozo", "Koraidon", "Magearna", "Kyurem-Black"
+					],
+					"weight": 40
+				},
+				{
+					"species": "Ting-Lu",
+					"item": "Assault Vest",
+					"ability": "Regenerator",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": ["U-turn", "Knock Off", "Stone Axe", "Nuzzle"],
+					"improofs": [
+						"Alakazam-Mega", "Arceus-Poison", "Chansey", "Eternatus", "Giratina", "Melmetal",
+						"Miraidon", "Registeel", "Solgaleo"
+					],
+					"improofedBy": [
+						"Arceus-Electric", "Gardevoir-Mega", "Celesteela", "Dondozo", "Magearna", "Swampert-Mega",
+						"Kyurem-Black"
+					],
+					"weight": 45
+				},
+				{
+					"species": "Ting-Lu",
+					"item": "Heavy-Duty Boots",
+					"ability": "Fur Coat",
+					"nature": "Relaxed",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": ["Shore Up", "Knock Off", "Parting Shot", "Rapid Spin"],
+					"improofs": ["Aerodactyl-Mega", "Deoxys", "Garchomp-Mega", "Giratina", "Hoopa-Unbound", "Solgaleo"],
+					"improofedBy": [
+						"Arceus-Electric", "Arceus-Fairy", "Arceus-Steel", "Arceus-Water", "Celesteela",
+						"Magearna", "Zacian", "Arceus-Fighting", "Koraidon", "Gardevoir-Mega"
+					],
+					"weight": 12
+				},
+				{
+					"species": "Ting-Lu",
+					"item": "Shed Shell",
+					"ability": "Ice Scales",
+					"nature": "Sassy",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spa": 252, "spd": 252},
+					"ivs": {"spe": 0},
+					"moves": ["Jaw Lock", "Perish Song", "Shore Up", "Volt Switch"],
+					"improofs": ["Alakazam-Mega", "Arceus-Poison", "Miraidon"],
+					"improofedBy": ["Ting-Lu"],
+					"weight": 3
+				}
+			]
+		},
+		"yveltal": {
+			"weight": 6,
+			"sets": [
+				{
+					"species": "Yveltal",
+					"item": ["Life Orb", "Rocky Helmet"],
+					"ability": "Magic Guard",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": ["Strength Sap", "Knock Off", "Rapid Spin", "Brave Bird"],
+					"improofs": ["Giratina", "Hoopa-Unbound", "Swampert-Mega"],
+					"improofedBy": [
+						"Arceus-Electric", "Arceus-Fairy", "Arceus-Steel", "Arceus-Water", "Celesteela",
+						"Magearna", "Zacian"
+					],
+					"weight": 60
+				},
+				{
+					"species": "Yveltal",
+					"item": "Heavy-Duty Boots",
+					"ability": "Fur Coat",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [ "Strength Sap", "Knock Off", ["Teleport", "Haze"], "Rapid Spin" ],
+					"improofs": ["Garchomp-Mega", "Giratina", "Greninja-Ash", "Hoopa-Unbound", "Solgaleo"],
+					"improofedBy": [
+						"Arceus-Electric", "Arceus-Fairy", "Arceus-Steel", "Arceus-Water", "Celesteela",
+						"Magearna", "Zacian", "Arceus-Fighting", "Koraidon"
+					],
+					"weight": 40
+				}
+			]
+		},
+		"zacian": {
+			"weight": 2,
+			"sets": [
+				{
+					"species": "Zacian",
+					"item": "Heavy-Duty Boots",
+					"ability": "Ice Scales",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [ "Shore Up", ["Magical Torque", "Spirit Break"], ["Encore", "Topsy-Turvy"], "Knock Off" ],
+					"improofs": ["Alakazam-Mega", "Iron Valiant", "Miraidon", "Necrozma-Ultra"],
+					"improofedBy": ["Arceus-Poison", "Celesteela", "Melmetal", "Registeel"],
+					"weight": 40
+				},
+				{
+					"species": "Zacian",
+					"item": "Heavy-Duty Boots",
+					"ability": "Fur Coat",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [
+						"Strength Sap",
+						"Magical Torque",
+						["Encore", "Topsy-Turvy"],
+						["Knock Off", "Will-O-Wisp"]
+					],
+					"improofs": ["Aerodactyl-Mega", "Greninja-Ash", "Kyurem-Black", "Yveltal"],
+					"improofedBy": ["Arceus-Poison", "Celesteela", "Melmetal", "Registeel"],
+					"weight": 55
+				},
+				{
+					"species": "Zacian",
+					"item": "Pixie Plate",
+					"ability": "Pixilate",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": ["Swords Dance", "Double-Edge", "Explosion", "Rapid Spin"],
+					"improofs": [],
+					"improofedBy": [
+						"Arceus-Fairy", "Arceus-Poison", "Arceus-Water", "Celesteela", "Dondozo", "Melmetal",
+						"Solgaleo"
+					],
+					"weight": 5
+				}
+			]
+		},
+		"zamazenta": {
+			"weight": 10,
+			"sets": [
+				{
+					"species": "Zamazenta",
+					"item": ["Covert Cloak", "Leftovers", "Heavy-Duty Boots"],
+					"ability": "Fur Coat",
+					"nature": "Jolly",
+					"evs": {"hp": 252, "atk": 252, "def": 252, "spd": 252, "spe": 252},
+					"moves": [ "Strength Sap", ["Combat Torque", "Triple Arrows"], "Mortal Spin", "Knock Off" ],
+					"improofs": ["Chansey", "Garchomp-Mega", "Greninja-Ash", "Kyurem-Black"],
+					"improofedBy": [
+						"Arceus-Fairy", "Arceus-Ghost", "Arceus-Poison", "Celesteela", "Dondozo", "Eternatus",
+						"Magearna", "Solgaleo"
+					],
+					"weight": 100
+				}
+			]
+		}
+	},
 	"inh": {
 		"annihilape": {
 			"weight": 8,
