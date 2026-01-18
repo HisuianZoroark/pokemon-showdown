@@ -68,9 +68,9 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 	override randomFactoryTeam(side: PlayerOptions, depth = 0): RandomTeamsTypes.RandomFactorySet[] {
 		this.enforceNoDirectCustomBanlistChanges();
 
-		const forceResult = depth >= 12;
-
 		const jsonFactoryTier = OM_TIERS[this.factoryTier];
+
+		const forceResult = (['bh', 'pic', 'sp'].includes(jsonFactoryTier)) ? depth >= 24 : depth >= 12;
 
 		const sac = (jsonFactoryTier === 'aaa' || jsonFactoryTier === 'inh');
 
@@ -186,7 +186,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 
 			// @ts-ignore
-			if (jsonFactoryTier === 'bh' && set.whatItImproofs) {
+			if (jsonFactoryTier === 'bh') {
 				// @ts-ignore
 				if (teamData.improofList.length) {
 					// @ts-ignore
@@ -199,23 +199,25 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 							if (spliceIndex >= 0) teamData.improofList.splice(spliceIndex, 1)
 						}
 					} else {
-						continue;
-					}
-				}
-				// @ts-ignore
-				if (!set.whatItImproofs.includes(set.species)) {
-					if (!pokemon.some(e => e.whatItImproofs.includes(set.species))) {
 						// @ts-ignore
-						teamData.improofList.push(set.species);
+						if (!pokemon.some(e => set.improofedBy.includes(e.species))) continue;
 					}
 				}
 			}
 
 			// Okay, the set passes, add it to our team
 			pokemon.push(set);
+
 			if (jsonFactoryTier === 'bh') {
-				console.log(set.species)
-				console.log(depth);
+				console.log(depth)
+				// @ts-ignore
+				if (!set.improofedBy.includes(set.species)) {
+					// @ts-ignore
+					if (!pokemon.some(e => set.improofedBy.includes(e.species))) {
+						// @ts-ignore
+						teamData.improofList.push(set.species);
+					}
+				}
 			}
 
 			// Now that our Pokemon has passed all checks, we can update team data:
@@ -297,7 +299,10 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 		}
 		if (!teamData.forceResult && teamData.improofList?.length) {
-			console.log(teamData.improofList);
+			if (pokemon.length >= 6) {
+				console.log(teamData.improofList);
+				console.log(Teams.export(pokemon));
+			}
 			return this.randomFactoryTeam(side, ++depth);
 		}
 		if (!teamData.forceResult && pokemon.length < this.maxTeamSize) return this.randomFactoryTeam(side, ++depth);
@@ -472,6 +477,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			pokeball: (tier === 'inh') ? '0' + setData.set.donor  : '',
 			wantsTera: setData.set.wantsTera || false,
 			whatItImproofs: setData.set.improofs || undefined,
+			improofedBy: setData.set.improofedBy || undefined,
 		};
 	}
 }
