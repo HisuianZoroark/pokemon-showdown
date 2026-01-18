@@ -1,6 +1,23 @@
-import {RandomTeams, TeamData} from '../gen9/teams';
+import {RandomTeams} from '../gen9/teams';
 import {PRNG, PRNGSeed} from '../../../sim/prng';
 import {Dex, toID} from '../../../sim/dex';
+
+export interface TeamData {
+	typeCount: { [k: string]: number };
+	typeComboCount: { [k: string]: number };
+	baseFormes: { [k: string]: number };
+	megaCount?: number;
+	zCount?: number;
+	wantsTeraCount?: number;
+	has: { [k: string]: number };
+	forceResult: boolean;
+	weaknesses: { [k: string]: number };
+	resistances: { [k: string]: number };
+	weather?: string;
+	eeveeLimCount?: number;
+	gigantamax?: boolean;
+	improofList?: string[];
+}
 
 interface OMBattleFactorySet {
 	species: string;
@@ -38,7 +55,7 @@ const OM_TIERS: {[k: string]: string} = {
 	'STABmons': 'stab',
 };
 
-const debug = 'Inheritance';
+const debug = 'Balanced Hackmons';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
 	randomOMFactorySets: {[format: string]: {[species: string]: OMBattleFactorySpecies}} = require('./factory-sets.json');
@@ -70,6 +87,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			weaknesses: {},
 			resistances: {},
 		};
+		if (jsonFactoryTier === 'bh') teamData.improofList = [];
 
 		const resistanceAbilities: {[k: string]: string[]} = {
 			dryskin: ['Water'], waterabsorb: ['Water'], stormdrain: ['Water'],
@@ -145,8 +163,8 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 			// Certain teams require unique team generation
 			switch (jsonFactoryTier) {
-				case 'bh':
-					break;
+				// case 'bh':
+				// 	break;
 				case 'gg':
 					break;
 				case 'pic':
@@ -166,8 +184,39 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 			if (teamData.typeComboCount[typeCombo] >= limitFactor) continue;
 
+
+			// @ts-ignore
+			if (jsonFactoryTier === 'bh' && set.whatItImproofs) {
+				// @ts-ignore
+				if (teamData.improofList.length) {
+					// @ts-ignore
+					const improofsSomething = set.whatItImproofs.filter(e => teamData.improofList.includes(e));
+					if (improofsSomething.length) {
+						for (const improofedSpecies of improofsSomething) {
+							// @ts-ignore
+							const spliceIndex = teamData.improofList.findIndex(e => e === improofedSpecies);
+							// @ts-ignore
+							if (spliceIndex >= 0) teamData.improofList.splice(spliceIndex, 1)
+						}
+					} else {
+						continue;
+					}
+				}
+				// @ts-ignore
+				if (!set.whatItImproofs.includes(set.species)) {
+					if (!pokemon.some(e => e.whatItImproofs.includes(set.species))) {
+						// @ts-ignore
+						teamData.improofList.push(set.species);
+					}
+				}
+			}
+
 			// Okay, the set passes, add it to our team
 			pokemon.push(set);
+			if (jsonFactoryTier === 'bh') {
+				console.log(set.species)
+				console.log(depth);
+			}
 
 			// Now that our Pokemon has passed all checks, we can update team data:
 			for (const type of types) {
@@ -194,6 +243,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 			for (const move of set.moves) {
 				const moveId = toID(move);
+				if (move === 'mortalspin' && !['bh', 'stab'].includes(jsonFactoryTier)) continue;
 				if (movesLimited[moveId]) {
 					teamData.has[movesLimited[moveId]] = 1;
 				}
@@ -246,6 +296,10 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				}
 			}
 		}
+		if (!teamData.forceResult && teamData.improofList?.length) {
+			console.log(teamData.improofList);
+			return this.randomFactoryTeam(side, ++depth);
+		}
 		if (!teamData.forceResult && pokemon.length < this.maxTeamSize) return this.randomFactoryTeam(side, ++depth);
 
 		// Quality control we cannot afford for monotype
@@ -274,17 +328,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		const setList = this.randomOMFactorySets[tier][id].sets;
 
 		const itemsLimited = ['choicespecs', 'choiceband', 'choicescarf'];
-		const resistanceAbilities: {[k: string]: string[]} = {
-			dryskin: ['Water'], waterabsorb: ['Water'], stormdrain: ['Water'],
-			flashfire: ['Fire'], heatproof: ['Fire'], waterbubble: ['Fire'], wellbakedbody: ['Fire'],
-			lightningrod: ['Electric'], motordrive: ['Electric'], voltabsorb: ['Electric'],
-			sapsipper: ['Grass'],
-			thickfat: ['Ice', 'Fire'],
-			eartheater: ['Ground'], levitate: ['Ground'],
-			purifyingsalt: ['Ghost'],
-			// AAA and BH
-			desolateland: ['Water'], primordialsea: ['Fire'], deltastream: ['Electric', 'Ice', 'Rock'],
-		};
 		const movesLimited: {[k: string]: string} = {
 			stealthrock: 'stealthRock',
 			stoneaxe: 'stealthRock',
@@ -409,11 +452,11 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			moves.push(setData.moves ? setData.moves[i] : this.sampleIfArray(moveSlot));
 		}
 
-		const item = setData.item || this.sampleIfArray(setData.set.item);
+		const item = this.sampleIfArray(setData.set.item);
 
 		return {
 			name: species.baseSpecies,
-			species: (typeof species.battleOnly === 'string') ? species.battleOnly : species.name,
+			species: (typeof species.battleOnly === 'string' && tier !== 'bh') ? species.battleOnly : species.name,
 			teraType: setData.set.teraType ? this.sampleIfArray(setData.set.teraType) : species.requiredTeraType || species.types[0],
 			gender:	setData.set.gender || species.gender,
 			item,
@@ -428,6 +471,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			// @ts-ignore inh uses pokeball for donor data
 			pokeball: (tier === 'inh') ? '0' + setData.set.donor  : '',
 			wantsTera: setData.set.wantsTera || false,
+			whatItImproofs: setData.set.improofs || undefined,
 		};
 	}
 }
