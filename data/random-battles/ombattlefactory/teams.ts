@@ -186,7 +186,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 
 			// @ts-ignore
-			if (jsonFactoryTier === 'bh') {
+			if (jsonFactoryTier === 'bh' && !teamData.forceResult) {
 				// @ts-ignore
 				if (teamData.improofList.length) {
 					// @ts-ignore
@@ -196,11 +196,11 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 							// @ts-ignore
 							const spliceIndex = teamData.improofList.findIndex(e => e === improofedSpecies);
 							// @ts-ignore
-							if (spliceIndex >= 0) teamData.improofList.splice(spliceIndex, 1)
+							if (spliceIndex >= 0) teamData.improofList.splice(spliceIndex, 1);
 						}
 					} else {
 						// @ts-ignore
-						if (!pokemon.some(e => set.improofedBy.includes(e.species))) continue;
+						if (!pokemon.some(e => set.improofedBy.includes(e.species)) || !set.improofedBy.includes(set.species)) continue;
 					}
 				}
 			}
@@ -209,7 +209,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			pokemon.push(set);
 
 			if (jsonFactoryTier === 'bh') {
-				console.log(depth)
 				// @ts-ignore
 				if (!set.improofedBy.includes(set.species)) {
 					// @ts-ignore
@@ -324,6 +323,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 			if (badHazardStandards) return this.randomFactoryTeam(side, ++depth);
 		}
+		console.log(depth);
 		return pokemon;
 	}
 	randomGenericFactorySet(
