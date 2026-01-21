@@ -2,7 +2,7 @@ import {RandomTeams} from '../gen9/teams';
 import {PRNG, PRNGSeed} from '../../../sim/prng';
 import {Dex, toID} from '../../../sim/dex';
 
-export interface TeamData {
+interface TeamData {
 	typeCount: { [k: string]: number };
 	typeComboCount: { [k: string]: number };
 	baseFormes: { [k: string]: number };
@@ -17,6 +17,11 @@ export interface TeamData {
 	eeveeLimCount?: number;
 	gigantamax?: boolean;
 	improofList?: string[];
+}
+
+interface randomOMFactorySet extends RandomTeamsTypes.RandomFactorySet {
+	whatItImproofs?: string[];
+	improofedBy?: string[];
 }
 
 interface OMBattleFactorySet {
@@ -65,7 +70,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		this.factoryTier = debug || this.sample(Object.keys(OM_TIERS));
 	}
 
-	override randomFactoryTeam(side: PlayerOptions, depth = 0): RandomTeamsTypes.RandomFactorySet[] {
+	override randomFactoryTeam(side: PlayerOptions, depth = 0): randomOMFactorySet[] {
 		this.enforceNoDirectCustomBanlistChanges();
 
 		const jsonFactoryTier = OM_TIERS[this.factoryTier];
@@ -74,7 +79,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 		const sac = (jsonFactoryTier === 'aaa' || jsonFactoryTier === 'inh');
 
-		const pokemon = [];
+		const pokemon = [] as randomOMFactorySet[];
 		const pokemonPool = Object.keys(this.randomOMFactorySets[jsonFactoryTier]);
 
 		const teamData: TeamData = {
@@ -185,22 +190,16 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			if (teamData.typeComboCount[typeCombo] >= limitFactor) continue;
 
 
-			// @ts-ignore
 			if (jsonFactoryTier === 'bh' && !teamData.forceResult) {
-				// @ts-ignore
-				if (teamData.improofList.length) {
-					// @ts-ignore
-					const improofsSomething = set.whatItImproofs.filter(e => teamData.improofList.includes(e));
+				if (teamData.improofList!.length) {
+					const improofsSomething = set.whatItImproofs!.filter(e => teamData.improofList!.includes(e));
 					if (improofsSomething.length) {
 						for (const improofedSpecies of improofsSomething) {
-							// @ts-ignore
-							const spliceIndex = teamData.improofList.findIndex(e => e === improofedSpecies);
-							// @ts-ignore
-							if (spliceIndex >= 0) teamData.improofList.splice(spliceIndex, 1);
+							const spliceIndex = teamData.improofList!.findIndex(e => e === improofedSpecies);
+							if (spliceIndex >= 0) teamData.improofList!.splice(spliceIndex, 1);
 						}
 					} else {
-						// @ts-ignore
-						if (!pokemon.some(e => set.improofedBy.includes(e.species)) || !set.improofedBy.includes(set.species)) continue;
+						if (!pokemon.some(e => set.improofedBy!.includes(e.species)) || !set.improofedBy!.includes(set.species)) continue;
 					}
 				}
 			}
@@ -209,12 +208,9 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			pokemon.push(set);
 
 			if (jsonFactoryTier === 'bh') {
-				// @ts-ignore
-				if (!set.improofedBy.includes(set.species)) {
-					// @ts-ignore
-					if (!pokemon.some(e => set.improofedBy.includes(e.species))) {
-						// @ts-ignore
-						teamData.improofList.push(set.species);
+				if (!set.improofedBy!.includes(set.species)) {
+					if (!pokemon.some(e => set.improofedBy!.includes(e.species))) {
+						teamData.improofList!.push(set.species);
 					}
 				}
 			}
@@ -328,7 +324,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 	}
 	randomGenericFactorySet(
 		species: Species, teamData: RandomTeamsTypes.FactoryTeamDetails, tier: string
-	): RandomTeamsTypes.RandomFactorySet | null {
+	): randomOMFactorySet | null {
 		const id = toID(species.name);
 		const setList = this.randomOMFactorySets[tier][id].sets;
 
