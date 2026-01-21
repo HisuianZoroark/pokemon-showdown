@@ -20,8 +20,9 @@ interface TeamData {
 }
 
 interface randomOMFactorySet extends RandomTeamsTypes.RandomFactorySet {
-	whatItImproofs?: string[];
-	improofedBy?: string[];
+	whatItImproofs?: string[]; // bh
+	improofedBy?: string[]; // bh
+	pokeball?: string; // inh
 }
 
 interface OMBattleFactorySet {
@@ -266,8 +267,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 			// donor clause
 			if (jsonFactoryTier === 'inh') {
-				// @ts-ignore
-				let donorSpecies = Dex.species.get(set.pokeball.split('0')[1]);
+				let donorSpecies = Dex.species.get(set.pokeball!.split('0')[1]);
 				teamData.has['donor:' + donorSpecies.id] = 1;
 				while (donorSpecies.prevo) {
 					const prevoSpecies = Dex.species.get(donorSpecies.prevo);
@@ -469,7 +469,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			ivs: {hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31, ...setData.set.ivs},
 			nature: this.sampleIfArray(setData.set.nature) || "Serious",
 			moves,
-			// @ts-ignore inh uses pokeball for donor data
 			pokeball: (tier === 'inh') ? '0' + setData.set.donor  : '',
 			wantsTera: setData.set.wantsTera || false,
 			whatItImproofs: setData.set.improofs || undefined,
