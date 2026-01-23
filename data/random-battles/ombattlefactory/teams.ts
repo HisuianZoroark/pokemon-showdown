@@ -226,8 +226,15 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				}
 			}
 
-			// Okay, the set passes, add it to our team
-			pokemon.push(set);
+			if (jsonFactoryTier === 'gg') {
+				// Because Godly Gift has slots being important, we need to overwrite
+				// which slot we want the pokemon to be in manually (hence the MissingNo.)
+				// TODO: Figure it out
+
+			} else {
+				// Okay, the set passes, add it to our team
+				pokemon.push(set);
+			}
 
 			if (jsonFactoryTier === 'bh') {
 				if (!set.improofedBy!.includes(set.species)) {
@@ -322,6 +329,8 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			return this.randomFactoryTeam(side, ++depth);
 		}
 		if (!teamData.forceResult && pokemon.length < this.maxTeamSize) return this.randomFactoryTeam(side, ++depth);
+
+		if (!teamData.forceResult && pokemon.some(e => e.species === "MissingNo.")) return this.randomFactoryTeam(side, ++depth);
 
 		// Quality control we cannot afford for monotype
 		if (!teamData.forceResult) {
