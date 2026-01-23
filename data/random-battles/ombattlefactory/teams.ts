@@ -1,4 +1,5 @@
 import {RandomTeams} from '../gen9/teams';
+import { Teams } from '../../../sim/teams';
 import {PRNG, PRNGSeed} from '../../../sim/prng';
 import {Dex, toID} from '../../../sim/dex';
 
@@ -23,6 +24,7 @@ interface randomOMFactorySet extends RandomTeamsTypes.RandomFactorySet {
 	whatItImproofs?: string[]; // bh
 	improofedBy?: string[]; // bh
 	pokeball?: string; // inh
+	isGod?: boolean; // GG
 }
 
 interface OMBattleFactorySet {
@@ -61,7 +63,16 @@ const OM_TIERS: {[k: string]: string} = {
 	'STABmons': 'stab',
 };
 
-const debug = 'Balanced Hackmons';
+enum GG_SLOTS {
+	hp,
+	atk,
+	def,
+	spa,
+	spd,
+	spe,
+};
+
+const debug = 'Inheritance';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
 	randomOMFactorySets: {[format: string]: {[species: string]: OMBattleFactorySpecies}} = require('./factory-sets.json');
@@ -73,14 +84,24 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 	override randomFactoryTeam(side: PlayerOptions, depth = 0): randomOMFactorySet[] {
 		this.enforceNoDirectCustomBanlistChanges();
+		// Figure out how to kick GG out of the tier pool if this value is changed
+		if (this.maxTeamSize !== 6) throw new Error(`Cannot generate ${this.maxTeamSize} Pokemon on a team at once.`);
 
 		const jsonFactoryTier = OM_TIERS[this.factoryTier];
 
-		const forceResult = (['bh', 'pic', 'sp'].includes(jsonFactoryTier)) ? depth >= 24 : depth >= 12;
+		// Some tiers need more care into teambuilding
+		const forceResult = (['bh', 'gg', 'pic', 'sp'].includes(jsonFactoryTier)) ? depth >= 24 : depth >= 12;
+
+		const ObviouslyNotLegalPlaceholder = Teams.import("MissingNo.||||Splash|||||||,,,,,Stellar")![0] as randomOMFactorySet;
 
 		const sac = (jsonFactoryTier === 'aaa' || jsonFactoryTier === 'inh');
 
 		const pokemon = [] as randomOMFactorySet[];
+		if (jsonFactoryTier === 'gg') {
+			// Best to start with all 6 pokemon
+			for (let x = 0; x < this.maxTeamSize; x++) pokemon.push(ObviouslyNotLegalPlaceholder);
+		}
+
 		const pokemonPool = Object.keys(this.randomOMFactorySets[jsonFactoryTier]);
 
 		const teamData: TeamData = {
@@ -133,7 +154,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		}
 		shuffledSpecies.sort((a, b) => a.score - b.score);
 
-		while (shuffledSpecies.length && pokemon.length < this.maxTeamSize) {
+		while (shuffledSpecies.length && (pokemon.length < this.maxTeamSize || pokemon.some(e => e.species === "MissingNo."))) {
 			const species = this.dex.species.get(shuffledSpecies.pop()!.speciesName);
 			if (!species.exists) continue;
 
