@@ -96,6 +96,8 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 		const sac = (jsonFactoryTier === 'aaa' || jsonFactoryTier === 'inh');
 
+		const GODS = this.dex.formats.get('gen9godlygift').restricted;
+
 		const pokemon = [] as randomOMFactorySet[];
 		if (jsonFactoryTier === 'gg') {
 			// Best to start with all 6 pokemon
