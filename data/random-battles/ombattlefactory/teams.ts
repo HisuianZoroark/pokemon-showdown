@@ -222,6 +222,11 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 			if (teamData.typeComboCount[typeCombo] >= limitFactor) continue;
 
+			if (jsonFactoryTier === 'gg' && teamData.god) {
+				if (GODS.includes(this.dex.species.get(set.species).name)) continue;
+				// other stuff here
+			}
+
 			if (jsonFactoryTier === 'bh' && !teamData.forceResult) {
 				if (teamData.improofList!.length) {
 					const improofsSomething = set.whatItImproofs!.filter(e => teamData.improofList!.includes(e));
@@ -252,6 +257,8 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 						teamData.improofList!.push(set.species);
 					}
 				}
+			} else if (jsonFactoryTier === 'gg' && !teamData.god) {
+				teamData.god = set.species;
 			}
 
 			// Now that our Pokemon has passed all checks, we can update team data:
