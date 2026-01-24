@@ -1,7 +1,7 @@
 export const Scripts: ModdedBattleScriptsData = {
 	gen: 9,
 	start() {
-		// eslint-disable-next-line max-len
+		// eslint-disable-next-line @stylistic/max-len
 		const om = Dex.formats.get(`gen9${this.toID(this.teamGenerator.factoryTier)}@@@${(this.format.customRules || []).join(',')}`);
 		this.ruleTable = this.dex.formats.getRuleTable(om);
 		if (this.teamGenerator.factoryTier === 'Partners in Crime') {
@@ -19,7 +19,7 @@ export const Scripts: ModdedBattleScriptsData = {
 		}
 
 		for (const entry in om) {
-			// @ts-ignore suuuuuuuuuper hacky
+			// @ts-expect-error suuuuuuuuuper hacky
 			if (typeof om[entry] === 'function') this.format[entry] = om[entry];
 		}
 
@@ -159,7 +159,7 @@ export const Scripts: ModdedBattleScriptsData = {
 			subFormat.onTeamPreview?.call(this);
 		}
 
-		this.queue.addChoice({choice: 'start'});
+		this.queue.addChoice({ choice: 'start' });
 		this.midTurn = true;
 		if (!this.requestState) this.turnLoop();
 	},
