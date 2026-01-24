@@ -324,13 +324,11 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		if (!teamData.forceResult && teamData.improofList?.length) {
 			if (pokemon.length >= 6) {
 				console.log(teamData.improofList);
-				console.log(Teams.export(pokemon));
+				console.log(Teams.export(pokemon as PokemonSet[]));
 			}
 			return this.randomFactoryTeam(side, ++depth);
 		}
 		if (!teamData.forceResult && pokemon.length < this.maxTeamSize) return this.randomFactoryTeam(side, ++depth);
-
-		if (!teamData.forceResult && pokemon.some(e => e.species === "MissingNo.")) return this.randomFactoryTeam(side, ++depth);
 
 		// Quality control we cannot afford for monotype
 		if (!teamData.forceResult) {
@@ -349,6 +347,17 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 			if (badHazardStandards) return this.randomFactoryTeam(side, ++depth);
 		}
+
+
+		if (pokemon.some(e => e.species === "MissingNo.")) {
+			if (!teamData.forceResult) {
+				return this.randomFactoryTeam(side, ++depth);
+			} else {
+				console.log(depth);
+				return pokemon.filter(e => e.species !== "MissingNo.");
+			}
+		}
+
 		console.log(depth);
 		return pokemon;
 	}
