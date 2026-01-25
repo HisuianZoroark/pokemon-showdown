@@ -26,6 +26,7 @@ interface randomOMFactorySet extends RandomTeamsTypes.RandomFactorySet {
 	improofedBy?: string[]; // bh
 	pokeball?: string; // inh
 	isGod?: boolean; // GG
+	slot?: string[]; // GG
 }
 
 interface OMBattleFactorySet {
@@ -73,7 +74,7 @@ enum GG_SLOTS {
 	spe,
 };
 
-const debug = 'Inheritance';
+const debug = 'Godly Gift';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
 	randomOMFactorySets: { [format: string]: { [species: string]: OMBattleFactorySpecies } } = require('./factory-sets.json');
@@ -97,7 +98,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 		const sac = (jsonFactoryTier === 'aaa' || jsonFactoryTier === 'inh');
 
-		const GODS = this.dex.formats.get('gen9godlygift').restricted;
+		const ggbanlist = this.dex.formats.getRuleTable(this.dex.formats.get('gen9godlygift'));
 
 		const pokemon = [] as randomOMFactorySet[];
 		if (jsonFactoryTier === 'gg') {
@@ -160,13 +161,11 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		while (shuffledSpecies.length && (pokemon.length < this.maxTeamSize || pokemon.some(e => e.species === "MissingNo."))) {
 			let species;
 			if (jsonFactoryTier === 'gg' && !teamData.god) {
-				this.dex.species.get(shuffledSpecies.pop()!.speciesName);
-				const godSpecies = shuffledSpecies.filter(x => GODS.includes(this.dex.species.get(x.speciesName).name));
+				const godSpecies = shuffledSpecies.filter(x => ggbanlist.isRestrictedSpecies(this.dex.species.get(x.speciesName)));
 				species = this.dex.species.get(godSpecies.pop()!.speciesName);
 			} else {
 				species = this.dex.species.get(shuffledSpecies.pop()!.speciesName);
 			}
-
 			if (!species.exists) continue;
 
 			// Limit to one of each species (Species Clause)
@@ -203,8 +202,8 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			switch (jsonFactoryTier) {
 			// case 'bh':
 			// 	break;
-			case 'gg':
-				break;
+			// case 'gg':
+			// 	break;
 			case 'pic':
 				break;
 			case 'sp':
@@ -222,11 +221,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 			if (teamData.typeComboCount[typeCombo] >= limitFactor) continue;
 
-			if (jsonFactoryTier === 'gg' && teamData.god) {
-				if (GODS.includes(this.dex.species.get(set.species).name)) continue;
-				// other stuff here
-			}
-
 			if (jsonFactoryTier === 'bh' && !teamData.forceResult) {
 				if (teamData.improofList!.length) {
 					const improofsSomething = set.whatItImproofs!.filter(e => teamData.improofList!.includes(e));
@@ -242,9 +236,41 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 
 			if (jsonFactoryTier === 'gg') {
-				// Because Godly Gift has slots being important, we need to overwrite
-				// which slot we want the pokemon to be in manually (hence the MissingNo.)
-				// TODO: Figure it out
+				let setAdded = false;
+				if (!teamData.god) {
+					this.prng.shuffle(set.slot!);
+					for (const slotStat of set.slot!) {
+						console.log(pokemon[GG_SLOTS[slotStat]]!.species)
+						if (pokemon[GG_SLOTS[slotStat]]!.species === "MissingNo.") {
+							pokemon[GG_SLOTS[slotStat]] = set;
+							teamData.god = set.species;
+							setAdded = true;
+							break;
+						}
+					}
+				} else {
+					const godStats = this.dex.species.get(teamData.god).baseStats;
+					const setStats = this.dex.species.get(set.species).baseStats;
+					if (ggbanlist.isRestrictedSpecies(this.dex.species.get(set.species))) continue;
+					for (const slotStat of set.slot!) {
+						if (setStats[slotStat] >= godStats[slotStat]) continue;
+						if (pokemon[GG_SLOTS[slotStat]]!.species === "MissingNo.") {
+							pokemon[GG_SLOTS[slotStat]] = set;
+							setAdded = true;
+							break;
+						}
+					}
+				}
+				if (!setAdded) continue;
+				// if (!teamData.forceResult) {
+				// 	const lowStatGods = [];
+				// 	const godStats = this.dex.species.get(teamData.god).baseStats;
+
+				// } else {
+				// 	for (const slotStat of set.slot!) {
+				// 		if (pokemon[GG_SLOTS[slotStat]]!.species === "MissingNo.") pokemon[GG_SLOTS[slotStat]] = set;
+				// 	}
+				// }
 
 			} else {
 				// Okay, the set passes, add it to our team
@@ -528,6 +554,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			wantsTera: setData.set.wantsTera || false,
 			whatItImproofs: setData.set.improofs || undefined,
 			improofedBy: setData.set.improofedBy || undefined,
+			slot: setData.set.slot || undefined,
 		};
 	}
 }
