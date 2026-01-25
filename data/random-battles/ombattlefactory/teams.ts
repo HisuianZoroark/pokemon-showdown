@@ -26,7 +26,7 @@ interface randomOMFactorySet extends RandomTeamsTypes.RandomFactorySet {
 	improofedBy?: string[]; // bh
 	pokeball?: string; // inh
 	isGod?: boolean; // GG
-	slot?: string[]; // GG
+	slot?: StatID[]; // GG
 }
 
 interface OMBattleFactorySet {
@@ -45,7 +45,7 @@ interface OMBattleFactorySet {
 	improofs?: string[]; // BH
 	improofedBy?: string[]; // BH
 	donor?: string; // Inh
-	slot?: string[]; // GG
+	slot?: StatID[]; // GG
 }
 
 interface OMBattleFactorySpecies {
@@ -236,11 +236,11 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 
 			if (jsonFactoryTier === 'gg') {
+				// Due to how Godly Gift works, we have to tell the system which slot to put it in and add it that way
 				let setAdded = false;
 				if (!teamData.god) {
 					this.prng.shuffle(set.slot!);
 					for (const slotStat of set.slot!) {
-						console.log(pokemon[GG_SLOTS[slotStat]]!.species)
 						if (pokemon[GG_SLOTS[slotStat]]!.species === "MissingNo.") {
 							pokemon[GG_SLOTS[slotStat]] = set;
 							teamData.god = set.species;
@@ -262,16 +262,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					}
 				}
 				if (!setAdded) continue;
-				// if (!teamData.forceResult) {
-				// 	const lowStatGods = [];
-				// 	const godStats = this.dex.species.get(teamData.god).baseStats;
-
-				// } else {
-				// 	for (const slotStat of set.slot!) {
-				// 		if (pokemon[GG_SLOTS[slotStat]]!.species === "MissingNo.") pokemon[GG_SLOTS[slotStat]] = set;
-				// 	}
-				// }
-
 			} else {
 				// Okay, the set passes, add it to our team
 				pokemon.push(set);
@@ -283,8 +273,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 						teamData.improofList!.push(set.species);
 					}
 				}
-			} else if (jsonFactoryTier === 'gg' && !teamData.god) {
-				teamData.god = set.species;
 			}
 
 			// Now that our Pokemon has passed all checks, we can update team data:
