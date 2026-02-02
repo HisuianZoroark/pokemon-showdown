@@ -267,6 +267,8 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				pokemon.push(set);
 			}
 
+			// Now that our Pokemon has passed all checks, we can update team data:
+
 			if (jsonFactoryTier === 'bh') {
 				if (!set.improofedBy!.includes(set.species)) {
 					if (!pokemon.some(e => set.improofedBy!.includes(e.species))) {
@@ -275,7 +277,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				}
 			}
 
-			// Now that our Pokemon has passed all checks, we can update team data:
 			for (const type of types) {
 				if (type in teamData.typeCount) {
 					teamData.typeCount[type]++;
