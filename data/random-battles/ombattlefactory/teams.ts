@@ -74,7 +74,7 @@ enum GG_SLOTS {
 	spe,
 };
 
-const debug = 'Godly Gift';
+const debug = 'Balanced Hackmons';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
 	randomOMFactorySets: { [format: string]: { [species: string]: OMBattleFactorySpecies } } = require('./factory-sets.json');
@@ -393,7 +393,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		return pokemon;
 	}
 	randomGenericFactorySet(
-		species: Species, teamData: RandomTeamsTypes.FactoryTeamDetails, tier: string
+		species: Species, teamData: TeamData, tier: string
 	): randomOMFactorySet | null {
 		const id = toID(species.name);
 		const setList = this.randomOMFactorySets[tier][id].sets;
@@ -442,6 +442,13 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 						break;
 					}
 					donorSpecies = prevoSpecies;
+				}
+			} else if (tier === 'bh') {
+				if (teamData.improofList!.length && !set.improofs!.filter(e => teamData.improofList!.includes(e)).length) {
+					if (!set.improofedBy!.includes(set.species)) {
+						reject = true;
+						break;
+					}
 				}
 			}
 
@@ -533,7 +540,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			item,
 			ability: this.sampleIfArray(setData.set.ability),
 			shiny: setData.set.shiny || this.randomChance(1, 1024),
-			level: this.adjustLevel || (tier === "LC" ? 5 : 100),
+			level: this.adjustLevel || 100,
 			happiness: 255,
 			evs: { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0, ...setData.set.evs },
 			ivs: { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31, ...setData.set.ivs },
