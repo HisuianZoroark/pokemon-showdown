@@ -19,6 +19,7 @@ interface TeamData {
 	gigantamax?: boolean;
 	improofList?: string[];
 	god?: string;
+	archetype?: string;
 }
 
 interface randomOMFactorySet extends RandomTeamsTypes.RandomFactorySet {
@@ -46,6 +47,7 @@ interface OMBattleFactorySet {
 	improofedBy?: string[]; // BH
 	donor?: string; // Inh
 	slot?: StatID[]; // GG
+	archetype?: string[];
 }
 
 interface OMBattleFactorySpecies {
