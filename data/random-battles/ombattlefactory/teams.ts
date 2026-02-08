@@ -19,7 +19,7 @@ interface TeamData {
 	gigantamax?: boolean;
 	improofList?: string[];
 	god?: string;
-	archetype?: string;
+	archetype?: string | string[];
 }
 
 interface randomOMFactorySet extends RandomTeamsTypes.RandomFactorySet {
@@ -28,6 +28,7 @@ interface randomOMFactorySet extends RandomTeamsTypes.RandomFactorySet {
 	pokeball?: string; // inh
 	isGod?: boolean; // GG
 	slot?: StatID[]; // GG
+	archetype?: string[];
 }
 
 interface OMBattleFactorySet {
@@ -67,6 +68,12 @@ const OM_TIERS: { [k: string]: string } = {
 	'STABmons': 'stab',
 };
 
+const SOFT_AC_WHITELIST: { [k: string]: string[] } = {
+	// Allow duplicates in these sharing ability based OMs
+	'pic': ['protosynthesis', 'quarkdrive'],
+	'sp': [],
+};
+
 enum GG_SLOTS {
 	hp,
 	atk,
@@ -99,6 +106,8 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		const ObviouslyNotLegalPlaceholder = Teams.import("MissingNo.||||Splash|||||||,,,,,Stellar")![0] as randomOMFactorySet;
 
 		const sac = (jsonFactoryTier === 'aaa' || jsonFactoryTier === 'inh');
+
+		const isArchetypeTier = (jsonFactoryTier === 'sp' || jsonFactoryTier === 'pic');
 
 		const ggbanlist = this.dex.formats.getRuleTable(this.dex.formats.get('gen9godlygift'));
 
@@ -143,6 +152,17 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			defog: 'hazardClear',
 			// BH and STAB
 			mortalspin: 'hazardClear',
+		};
+		const picMovesLimited: { [k: string]: string } = {
+			tailwind: 'tailwind',
+			trickroom: 'trickRoom',
+			stealthrock: 'stealthRock',
+			spikes: 'spikes',
+			whirlwind: 'setupControl',
+			roar: 'setupControl',
+			dragontail: 'setupControl',
+			haze: 'setupControl',
+			clearsmog: 'setupControl',
 		};
 		const abilitiesLimited: { [k: string]: string } = {
 			toxicdebris: 'toxicSpikes',
@@ -237,6 +257,14 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				}
 			}
 
+			if (isArchetypeTier && teamData.archetype && !teamData.forceResult) {
+				if (Array.isArray(teamData.archetype)) {
+					if (!teamData.archetype.filter(e => set.archetype!.includes(e)).length) continue;
+				} else {
+					if (!set.archetype!.includes(teamData.archetype)) continue;
+				}
+			}
+
 			if (jsonFactoryTier === 'gg') {
 				// Due to how Godly Gift works, we have to tell the system which slot to put it in and add it that way
 				let setAdded = false;
@@ -279,6 +307,14 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				}
 			}
 
+			if (isArchetypeTier && !teamData.forceResult) {
+				if (!teamData.archetype) {
+					teamData.archetype = set.archetype!;
+				} else if (Array.isArray(teamData.archetype)) {
+					teamData.archetype = this.sampleIfArray(teamData.archetype.filter(e => set.archetype!.includes(e)));
+				}
+			}
+
 			for (const type of types) {
 				if (type in teamData.typeCount) {
 					teamData.typeCount[type]++;
@@ -315,6 +351,11 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 
 			if (sac) {
+				teamData.has[ability.id] = 1;
+			}
+
+			// soft sac due to how these tiers work, exceptions to sac listed above;
+			if (isArchetypeTier && !SOFT_AC_WHITELIST[jsonFactoryTier].includes(ability.id)) {
 				teamData.has[ability.id] = 1;
 			}
 
@@ -356,10 +397,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 		}
 		if (!teamData.forceResult && teamData.improofList?.length) {
-			if (pokemon.length >= 6) {
-				console.log(teamData.improofList);
-				console.log(Teams.export(pokemon as PokemonSet[]));
-			}
 			return this.randomFactoryTeam(side, ++depth);
 		}
 		if (!teamData.forceResult && pokemon.length < this.maxTeamSize) return this.randomFactoryTeam(side, ++depth);
@@ -373,7 +410,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 			// Try to force a hazard and/or removal on certain teams in certain tiers
 			let badHazardStandards = false;
-			if (!teamData.has['stealthRock'] && jsonFactoryTier !== 'pic') {
+			if (!teamData.has['stealthRock'] && !isArchetypeTier) {
 				badHazardStandards = true;
 			}
 			if (!teamData.has['hazardClear'] && (jsonFactoryTier === 'bh' || jsonFactoryTier === 'inh')) {
@@ -553,6 +590,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			whatItImproofs: setData.set.improofs || undefined,
 			improofedBy: setData.set.improofedBy || undefined,
 			slot: setData.set.slot || undefined,
+			archetype: setData.set.archetype || undefined,
 		};
 	}
 }
