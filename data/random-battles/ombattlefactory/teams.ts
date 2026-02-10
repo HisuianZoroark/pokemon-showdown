@@ -83,7 +83,7 @@ enum GG_SLOTS {
 	spe,
 };
 
-const debug = 'Balanced Hackmons';
+const debug = 'Shared Power';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
 	randomOMFactorySets: { [format: string]: { [species: string]: OMBattleFactorySpecies } } = require('./factory-sets.json');
@@ -228,8 +228,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			// 	break;
 			case 'pic':
 				break;
-			case 'sp':
-				break;
 			default:
 				set = this.randomGenericFactorySet(species, teamData, jsonFactoryTier);
 				break;
@@ -314,6 +312,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					teamData.archetype = this.sampleIfArray(teamData.archetype.filter(e => set.archetype!.includes(e)));
 				}
 			}
+			console.log(teamData.archetype);
 
 			for (const type of types) {
 				if (type in teamData.typeCount) {

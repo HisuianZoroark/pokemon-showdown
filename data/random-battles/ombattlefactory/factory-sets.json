@@ -6132,5 +6132,394 @@
 				}
 			]
 		}
+	},
+	"sp": {
+		"blissey": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Blissey",
+					"item": "Heavy-Duty Boots",
+					"ability": "Natural Cure",
+					"nature": "Calm",
+					"evs": {"hp": 4, "def": 252, "spd": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Seismic Toss", "Soft-Boiled", "Heal Bell", ["Stealth Rock", "Shadow Ball"]],
+					"teraType": "Dark",
+					"archetype": ["stall"],
+					"weight": 1
+				},
+				{
+					"species": "Blissey",
+					"item": "Heavy-Duty Boots",
+					"ability": "Natural Cure",
+					"nature": "Sassy",
+					"evs": {"hp": 4, "def": 252, "spd": 252},
+					"ivs": {"atk": 0, "spe": 0},
+					"moves": ["Seismic Toss", "Shadow Ball", "Soft-Boiled", "Calm Mind"],
+					"teraType": "Fairy",
+					"archetype": ["stall", "balance"],
+					"weight": 1
+				}
+			]
+		},
+		"ceruledge": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Ceruledge",
+					"item": "Focus Sash",
+					"ability": "Weak Armor",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Bitter Blade", "Poltergeist", "Shadow Sneak", "Swords Dance"],
+					"teraType": "Fairy",
+					"archetype": ["hyper offense"],
+					"weight": 1
+				}
+			]
+		},
+		"comfey": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Comfey",
+					"item": "Life Orb",
+					"ability": "Triage",
+					"nature": "Modest",
+					"evs": {"hp": 252, "spa": 252, "spd": 4},
+					"moves": ["Draining Kiss", "Tera Blast", ["Synthesis", "Stored Power"], "Calm Mind"],
+					"teraType": "Ground",
+					"archetype": ["hyper offense", "offense"],
+					"weight": 1
+				}
+			]
+		},
+		"crawdaunt": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Crawdaunt",
+					"item": "Life Orb",
+					"ability": "Adaptability",
+					"nature": "Adamant",
+					"evs": {"atk": 252, "def": 4, "spe": 252},
+					"moves": ["Liquidation", "Knock Off", "Aqua Jet", "Swords Dance"],
+					"teraType": "Water",
+					"archetype": ["offense", "hyper offense", "balance"],
+					"weight": 1
+				}
+			]
+		},
+		"dachsbun": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Dachsbun",
+					"item": "Leftovers",
+					"ability": "Well-Baked Body",
+					"nature": "Careful",
+					"evs": {"hp": 252, "def": 4, "spd": 252},
+					"moves": ["Play Rough", "Roar", "Wish", "Protect"],
+					"teraType": "Steel",
+					"archetype": ["immunity fat"],
+					"weight": 1
+				}
+			]
+		},
+		"deoxys": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Deoxys",
+					"item": "Life Orb",
+					"ability": "Pressure",
+					"nature": "Naive",
+					"evs": {"atk": 4, "spa": 252, "spe": 252},
+					"moves": ["Psychic", "Ice Beam", "Focus Blast", "Nasty Plot"],
+					"teraType": "Fighting",
+					"archetype": ["hyper offense"],
+					"weight": 1
+				}
+			]
+		},
+		"excadrill": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Excadrill",
+					"item": "Life Orb",
+					"ability": "Sand Rush",
+					"nature": "Adamant",
+					"evs": {"atk": 252, "def": 4, "spe": 252},
+					"moves": ["Earthquake", "Iron Head", "Rapid Spin", "Swords Dance"],
+					"teraType": "Ground",
+					"archetype": ["offense"],
+					"weight": 1
+				}
+			]
+		},
+		"garganacl": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Garganacl",
+					"item": "Leftovers",
+					"ability": "Purifying Salt",
+					"nature": "Careful",
+					"evs": {"hp": 252, "def": 52, "spd": 204},
+					"moves": ["Salt Cure", "Stealth Rock", "Protect", "Recover"],
+					"teraType": "Fairy",
+					"archetype": ["stall", "immunity fat", "balance"],
+					"weight": 1
+				}
+			]
+		},
+		"giratinaorigin": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Giratina-Origin",
+					"item": "Griseous Core",
+					"ability": "Levitate",
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"moves": ["Dragon Tail", ["Shadow Sneak", "Poltergeist"], "Defog", ["Rest", "Will-O-Wisp"]],
+					"teraType": "Steel",
+					"archetype": ["stall", "immunity fat", "balance"],
+					"weight": 1
+				}
+			]
+		},
+		"golurk": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Golurk",
+					"item": "Focus Sash",
+					"ability": "No Guard",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Stealth Rock", "Poltergeist", "Earthquake", "Dynamic Punch"],
+					"teraType": "Steel",
+					"archetype": ["hyper offense"],
+					"weight": 1
+				}
+			]
+		},
+		"heatran": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Heatran",
+					"item": "Leftovers",
+					"ability": "Flash Fire",
+					"nature": "Calm",
+					"evs": {"hp": 252, "def": 4, "spd": 212, "spe": 40},
+					"moves": ["Magma Storm", "Earth Power", ["Taunt", "Will-O-Wisp"], ["Stealth Rock", "Will-O-Wisp"]],
+					"teraType": ["Grass", "Ghost", "Fairy"],
+					"archetype": ["immunity fat", "balance", "stall"],
+					"weight": 1
+				}
+			]
+		},
+		"hooh": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Ho-Oh",
+					"item": "Heavy-Duty Boots",
+					"ability": "Regenerator",
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"moves": ["Sacred Fire", "Earthquake", "Recover", "Whirlwind"],
+					"teraType": "Ground",
+					"archetype": ["stall", "balance", "immunity fat"],
+					"weight": 1
+				}
+			]
+		},
+		"ironcrown": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "ironcrown",
+					"item": "Booster Energy",
+					"ability": "Quark Drive",
+					"nature": "Timid",
+					"evs": {"hp": 84, "spa": 172, "spe": 252},
+					"ivs": {"atk": 20},
+					"moves": ["Tachyon Cutter", "Psyshock", "Focus Blast", "Calm Mind"],
+					"teraType": "Fighting",
+					"archetype": ["offense"],
+					"weight": 1
+				}
+			]
+		},
+		"landorus": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Landorus",
+					"item": "Life Orb",
+					"ability": "Sheer Force",
+					"gender": "M",
+					"nature": "Timid",
+					"evs": {"def": 4, "spa": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Earth Power", "Sludge Wave", "Focus Blast", "Nasty Plot"],
+					"teraType": "Ground",
+					"archetype": ["hyper offense"],
+					"weight": 1
+				}
+			]
+		},
+		"lilliganthisui": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Lilligant-Hisui",
+					"item": "Life Orb",
+					"ability": "Hustle",
+					"gender": "F",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "def": 4, "spe": 252},
+					"moves": [["Petal Blizzard", "Leaf Blade"], "Close Combat", "Triple Axel", "Victory Dance"],
+					"teraType": "Grass",
+					"archetype": ["hyper offense"],
+					"weight": 1
+				}
+			]
+		},
+		"lycanrocdusk": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Lycanroc-Dusk",
+					"item": "Focus Sash",
+					"ability": "Tough Claws",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "def": 4, "spe": 252},
+					"moves": ["Accelerock", "Endeavor", "Taunt", "Stealth Rock"],
+					"teraType": "Ghost",
+					"archetype": ["hyper offense", "offense"],
+					"weight": 1
+				}
+			]
+		},
+		"ogerponwellspring": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "ogerponwellspring",
+					"item": "Wellspring Mask",
+					"ability": "Water Absorb",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "spd": 4, "spe": 252},
+					"moves": ["Ivy Cudgel", "Power Whip", "Play Rough", "Swords Dance"],
+					"teraType": "Water",
+					"archetype": ["offense", "balance", "immunity fat"],
+					"weight": 1
+				}
+			]
+		},
+		"perrserker": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Perrserker",
+					"item": "Heavy-Duty Boots",
+					"ability": "Steely Spirit",
+					"nature": "Adamant",
+					"evs": {"hp": 248, "atk": 252, "spd": 8},
+					"moves": ["Iron Head", "Knock Off", "Stealth Rock", "U-turn"],
+					"teraType": "Fairy",
+					"archetype": ["offense"],
+					"weight": 1
+				}
+			]
+		},
+		"solgaleo": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Solgaleo",
+					"item": "Leftovers",
+					"ability": "Full Metal Body",
+					"nature": "Jolly",
+					"evs": {"atk": 252, "def": 4, "spe": 252},
+					"moves": ["Sunsteel Strike", "Psychic Fangs", "Earthquake", "Morning Sun"],
+					"teraType": "Water",
+					"archetype": ["offense", "balance", "hyper offense", "immunity fat"],
+					"weight": 1
+				}
+			]
+		},
+		"tinglu": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Ting-Lu",
+					"item": "Leftovers",
+					"ability": "Vessel of Ruin",
+					"nature": "Careful",
+					"evs": {"hp": 252, "def": 4, "spd": 252},
+					"moves": ["Earthquake", "Spikes", "Whirlwind", "Ruination"],
+					"teraType": "Poison",
+					"archetype": ["stall"],
+					"weight": 1
+				}
+			]
+		},
+		"toxapex": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Toxapex",
+					"item": "Heavy-Duty Boots",
+					"ability": "Merciless",
+					"nature": "Bold",
+					"evs": {"hp": 248, "def": 252, "spd": 8},
+					"ivs": {"atk": 0},
+					"moves": ["Toxic", "Toxic Spikes", "Haze", "Recover"],
+					"teraType": "Steel",
+					"archetype": ["stall"],
+					"weight": 1
+				}
+			]
+		},
+		"volcanion": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Volcanion",
+					"item": "Choice Specs",
+					"ability": "Water Absorb",
+					"nature": "Modest",
+					"evs": {"def": 4, "spa": 252, "spe": 252},
+					"ivs": {"atk": 0},
+					"moves": ["Steam Eruption", "Flamethrower", "Earth Power", "Sludge Bomb"],
+					"teraType": "Fairy",
+					"archetype": ["balance", "offense", "immunity fat"],
+					"weight": 1
+				}
+			]
+		},
+		"wochien": {
+			"weight": 1,
+			"sets": [
+				{
+					"species": "Wo-Chien",
+					"item": "Heavy-Duty Boots",
+					"ability": "Tablets of Ruin",
+					"nature": "Impish",
+					"evs": {"hp": 252, "def": 252, "spd": 4},
+					"moves": ["Foul Play", "Knock Off", "Leech Seed", "Rest"],
+					"teraType": "Water",
+					"archetype": ["stall"],
+					"weight": 1
+				}
+			]
+		}
 	}
 }
