@@ -66,6 +66,7 @@ const OM_TIERS: { [k: string]: string } = {
 	'Partners in Crime': 'pic',
 	'Shared Power': 'sp',
 	'STABmons': 'stab',
+	'[Gen 6] Pure Hackmons': 'bh',
 };
 
 const SOFT_AC_WHITELIST: { [k: string]: string[] } = {
@@ -83,7 +84,7 @@ enum GG_SLOTS {
 	spe,
 };
 
-const debug = 'Shared Power';
+const debug = '[Gen 6] Pure Hackmons';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
 	randomOMFactorySets: { [format: string]: { [species: string]: OMBattleFactorySpecies } } = require('./factory-sets.json');
@@ -109,6 +110,8 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 		const isArchetypeTier = (jsonFactoryTier === 'sp' || jsonFactoryTier === 'pic');
 
+		const isHackmonsTier = (jsonFactoryTier === 'bh' || jsonFactoryTier === '6ph');
+
 		const ggbanlist = this.dex.formats.getRuleTable(this.dex.formats.get('gen9godlygift'));
 
 		const pokemon = [] as randomOMFactorySet[];
@@ -129,7 +132,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			weaknesses: {},
 			resistances: {},
 		};
-		if (jsonFactoryTier === 'bh') teamData.improofList = [];
+		if (isHackmonsTier) teamData.improofList = [];
 
 		const resistanceAbilities: { [k: string]: string[] } = {
 			dryskin: ['Water'], waterabsorb: ['Water'], stormdrain: ['Water'],
@@ -241,7 +244,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 			if (teamData.typeComboCount[typeCombo] >= limitFactor) continue;
 
-			if (jsonFactoryTier === 'bh' && !teamData.forceResult) {
+			if (isHackmonsTier && !teamData.forceResult) {
 				if (teamData.improofList!.length) {
 					const improofsSomething = set.whatItImproofs!.filter(e => teamData.improofList!.includes(e));
 					if (improofsSomething.length) {
@@ -297,7 +300,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 			// Now that our Pokemon has passed all checks, we can update team data:
 
-			if (jsonFactoryTier === 'bh') {
+			if (isHackmonsTier) {
 				if (!set.improofedBy!.includes(set.species)) {
 					if (!pokemon.some(e => set.improofedBy!.includes(e.species))) {
 						teamData.improofList!.push(set.species);
@@ -311,8 +314,9 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				} else if (Array.isArray(teamData.archetype)) {
 					teamData.archetype = this.sampleIfArray(teamData.archetype.filter(e => set.archetype!.includes(e)));
 				}
+				console.log(teamData.archetype);
 			}
-			console.log(teamData.archetype);
+
 
 			for (const type of types) {
 				if (type in teamData.typeCount) {
@@ -327,7 +331,9 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				teamData.typeComboCount[typeCombo] = 1;
 			}
 
-			teamData.baseFormes[species.baseSpecies] = 1;
+			if (jsonFactoryTier !== '6ph') {
+				teamData.baseFormes[species.baseSpecies] = 1;
+			}
 
 			teamData.has[toID(set.item)] = 1;
 

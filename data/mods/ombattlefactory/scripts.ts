@@ -1,8 +1,13 @@
 export const Scripts: ModdedBattleScriptsData = {
-	gen: 9,
 	start() {
-		// eslint-disable-next-line @stylistic/max-len
-		const om = Dex.formats.get(`gen9${this.toID(this.teamGenerator.factoryTier)}@@@${(this.format.customRules || []).join(',')}`);
+		let tierString = `${this.toID(this.teamGenerator.factoryTier)}`;
+		if (this.teamGenerator.factoryTier === '[Gen 6] Pure Hackmons') {
+			this.gen = 6;
+		} else {
+			this.gen = 9;
+			tierString = 'gen9' + tierString;
+		}
+		const om = Dex.formats.get(`${tierString}@@@${(this.format.customRules || []).join(',')}`);
 		this.ruleTable = this.dex.formats.getRuleTable(om);
 		if (this.teamGenerator.factoryTier === 'Partners in Crime') {
 			// Transform tier into Doubles
