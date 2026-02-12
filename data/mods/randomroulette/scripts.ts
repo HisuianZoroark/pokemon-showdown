@@ -82,6 +82,8 @@ export const Scripts: ModdedBattleScriptsData = {
 			}
 		}
 
+		this.add('gametype', this.gameType);
+
 		this.add('gen', this.gen);
 
 		this.add('tier', format.name);

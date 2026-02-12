@@ -1855,7 +1855,6 @@ export class Battle {
 	}
 
 	start() {
-		this.add('gametype', this.gameType);
 		// Deserialized games should use restart()
 		if (this.deserialized) return;
 		// need all players to start
@@ -1885,6 +1884,8 @@ export class Battle {
 				this.sides[3]!.foe = this.sides[2]!;
 			}
 		}
+
+		this.add('gametype', this.gameType);
 
 		this.add('gen', this.gen);
 

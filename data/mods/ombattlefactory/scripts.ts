@@ -8,6 +8,7 @@ export const Scripts: ModdedBattleScriptsData = {
 			tierString = 'gen9' + tierString;
 		}
 		const om = Dex.formats.get(`${tierString}@@@${(this.format.customRules || []).join(',')}`);
+		this.dex = Dex.forFormat(om);
 		this.ruleTable = this.dex.formats.getRuleTable(om);
 		if (this.teamGenerator.factoryTier === 'Partners in Crime') {
 			// Transform tier into Doubles
@@ -57,8 +58,6 @@ export const Scripts: ModdedBattleScriptsData = {
 			}
 		}
 
-		this.add('gametype', this.gameType);
-
 		for (const rule of this.ruleTable.keys()) {
 			if ('+*-!'.includes(rule.charAt(0))) continue;
 			const subFormat = this.dex.formats.get(rule);
@@ -87,7 +86,6 @@ export const Scripts: ModdedBattleScriptsData = {
 
 		if (this.started) throw new Error(`Battle already started`);
 
-		const format = this.format;
 		this.started = true;
 		if (this.gameType === 'multi') {
 			this.sides[1].foe = this.sides[2]!;
@@ -110,22 +108,20 @@ export const Scripts: ModdedBattleScriptsData = {
 			}
 		}
 
-		for (const side of this.sides) {
-			this.add('teamsize', side.id, side.pokemon.length);
-		}
+		this.add('gametype', this.gameType);
 
 		this.add('gen', this.gen);
 
 		// Don't use onBegin as OMs override it
 		this.add(`raw|<div class="broadcast-blue"><b>Battle Factory Tier: ${this.teamGenerator.factoryTier}</b></div>`);
 
-		this.add('tier', format.name);
+		this.add('tier', this.format.name);
 		if (this.rated) {
 			if (this.rated === 'Rated battle') this.rated = true;
 			this.add('rated', typeof this.rated === 'string' ? this.rated : '');
 		}
 
-		format.onBegin?.call(this);
+		this.format.onBegin?.call(this);
 		for (const rule of this.ruleTable.keys()) {
 			if ('+*-!'.includes(rule.charAt(0))) continue;
 			const subFormat = this.dex.formats.get(rule);
@@ -157,13 +153,13 @@ export const Scripts: ModdedBattleScriptsData = {
 			this.checkEVBalance();
 		}
 
-		format.onTeamPreview?.call(this);
-		for (const rule of this.ruleTable.keys()) {
-			if ('+*-!'.includes(rule.charAt(0))) continue;
-			const subFormat = this.dex.formats.get(rule);
-			subFormat.onTeamPreview?.call(this);
+		if (this.format.customRules) {
+			const plural = this.format.customRules.length === 1 ? '' : 's';
+			const open = this.format.customRules.length <= 5 ? ' open' : '';
+			this.add(`raw|<div class="infobox"><details class="readmore"${open}><summary><strong>${this.format.customRules.length} custom rule${plural}:</strong></summary> ${this.format.customRules.join(', ')}</details></div>`);
 		}
 
+		this.runPickTeam();
 		this.queue.addChoice({ choice: 'start' });
 		this.midTurn = true;
 		if (!this.requestState) this.turnLoop();
