@@ -84,7 +84,7 @@ enum GG_SLOTS {
 	spe,
 };
 
-const debug = '[Gen 6] Pure Hackmons';
+const debug = 'Shared Power';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
 	randomOMFactorySets: { [format: string]: { [species: string]: OMBattleFactorySpecies } } = require('./factory-sets.json');
@@ -133,6 +133,17 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			resistances: {},
 		};
 		if (isHackmonsTier) teamData.improofList = [];
+
+		const immunityAbilities: { [k: string]: string[] } = {
+			dryskin: ['Water'], waterabsorb: ['Water'], stormdrain: ['Water'],
+			flashfire: ['Fire'], wellbakedbody: ['Fire'],
+			lightningrod: ['Electric'], motordrive: ['Electric'], voltabsorb: ['Electric'],
+			sapsipper: ['Grass'],
+			eartheater: ['Ground'], levitate: ['Ground'],
+			// AAA and BH
+			desolateland: ['Water'], primordialsea: ['Fire'],
+			purifyingsalt: ['status'], naturalcure: ['status'],
+		};
 
 		const resistanceAbilities: { [k: string]: string[] } = {
 			dryskin: ['Water'], waterabsorb: ['Water'], stormdrain: ['Water'],
@@ -266,6 +277,18 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				}
 			}
 
+			// In these OMs,reject if pokemon share a type their abilities are immune to
+			if (isArchetypeTier && immunityAbilities[toID(set.ability)]?.length) {
+				let reject = false;
+				for (const type of immunityAbilities[toID(set.ability)]) {
+					 if (teamData.has['immunity:' + toID(type)]) {
+						 reject = true;
+						 break;
+					 }
+				}
+				if (reject) continue;
+			}
+
 			if (jsonFactoryTier === 'gg') {
 				// Due to how Godly Gift works, we have to tell the system which slot to put it in and add it that way
 				let setAdded = false;
@@ -382,6 +405,12 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					if (prevoSpecies.evos.length > 1) break;
 					teamData.has['donor:' + prevoSpecies.id] = 1;
 					donorSpecies = prevoSpecies;
+				}
+			}
+
+			if (isArchetypeTier && immunityAbilities[ability.id]?.length) {
+				for (const type of immunityAbilities[ability.id]) {
+					teamData.has['immunity:' + toID(type)] = 1;
 				}
 			}
 
