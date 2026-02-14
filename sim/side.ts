@@ -716,7 +716,7 @@ export class Side {
 
 		// Mega evolution
 
-		const mixandmega = this.battle.format.mod === 'mixandmega' || this.battle.format.mod === 'ombattlefactory';
+		const mixandmega = this.battle.format.mod === 'mixandmega' || (this.battle.format.mod === 'ombattlefactory' && this.battle.gen === 9);
 		const mega = (event === 'mega');
 		const megax = (event === 'megax');
 		const megay = (event === 'megay');
