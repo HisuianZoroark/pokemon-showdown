@@ -303,18 +303,8 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 			let set = undefined;
 
-			// Certain teams require unique team generation
-			switch (jsonFactoryTier) {
-			// case 'bh':
-			// 	break;
-			// case 'gg':
-			// 	break;
-			// case 'pic':
-			// 	break;
-			default:
-				set = this.randomGenericFactorySet(species, teamData, jsonFactoryTier);
-				break;
-			}
+			set = this.randomFactorySet(species, teamData, jsonFactoryTier);
+
 			if (!set) continue;
 
 			// Same deal as the earlier code except we mutate all types to be what their stones are
@@ -602,7 +592,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		console.log(depth);
 		return pokemon;
 	}
-	randomGenericFactorySet(
+	override randomFactorySet(
 		species: Species, teamData: TeamData, tier: string
 	): randomOMFactorySet | null {
 		const id = toID(species.name);
