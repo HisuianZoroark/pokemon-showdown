@@ -141,15 +141,15 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		};
 		if (isHackmonsTier) teamData.improofList = [];
 
-		const immunityAbilities: { [k: string]: string[] } = {
-			dryskin: ['Water'], waterabsorb: ['Water'], stormdrain: ['Water'],
-			flashfire: ['Fire'], wellbakedbody: ['Fire'],
-			lightningrod: ['Electric'], motordrive: ['Electric'], voltabsorb: ['Electric'],
-			sapsipper: ['Grass'],
-			eartheater: ['Ground'], levitate: ['Ground'],
+		const redundantAbilities: { [k: string]: string[] } = {
+			dryskin: ['WaterImmunity'], waterabsorb: ['WaterImmunity'], stormdrain: ['WaterImmunity'],
+			flashfire: ['FireImmunity'], wellbakedbody: ['FireImmunity'],
+			lightningrod: ['ElectricImmunity'], motordrive: ['ElectricImmunity'], voltabsorb: ['ElectricImmunity'],
+			sapsipper: ['GrassImmunity'],
+			eartheater: ['GroundImmunity'], levitate: ['GroundImmunity'],
 			// AAA and BH
-			desolateland: ['Water'], primordialsea: ['Fire'],
-			purifyingsalt: ['status'], naturalcure: ['status'],
+			desolateland: ['WaterImmunity'], primordialsea: ['FireImmunity'],
+			purifyingsalt: ['statusImmunity'], naturalcure: ['statusImmunity'],
 		};
 
 		const resistanceAbilities: { [k: string]: string[] } = {
@@ -285,10 +285,10 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 
 			// In these OMs,reject if pokemon share a type their abilities are immune to
-			if (isArchetypeTier && immunityAbilities[toID(set.ability)]?.length) {
+			if (isArchetypeTier && redundantAbilities[toID(set.ability)]?.length) {
 				let reject = false;
-				for (const type of immunityAbilities[toID(set.ability)]) {
-					 if (teamData.has['immunity:' + toID(type)]) {
+				for (const redundancy of redundantAbilities[toID(set.ability)]) {
+					 if (teamData.has[toID(redundancy)]) {
 						 reject = true;
 						 break;
 					 }
@@ -415,9 +415,9 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				}
 			}
 
-			if (isArchetypeTier && immunityAbilities[ability.id]?.length) {
-				for (const type of immunityAbilities[ability.id]) {
-					teamData.has['immunity:' + toID(type)] = 1;
+			if (isArchetypeTier && redundantAbilities[ability.id]?.length) {
+				for (const redundancy of redundantAbilities[ability.id]) {
+					teamData.has[toID(redundancy)] = 1;
 				}
 			}
 
