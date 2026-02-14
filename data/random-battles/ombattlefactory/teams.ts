@@ -84,7 +84,7 @@ enum GG_SLOTS {
 	spe,
 };
 
-const debug = 'Shared Power';
+const debug = 'Partners in Crime';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
 	randomOMFactorySets: { [format: string]: { [species: string]: OMBattleFactorySpecies } } = require('./factory-sets.json');
@@ -163,6 +163,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			// AAA and BH
 			desolateland: ['Water'], primordialsea: ['Fire'], deltastream: ['Electric', 'Ice', 'Rock'],
 		};
+
 		const movesLimited: { [k: string]: string } = {
 			stealthrock: 'stealthRock',
 			stoneaxe: 'stealthRock',
@@ -174,6 +175,11 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			// BH and STAB
 			mortalspin: 'hazardClear',
 		};
+		const abilitiesLimited: { [k: string]: string } = {
+			toxicdebris: 'toxicSpikes',
+		};
+
+		// Doubles teambuilding has different requirements
 		const picMovesLimited: { [k: string]: string } = {
 			tailwind: 'tailwind',
 			trickroom: 'trickRoom',
@@ -185,8 +191,18 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			haze: 'setupControl',
 			clearsmog: 'setupControl',
 		};
-		const abilitiesLimited: { [k: string]: string } = {
+		const picAbilitiesLimited: { [k: string]: string } = {
 			toxicdebris: 'toxicSpikes',
+			unaware: 'setupControl',
+		};
+
+		// Needed, otherwise you get bad team compositions
+		const picMovesWithRequiredElements: { [k: string]: string[] } = {
+			afteryou: ['drought', 'prankster'],
+			expandingforce: ['psychicsurge'],
+			grassyglide: ['grassysurge'],
+			blizzard: ['snowwarning'],
+			solarblade: ['drought'],
 		};
 
 		const limitFactor = Math.ceil(this.maxTeamSize / 6);
@@ -247,8 +263,8 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			// 	break;
 			// case 'gg':
 			// 	break;
-			case 'pic':
-				break;
+			// case 'pic':
+			// 	break;
 			default:
 				set = this.randomGenericFactorySet(species, teamData, jsonFactoryTier);
 				break;
@@ -276,7 +292,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				}
 			}
 
-			if (isArchetypeTier && teamData.archetype && !teamData.forceResult) {
+			if (isArchetypeTier && set.archetype && teamData.archetype && !teamData.forceResult) {
 				if (Array.isArray(teamData.archetype)) {
 					if (!teamData.archetype.filter(e => set.archetype!.includes(e)).length) continue;
 				} else {
@@ -338,7 +354,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				}
 			}
 
-			if (isArchetypeTier && !teamData.forceResult) {
+			if (isArchetypeTier && set.archetype && !teamData.forceResult) {
 				if (!teamData.archetype) {
 					teamData.archetype = set.archetype!;
 				} else if (Array.isArray(teamData.archetype)) {
@@ -372,17 +388,29 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				teamData.wantsTeraCount++;
 			}
 
-			for (const move of set.moves) {
-				const moveId = toID(move);
-				if (move === 'mortalspin' && !['bh', 'stab'].includes(jsonFactoryTier)) continue;
-				if (movesLimited[moveId]) {
-					teamData.has[movesLimited[moveId]] = 1;
-				}
-			}
-
 			const ability = this.dex.abilities.get(set.ability);
-			if (abilitiesLimited[ability.id]) {
-				teamData.has[abilitiesLimited[ability.id]] = 1;
+
+			if (jsonFactoryTier === 'pic') {
+				for (const move of set.moves) {
+					const moveId = toID(move);
+					if (picMovesLimited[moveId]) {
+						teamData.has[picMovesLimited[moveId]] = 1;
+					}
+				}
+				if (picAbilitiesLimited[ability.id]) {
+					teamData.has[picAbilitiesLimited[ability.id]] = 1;
+				}
+			} else {
+				for (const move of set.moves) {
+					const moveId = toID(move);
+					if (move === 'mortalspin' && !['bh', 'stab'].includes(jsonFactoryTier)) continue;
+					if (movesLimited[moveId]) {
+						teamData.has[movesLimited[moveId]] = 1;
+					}
+				}
+				if (abilitiesLimited[ability.id]) {
+					teamData.has[abilitiesLimited[ability.id]] = 1;
+				}
 			}
 
 			if (sac) {
@@ -494,6 +522,23 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			toxicdebris: 'toxicSpikes',
 		};
 
+		const picMovesLimited: { [k: string]: string } = {
+			tailwind: 'tailwind',
+			trickroom: 'trickRoom',
+			stealthrock: 'stealthRock',
+			spikes: 'spikes',
+			whirlwind: 'setupControl',
+			roar: 'setupControl',
+			dragontail: 'setupControl',
+			haze: 'setupControl',
+			clearsmog: 'setupControl',
+		};
+
+		const picAbilitiesLimited: { [k: string]: string } = {
+			toxicdebris: 'toxicSpikes',
+			unaware: 'setupControl',
+		};
+
 		// Build a pool of eligible sets, given the team partners
 		// Also keep track of moves and items limited to one per team
 		const effectivePool: {
@@ -552,7 +597,12 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			const item = this.sample(allowedItems);
 
 			const abilityId = toID(this.sampleIfArray(set.ability));
-			if (abilitiesLimited[abilityId] && teamData.has[abilitiesLimited[abilityId]]) continue;
+
+			if (tier === 'pic') {
+				if (picAbilitiesLimited[abilityId] && teamData.has[picAbilitiesLimited[abilityId]]) continue;
+			} else {
+				if (abilitiesLimited[abilityId] && teamData.has[abilitiesLimited[abilityId]]) continue;
+			}
 
 			if (tier === 'aaa' || tier === 'inh') {
 				// SAC
@@ -565,13 +615,23 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				if (Array.isArray(move)) {
 					for (const m of move) {
 						const moveId = toID(m);
-						if (movesLimited[moveId] && teamData.has[movesLimited[moveId]]) continue;
+						if (tier === 'pic') {
+							if (picMovesLimited[moveId] && teamData.has[picMovesLimited[moveId]]) continue;
+						} else {
+							if (movesLimited[moveId] && teamData.has[movesLimited[moveId]]) continue;
+						}
 						allowedMoves.push(m);
 					}
 				} else {
 					const moveId = toID(move);
-					if (!(movesLimited[moveId] && teamData.has[movesLimited[moveId]])) {
-						allowedMoves.push(move);
+					if (tier === 'pic') {
+						if (!(picMovesLimited[moveId] && teamData.has[picMovesLimited[moveId]])) {
+							allowedMoves.push(move);
+						}
+					} else {
+						if (!(movesLimited[moveId] && teamData.has[movesLimited[moveId]])) {
+							allowedMoves.push(move);
+						}
 					}
 				}
 				if (!allowedMoves.length) {
