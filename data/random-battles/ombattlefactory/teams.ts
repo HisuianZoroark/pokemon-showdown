@@ -84,7 +84,7 @@ enum GG_SLOTS {
 	spe,
 };
 
-const debug = 'Partners in Crime';
+const debug = 'Mix and Mega';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
 	randomOMFactorySets: { [format: string]: { [species: string]: OMBattleFactorySpecies } } = require('./factory-sets.json');
@@ -141,17 +141,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		};
 		if (isHackmonsTier) teamData.improofList = [];
 
-		const redundantAbilities: { [k: string]: string[] } = {
-			dryskin: ['WaterImmunity'], waterabsorb: ['WaterImmunity'], stormdrain: ['WaterImmunity'],
-			flashfire: ['FireImmunity'], wellbakedbody: ['FireImmunity'],
-			lightningrod: ['ElectricImmunity'], motordrive: ['ElectricImmunity'], voltabsorb: ['ElectricImmunity'],
-			sapsipper: ['GrassImmunity'],
-			eartheater: ['GroundImmunity'], levitate: ['GroundImmunity'],
-			// AAA and BH
-			desolateland: ['WaterImmunity'], primordialsea: ['FireImmunity'],
-			purifyingsalt: ['statusImmunity'], naturalcure: ['statusImmunity'],
-		};
-
 		const resistanceAbilities: { [k: string]: string[] } = {
 			dryskin: ['Water'], waterabsorb: ['Water'], stormdrain: ['Water'],
 			flashfire: ['Fire'], heatproof: ['Fire'], waterbubble: ['Fire'], wellbakedbody: ['Fire'],
@@ -179,6 +168,60 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			toxicdebris: 'toxicSpikes',
 		};
 
+		// Stones that change type or give an immunity ability on mega evolution
+		const mnmTypeChangeStones: { [k: string]: (string | null)[] } = {
+			absolitez: [null, 'Ghost'],
+			aggronite: [null, 'Steel'],
+			altarianite: [null, 'Fairy'],
+			ampharosite: [null, 'Dragon'],
+			audinite: [null, 'Fairy'],
+			barbaracite: [null, 'Fighting'],
+			charizarditex: [null, 'Dragon'],
+			chimechite: [null, 'Steel'],
+			clefablite: [null, 'Flying'],
+			cornerstonemask: [null, 'Rock'],
+			feraligite: [null, 'Dragon'],
+			garchompitez: [null, 'Dragon'],
+			golisopite: [null, 'Steel'],
+			gyaradosite: [null, 'Dark'],
+			hearthflamemask: [null, 'Fire'],
+			lopunnite: [null, 'Fighting'],
+			meganiumite: [null, 'Fairy'],
+			mewtwonitex: [null, 'Fighting'],
+			pinsirite: [null, 'Flying'],
+			rustedsword: [null, 'Steel'],
+			rustedshield: [null, 'Steel'],
+			sceptilite: [null, 'Dragon'],
+			staraptite: ['Fighting', null],
+			wellspringmask: [null, 'Steel'],
+		};
+		const mnmResistanceAbilityStones: { [k: string]: string[] } = {
+			blueorb: ['Fire'],
+			chandelurite: ['Fire'],
+			chimechite: ['Ground'],
+			eelektrossite: ['Ground'],
+			griseouscore: ['Ground'],
+			heatranite: ['Fire'],
+			latiasite: ['Ground'],
+			latiosite: ['Ground'],
+			redorb: ['Water'],
+			sceptilite: ['Electric'],
+			venusaurite: ['Ice', 'Fire'],
+			wellspringmask: ['Water'],
+			zeraorite: ['Electric'],
+		};
+
+		const redundantAbilities: { [k: string]: string[] } = {
+			dryskin: ['WaterImmunity'], waterabsorb: ['WaterImmunity'], stormdrain: ['WaterImmunity'],
+			flashfire: ['FireImmunity'], wellbakedbody: ['FireImmunity'],
+			lightningrod: ['ElectricImmunity'], motordrive: ['ElectricImmunity'], voltabsorb: ['ElectricImmunity'],
+			sapsipper: ['GrassImmunity'],
+			eartheater: ['GroundImmunity'], levitate: ['GroundImmunity'],
+			// AAA and BH
+			desolateland: ['WaterImmunity'], primordialsea: ['FireImmunity'],
+			purifyingsalt: ['statusImmunity'], naturalcure: ['statusImmunity'],
+		};
+
 		// Doubles teambuilding has different requirements
 		const picMovesLimited: { [k: string]: string } = {
 			tailwind: 'tailwind',
@@ -198,11 +241,12 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 		// Needed, otherwise you get bad team compositions
 		const picMovesWithRequiredElements: { [k: string]: string[] } = {
-			afteryou: ['drought', 'prankster'],
+			// afteryou: ['drought', 'prankster'], // Needs hardcoding
 			expandingforce: ['psychicsurge'],
+			electroshot: ['drizzle', 'raindance'],
 			grassyglide: ['grassysurge'],
-			blizzard: ['snowwarning'],
-			solarblade: ['drought'],
+			blizzard: ['snowwarning', 'snowscape'],
+			solarblade: ['drought', 'sunnyday'],
 		};
 
 		const limitFactor = Math.ceil(this.maxTeamSize / 6);
@@ -228,32 +272,34 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			if (!species.exists) continue;
 
 			// Limit to one of each species (Species Clause)
-			if (teamData.baseFormes[species.baseSpecies]) continue;
+			if (teamData.baseFormes[species.baseSpecies] && jsonFactoryTier !== '6ph') continue;
 
 			// Limit 2 of any type (most of the time)
-			const types = species.types;
-			let skip = false;
-			for (const type of types) {
-				if (teamData.typeCount[type] >= 2 * limitFactor && this.randomChance(4, 5)) {
-					skip = true;
-					break;
+			let types = species.types;
+			if (jsonFactoryTier !== 'mnm') {
+				let skip = false;
+				for (const type of types) {
+					if (teamData.typeCount[type] >= 2 * limitFactor && this.randomChance(4, 5)) {
+						skip = true;
+						break;
+					}
 				}
-			}
-			if (skip) continue;
+				if (skip) continue;
 
-			if (!teamData.forceResult) {
-				// Limit 3 of any weakness
-				for (const typeName of this.dex.types.names()) {
-					// it's weak to the type
-					if (this.dex.getEffectiveness(typeName, species) > 0 && this.dex.getImmunity(typeName, types)) {
-						if (teamData.weaknesses[typeName] >= 3 * limitFactor) {
-							skip = true;
-							break;
+				if (!teamData.forceResult) {
+					// Limit 3 of any weakness
+					for (const typeName of this.dex.types.names()) {
+						// it's weak to the type
+						if (this.dex.getEffectiveness(typeName, species) > 0 && this.dex.getImmunity(typeName, types)) {
+							if (teamData.weaknesses[typeName] >= 3 * limitFactor) {
+								skip = true;
+								break;
+							}
 						}
 					}
 				}
+				if (skip) continue;
 			}
-			if (skip) continue;
 
 			let set = undefined;
 
@@ -270,6 +316,57 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				break;
 			}
 			if (!set) continue;
+
+			// Same deal as the earlier code except we mutate all types to be what their stones are
+			if (jsonFactoryTier === 'mnm') {
+				types = [];
+				let deltaTypes = [] as (string | null)[];
+				if (mnmTypeChangeStones[toID(set.item)]) {
+					deltaTypes = mnmTypeChangeStones[toID(set.item)];
+				} else if (this.dex.items.get(set.item).onPlate) {
+					deltaTypes = [this.dex.items.get(set.item).onPlate!, null];
+				} else if (this.dex.items.get(set.item).onMemory) {
+					deltaTypes = [this.dex.items.get(set.item).onMemory!, null];
+				}
+				if (deltaTypes.length) {
+					for (let i = 0; i < 2; i++) {
+						if (deltaTypes[i]) {
+							types.push(deltaTypes[i] as string)
+						} else if (species.types[i]) {
+							types.push(species.types[i] as string);
+						}
+					}
+					types = [... new Set(types)];
+				} else {
+					types = species.types;
+				}
+				console.log(set.species);
+				console.log(set.item);
+				console.log(types);
+				let skip = false;
+				for (const type of types) {
+					if (teamData.typeCount[type] >= 2 * limitFactor && this.randomChance(4, 5)) {
+						skip = true;
+						break;
+					}
+				}
+				if (skip) continue;
+
+				if (!teamData.forceResult) {
+					// Limit 3 of any weakness
+					for (const typeName of this.dex.types.names()) {
+						// it's weak to the type
+						if (this.dex.getEffectiveness(typeName, species) > 0 && this.dex.getImmunity(typeName, types)) {
+							if (teamData.weaknesses[typeName] >= 3 * limitFactor) {
+								skip = true;
+								break;
+							}
+						}
+					}
+				}
+				if (skip) continue;
+			}
+
 			// Limit 1 of any type combination
 			let typeCombo = types.slice().sort().join();
 			if (set.ability === "Drought" || set.ability === "Drizzle") {
@@ -377,9 +474,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				teamData.typeComboCount[typeCombo] = 1;
 			}
 
-			if (jsonFactoryTier !== '6ph') {
-				teamData.baseFormes[species.baseSpecies] = 1;
-			}
+			teamData.baseFormes[species.baseSpecies] = 1;
 
 			teamData.has[toID(set.item)] = 1;
 
@@ -460,6 +555,13 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					// We don't care about the number of resistances, so just set to 1
 					teamData.resistances[typeName] = 1;
 				// Track weaknesses
+				} else if (
+					jsonFactoryTier === 'mnm' &&
+					mnmResistanceAbilityStones[item.id]?.includes(typeName)
+				) {
+					console.log(item.id);
+					console.log(mnmResistanceAbilityStones[item.id]);
+					teamData.resistances[typeName] = 1;
 				} else if (typeMod > 0) {
 					teamData.weaknesses[typeName] = (teamData.weaknesses[typeName] || 0) + 1;
 				}
