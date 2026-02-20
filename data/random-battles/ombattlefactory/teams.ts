@@ -22,6 +22,8 @@ interface TeamData {
 	archetype?: string | string[];
 }
 
+// it's OM not Om >:(
+// eslint-disable-next-line @typescript-eslint/naming-convention
 interface randomOMFactorySet extends RandomTeamsTypes.RandomFactorySet {
 	whatItImproofs?: string[]; // bh
 	improofedBy?: string[]; // bh
