@@ -97,7 +97,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		if (this.maxTeamSize !== 6) viableTiers = viableTiers.filter(t => t !== 'Godly Gift');
 		// Doubles tier
 		const pickedTeamSize = Dex.formats.getRuleTable(Dex.formats.get(format)).pickedTeamSize;
-		if (this.maxTeamSize < 2 || (pickedTeamSize && pickedTeamSize < 2))  {
+		if (this.maxTeamSize < 2 || (pickedTeamSize && pickedTeamSize < 2)) {
 			viableTiers = viableTiers.filter(t => t !== 'Partners in Crime');
 		}
 		this.factoryTier = debug || this.sample(viableTiers);
@@ -321,12 +321,12 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				if (deltaTypes.length) {
 					for (let i = 0; i < 2; i++) {
 						if (deltaTypes[i]) {
-							types.push(deltaTypes[i] as string)
+							types.push(deltaTypes[i]!);
 						} else if (species.types[i]) {
-							types.push(species.types[i] as string);
+							types.push(species.types[i]);
 						}
 					}
-					types = [... new Set(types)];
+					types = [...new Set(types)];
 				} else {
 					types = species.types;
 				}
@@ -383,7 +383,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				if (Array.isArray(teamData.archetype)) {
 					if (!teamData.archetype.filter(e => set.archetype!.includes(e)).length) continue;
 				} else {
-					if (!set.archetype!.includes(teamData.archetype)) continue;
+					if (!set.archetype.includes(teamData.archetype)) continue;
 				}
 			}
 
@@ -391,10 +391,10 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			if (isArchetypeTier && redundantAbilities[toID(set.ability)]?.length) {
 				let reject = false;
 				for (const redundancy of redundantAbilities[toID(set.ability)]) {
-					 if (teamData.has[toID(redundancy)]) {
-						 reject = true;
-						 break;
-					 }
+					if (teamData.has[toID(redundancy)]) {
+						reject = true;
+						break;
+					}
 				}
 				if (reject) continue;
 			}
@@ -405,7 +405,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				if (!teamData.god) {
 					this.prng.shuffle(set.slot!);
 					for (const slotStat of set.slot!) {
-						if (pokemon[GG_SLOTS[slotStat]]!.species === "MissingNo.") {
+						if (pokemon[GG_SLOTS[slotStat]].species === "MissingNo.") {
 							pokemon[GG_SLOTS[slotStat]] = set;
 							teamData.god = set.species;
 							setAdded = true;
@@ -418,7 +418,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					if (ggbanlist.isRestrictedSpecies(this.dex.species.get(set.species))) continue;
 					for (const slotStat of set.slot!) {
 						if (setStats[slotStat] >= godStats[slotStat]) continue;
-						if (pokemon[GG_SLOTS[slotStat]]!.species === "MissingNo.") {
+						if (pokemon[GG_SLOTS[slotStat]].species === "MissingNo.") {
 							pokemon[GG_SLOTS[slotStat]] = set;
 							setAdded = true;
 							break;
@@ -449,7 +449,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				}
 				console.log(teamData.archetype);
 			}
-
 
 			for (const type of types) {
 				if (type in teamData.typeCount) {
