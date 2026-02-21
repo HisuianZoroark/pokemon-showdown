@@ -86,7 +86,7 @@ enum GG_SLOTS {
 	spe,
 };
 
-const debug = 'Mix and Mega';
+const debug = 'Partners in Crime';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
 	randomOMFactorySets: { [format: string]: { [species: string]: OMBattleFactorySpecies } } = require('./factory-sets.json');
@@ -477,14 +477,32 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			const ability = this.dex.abilities.get(set.ability);
 
 			if (jsonFactoryTier === 'pic') {
+				const saidPiCRequiredElements = [...new Set(Object.values(picMovesWithRequiredElements).flat())];
+
 				for (const move of set.moves) {
 					const moveId = toID(move);
 					if (picMovesLimited[moveId]) {
 						teamData.has[picMovesLimited[moveId]] = 1;
 					}
+					if (saidPiCRequiredElements.includes(moveId)) {
+						teamData.has['pic:' + moveId] = 1;
+					}
+					if (moveId === 'focusenergy') {
+						teamData.has['pic:focusenergy'] = 1;
+					}
 				}
 				if (picAbilitiesLimited[ability.id]) {
 					teamData.has[picAbilitiesLimited[ability.id]] = 1;
+				}
+				if (saidPiCRequiredElements.includes(ability.id)) {
+					teamData.has['pic:' + ability.id] = 1;
+				}
+				// After You
+				if (set.species === 'Torkoal') {
+					teamData.has['pic:torkoal'] = 1;
+				}
+				if (ability.id === 'prankster') {
+					teamData.has['pic:prankster'] = 1;
 				}
 			} else {
 				for (const move of set.moves) {
@@ -632,6 +650,21 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			unaware: 'setupControl',
 		};
 
+		const picMovesWithRequiredElements: { [k: string]: string[] } = {
+			// afteryou: ['drought', 'prankster'], // Needs hardcoding
+			expandingforce: ['psychicsurge'],
+			electroshot: ['drizzle', 'raindance'],
+			grassyglide: ['grassysurge'],
+			blizzard: ['snowwarning', 'snowscape'],
+			solarblade: ['drought', 'sunnyday'],
+		};
+
+		const sac = (tier === 'aaa' || tier === 'inh');
+
+		const isArchetypeTier = (tier === 'sp' || tier === 'pic');
+
+		const isHackmonsTier = (tier === 'bh' || tier === '6ph');
+
 		// Build a pool of eligible sets, given the team partners
 		// Also keep track of moves and items limited to one per team
 		const effectivePool: {
@@ -661,7 +694,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					}
 					donorSpecies = prevoSpecies;
 				}
-			} else if (tier === 'bh') {
+			} else if (isHackmonsTier) {
 				if (teamData.improofList!.length && !set.improofs!.filter(e => teamData.improofList!.includes(e)).length) {
 					if (!set.improofedBy!.includes(set.species)) {
 						reject = true;
@@ -676,14 +709,22 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					const itemId = toID(itemString);
 					if (itemsLimited.includes(itemId) && teamData.has[itemId]) continue;
 					if (tier === 'mnm' && teamData.has[itemId]) continue;
+					if (tier === 'pic' && itemId === 'scopelens' && !teamData.has['pic:focusenergy']) {
+						continue;
+					}
 					allowedItems.push(itemString);
 				}
 			} else {
 				const itemId = toID(set.item);
-				if (!(itemsLimited.includes(itemId) && teamData.has[itemId])) {
-					if (!(tier === 'mnm' && teamData.has[itemId])) {
-						allowedItems.push(set.item);
-					}
+				let rejectItem = false;
+				if (tier === 'pic' && itemId === 'scopelens' && !teamData.has['pic:focusenergy']) {
+					rejectItem = true;
+				}
+				if (tier === 'mnm' && teamData.has[itemId]) {
+					rejectItem = true;
+				}
+				if (!(itemsLimited.includes(itemId) && teamData.has[itemId]) && !rejectItem) {
+					allowedItems.push(set.item);
 				}
 			}
 			if (!allowedItems.length) continue;
@@ -697,7 +738,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				if (abilitiesLimited[abilityId] && teamData.has[abilitiesLimited[abilityId]]) continue;
 			}
 
-			if (tier === 'aaa' || tier === 'inh') {
+			if (sac || isArchetypeTier) {
 				// SAC
 				if (teamData.has[abilityId]) continue;
 			}
@@ -709,6 +750,29 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					for (const m of move) {
 						const moveId = toID(m);
 						if (tier === 'pic') {
+							if (moveId === 'afteryou') {
+								switch (set.species) {
+								case 'Lilligant-Hisui':
+									if (!teamData.has['pic:torkoal']) continue;
+									break;
+								case 'Ampharos':
+									if (!teamData.has['pic:prankster']) continue;
+									break;
+								}
+							}
+							if (picMovesWithRequiredElements[moveId]) {
+								let unsupportedElement = false;
+								for (const required of picMovesWithRequiredElements[moveId]) {
+									if (!teamData.has['pic:' + required]) {
+										unsupportedElement = true;
+										break;
+									} else if (toID(set.ability) !== required) {
+										unsupportedElement = true;
+										break;
+									}
+								}
+								if (unsupportedElement) continue;
+							}
 							if (picMovesLimited[moveId] && teamData.has[picMovesLimited[moveId]]) continue;
 						} else {
 							if (movesLimited[moveId] && teamData.has[movesLimited[moveId]]) continue;
@@ -718,7 +782,29 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				} else {
 					const moveId = toID(move);
 					if (tier === 'pic') {
-						if (!(picMovesLimited[moveId] && teamData.has[picMovesLimited[moveId]])) {
+						let unsupportedElement = false;
+						if (moveId === 'afteryou') {
+							switch (set.species) {
+							case 'Lilligant-Hisui':
+								if (!teamData.has['pic:torkoal']) unsupportedElement = true;
+								break;
+							case 'Ampharos':
+								if (!teamData.has['pic:prankster']) unsupportedElement = true;
+								break;
+							}
+						}
+						if (picMovesWithRequiredElements[moveId]) {
+							for (const required of picMovesWithRequiredElements[moveId]) {
+								if (teamData.has['pic:' + required]) {
+									unsupportedElement = true;
+									break;
+								} else if (toID(set.ability) !== required) {
+									unsupportedElement = true;
+									break;
+								}
+							}
+						}
+						if (!(picMovesLimited[moveId] && teamData.has[picMovesLimited[moveId]]) && !unsupportedElement) {
 							allowedMoves.push(move);
 						}
 					} else {
