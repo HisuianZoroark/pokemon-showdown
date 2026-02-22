@@ -235,6 +235,14 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			dragontail: 'setupControl',
 			haze: 'setupControl',
 			clearsmog: 'setupControl',
+			protect: 'protectMove',
+			detect: 'protectMove',
+			kingsshield: 'protectMove',
+			spikyshield: 'protectMove',
+			banefulbunker: 'protectMove',
+			obstruct: 'protectMove',
+			silktrap: 'protectMove',
+			burningbulwark: 'protectMove',
 		};
 		const picAbilitiesLimited: { [k: string]: string } = {
 			toxicdebris: 'toxicSpikes',
@@ -643,6 +651,14 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			dragontail: 'setupControl',
 			haze: 'setupControl',
 			clearsmog: 'setupControl',
+			protect: 'protectMove',
+			detect: 'protectMove',
+			kingsshield: 'protectMove',
+			spikyshield: 'protectMove',
+			banefulbunker: 'protectMove',
+			obstruct: 'protectMove',
+			silktrap: 'protectMove',
+			burningbulwark: 'protectMove',
 		};
 
 		const picAbilitiesLimited: { [k: string]: string } = {
