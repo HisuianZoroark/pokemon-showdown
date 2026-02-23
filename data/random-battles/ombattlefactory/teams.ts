@@ -490,7 +490,11 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				for (const move of set.moves) {
 					const moveId = toID(move);
 					if (picMovesLimited[moveId]) {
-						teamData.has[picMovesLimited[moveId]] = 1;
+						if (teamData.has[picMovesLimited[moveId]]) {
+							teamData.has[picMovesLimited[moveId]]++;
+						} else {
+							teamData.has[picMovesLimited[moveId]] = 1;
+						}
 					}
 					if (saidPiCRequiredElements.includes(moveId)) {
 						teamData.has['pic:' + moveId] = 1;
@@ -500,7 +504,11 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					}
 				}
 				if (picAbilitiesLimited[ability.id]) {
-					teamData.has[picAbilitiesLimited[ability.id]] = 1;
+					if (teamData.has[picAbilitiesLimited[ability.id]]) {
+						teamData.has[picAbilitiesLimited[ability.id]]++;
+					} else {
+						teamData.has[picAbilitiesLimited[ability.id]] = 1;
+					}
 				}
 				if (saidPiCRequiredElements.includes(ability.id)) {
 					teamData.has['pic:' + ability.id] = 1;
@@ -749,7 +757,16 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			const abilityId = toID(this.sampleIfArray(set.ability));
 
 			if (tier === 'pic') {
-				if (picAbilitiesLimited[abilityId] && teamData.has[picAbilitiesLimited[abilityId]]) continue;
+				if (picAbilitiesLimited[abilityId]) {
+					switch (picAbilitiesLimited[abilityId]) {
+					case 'setupControl':
+						if (teamData.has[picAbilitiesLimited[abilityId]] >= 2) continue;
+						break;
+					default:
+						if (teamData.has[picAbilitiesLimited[abilityId]]) continue;
+						break;
+					}
+				}
 			} else {
 				if (abilitiesLimited[abilityId] && teamData.has[abilitiesLimited[abilityId]]) continue;
 			}
@@ -789,7 +806,23 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 								}
 								if (unsupportedElement) continue;
 							}
-							if (picMovesLimited[moveId] && teamData.has[picMovesLimited[moveId]]) continue;
+							if (picMovesLimited[moveId]) {
+								switch (picMovesLimited[moveId]) {
+								case 'setupControl':
+									if (teamData.has[picMovesLimited[moveId]] >= 2) continue;
+									break;
+								case 'trickRoom':
+									const trickRoomLimit = teamData?.archetype === 'fullRoom' ? 4 : 1;
+									if (teamData.has[picMovesLimited[moveId]] >= trickRoomLimit) continue;
+									break;
+								case 'protectMove':
+									if (teamData.has[picMovesLimited[moveId]] >= 4) continue;
+									break;
+								case 'default':
+									if (teamData.has[picMovesLimited[moveId]]) continue;
+									break;
+								}
+							}
 						} else {
 							if (movesLimited[moveId] && teamData.has[movesLimited[moveId]]) continue;
 						}
@@ -820,7 +853,25 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 								}
 							}
 						}
-						if (!(picMovesLimited[moveId] && teamData.has[picMovesLimited[moveId]]) && !unsupportedElement) {
+						let tooManyMovesLimited = false;
+						if (picMovesLimited[moveId]) {
+							switch (picMovesLimited[moveId]) {
+							case 'setupControl':
+								if (teamData.has[picMovesLimited[moveId]] >= 2) tooManyMovesLimited = true;
+								break;
+							case 'trickRoom':
+								const trickRoomLimit = teamData?.archetype === 'fullRoom' ? 4 : 1;
+								if (teamData.has[picMovesLimited[moveId]] >= trickRoomLimit) tooManyMovesLimited = true;
+								break;
+							case 'protectMove':
+								if (teamData.has[picMovesLimited[moveId]] >= 4) tooManyMovesLimited = true;
+								break;
+							case 'default':
+								if (teamData.has[picMovesLimited[moveId]]) tooManyMovesLimited = true;
+								break;
+							}
+						}
+						if (!tooManyMovesLimited && !unsupportedElement) {
 							allowedMoves.push(move);
 						}
 					} else {
