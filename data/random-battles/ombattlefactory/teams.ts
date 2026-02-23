@@ -89,7 +89,7 @@ enum GG_SLOTS {
 	spe,
 };
 
-const debug = 'Inheritance';
+const debug = 'Partners in Crime';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
 	// eslint-disable-next-line @stylistic/max-len
@@ -279,6 +279,12 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		const picAbilitiesLimited: { [k: string]: string } = {
 			toxicdebris: 'toxicSpikes',
 			unaware: 'setupControl',
+			goodasgold: 'sporeCheck',
+			overcoat: 'sporeCheck',
+			magicbounce: 'sporeCheck',
+			vitalspirit: 'sporeCheck',
+			purifyingsalt: 'sporeCheck',
+			sapsipper: 'sporeCheck',
 		};
 
 		// Needed, otherwise you get bad team compositions
@@ -551,6 +557,15 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			if (jsonFactoryTier === 'pic') {
 				const saidPiCRequiredElements = [...new Set(Object.values(picMovesWithRequiredElements).flat())];
 
+				// misc. spore checks
+				if (toID(set.item) === 'safetygoggles' || set.teraType === 'Grass' || types.includes('Grass')) {
+					if (teamData.has['sporeCheck']) {
+						teamData.has['sporeCheck']++;
+					} else {
+						teamData.has['sporeCheck'] = 1;
+					}
+				}
+
 				for (const move of set.moves) {
 					const moveId = toID(move);
 					if (picMovesLimited[moveId]) {
@@ -686,6 +701,9 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				if (!teamData.has['setupControl']) {
 					badPiCstandards = true;
 				}
+				if (!teamData.has['sporeCheck'] || teamData.has['sporeCheck'] < 2) {
+					badPiCstandards = true;
+				}
 				if ((!teamData.has['trickRoom'] || teamData.has['trickRoom'] < 2) && teamData.archetype === 'trickroom') {
 					badPiCstandards = true;
 				}
@@ -750,6 +768,12 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		const picAbilitiesLimited: { [k: string]: string } = {
 			toxicdebris: 'toxicSpikes',
 			unaware: 'setupControl',
+			goodasgold: 'sporeCheck',
+			overcoat: 'sporeCheck',
+			magicbounce: 'sporeCheck',
+			vitalspirit: 'sporeCheck',
+			purifyingsalt: 'sporeCheck',
+			sapsipper: 'sporeCheck',
 		};
 
 		const picMovesWithRequiredElements: { [k: string]: string[] } = {
@@ -839,6 +863,9 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					switch (picAbilitiesLimited[abilityId]) {
 					case 'setupControl':
 						if (teamData.has[picAbilitiesLimited[abilityId]] >= 2) continue;
+						break;
+					case 'sporeCheck':
+						if (teamData.has[picAbilitiesLimited[abilityId]] >= 3) continue;
 						break;
 					default:
 						if (teamData.has[picAbilitiesLimited[abilityId]]) continue;
