@@ -89,7 +89,7 @@ enum GG_SLOTS {
 	spe,
 };
 
-const debug = 'Partners in Crime';
+const debug = 'Balanced Hackmons';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
 	// eslint-disable-next-line @stylistic/max-len
@@ -604,7 +604,13 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					const moveId = toID(move);
 					if (move === 'mortalspin' && !['bh', 'stab'].includes(jsonFactoryTier)) continue;
 					if (movesLimited[moveId]) {
-						teamData.has[movesLimited[moveId]] = 1;
+						if (movesLimited[moveId] === 'hazardClear' &&
+							teamData.has[movesLimited[moveId]] && jsonFactoryTier === 'bh') {
+							teamData.has[movesLimited[moveId]]++;
+						} else {
+							teamData.has[movesLimited[moveId]] = 1;
+						}
+
 					}
 				}
 				if (abilitiesLimited[ability.id]) {
@@ -930,7 +936,13 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 								}
 							}
 						} else {
-							if (movesLimited[moveId] && teamData.has[movesLimited[moveId]]) continue;
+							if (movesLimited[moveId] && teamData.has[movesLimited[moveId]]) {
+								if (movesLimited[moveId] === 'hazardClear' && tier === 'bh') {
+									if (teamData.has[movesLimited[moveId]] >= 2) continue;
+								} else {
+									continue;
+								}
+							}
 						}
 						allowedMoves.push(m);
 					}
@@ -983,7 +995,11 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 						}
 					} else {
 						if (!(movesLimited[moveId] && teamData.has[movesLimited[moveId]])) {
-							allowedMoves.push(move);
+							if (movesLimited[moveId] === 'hazardClear' && tier === 'bh') {
+								if (!(teamData.has[movesLimited[moveId]] >= 2)) allowedMoves.push(move);
+							} else {
+								allowedMoves.push(move);
+							}
 						}
 					}
 				}
