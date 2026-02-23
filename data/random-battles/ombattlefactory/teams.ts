@@ -19,6 +19,7 @@ interface TeamData {
 	gigantamax?: boolean;
 	improofList?: string[];
 	god?: string;
+	bestStat?: StatID[];
 	archetype?: string | string[];
 }
 
@@ -29,7 +30,8 @@ interface randomOMFactorySet extends RandomTeamsTypes.RandomFactorySet {
 	improofedBy?: string[]; // bh
 	pokeball?: string; // inh
 	isGod?: boolean; // GG
-	slot?: StatID[]; // GG
+	slot?: (StatID | 'any')[]; // GG
+	bestStat?: StatID[]; // GG
 	archetype?: string[];
 }
 
@@ -49,7 +51,8 @@ interface OMBattleFactorySet {
 	improofs?: string[]; // BH
 	improofedBy?: string[]; // BH
 	donor?: string; // Inh
-	slot?: StatID[]; // GG
+	slot?: (StatID | 'any')[]; // GG
+	bestStat?: StatID[]; // GG
 	archetype?: string[];
 }
 
@@ -86,7 +89,7 @@ enum GG_SLOTS {
 	spe,
 };
 
-const debug = 'Partners in Crime';
+const debug = 'Godly Gift';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
 	randomOMFactorySets: { [format: string]: { [species: string]: OMBattleFactorySpecies } } = require('./factory-sets.json');
@@ -195,7 +198,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			rustedshield: [null, 'Steel'],
 			sceptilite: [null, 'Dragon'],
 			staraptite: ['Fighting', null],
-			wellspringmask: [null, 'Steel'],
+			wellspringmask: [null, 'Water'],
 		};
 		const mnmResistanceAbilityStones: { [k: string]: string[] } = {
 			blueorb: ['Fire'],
@@ -211,6 +214,12 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			venusaurite: ['Ice', 'Fire'],
 			wellspringmask: ['Water'],
 			zeraorite: ['Electric'],
+		};
+
+		// In godly gift these pokemon have stats so bad that its nearly impossible to slot automatically
+		const ggReallyBadStats: { [k: string]: StatID[] } = {
+			calyrexice: ['spe'],
+			deoxys: ['hp', 'def', 'spd'],
 		};
 
 		const redundantAbilities: { [k: string]: string[] } = {
@@ -415,9 +424,11 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				if (!teamData.god) {
 					this.prng.shuffle(set.slot!);
 					for (const slotStat of set.slot!) {
+						if (slotStat === 'any') continue; // Should not be here for gods
 						if (pokemon[GG_SLOTS[slotStat]].species === "MissingNo.") {
 							pokemon[GG_SLOTS[slotStat]] = set;
 							teamData.god = set.species;
+							teamData.bestStat = set.bestStat;
 							setAdded = true;
 							break;
 						}
@@ -427,11 +438,41 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					const setStats = this.dex.species.get(set.species).baseStats;
 					if (ggbanlist.isRestrictedSpecies(this.dex.species.get(set.species))) continue;
 					for (const slotStat of set.slot!) {
-						if (setStats[slotStat] >= godStats[slotStat]) continue;
-						if (pokemon[GG_SLOTS[slotStat]].species === "MissingNo.") {
-							pokemon[GG_SLOTS[slotStat]] = set;
-							setAdded = true;
-							break;
+						if (slotStat === 'any') {
+							for (const s of Dex.stats.ids()) {
+								if (teamData.bestStat?.includes(s)) continue;
+								if (ggReallyBadStats[toID(teamData.god)]?.includes(s)) {
+									if (['atk', 'spa'].includes((s))) {
+										const opposite = s === 'atk' ? 'spa' as StatID : 'atk' as StatID;
+										if (setStats[opposite] < setStats[s]) continue;
+									} else {
+										if ((setStats[s] - godStats[s]) > 15) continue;
+									}
+								} else {
+									if (setStats[s] >= godStats[s]) continue;
+								}
+								if (pokemon[GG_SLOTS[s]].species === "MissingNo.") {
+									pokemon[GG_SLOTS[s]] = set;
+									setAdded = true;
+									break;
+								}
+							}
+						} else {
+							if (ggReallyBadStats[toID(teamData.god)]?.includes(slotStat)) {
+								if (['atk', 'spa'].includes((slotStat))) {
+									const opposite = slotStat === 'atk' ? 'spa' as StatID : 'atk' as StatID;
+									if (setStats[opposite] < setStats[slotStat]) continue;
+								} else {
+									if ((setStats[slotStat] - godStats[slotStat]) > 15) continue;
+								}
+							} else {
+								if (setStats[slotStat] >= godStats[slotStat]) continue;
+							}
+							if (pokemon[GG_SLOTS[slotStat]].species === "MissingNo.") {
+								pokemon[GG_SLOTS[slotStat]] = set;
+								setAdded = true;
+								break;
+							}
 						}
 					}
 				}
@@ -613,6 +654,20 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				badHazardStandards = true;
 			}
 			if (badHazardStandards) return this.randomFactoryTeam(side, ++depth);
+
+			if (jsonFactoryTier === 'pic') {
+				let badPiCstandards = false;
+				if (!teamData.has['protectMove'] || teamData.has['protectMove'] < 2) {
+					badPiCstandards = true;
+				}
+				if (!teamData.has['setupControl']) {
+					badPiCstandards = true;
+				}
+				if ((!teamData.has['trickRoom'] || teamData.has['trickRoom'] < 2) && teamData.archetype === 'trickroom') {
+					badPiCstandards = true;
+				}
+				if (badPiCstandards) return this.randomFactoryTeam(side, ++depth);
+			}
 		}
 
 		if (pokemon.some(e => e.species === "MissingNo.")) {
@@ -812,7 +867,8 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 									if (teamData.has[picMovesLimited[moveId]] >= 2) continue;
 									break;
 								case 'trickRoom':
-									const trickRoomLimit = teamData?.archetype === 'fullRoom' ? 4 : 1;
+									// TODO: standarize archetype names
+									const trickRoomLimit = teamData.archetype === 'trickroom' ? 4 : 1;
 									if (teamData.has[picMovesLimited[moveId]] >= trickRoomLimit) continue;
 									break;
 								case 'protectMove':
@@ -860,7 +916,8 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 								if (teamData.has[picMovesLimited[moveId]] >= 2) tooManyMovesLimited = true;
 								break;
 							case 'trickRoom':
-								const trickRoomLimit = teamData?.archetype === 'fullRoom' ? 4 : 1;
+								// TODO: standarize archetype names
+								const trickRoomLimit = teamData.archetype === 'trickroom' ? 4 : 1;
 								if (teamData.has[picMovesLimited[moveId]] >= trickRoomLimit) tooManyMovesLimited = true;
 								break;
 							case 'protectMove':
@@ -937,6 +994,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			whatItImproofs: setData.set.improofs || undefined,
 			improofedBy: setData.set.improofedBy || undefined,
 			slot: setData.set.slot || undefined,
+			bestStat: setData.set.bestStat || undefined,
 			archetype: setData.set.archetype || undefined,
 		};
 	}
