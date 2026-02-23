@@ -97,16 +97,38 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 	constructor(format: Format | string, prng: PRNG | PRNGSeed | null) {
 		super(format, prng);
+		const ruleTable = Dex.formats.getRuleTable(Dex.formats.get(format));
 		// Unlike in regular battle factory, there will be minimal cherry picking to ensure bad combinations do not show up
 		let viableTiers = Object.keys(OM_TIERS);
 		// Only works with 6 Pokemon
 		if (this.maxTeamSize !== 6) viableTiers = viableTiers.filter(t => t !== 'Godly Gift');
 		// Doubles tier
-		const pickedTeamSize = Dex.formats.getRuleTable(Dex.formats.get(format)).pickedTeamSize;
-		if (this.maxTeamSize < 2 || (pickedTeamSize && pickedTeamSize < 2)) {
+		if (this.maxTeamSize < 2 || (ruleTable.pickedTeamSize && ruleTable.pickedTeamSize < 2)) {
 			viableTiers = viableTiers.filter(t => t !== 'Partners in Crime');
 		}
+
 		this.factoryTier = debug || this.sample(viableTiers);
+
+		const tierID = this.dex.formats.get(ruleTable.valueRules.get('forcebattlefactorytier')).id || undefined;
+		const ombfTiers: { [k: string]: string } = {
+			'gen9almostanyability': 'Almost Any Ability',
+			'gen9balancedhackmons': 'Balanced Hackmons',
+			'gen9godlygift': 'Godly Gift',
+			'gen9inheritance': 'Inheritance',
+			'gen9mixandmega': 'Mix and Mega',
+			'gen9partnersincrime': 'Partners in Crime',
+			'gen9sharedpower': 'Shared Power',
+			'gen9stabmons': 'STABmons',
+			'gen6purehackmons': '[Gen 6] Pure Hackmons',
+		};
+
+		if (tierID && ombfTiers[tierID]) {
+			if (!viableTiers.includes(ombfTiers[tierID])) {
+				throw new Error(`Your ruleset is incompatible with ${ombfTiers[tierID]}.`);
+			} else {
+				this.factoryTier = ombfTiers[tierID];
+			}
+		}
 	}
 
 	override randomFactoryTeam(side: PlayerOptions, depth = 0): randomOMFactorySet[] {

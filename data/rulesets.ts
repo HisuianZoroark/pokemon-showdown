@@ -490,6 +490,40 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			}
 		},
 	},
+	forcebattlefactorytier: {
+		effectType: 'ValidatorRule',
+		name: 'Force Battle Factory Tier',
+		desc: `Forces certain Battle Factory formats to generate in a specific tier.`,
+		hasValue: true,
+		onValidateRule(value) {
+			const tierID = this.dex.formats.get(value).id;
+			const bfTiers = [
+				'gen9ou',
+				'gen9uu',
+				'gen9ru',
+				'gen9nu',
+				'gen9pu',
+				'gen9ubers',
+				// 'gen9lc',
+			];
+			const ombfTiers = [
+				'gen9almostanyability',
+				'gen9balancedhackmons',
+				'gen9godlygift',
+				'gen9inheritance',
+				'gen9mixandmega',
+				'gen9partnersincrime',
+				'gen9sharedpower',
+				'gen9stabmons',
+				'gen6purehackmons',
+			];
+			if (this.format.id === 'gen9battlefactory' && !bfTiers.includes(tierID)) {
+				throw new Error(`Unsupported tier "${value}"`);
+			} else if (this.format.id === 'gen9ombattlefactory' && !ombfTiers.includes(tierID)) {
+				throw new Error(`Unsupported tier "${value}"`);
+			}
+		},
+	},
 	forcemonotype: {
 		effectType: 'ValidatorRule',
 		name: 'Force Monotype',
