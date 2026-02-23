@@ -89,9 +89,10 @@ enum GG_SLOTS {
 	spe,
 };
 
-const debug = 'Godly Gift';
+const debug = 'Inheritance';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
+	// eslint-disable-next-line @stylistic/max-len
 	randomOMFactorySets: { [format: string]: { [species: string]: OMBattleFactorySpecies } } = require('./factory-sets.json');
 
 	constructor(format: Format | string, prng: PRNG | PRNGSeed | null) {
@@ -978,6 +979,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		return {
 			name: species.baseSpecies,
 			species: (typeof species.battleOnly === 'string' && tier !== 'bh') ? species.battleOnly : species.name,
+			// eslint-disable-next-line @stylistic/max-len
 			teraType: setData.set.teraType ? this.sampleIfArray(setData.set.teraType) : species.requiredTeraType || species.types[0],
 			gender:	setData.set.gender || species.gender,
 			item,
@@ -989,7 +991,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			ivs: { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31, ...setData.set.ivs },
 			nature: this.sampleIfArray(setData.set.nature) || "Serious",
 			moves,
-			pokeball: (tier === 'inh') ? '0' + setData.set.donor : '',
+			pokeball: (tier === 'inh') ? `0${setData.set.donor}` : '',
 			wantsTera: setData.set.wantsTera || false,
 			whatItImproofs: setData.set.improofs || undefined,
 			improofedBy: setData.set.improofedBy || undefined,
