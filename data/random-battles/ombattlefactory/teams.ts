@@ -758,6 +758,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				if (!teamData.has['sporeCheck'] || teamData.has['sporeCheck'] < 2) {
 					badPiCstandards = true;
 				}
+				// TODO: standarize archetype names
 				if ((!teamData.has['trickRoom'] || teamData.has['trickRoom'] < 2) && teamData.archetype === 'trickroom') {
 					badPiCstandards = true;
 				}
