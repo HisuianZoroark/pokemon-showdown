@@ -242,7 +242,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		const SOFT_AC_WHITELIST: { [k: string]: string[] } = {
 			// Allow duplicates in these sharing ability based OMs
 			'pic': ['protosynthesis', 'quarkdrive'],
-			'sp': [],
+			'sp': ['regenerator'],
 		};
 
 		const redundantAbilities: { [k: string]: string[] } = {
