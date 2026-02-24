@@ -457,7 +457,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				}
 			}
 
-			// In these OMs,reject if pokemon share a thing their abilities are immune to
+			// In these OMs, reject if pokemon share a thing their abilities are immune to
 			if (isArchetypeTier && redundantAbilities[toID(set.ability)]?.length) {
 				let reject = false;
 				for (const redundancy of redundantAbilities[toID(set.ability)]) {
