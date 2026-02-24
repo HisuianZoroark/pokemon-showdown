@@ -146,7 +146,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		const pokemon = [] as randomOMFactorySet[];
 		if (jsonFactoryTier === 'gg') {
 			// Best to start with all 6 pokemon
-			for (let x = 0; x < 6; x++) pokemon.push(ObviouslyNotLegalPlaceholder);
+			for (let x = 0; x < this.maxTeamSize; x++) pokemon.push(ObviouslyNotLegalPlaceholder);
 		}
 
 		const pokemonPool = Object.keys(this.randomOMFactorySets[jsonFactoryTier]);
@@ -714,10 +714,20 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 		}
 
+		if (!teamData.forceResult && pokemon.length < this.maxTeamSize) return this.randomFactoryTeam(side, ++depth);
+
+		if (pokemon.some(e => e.species === "MissingNo.")) {
+			if (!teamData.forceResult) {
+				return this.randomFactoryTeam(side, ++depth);
+			} else {
+				console.log(depth);
+				return pokemon.filter(e => e.species !== "MissingNo.");
+			}
+		}
+
 		if (!teamData.forceResult && teamData.improofList?.length) {
 			return this.randomFactoryTeam(side, ++depth);
 		}
-		if (!teamData.forceResult && pokemon.length < this.maxTeamSize) return this.randomFactoryTeam(side, ++depth);
 
 		// Quality control we cannot afford for monotype
 		if (!teamData.forceResult) {
@@ -764,15 +774,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					bad6phStandards = true;
 				}
 				if (bad6phStandards) return this.randomFactoryTeam(side, ++depth);
-			}
-		}
-
-		if (pokemon.some(e => e.species === "MissingNo.")) {
-			if (!teamData.forceResult) {
-				return this.randomFactoryTeam(side, ++depth);
-			} else {
-				console.log(depth);
-				return pokemon.filter(e => e.species !== "MissingNo.");
 			}
 		}
 
