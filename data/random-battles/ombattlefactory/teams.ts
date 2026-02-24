@@ -276,7 +276,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			battlearmor: ['noCrit'], shellarmor: ['noCrit'],
 
 			// not redundant but mutual exclusions
-			innerfocus: ['mx:flinch'], steadfast: ['mx:flinch'],
 			serenegrace: ['mx:secondary'], sheerforce: ['mx:secondary'],
 			toughclaws: ['mx:contact'], longreach: ['mx:contact'],
 			pixilate: ['mx:ate'], refrigerate: ['mx:ate'], galvanize: ['mx:ate'],
@@ -887,7 +886,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			battlearmor: ['noCrit'], shellarmor: ['noCrit'],
 
 			// not redundant but mutual exclusions
-			innerfocus: ['mx:flinch'], steadfast: ['mx:flinch'],
 			serenegrace: ['mx:secondary'], sheerforce: ['mx:secondary'],
 			toughclaws: ['mx:contact'], longreach: ['mx:contact'],
 			pixilate: ['mx:ate'], refrigerate: ['mx:ate'], galvanize: ['mx:ate'],
