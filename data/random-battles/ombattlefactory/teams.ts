@@ -278,6 +278,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			// not redundant but mutual exclusions
 			serenegrace: ['mx:secondary'], sheerforce: ['mx:secondary'],
 			toughclaws: ['mx:contact'], longreach: ['mx:contact'],
+			compoundeyes: ['mx:accuracy'], noguard: ['mx:accuracy'],
 			pixilate: ['mx:ate'], refrigerate: ['mx:ate'], galvanize: ['mx:ate'],
 			aerilate: ['mx:ate'], normalize: ['mx:ate'],
 		};
@@ -888,6 +889,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			// not redundant but mutual exclusions
 			serenegrace: ['mx:secondary'], sheerforce: ['mx:secondary'],
 			toughclaws: ['mx:contact'], longreach: ['mx:contact'],
+			compoundeyes: ['mx:accuracy'], noguard: ['mx:accuracy'],
 			pixilate: ['mx:ate'], refrigerate: ['mx:ate'], galvanize: ['mx:ate'],
 			aerilate: ['mx:ate'], normalize: ['mx:ate'],
 		};
