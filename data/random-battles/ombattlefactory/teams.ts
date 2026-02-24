@@ -146,7 +146,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		const pokemon = [] as randomOMFactorySet[];
 		if (jsonFactoryTier === 'gg') {
 			// Best to start with all 6 pokemon
-			for (let x = 0; x < this.maxTeamSize; x++) pokemon.push(ObviouslyNotLegalPlaceholder);
+			for (let x = 0; x < 6; x++) pokemon.push(ObviouslyNotLegalPlaceholder);
 		}
 
 		const pokemonPool = Object.keys(this.randomOMFactorySets[jsonFactoryTier]);
