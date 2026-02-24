@@ -716,15 +716,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 		if (!teamData.forceResult && pokemon.length < this.maxTeamSize) return this.randomFactoryTeam(side, ++depth);
 
-		if (pokemon.some(e => e.species === "MissingNo.")) {
-			if (!teamData.forceResult) {
-				return this.randomFactoryTeam(side, ++depth);
-			} else {
-				console.log(depth);
-				return pokemon.filter(e => e.species !== "MissingNo.");
-			}
-		}
-
 		if (!teamData.forceResult && teamData.improofList?.length) {
 			return this.randomFactoryTeam(side, ++depth);
 		}
@@ -775,6 +766,15 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					bad6phStandards = true;
 				}
 				if (bad6phStandards) return this.randomFactoryTeam(side, ++depth);
+			}
+		}
+
+		if (pokemon.some(e => e.species === "MissingNo.")) {
+			if (!teamData.forceResult) {
+				return this.randomFactoryTeam(side, ++depth);
+			} else {
+				console.log(depth);
+				return pokemon.filter(e => e.species !== "MissingNo.");
 			}
 		}
 
