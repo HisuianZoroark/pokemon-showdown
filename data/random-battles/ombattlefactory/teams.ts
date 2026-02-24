@@ -618,7 +618,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 						} else {
 							teamData.has[movesLimited[moveId]] = 1;
 						}
-
 					}
 				}
 				if (abilitiesLimited[ability.id]) {
