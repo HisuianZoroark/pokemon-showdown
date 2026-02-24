@@ -74,12 +74,6 @@ const OM_TIERS: { [k: string]: string } = {
 	'[Gen 6] Pure Hackmons': '6ph',
 };
 
-const SOFT_AC_WHITELIST: { [k: string]: string[] } = {
-	// Allow duplicates in these sharing ability based OMs
-	'pic': ['protosynthesis', 'quarkdrive'],
-	'sp': [],
-};
-
 enum GG_SLOTS {
 	hp,
 	atk,
@@ -98,7 +92,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 	constructor(format: Format | string, prng: PRNG | PRNGSeed | null) {
 		super(format, prng);
 		const ruleTable = Dex.formats.getRuleTable(Dex.formats.get(format));
-		// Unlike in regular battle factory, there will be minimal cherry picking to ensure bad combinations do not show up
+		// Unlike in regular battle factory, there will be some cherry picking to ensure bad combinations do not show up
 		let viableTiers = Object.keys(OM_TIERS);
 		// Only works with 6 Pokemon
 		if (this.maxTeamSize !== 6) viableTiers = viableTiers.filter(t => t !== 'Godly Gift');
@@ -243,6 +237,12 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		const ggReallyBadStats: { [k: string]: StatID[] } = {
 			calyrexice: ['spe'],
 			deoxys: ['hp', 'def', 'spd'],
+		};
+
+		const SOFT_AC_WHITELIST: { [k: string]: string[] } = {
+			// Allow duplicates in these sharing ability based OMs
+			'pic': ['protosynthesis', 'quarkdrive'],
+			'sp': [],
 		};
 
 		const redundantAbilities: { [k: string]: string[] } = {
