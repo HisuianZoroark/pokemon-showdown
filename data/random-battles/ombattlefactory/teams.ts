@@ -303,6 +303,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			silktrap: 'protectMove',
 			burningbulwark: 'protectMove',
 		};
+
 		const picAbilitiesLimited: { [k: string]: string } = {
 			toxicdebris: 'toxicSpikes',
 			unaware: 'setupControl',
@@ -313,6 +314,18 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			purifyingsalt: 'sporeCheck',
 			sapsipper: 'sporeCheck',
 			sweetveil: 'sporeCheck',
+			innerfocus: 'intimBlock',
+			clearbody: 'intimBlock',
+			defiant: 'intimBlock',
+			competitive: 'intimBlock',
+			guarddog: 'intimBlock',
+			scrappy: 'intimBlock',
+			mirrorarmor: 'intimBlock',
+			oblivious: 'intimBlock',
+			owntempo: 'intimBlock',
+			hypercutter: 'intimBlock',
+			whitesmoke: 'intimBlock',
+			rattled: 'intimBlock',
 		};
 
 		// Needed, otherwise you get bad team compositions
@@ -737,6 +750,9 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				if ((!teamData.has['trickRoom'] || teamData.has['trickRoom'] < 2) && teamData.archetype === 'trickroom') {
 					badPiCstandards = true;
 				}
+				if (!teamData.has['intimBlock'] && teamData.archetype === 'physspam') {
+					badPiCstandards = true;
+				}
 				if (badPiCstandards) return this.randomFactoryTeam(side, ++depth);
 			}
 
@@ -813,6 +829,19 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			vitalspirit: 'sporeCheck',
 			purifyingsalt: 'sporeCheck',
 			sapsipper: 'sporeCheck',
+			sweetveil: 'sporeCheck',
+			innerfocus: 'intimBlock',
+			clearbody: 'intimBlock',
+			defiant: 'intimBlock',
+			competitive: 'intimBlock',
+			guarddog: 'intimBlock',
+			scrappy: 'intimBlock',
+			mirrorarmor: 'intimBlock',
+			oblivious: 'intimBlock',
+			owntempo: 'intimBlock',
+			hypercutter: 'intimBlock',
+			whitesmoke: 'intimBlock',
+			rattled: 'intimBlock',
 		};
 
 		const picMovesWithRequiredElements: { [k: string]: string[] } = {
@@ -953,6 +982,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				if (picAbilitiesLimited[abilityId]) {
 					switch (picAbilitiesLimited[abilityId]) {
 					case 'setupControl':
+					case 'intimBlock':
 						if (teamData.has[picAbilitiesLimited[abilityId]] >= 2) continue;
 						break;
 					case 'sporeCheck':
