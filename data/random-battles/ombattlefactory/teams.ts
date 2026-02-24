@@ -246,14 +246,35 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		};
 
 		const redundantAbilities: { [k: string]: string[] } = {
+			// Type immunities
 			dryskin: ['WaterImmunity'], waterabsorb: ['WaterImmunity'], stormdrain: ['WaterImmunity'],
 			flashfire: ['FireImmunity'], wellbakedbody: ['FireImmunity'],
 			lightningrod: ['ElectricImmunity'], motordrive: ['ElectricImmunity'], voltabsorb: ['ElectricImmunity'],
 			sapsipper: ['GrassImmunity'],
 			eartheater: ['GroundImmunity'], levitate: ['GroundImmunity'],
-			// AAA and BH
 			desolateland: ['WaterImmunity'], primordialsea: ['FireImmunity'],
-			purifyingsalt: ['statusImmunity'], naturalcure: ['statusImmunity'],
+
+			// Status Immunities
+			purifyingsalt: ['brnImmunity', 'parImmunity', 'psnImmunity', 'slpImmunity', 'frzImmunity'],
+			naturalcure: ['brnImmunity', 'parImmunity', 'psnImmunity', 'slpImmunity', 'frzImmunity'],
+			healer: ['brnImmunity', 'parImmunity', 'psnImmunity', 'slpImmunity', 'frzImmunity'],
+			hydration: ['brnImmunity', 'parImmunity', 'psnImmunity', 'slpImmunity', 'frzImmunity'],
+			leafguard: ['brnImmunity', 'parImmunity', 'psnImmunity', 'slpImmunity', 'frzImmunity'],
+			shedskin: ['brnImmunity', 'parImmunity', 'psnImmunity', 'slpImmunity', 'frzImmunity'],
+			flowerveil: ['brnImmunity', 'parImmunity', 'psnImmunity', 'slpImmunity', 'frzImmunity'],
+			waterveil: ['brnImmunity'], vitalspirit: ['slpImmunity'],
+			insomnia: ['slpImmunity'], magmaarmor: ['frzImmunity'],
+			limber: ['parImmunity'], immunity: ['psnImmunity'],
+			pastelveil: ['psnImmunity'], thermalexchange: ['brnImmunity'],
+			sweetveil: ['slpImmunity'],
+
+			// misc.
+			clearbody: ['noStatDrop'], fullmetalbody: ['noStatDrop'], mirrorarmor: ['noStatDrop'],
+			aromaveil: ['noTaunt'], oblivious: ['noTaunt'],
+			mindseye: ['normalHitGhosts'], scrappy: ['normalHitGhosts'],
+			guarddog: ['noPhaze'], suctioncups: ['noPhaze'], 
+			battlearmor: ['noCrit'], shellarmor: ['noCrit'], 
+			innerfocus: ['innerFocus'], steadfast: ['innerFocus'],
 		};
 
 		// Doubles teambuilding has different requirements
@@ -285,6 +306,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			vitalspirit: 'sporeCheck',
 			purifyingsalt: 'sporeCheck',
 			sapsipper: 'sporeCheck',
+			sweetveil: 'sporeCheck',
 		};
 
 		// Needed, otherwise you get bad team compositions
@@ -435,7 +457,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				}
 			}
 
-			// In these OMs,reject if pokemon share a type their abilities are immune to
+			// In these OMs,reject if pokemon share a thing their abilities are immune to
 			if (isArchetypeTier && redundantAbilities[toID(set.ability)]?.length) {
 				let reject = false;
 				for (const redundancy of redundantAbilities[toID(set.ability)]) {
