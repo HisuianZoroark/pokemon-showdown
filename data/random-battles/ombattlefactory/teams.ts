@@ -272,8 +272,8 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			clearbody: ['noStatDrop'], fullmetalbody: ['noStatDrop'], mirrorarmor: ['noStatDrop'],
 			aromaveil: ['noTaunt'], oblivious: ['noTaunt'],
 			mindseye: ['normalHitGhosts'], scrappy: ['normalHitGhosts'],
-			guarddog: ['noPhaze'], suctioncups: ['noPhaze'], 
-			battlearmor: ['noCrit'], shellarmor: ['noCrit'], 
+			guarddog: ['noPhaze'], suctioncups: ['noPhaze'],
+			battlearmor: ['noCrit'], shellarmor: ['noCrit'],
 			innerfocus: ['innerFocus'], steadfast: ['innerFocus'],
 		};
 
