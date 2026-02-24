@@ -713,6 +713,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				}
 			}
 		}
+
 		if (!teamData.forceResult && teamData.improofList?.length) {
 			return this.randomFactoryTeam(side, ++depth);
 		}
