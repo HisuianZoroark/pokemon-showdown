@@ -275,6 +275,12 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			guarddog: ['noPhaze'], suctioncups: ['noPhaze'],
 			battlearmor: ['noCrit'], shellarmor: ['noCrit'],
 			innerfocus: ['innerFocus'], steadfast: ['innerFocus'],
+
+			// not redundant but mutual exclusions
+			serenegrace: ['mx:secondary'], sheerforce: ['mx:secondary'],
+			toughclaws: ['mx:contact'], longreach: ['mx:contact'],
+			pixilate: ['mx:ate'], refrigerate: ['mx:ate'], galvanize: ['mx:ate'],
+			aerilate: ['mx:ate'], normalize: ['mx:ate'],
 		};
 
 		// Doubles teambuilding has different requirements
@@ -455,18 +461,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				} else {
 					if (!set.archetype.includes(teamData.archetype)) continue;
 				}
-			}
-
-			// In these OMs, reject if pokemon share a thing their abilities are immune to
-			if (isArchetypeTier && redundantAbilities[toID(set.ability)]?.length) {
-				let reject = false;
-				for (const redundancy of redundantAbilities[toID(set.ability)]) {
-					if (teamData.has[toID(redundancy)]) {
-						reject = true;
-						break;
-					}
-				}
-				if (reject) continue;
 			}
 
 			if (jsonFactoryTier === 'gg') {
@@ -830,6 +824,44 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			solarblade: ['drought', 'sunnyday'],
 		};
 
+		const redundantAbilities: { [k: string]: string[] } = {
+			// Type immunities
+			dryskin: ['WaterImmunity'], waterabsorb: ['WaterImmunity'], stormdrain: ['WaterImmunity'],
+			flashfire: ['FireImmunity'], wellbakedbody: ['FireImmunity'],
+			lightningrod: ['ElectricImmunity'], motordrive: ['ElectricImmunity'], voltabsorb: ['ElectricImmunity'],
+			sapsipper: ['GrassImmunity'],
+			eartheater: ['GroundImmunity'], levitate: ['GroundImmunity'],
+			desolateland: ['WaterImmunity'], primordialsea: ['FireImmunity'],
+
+			// Status Immunities
+			purifyingsalt: ['brnImmunity', 'parImmunity', 'psnImmunity', 'slpImmunity', 'frzImmunity'],
+			naturalcure: ['brnImmunity', 'parImmunity', 'psnImmunity', 'slpImmunity', 'frzImmunity'],
+			healer: ['brnImmunity', 'parImmunity', 'psnImmunity', 'slpImmunity', 'frzImmunity'],
+			hydration: ['brnImmunity', 'parImmunity', 'psnImmunity', 'slpImmunity', 'frzImmunity'],
+			leafguard: ['brnImmunity', 'parImmunity', 'psnImmunity', 'slpImmunity', 'frzImmunity'],
+			shedskin: ['brnImmunity', 'parImmunity', 'psnImmunity', 'slpImmunity', 'frzImmunity'],
+			flowerveil: ['brnImmunity', 'parImmunity', 'psnImmunity', 'slpImmunity', 'frzImmunity'],
+			waterveil: ['brnImmunity'], vitalspirit: ['slpImmunity'],
+			insomnia: ['slpImmunity'], magmaarmor: ['frzImmunity'],
+			limber: ['parImmunity'], immunity: ['psnImmunity'],
+			pastelveil: ['psnImmunity'], thermalexchange: ['brnImmunity'],
+			sweetveil: ['slpImmunity'],
+
+			// misc.
+			clearbody: ['noStatDrop'], fullmetalbody: ['noStatDrop'], mirrorarmor: ['noStatDrop'],
+			aromaveil: ['noTaunt'], oblivious: ['noTaunt'],
+			mindseye: ['normalHitGhosts'], scrappy: ['normalHitGhosts'],
+			guarddog: ['noPhaze'], suctioncups: ['noPhaze'],
+			battlearmor: ['noCrit'], shellarmor: ['noCrit'],
+			innerfocus: ['innerFocus'], steadfast: ['innerFocus'],
+
+			// not redundant but mutual exclusions
+			serenegrace: ['mx:secondary'], sheerforce: ['mx:secondary'],
+			toughclaws: ['mx:contact'], longreach: ['mx:contact'],
+			pixilate: ['mx:ate'], refrigerate: ['mx:ate'], galvanize: ['mx:ate'],
+			aerilate: ['mx:ate'], normalize: ['mx:ate'],
+		};
+
 		const sac = (tier === 'aaa' || tier === 'inh');
 
 		const isArchetypeTier = (tier === 'sp' || tier === 'pic');
@@ -902,6 +934,18 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			const item = this.sample(allowedItems);
 
 			const abilityId = toID(this.sampleIfArray(set.ability));
+
+			// In these OMs, reject if pokemon share a thing their abilities are immune to
+			if (isArchetypeTier && redundantAbilities[abilityId]?.length) {
+				let rejectRedundancy = false;
+				for (const redundancy of redundantAbilities[abilityId]) {
+					if (teamData.has[toID(redundancy)]) {
+						rejectRedundancy = true;
+						break;
+					}
+				}
+				if (rejectRedundancy) continue;
+			}
 
 			if (tier === '6ph' && abilityId === 'wonderguard' && teamData.has['6ph:wonderguard'] >= 3) continue;
 
