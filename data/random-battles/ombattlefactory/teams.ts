@@ -554,6 +554,14 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 			const ability = this.dex.abilities.get(set.ability);
 
+			if (jsonFactoryTier === '6ph' && ability.id === 'wonderguard') {
+				if (teamData.has['6ph:wonderguard']) {
+					teamData.has['6ph:wonderguard']++;
+				} else {
+					teamData.has['6ph:wonderguard'] = 1;
+				}
+			}
+
 			if (jsonFactoryTier === 'pic') {
 				const saidPiCRequiredElements = [...new Set(Object.values(picMovesWithRequiredElements).flat())];
 
@@ -699,6 +707,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 			if (badHazardStandards) return this.randomFactoryTeam(side, ++depth);
 
+			// Unique standards for PiC
 			if (jsonFactoryTier === 'pic') {
 				let badPiCstandards = false;
 				if (!teamData.has['protectMove'] || teamData.has['protectMove'] < 2) {
@@ -714,6 +723,15 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					badPiCstandards = true;
 				}
 				if (badPiCstandards) return this.randomFactoryTeam(side, ++depth);
+			}
+
+			// Unique standards for Gen 6 Pure Hackmons
+			if (jsonFactoryTier === '6ph') {
+				let bad6phStandards = false;
+				if (!teamData.has['6ph:wonderguard'] || teamData.has['6ph:wonderguard'] < 2) {
+					bad6phStandards = true;
+				}
+				if (bad6phStandards) return this.randomFactoryTeam(side, ++depth);
 			}
 		}
 
@@ -863,6 +881,8 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			const item = this.sample(allowedItems);
 
 			const abilityId = toID(this.sampleIfArray(set.ability));
+
+			if (tier === '6ph' && abilityId === 'wonderguard' && teamData.has['6ph:wonderguard'] >= 3) continue;
 
 			if (tier === 'pic') {
 				if (picAbilitiesLimited[abilityId]) {
