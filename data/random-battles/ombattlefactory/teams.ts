@@ -137,7 +137,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		const jsonFactoryTier = OM_TIERS[this.factoryTier];
 
 		// Some tiers need more care into teambuilding
-		const forceResult = (['bh', 'gg', 'pic', 'sp'].includes(jsonFactoryTier)) ? depth >= 24 : depth >= 12;
+		const forceResult = (['bh', 'gg', 'pic', 'sp', '6ph'].includes(jsonFactoryTier)) ? depth >= 24 : depth >= 12;
 
 		const ObviouslyNotLegalPlaceholder = Teams.import("MissingNo.||||Splash|||||||,,,,,Stellar")![0] as randomOMFactorySet;
 
