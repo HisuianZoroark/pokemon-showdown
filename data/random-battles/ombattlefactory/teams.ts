@@ -753,7 +753,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				if ((!teamData.has['trickRoom'] || teamData.has['trickRoom'] < 2) && teamData.archetype === 'trickroom') {
 					badPiCstandards = true;
 				}
-				if (!teamData.has['intimBlock'] && teamData.archetype === 'physspam') {
+				if (!teamData.has['intimBlock'] && teamData.archetype === 'physicaloffense') {
 					badPiCstandards = true;
 				}
 				if (badPiCstandards) return this.randomFactoryTeam(side, ++depth);
@@ -1161,7 +1161,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 		return {
 			name: species.baseSpecies,
-			species: (typeof species.battleOnly === 'string' && tier !== 'bh') ? species.battleOnly : species.name,
+			species: (typeof species.battleOnly === 'string' && !isHackmonsTier) ? species.battleOnly : species.name,
 			// eslint-disable-next-line @stylistic/max-len
 			teraType: setData.set.teraType ? this.sampleIfArray(setData.set.teraType) : species.requiredTeraType || species.types[0],
 			gender:	setData.set.gender || species.gender,
