@@ -517,7 +517,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 								}
 							}
 						} else {
-							if (ggReallyBadStats[toID(teamData.god)]?.includes(slotStat)) {
+							if (ggReallyBadStats[toID(teamData.god)]?.includes(slotStat) && set.slot!.includes('any')) {
 								if (['atk', 'spa'].includes((slotStat))) {
 									const opposite = slotStat === 'atk' ? 'spa' as StatID : 'atk' as StatID;
 									if (setStats[opposite] < setStats[slotStat]) continue;
