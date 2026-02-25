@@ -83,11 +83,11 @@ enum GG_SLOTS {
 	spe,
 };
 
-const debug = 'Balanced Hackmons';
+const debug = '[Gen 6] Pure Hackmons';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
-	// eslint-disable-next-line @stylistic/max-len
-	randomOMFactorySets: { [format: string]: { [species: string]: OMBattleFactorySpecies } } = require('./factory-sets.json');
+	randomOMFactorySets: { [format: string]: { [species: string]: OMBattleFactorySpecies } } =
+		require('./factory-sets.json');
 
 	constructor(format: Format | string, prng: PRNG | PRNGSeed | null) {
 		super(format, prng);
@@ -1162,8 +1162,8 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		return {
 			name: species.baseSpecies,
 			species: (typeof species.battleOnly === 'string' && !isHackmonsTier) ? species.battleOnly : species.name,
-			// eslint-disable-next-line @stylistic/max-len
-			teraType: setData.set.teraType ? this.sampleIfArray(setData.set.teraType) : species.requiredTeraType || species.types[0],
+			teraType: setData.set.teraType ? this.sampleIfArray(setData.set.teraType) :
+			species.requiredTeraType || species.types[0],
 			gender:	setData.set.gender || species.gender,
 			item,
 			ability: this.sampleIfArray(setData.set.ability),
