@@ -83,7 +83,7 @@ enum GG_SLOTS {
 	spe,
 };
 
-const debug = '[Gen 6] Pure Hackmons';
+const debug = 'Godly Gift';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
 	randomOMFactorySets: { [format: string]: { [species: string]: OMBattleFactorySpecies } } =
@@ -235,8 +235,9 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 		// In godly gift these pokemon have stats so bad that its nearly impossible to slot automatically
 		const ggReallyBadStats: { [k: string]: StatID[] } = {
-			calyrexice: ['spe'],
+			calyrexice: ['spa', 'spe'],
 			deoxys: ['hp', 'def', 'spd'],
+			eternatus: ['atk'],
 		};
 
 		const SOFT_AC_WHITELIST: { [k: string]: string[] } = {
