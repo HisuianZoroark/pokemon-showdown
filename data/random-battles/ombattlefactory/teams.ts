@@ -729,7 +729,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 			// Try to force a hazard and/or removal on certain teams in certain tiers
 			let badHazardStandards = false;
-			if (!teamData.has['stealthRock'] && !isArchetypeTier) {
+			if (!teamData.has['stealthRock'] && jsonFactoryTier !== 'pic') {
 				badHazardStandards = true;
 			}
 			if (!teamData.has['hazardClear'] && (jsonFactoryTier === 'bh' || jsonFactoryTier === 'inh')) {
