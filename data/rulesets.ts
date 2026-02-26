@@ -522,6 +522,7 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 			} else if (this.format.id === 'gen9ombattlefactory' && !ombfTiers.includes(tierID)) {
 				throw new Error(`Unsupported tier "${value}"`);
 			}
+			return tierID;
 		},
 	},
 	forcemonotype: {

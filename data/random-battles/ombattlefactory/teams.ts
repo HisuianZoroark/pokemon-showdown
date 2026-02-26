@@ -103,17 +103,17 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 		this.factoryTier = debug || this.sample(viableTiers);
 
-		const tierID = this.dex.formats.get(ruleTable.valueRules.get('forcebattlefactorytier')).id || undefined;
+		const tierID = ruleTable.valueRules.get('forcebattlefactorytier') || undefined;
 		const ombfTiers: { [k: string]: string } = {
-			'gen9almostanyability': 'Almost Any Ability',
-			'gen9balancedhackmons': 'Balanced Hackmons',
-			'gen9godlygift': 'Godly Gift',
-			'gen9inheritance': 'Inheritance',
-			'gen9mixandmega': 'Mix and Mega',
-			'gen9partnersincrime': 'Partners in Crime',
-			'gen9sharedpower': 'Shared Power',
-			'gen9stabmons': 'STABmons',
-			'gen6purehackmons': '[Gen 6] Pure Hackmons',
+			// 'gen9almostanyability': 'Almost Any Ability',
+			// 'gen9balancedhackmons': 'Balanced Hackmons',
+			// 'gen9godlygift': 'Godly Gift',
+			// 'gen9inheritance': 'Inheritance',
+			// 'gen9mixandmega': 'Mix and Mega',
+			// 'gen9partnersincrime': 'Partners in Crime',
+			// 'gen9sharedpower': 'Shared Power',
+			// 'gen9stabmons': 'STABmons',
+			// 'gen6purehackmons': '[Gen 6] Pure Hackmons',
 		};
 
 		if (tierID && ombfTiers[tierID]) {
