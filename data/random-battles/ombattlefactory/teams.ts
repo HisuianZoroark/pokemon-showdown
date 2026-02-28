@@ -83,6 +83,8 @@ enum GG_SLOTS {
 	spe,
 };
 
+const DONE_TIERS = false;
+
 const debug = 'Godly Gift';
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
@@ -93,7 +95,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		super(format, prng);
 		const ruleTable = Dex.formats.getRuleTable(Dex.formats.get(format));
 		// Unlike in regular battle factory, there will be some cherry picking to ensure bad combinations do not show up
-		let viableTiers = Object.keys(OM_TIERS);
+		let viableTiers = DONE_TIERS || Object.keys(OM_TIERS); // REMINDME: Remove done tiers with OM_TIERS when all sets done
 		// Only works with 6 Pokemon
 		if (this.maxTeamSize !== 6) viableTiers = viableTiers.filter(t => t !== 'Godly Gift');
 		// Doubles tier
@@ -483,13 +485,23 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				if (!teamData.god) {
 					this.prng.shuffle(set.slot!);
 					for (const slotStat of set.slot!) {
-						if (slotStat === 'any') continue; // Should not be here for gods
-						if (pokemon[GG_SLOTS[slotStat]].species === "MissingNo.") {
-							pokemon[GG_SLOTS[slotStat]] = set;
-							teamData.god = set.species;
-							teamData.bestStat = set.bestStat;
-							setAdded = true;
-							break;
+						if (slotStat === 'any') {
+							const s = this.prng.sample(Dex.stats.ids());
+							if (pokemon[GG_SLOTS[s]].species === "MissingNo.") {
+								pokemon[GG_SLOTS[s]] = set;
+								teamData.god = set.species;
+								teamData.bestStat = set.bestStat;
+								setAdded = true;
+								break;
+							}
+						} else {
+							if (pokemon[GG_SLOTS[slotStat]].species === "MissingNo.") {
+								pokemon[GG_SLOTS[slotStat]] = set;
+								teamData.god = set.species;
+								teamData.bestStat = set.bestStat;
+								setAdded = true;
+								break;
+							}
 						}
 					}
 				} else {
@@ -517,7 +529,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 								}
 							}
 						} else {
-							if (ggReallyBadStats[toID(teamData.god)]?.includes(slotStat)) {
+							if (ggReallyBadStats[toID(teamData.god)]?.includes(slotStat) && setStats[slotStat] >= godStats[slotStat]) {
 								if (!set.slot!.includes('any')) continue;
 								if (['atk', 'spa'].includes((slotStat))) {
 									const opposite = slotStat === 'atk' ? 'spa' as StatID : 'atk' as StatID;
