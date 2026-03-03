@@ -363,6 +363,10 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			}
 			if (!species.exists) continue;
 
+			// One god per Godly Gift team
+			if (jsonFactoryTier === 'gg' && teamData.god &&
+				ggbanlist.isRestrictedSpecies(this.dex.species.get(species))) continue;
+
 			// Limit to one of each species (Species Clause)
 			if (teamData.baseFormes[species.baseSpecies] && jsonFactoryTier !== '6ph') continue;
 
@@ -507,7 +511,6 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				} else {
 					const godStats = this.dex.species.get(teamData.god).baseStats;
 					const setStats = this.dex.species.get(set.species).baseStats;
-					if (ggbanlist.isRestrictedSpecies(this.dex.species.get(set.species))) continue;
 					for (const slotStat of set.slot!) {
 						if (slotStat === 'any') {
 							for (const s of Dex.stats.ids()) {
