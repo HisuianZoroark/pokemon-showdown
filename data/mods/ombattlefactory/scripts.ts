@@ -76,6 +76,10 @@ export const Scripts: ModdedBattleScriptsData = {
 			// Reapplies Godly Gift Mod because it gets lost
 			for (const pokemon of this.getAllPokemon()) {
 				pokemon.species = pokemon.setSpecies(this.dex.species.get(pokemon.species));
+				// Hack to update maxhp
+				pokemon.baseMaxhp = this.statModify(pokemon.species.baseStats, pokemon.set, 'hp');
+				pokemon.maxhp = pokemon.baseMaxhp;
+				pokemon.hp = pokemon.baseMaxhp;
 			}
 		}
 
