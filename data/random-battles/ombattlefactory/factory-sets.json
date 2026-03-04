@@ -1989,8 +1989,7 @@
 					"moves": ["Fiery Dance", "Sludge Wave", "Energy Ball", "Substitute"],
 					"teraType": "Grass",
 					"slot": ["def", "hp"],
-					"weight": 55,
-
+					"weight": 55
 				},
 				{
 					"species": "Iron Moth",
@@ -2002,7 +2001,7 @@
 					"teraType": "Ground",
 					"slot": ["def", "hp"],
 					"weight": 45,
-                                        "wantsTera": true
+					"wantsTera": true
 				}
 			]
 		},
