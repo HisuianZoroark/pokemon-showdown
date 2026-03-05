@@ -490,7 +490,9 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 					this.prng.shuffle(set.slot!);
 					for (const slotStat of set.slot!) {
 						if (slotStat === 'any') {
-							const s = this.prng.sample(Dex.stats.ids());
+							let viableStats = Dex.stats.ids();
+							if (set.bestStat?.length) viableStats = viableStats.filter(monStat => !set.bestStat!.includes(monStat));
+							const s = this.sample(viableStats);
 							if (pokemon[GG_SLOTS[s]].species === "MissingNo.") {
 								pokemon[GG_SLOTS[s]] = set;
 								teamData.god = set.species;
