@@ -496,33 +496,36 @@ export const Rulesets: import('../sim/dex-formats').FormatDataTable = {
 		desc: `Forces certain Battle Factory formats to generate in a specific tier.`,
 		hasValue: true,
 		onValidateRule(value) {
-			const tierID = this.dex.formats.get(value).id;
+			let formatName = this.dex.formats.get(value).name;
+			if (!formatName.endsWith('Pure Hackmons')) {
+				formatName = formatName.replace(/^\[Gen [0-9]+\]/, '').trim();
+			}			
 			const bfTiers = [
-				'gen9ou',
-				'gen9uu',
-				'gen9ru',
-				'gen9nu',
-				'gen9pu',
-				'gen9ubers',
-				// 'gen9lc',
+				'OU',
+				'UU',
+				'RU',
+				'NU',
+				'PU',
+				'Ubers',
+				// 'LC',
 			];
 			const ombfTiers = [
-				'gen9almostanyability',
-				'gen9balancedhackmons',
-				'gen9godlygift',
-				'gen9inheritance',
-				'gen9mixandmega',
-				'gen9partnersincrime',
-				'gen9sharedpower',
-				'gen9stabmons',
-				'gen6purehackmons',
+				'Almost Any Ability',
+				'Balanced Hackmons',
+				'Godly Gift',
+				'Inheritance',
+				'Mix and Mega',
+				'Partners in Crime',
+				'Shared Power',
+				'STABmons',
+				'[Gen 6] Pure Hackmons',
 			];
-			if (this.format.id === 'gen9battlefactory' && !bfTiers.includes(tierID)) {
+			if (this.format.id === 'gen9battlefactory' && !bfTiers.includes(formatName)) {
 				throw new Error(`Unsupported tier "${value}"`);
-			} else if (this.format.id === 'gen9ombattlefactory' && !ombfTiers.includes(tierID)) {
+			} else if (this.format.id === 'gen9ombattlefactory' && !ombfTiers.includes(formatName)) {
 				throw new Error(`Unsupported tier "${value}"`);
 			}
-			return tierID;
+			return formatName;
 		},
 	},
 	forcemonotype: {

@@ -106,23 +106,12 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 		this.factoryTier = debug || this.sample(viableTiers);
 
 		const tierID = ruleTable.valueRules.get('forcebattlefactorytier') || undefined;
-		const ombfTiers: { [k: string]: string } = {
-			// 'gen9almostanyability': 'Almost Any Ability',
-			// 'gen9balancedhackmons': 'Balanced Hackmons',
-			// 'gen9godlygift': 'Godly Gift',
-			// 'gen9inheritance': 'Inheritance',
-			// 'gen9mixandmega': 'Mix and Mega',
-			// 'gen9partnersincrime': 'Partners in Crime',
-			// 'gen9sharedpower': 'Shared Power',
-			// 'gen9stabmons': 'STABmons',
-			// 'gen6purehackmons': '[Gen 6] Pure Hackmons',
-		};
 
-		if (tierID && ombfTiers[tierID]) {
-			if (!viableTiers.includes(ombfTiers[tierID])) {
-				throw new Error(`Your ruleset is incompatible with ${ombfTiers[tierID]}.`);
+		if (tierID && OM_TIERS[tierID]) {
+			if (!viableTiers.includes(OM_TIERS[tierID])) {
+				throw new Error(`Your ruleset is incompatible with ${OM_TIERS[tierID]}.`);
 			} else {
-				this.factoryTier = ombfTiers[tierID];
+				this.factoryTier = OM_TIERS[tierID];
 			}
 		}
 	}

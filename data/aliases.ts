@@ -52,6 +52,7 @@ export const Aliases: import('../sim/dex').AliasesTable = {
 	stab: "[Gen 9] STABmons",
 	gg: "[Gen 9] Godly Gift",
 	pic: "[Gen 9] Partners in Crime",
+	inh: "[Gen 9] Inheritance",
 	camo: "[Gen 9] Camomons",
 	revmons: "[Gen 9] Revelationmons",
 	tcg: "[Gen 9] The Card Game",
