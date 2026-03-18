@@ -107,11 +107,11 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 
 		const tierID = ruleTable.valueRules.get('forcebattlefactorytier') || undefined;
 
-		if (tierID && OM_TIERS[tierID]) {
-			if (!viableTiers.includes(OM_TIERS[tierID])) {
-				throw new Error(`Your ruleset is incompatible with ${OM_TIERS[tierID]}.`);
+		if (tierID && Object.keys(OM_TIERS).includes(tierID)) {
+			if (!viableTiers.includes(tierID)) {
+				throw new Error(`Your ruleset is incompatible with ${tierID}.`);
 			} else {
-				this.factoryTier = OM_TIERS[tierID];
+				this.factoryTier = tierID;
 			}
 		}
 	}
