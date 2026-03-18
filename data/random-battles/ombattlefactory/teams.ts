@@ -83,9 +83,9 @@ enum GG_SLOTS {
 	spe,
 };
 
-const DONE_TIERS = false;
+const DONE_TIERS = ['Godly Gift', 'Inheritance'];
 
-const debug = 'Godly Gift';
+const debug = false;
 
 export class RandomOMBattleFactoryTeams extends RandomTeams {
 	randomOMFactorySets: { [format: string]: { [species: string]: OMBattleFactorySpecies } } =
