@@ -680,8 +680,13 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 				}
 			}
 
-			// donor clause
 			if (jsonFactoryTier === 'inh') {
+				// Force regenvest
+				if (ability.id === 'regenerator' && item.id === 'assaultvest') {
+					teamData.has['inh:regenvest'] = 1;
+				}
+
+				// donor clause
 				let donorSpecies = Dex.species.get(set.pokeball!.split('0')[1]);
 				teamData.has['donor:' + donorSpecies.id] = 1;
 				while (donorSpecies.prevo) {
@@ -740,10 +745,12 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			if (!teamData.has['stealthRock'] && jsonFactoryTier !== 'pic') {
 				badHazardStandards = true;
 			}
-			if (!teamData.has['hazardClear'] && (jsonFactoryTier === 'bh' || jsonFactoryTier === 'inh')) {
+			if (!teamData.has['hazardClear'] && (jsonFactoryTier === 'bh' || jsonFactoryTier === 'stab')) {
 				badHazardStandards = true;
 			}
 			if (badHazardStandards) return this.randomFactoryTeam(side, ++depth);
+
+			if (jsonFactoryTier === 'inh' && !teamData.has['inh:regenvest']) return this.randomFactoryTeam(side, ++depth);
 
 			// Unique standards for PiC
 			if (jsonFactoryTier === 'pic') {
