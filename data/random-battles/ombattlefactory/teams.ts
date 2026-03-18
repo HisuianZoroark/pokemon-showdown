@@ -745,7 +745,7 @@ export class RandomOMBattleFactoryTeams extends RandomTeams {
 			if (!teamData.has['stealthRock'] && jsonFactoryTier !== 'pic') {
 				badHazardStandards = true;
 			}
-			if (!teamData.has['hazardClear'] && (jsonFactoryTier === 'bh' || jsonFactoryTier === 'stab')) {
+			if (!teamData.has['hazardClear'] && (jsonFactoryTier === 'bh' || jsonFactoryTier === 'inh')) {
 				badHazardStandards = true;
 			}
 			if (badHazardStandards) return this.randomFactoryTeam(side, ++depth);
