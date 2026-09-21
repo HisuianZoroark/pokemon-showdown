@@ -816,7 +816,7 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 					if (atkBoosts < 0) atkBoosts = 0;
 					if (otherAtkBoosts < 0) otherAtkBoosts = 0;
 				}
-				if (ignoreDefensive) {
+				if (ignoreDefensivea) {
 					this.battle.debug('Negating (sp)def boost/penalty.');
 					if (defBoosts > 0) defBoosts = 0;
 					if (otherDefBoosts > 0) otherDefBoosts = 0;
